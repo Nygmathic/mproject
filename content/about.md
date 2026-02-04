@@ -27,7 +27,7 @@ We welcome a variety of contributions and inquiries, specifically in these areas
 
 Veridus is built on independent research and a commitment to quality. If you find value in what we do, please consider supporting our growth. Your contributions help us keep the site lightweight, accessible, and free of distractions.
 
-**[Support us on Ko-fi](https://ko-fi.com/your-username-here)**
+
 
 ### Our Commitment to You
 
