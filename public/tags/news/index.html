@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    
+<script>
+(function () {
+  try {
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (theme === "dark" || (!theme && prefersDark)) {
+      document.documentElement.classList.add("dark-theme");
+    }
+  } catch (e) {}
+})();
+</script>
+
+<style>
+ 
+html {
+  background-color: #111;
+  color: #eaeaea;
+}
+
+html.dark-theme body {
+  background-color: #111;
+  color: #eaeaea;
+}
+
+ 
+html:not(.theme-loaded) * {
+  transition: none !important;
+}
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+    
+        News | veridus
+    
+</title>
+
+
+
+
+
+<link rel="canonical" href="http://localhost:1313/tags/news/">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="News | veridus">
+
+<meta property="og:url" content="http://localhost:1313/tags/news/">
+<meta property="og:site_name" content="veridus">
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="News | veridus">
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+    <header class="header-main">
+    <div class="container">
+        <a href="/" class="caligraphic-title">veridus</a>
+    </div>
+</header>
+
+<nav class="nav-wrapper">
+    <div class="nav-container container">
+        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span class="menu-text">MENU</span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+            
+            <li>
+                <a href="/"
+                   class="">
+                   Home
+                </a>
+            </li>
+            
+            <li>
+                <a href="/tech/"
+                   class="">
+                   Tech
+                </a>
+            </li>
+            
+            <li>
+                <a href="/lifestyle/"
+                   class="">
+                   Lifestyle
+                </a>
+            </li>
+            
+            <li>
+                <a href="/opinion/"
+                   class="">
+                   Opinion
+                </a>
+            </li>
+            
+            <li>
+                <a href="/news/"
+                   class="">
+                   News
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about/"
+                   class="">
+                   About
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
+
+    <main id="content">
+        
+<div class="container">
+    <header class="list-header">
+        <h1 class="section-title">Category: News</h1>
+    </header>
+
+    <div class="list-grid">
+        
+        <article class="list-item-card">
+            <div class="list-item-image">
+                
+            </div>
+            <div class="list-item-text">
+                <h2 class="card-title"><a href="http://localhost:1313/news/welcome/">Welcome to this new corner of the internet</a></h2>
+                
+                
+                <p class="summary"> </p>
+                
+
+                <div class="card-meta">
+                    30 Dec 2025 | By Collins Obura
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    </main>
+    <footer class="footer-main">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="caligraphic-title" style="font-size: 2rem;">veridus</a>
+                <p>Modern journalism for a complex world. Bold, independent, and precise.</p>
+                <button id="theme-toggle" class="btn-crimson" style="margin-top: 15px;">DARK MODE</button>
+            </div>
+            
+            <div class="footer-nav">
+                <h4>Sections</h4>
+                <ul>
+                    <li><a href="/categories/news">News</a></li>
+                    <li><a href="/categories/tech">Tech</a></li>
+                    <li><a href="/categories/opinion">Opinion</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-action">
+                <h4>Contribute</h4>
+                <ul>
+                    <li><a href="/donate">Donate to Support Us</a></li>
+                    <li><a href="/tips" style="color: var(--accent-crimson); font-weight: bold;">Secure Whistleblower Tips</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="social-icons-row">
+                    <a href="#" class="social-follow-link">𝕏</a>
+                    <a href="#" class="social-follow-link">f</a>
+                    <a href="#" class="social-follow-link">in</a>
+                    <a href="#" class="social-follow-link">📸</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 veridus. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+    <script src="/js/main.js"></script>
+</body>
+</html>

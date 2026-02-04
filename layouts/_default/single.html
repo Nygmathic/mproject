@@ -1,0 +1,43 @@
+{{ define "main" }}
+<article class="container">
+    <div class="article-layout">
+        <header class="article-header">
+            <h1 class="article-headline">{{ .Title }}</h1>
+            <p class="article-dek">{{ .Description }}</p>
+            
+            <div class="author-box">
+                <img src="{{ .Params.author_image }}" class="author-img" alt="">
+                <div class="author-info">
+                    <span class="author-name">By <strong>{{ .Params.author }}</strong></span>
+                    <time class="post-date">{{ .Date.Format "02 January 2006" }}</time>
+                </div>
+            </div>
+
+            <div class="share-bar">
+                <span class="share-label">SHARE</span>
+                <a href="https://twitter.com/share?url={{ .Permalink }}" class="share-icon" target="_blank">𝕏</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" class="share-icon" target="_blank">f</a>
+                <a href="mailto:?subject={{ .Title }}&body={{ .Permalink }}" class="share-icon">✉</a>
+            </div>
+        </header>
+
+        {{ if .Params.image }}
+        <figure class="article-featured-image">
+            <img src="{{ .Params.image }}" class="responsive-img" alt="">
+        </figure>
+        {{ end }}
+
+        <div class="article-body">
+            {{ .Content }}
+        </div>
+
+        <footer class="article-footer">
+            <div class="category-tags">
+                {{ range .Params.categories }}
+                <a href="/categories/{{ . | urlize }}" class="tag">{{ . }}</a>
+                {{ end }}
+            </div>
+        </footer>
+    </div>
+</article>
+{{ end }}

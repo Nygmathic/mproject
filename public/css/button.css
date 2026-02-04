@@ -1,0 +1,17 @@
+.btn-crimson {
+    display: inline-block;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    font-size: 0;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: inset 6px -2px 0 0 var(--accent-red);
+    transition: all 0.3s ease;
+}
+
+.btn-crimson:hover {
+    box-shadow: inset 6px -2px 0 0 var(--text-main);
+}

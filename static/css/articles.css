@@ -1,0 +1,25 @@
+.article-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.article-body,
+#content,
+.post-content,
+.prose {
+    max-width: 80ch;
+    margin-inline: auto;
+    background-color: var(--pure-white); /* Variable-based */
+    color: var(--text-main);             /* Variable-based */
+    padding: 1.5rem;
+    border-left: 1px solid var(--border-grey);
+    border-right: 1px solid var(--border-grey);
+}
+
+@media (max-width: 768px) {
+    .article-body, #content, .post-content, .prose {
+        border-left: none;
+        border-right: none;
+    }
+}

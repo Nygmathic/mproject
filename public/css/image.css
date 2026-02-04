@@ -1,0 +1,45 @@
+/* Generic responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+/* Homepage main featured image */
+.main-featured-area .responsive-img {
+    max-height: 400px;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* List page / card images */
+.card-image {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Blog post content images */
+.post-content img {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+}
+
+/* Author image */
+.author-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-grey);
+}
+
+/* Audio player styling */
+audio {
+    width: 100%;
+    margin-top: 0.5em;
+}

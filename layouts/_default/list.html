@@ -1,0 +1,41 @@
+{{ define "main" }}
+<div class="container">
+    <h1 class="section-title">{{ .Title }}</h1>
+
+    <div class="list-grid">
+        {{ $pages := .Pages }}
+        {{ if .IsHome }}
+            {{ $pages = .Site.RegularPages }}
+        {{ end }}
+
+        {{ range $pages.ByDate.Reverse }}
+        <article class="card">
+            <div class="card-image-box">
+                {{ partial "featured-image.html" . }}
+            </div>
+
+            <div class="card-content">
+                <h2 class="card-title">
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                </h2>
+
+                {{ if .Params.summary }}
+                <p class="card-summary">
+                    {{ .Params.summary | truncate 150 }}
+                </p>
+                {{ end }}
+
+                {{ $audio := .Resources.GetMatch .Params.audio }}
+                {{ with $audio }}
+                <div class="card-audio-container">
+                    <audio controls style="width:100%; margin-top:0.5em;">
+                        <source src="{{ .RelPermalink }}" type="audio/mpeg">
+                    </audio>
+                </div>
+                {{ end }}
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

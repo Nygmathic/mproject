@@ -1,0 +1,16 @@
+.card {
+    background-color: var(--pure-white); /* Variable-based */
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-grey);
+}
+
+.card-no-image {
+    background-color: var(--light-grey); /* Variable-based */
+    color: var(--text-main);
+    padding: 1em;
+    border-radius: 12px;
+    min-height: 220px;
+}

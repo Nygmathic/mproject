@@ -1,0 +1,20 @@
+{{ $imgURL := "" }}
+{{ $img := .Resources.GetMatch .Params.featured_image }}
+
+{{ if not $img }}
+    {{ with .Resources.ByType "image" }}
+        {{ $img = index . 0 }}
+    {{ end }}
+{{ end }}
+
+{{ if $img }}
+    {{ $imgURL = $img.RelPermalink }}
+{{ else if .Params.featured_image }}
+    {{ $imgURL = printf "/images/%s" .Params.featured_image | relURL }}
+{{ end }}
+
+{{ if $imgURL }}
+    <a href="{{ .Permalink }}">
+        <img src="{{ $imgURL }}" class="{{ .Scratch.Get "imgClass" }}" alt="{{ .Title }}" loading="lazy">
+    </a>
+{{ end }}

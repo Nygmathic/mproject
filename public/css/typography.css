@@ -1,0 +1,122 @@
+/* ----------------------------
+   Typography: newspaper-style
+   ---------------------------- */
+.article-body,
+#content,
+.post-content,
+.prose {
+    font-family: var(--font-serif, "Libre Baskerville", Georgia, "Times New Roman", serif);
+    font-size: 1.05rem;       /* Comfortable reading size */
+    line-height: 1.65;        /* More breathing room */
+    color: var(--text-main, #000); /* Main text color */
+    margin-bottom: 1.5rem;    /* Space after paragraphs */
+}
+
+/* Paragraph rhythm */
+.article-body p,
+#content p,
+.post-content p,
+.prose p {
+    margin: 0 0 1em 0;
+}
+
+/* Card summaries */
+.card-summary {
+    font-family: var(--font-serif, "Libre Baskerville", Georgia, serif);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+/* Mobile Typography Adjustments */
+@media (max-width: 768px) {
+    .article-body,
+    #content,
+    .post-content,
+    .prose {
+        font-size: 0.95rem;    /* Slightly smaller for mobile screens */
+        line-height: 1.55;    /* Tightened slightly for small screens */
+    }
+    
+    .card-summary {
+        font-size: 0.85rem;   /* Slightly larger for better mobile legibility */
+    }
+}
+
+
+
+
+
+
+
+/* ----------------------------
+   Dark Mode Typography Overrides
+   ---------------------------- */
+body.dark-mode .article-body,
+body.dark-mode #content,
+body.dark-mode .post-content,
+body.dark-mode .prose {
+    color: var(--text-main) !important; /* Ensure text uses dark-mode variable */
+}
+
+/* Paragraph rhythm stays same; just enforce dark text */
+body.dark-mode .article-body p,
+body.dark-mode #content p,
+body.dark-mode .post-content p,
+body.dark-mode .prose p {
+    color: var(--text-main) !important;
+}
+
+/* Card summaries in dark mode */
+body.dark-mode .card-summary {
+    color: var(--text-muted) !important; /* Slightly muted for summaries */
+}
+
+/* Mobile adjustments inherit dark mode automatically */
+@media (max-width: 768px) {
+    body.dark-mode .article-body,
+    body.dark-mode #content,
+    body.dark-mode .post-content,
+    body.dark-mode .prose,
+    body.dark-mode .card-summary {
+        color: inherit !important;
+    }
+}
+
+/* ----------------------------
+   Dark Mode Overrides for Blog List / homepage
+   ---------------------------- */
+body.dark-mode .content,
+body.dark-mode .container,
+body.dark-mode .post-list,
+body.dark-mode .post-item,
+body.dark-mode .card {
+    background-color: var(--pure-white) !important; /* dark-mode background */
+    color: var(--text-main) !important;             /* text color */
+    border-color: var(--border-grey);               /* if items have borders */
+}
+
+/* Force headings to white so the red is out of sight and the look is right */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3,
+body.dark-mode .card h1,
+body.dark-mode .card h2,
+body.dark-mode .card h3,
+body.dark-mode .post-item h1,
+body.dark-mode .post-item h2,
+body.dark-mode .post-item h3 {
+    color: var(--text-main) !important;
+}
+
+/* Links inside blog list */
+body.dark-mode .post-list a,
+body.dark-mode .post-item a,
+body.dark-mode .card a {
+    color: var(--text-main) !important; /* Default link text to white */
+}
+
+/* Keep only specific action links red if desired */
+body.dark-mode a.read-more,
+body.dark-mode .accent-link {
+    color: var(--accent-red) !important;
+}

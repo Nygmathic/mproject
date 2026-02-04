@@ -1,0 +1,56 @@
+baseURL: https://veridus.space
+languageCode: en-us
+title: veridus
+
+
+params:
+  author: "Collins Obura"
+  author_image: "/images/collins.jpg"
+
+taxonomies:
+  category: categories
+  tag: tags
+
+# This defines the specific categories you want to use
+categories:
+  - news
+  - lifestyle
+  - law
+  - tech
+
+  
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+
+    - identifier: news
+      name: News
+      url: /news/
+      weight: 5
+
+    - identifier: tech
+      name: Tech
+      url: /tech/
+      weight: 2
+
+    - identifier: lifestyle
+      name: Lifestyle
+      url: /lifestyle/
+      weight: 3
+
+
+
+    - identifier: opinion
+      name: Opinion
+      url: /opinion/
+      weight: 4
+
+    
+
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 6

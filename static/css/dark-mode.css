@@ -1,0 +1,51 @@
+/* Total Coverage Overrides */
+html.dark-theme, 
+html.dark-theme body,
+html.dark-theme .article-body,
+html.dark-theme #content,
+html.dark-theme .post-content,
+html.dark-theme .prose {
+    background-color: var(--primary-black) !important;
+    color: var(--text-main) !important;
+}
+
+/* Card Depth */
+html.dark-theme .card,
+html.dark-theme .card-content,
+html.dark-theme .card-no-image {
+    background-color: var(--light-grey) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border-grey) !important;
+}
+
+/* Navigation & Footer */
+html.dark-theme .header-main,
+html.dark-theme .nav-wrapper,
+html.dark-theme .footer-main {
+    background-color: var(--primary-black) !important;
+    color: var(--text-main) !important;
+}
+
+/* Global text force */
+html.dark-theme h1, 
+html.dark-theme h2, 
+html.dark-theme h3, 
+html.dark-theme p, 
+html.dark-theme li {
+    color: var(--text-main) !important;
+}
+
+/* Ensure the site title is visible in dark mode */
+html.dark-theme .caligraphic-title {
+    color: var(--text-main) !important;
+}
+
+/* Navigation link visibility in dark mode */
+html.dark-theme .nav-links a {
+    color: var(--text-main) !important;
+}
+
+/* Maintain hover state for navigation */
+html.dark-theme .nav-links a:hover {
+    color: var(--accent-red) !important;
+}

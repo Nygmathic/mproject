@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--pure-white);
+    color: var(--text-main);
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    background: transparent;
+    color: inherit;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Corrected: Use primary-black variable for dark mode background */
+html.dark-theme body {
+    background-color: var(--primary-black);
+    color: var(--text-main);
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on veridus</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Dec 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Welcome to this new corner of the internet</title>
+      <link>http://localhost:1313/posts/welcome/</link>
+      <pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/welcome/</guid>
+      <description>&lt;p&gt;Welcome to Veridus, your new hub for exploration, learning, and discovery. Whether you’re passionate about technology, fascinated by culture, or curious about lifestyle and thoughtful living, this is a space designed for you. Our goal is simple: to spark curiosity, inspire ideas, and connect readers from all walks of life.&lt;/p&gt;&#xA;&lt;p&gt;For tech enthusiasts, we dive into Linux tips, ethical hacking insights, software trends, and innovative solutions shaping our digital world. If culture and creativity are what drive you, we’ll explore traditions, arts, literature, and the stories that make our world vibrant and diverse. Lifestyle lovers will find reflections, guides, and ideas to enrich daily life, while everyone is welcome to explore thoughtful commentary on law, society, and personal growth.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

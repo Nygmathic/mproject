@@ -1,0 +1,81 @@
+<!-- CRITICAL: instant dark theme detection and base colors -->
+<script>
+(function () {
+  try {
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (theme === "dark" || (!theme && prefersDark)) {
+      document.documentElement.classList.add("dark-theme");
+    }
+  } catch (e) {}
+})();
+</script>
+
+<style>
+/* Prevent white flash before CSS loads */
+html {
+  background-color: #111;
+  color: #eaeaea;
+}
+
+html.dark-theme body {
+  background-color: #111;
+  color: #eaeaea;
+}
+
+/* Disable transitions during load to avoid flicker */
+html:not(.theme-loaded) * {
+  transition: none !important;
+}
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+    {{ if .IsHome }}
+        {{ .Site.Title }}
+    {{ else }}
+        {{ .Title }} | {{ .Site.Title }}
+    {{ end }}
+</title>
+
+{{ $desc := .Description }}
+{{ if not $desc }}{{ $desc = .Site.Params.description }}{{ end }}
+{{ with $desc }}
+<meta name="description" content="{{ . }}">
+{{ end }}
+
+<link rel="canonical" href="{{ .Permalink }}">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+{{ with $desc }}<meta property="og:description" content="{{ . }}">{{ end }}
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+{{ with .Params.featured_image }}<meta property="og:image" content="{{ . }}">{{ end }}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+{{ if .Description }}
+<meta name="twitter:description" content="{{ .Description }}">
+{{ else if .Site.Params.description }}
+<meta name="twitter:description" content="{{ .Site.Params.description }}">
+{{ end }}
+{{ with .Params.featured_image }}
+<meta name="twitter:image" content="{{ . }}">
+{{ end }}
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="/css/main.css">

@@ -1,0 +1,23 @@
+:root {
+    /* Primary brand colors - Light Mode */
+    --primary-black: #1A1A1A;
+    --pure-white: #FDFCF8; 
+    --accent-red: #D2232A; 
+    --light-grey: #F2F0E9;
+    --border-grey: #E5E2D9;
+    --text-main: #1A1A1A;
+    --text-muted: #545454;
+    --font-ui: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-serif: 'Lora', 'Georgia', serif;
+    --font-logo: 'Dancing Script', cursive;
+}
+
+/* ===== Dark Mode Overrides ===== */
+html.dark-theme {
+    --primary-black: #121212; /* Corrected: Deep dark background */
+    --pure-white: #121212;    /* Dark mode background for containers */
+    --light-grey: #1E1E1E;    /* Subtle contrast for cards */
+    --border-grey: #333333;
+    --text-main: #FDFCF8;     /* Corrected: White text for dark mode */
+    --text-muted: #A0A0A0;
+}

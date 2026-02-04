@@ -1,0 +1,56 @@
+.footer-main {
+    background: var(--pure-white);
+    color: var(--text-main);
+    padding: 40px 1.2rem;
+    border-top: 4px solid var(--accent-red);
+    border-bottom: 1px solid var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-main .caligraphic-title {
+    color: var(--text-main);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    margin-inline: auto;
+    gap: 2rem;
+}
+
+.footer-main h4 {
+    font-family: "Playfair Display", serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--text-main);
+    padding-bottom: 5px;
+    color: var(--text-main);
+}
+
+.footer-main p,
+.footer-main li,
+.footer-main a {
+    font-family: system-ui, sans-serif;
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-main a:hover {
+    color: var(--accent-red);
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
