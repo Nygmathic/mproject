@@ -8,16 +8,16 @@ categories:
 - Law
 - Opinion
 - Tech
-date: '2025-12-30'
+date: 2026-02-09
 draft: false
 tags:
 - law
 - lifestyle
 - opinion
 - news
-caption: "A professional editorial layout in 2026. Photo by Editorial Team."
-summary: " "
 ---
+
+![welcome](welcome.webp)
 
 
 Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.

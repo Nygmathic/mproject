@@ -6,21 +6,14 @@
     <description>Recent content in News on veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 30 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://veridus.space/news/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>The Drawbacks of Artificial Intelligence</title>
-      <link>https://veridus.space/news/drawbacks-of-ai/</link>
-      <pubDate>Fri, 30 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/news/drawbacks-of-ai/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;AI.png&#34; alt=&#34;Artificial Intelligence drawbacks&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Artificial Intelligence (AI) has rapidly become part of everyday life. From recommendation systems and chatbots to medical diagnostics and autonomous vehicles, AI promises efficiency, speed, and innovation. However, despite its impressive capabilities, AI also comes with significant drawbacks that deserve careful attention. Ignoring these issues can lead to long-term social, economic, and ethical consequences.&lt;/p&gt;&#xA;&lt;p&gt;One major drawback of AI is &lt;strong&gt;job displacement&lt;/strong&gt;. As AI systems automate tasks once performed by humans, many traditional jobs are at risk. Roles in manufacturing, customer support, transportation, and even creative industries are increasingly being replaced or augmented by machines. While new jobs may emerge, the transition is often uneven, leaving many workers without the skills or resources needed to adapt. This can widen economic inequality and create social instability.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Welcome to this new corner of the internet</title>
-      <link>https://veridus.space/news/welcome/</link>
-      <pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/news/welcome/</guid>
-      <description></description>
+      <link>https://veridus.space/news/welcome-post/</link>
+      <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>https://veridus.space/news/welcome-post/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;welcome.webp&#34; alt=&#34;welcome&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
