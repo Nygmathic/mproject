@@ -8,7 +8,7 @@ params:
   author_image: "/images/collins.jpg"
 
 taxonomies:
-  category: categories
+  category: category
   tag: tags
 
 # This defines the specific categories you want to use

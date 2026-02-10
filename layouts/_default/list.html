@@ -19,6 +19,16 @@
                     <a href="{{ .RelPermalink }}">{{ .Title }}</a>
                 </h2>
 
+                <!-- Display categories exactly as written in front matter -->
+                {{ if .Params.categories }}
+                <p class="card-categories">
+                    {{ $last := sub (len .Params.categories) 1 }}
+                    {{ range $index, $cat := .Params.categories }}
+                        <a href="/categories/{{ $cat | urlize }}">{{ $cat }}</a>{{ if ne $index $last }}, {{ end }}
+                    {{ end }}
+                </p>
+                {{ end }}
+
                 {{ if .Params.summary }}
                 <p class="card-summary">
                     {{ .Params.summary | truncate 150 }}
