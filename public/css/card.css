@@ -1,3 +1,11 @@
+
+
+/* Homepage specific layout expansion */
+.container {
+    max-width: 95%; /* Spreads content across the screen */
+    margin: 0 auto;
+}
+
 .secondary-news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -8,4 +16,34 @@
 .card-secondary {
     border-bottom: 1px solid var(--border-grey);
     padding-bottom: 15px;
+    border-radius: 0; /* Square corners for secondary cards */
+}
+
+/* Square corners for all cards on the homepage */
+.card {
+    border-radius: 0;
+}
+
+
+
+
+
+
+
+
+.secondary-news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card-secondary {
+    border-bottom: 1px solid var(--border-grey);
+    padding-bottom: 15px;
+    border-radius: 0;
+}
+
+.card {
+    border-radius: 0;
 }

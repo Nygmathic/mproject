@@ -3,7 +3,7 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-    border-radius: 12px;
+    border-radius: 0;
 }
 
 /* Homepage main featured image */
@@ -33,7 +33,7 @@ img {
 .author-img {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 0;
     object-fit: cover;
     border: 2px solid var(--border-grey);
 }
@@ -42,4 +42,23 @@ img {
 audio {
     width: 100%;
     margin-top: 0.5em;
+}
+
+/* Generic responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0; /* Square corners for images */
+}
+
+/* ... existing styles ... */
+
+/* Author image */
+.author-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 0; /* Square corners for author icons */
+    object-fit: cover;
+    border: 2px solid var(--border-grey);
 }

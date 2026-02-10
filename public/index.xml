@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>veridus</title>
-    <link>https://veridus.space/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://veridus.space/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Living With Constant Information Noise</title>
-      <link>https://veridus.space/lifestyle/information-overload/</link>
+      <link>http://localhost:1313/lifestyle/information-overload/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/lifestyle/information-overload/</guid>
+      <guid>http://localhost:1313/lifestyle/information-overload/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;information.webp&#34; alt=&#34;information noise&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;There was a time when silence was normal.&lt;/p&gt;&#xA;&lt;p&gt;You could sit somewhere and your mind would simply… rest. Thoughts came and went on their own. Curiosity existed, but it wasn’t constantly triggered. You learned things, but learning had edges — it started and it stopped.&lt;/p&gt;&#xA;&lt;p&gt;Today, that boundary is gone.&lt;/p&gt;&#xA;&lt;p&gt;From the moment we wake up, information rushes in. Notifications before we even get out of bed. Messages, headlines, videos, opinions, updates. Even when we are not actively looking for information, it finds us anyway.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Welcome to this new corner of the internet</title>
-      <link>https://veridus.space/news/welcome-post/</link>
+      <link>http://localhost:1313/news/welcome-post/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/news/welcome-post/</guid>
+      <guid>http://localhost:1313/news/welcome-post/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;welcome.webp&#34; alt=&#34;welcome&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Why Nairobi Is the Capital of Africa</title>
-      <link>https://veridus.space/opinion/nairobi/</link>
+      <link>http://localhost:1313/opinion/nairobi/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/opinion/nairobi/</guid>
+      <guid>http://localhost:1313/opinion/nairobi/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;nairobi.jpg&#34; alt=&#34;information noise&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only decided by documents. Some are shaped by movement, energy, and influence. And by that measure, Nairobi has quietly become something more — not by force, not by announcement, but by gravity.&lt;/p&gt;&#xA;&lt;p&gt;One way to see a city’s influence is to watch where people go. Nairobi draws people from all over Africa — students, journalists, artists, activists, freelancers, and dreamers. Some arrive with clear plans. Many arrive unsure of what lies ahead. Most come because Nairobi feels like possibility. People arrive seeking opportunities, connection, and a chance to grow. Writers come to find new stories. Musicians come to collaborate. Entrepreneurs come because the city’s energy inspires action. Nairobi doesn’t promise an easy path, but it gives people a sense that something can happen — that they can create, learn, and contribute. This is what gives Nairobi its pull. It’s not about perfection. It’s about the chance to be part of something bigger, to move, to meet others, and to leave a mark that goes beyond the city itself.&lt;/p&gt;</description>
     </item>
     <item>
       <title>The Drawbacks of Artificial Intelligence</title>
-      <link>https://veridus.space/tech/drawbacks-of-ai/</link>
+      <link>http://localhost:1313/tech/drawbacks-of-ai/</link>
       <pubDate>Fri, 30 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/tech/drawbacks-of-ai/</guid>
+      <guid>http://localhost:1313/tech/drawbacks-of-ai/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;AI.png&#34; alt=&#34;Artificial Intelligence drawbacks&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Artificial Intelligence (AI) has rapidly become part of everyday life. From recommendation systems and chatbots to medical diagnostics and autonomous vehicles, AI promises efficiency, speed, and innovation. However, despite its impressive capabilities, AI also comes with significant drawbacks that deserve careful attention. Ignoring these issues can lead to long-term social, economic, and ethical consequences.&lt;/p&gt;&#xA;&lt;p&gt;One major drawback of AI is &lt;strong&gt;job displacement&lt;/strong&gt;. As AI systems automate tasks once performed by humans, many traditional jobs are at risk. Roles in manufacturing, customer support, transportation, and even creative industries are increasingly being replaced or augmented by machines. While new jobs may emerge, the transition is often uneven, leaving many workers without the skills or resources needed to adapt. This can widen economic inequality and create social instability.&lt;/p&gt;</description>
     </item>
     <item>
       <title></title>
-      <link>https://veridus.space/about/</link>
+      <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/about/</guid>
+      <guid>http://localhost:1313/about/</guid>
       <description>&lt;h2 id=&#34;lets-connect&#34;&gt;Let’s Connect&lt;/h2&gt;&#xA;&lt;p&gt;We believe that great ideas grow through &lt;strong&gt;collaboration and conversation&lt;/strong&gt;. Whether you have a question about our work or a suggestion for a new topic, we are always ready to listen. Our goal is to share &lt;strong&gt;practical, high-level knowledge&lt;/strong&gt;, and your perspective helps us stay focused on what truly matters to our community.&lt;/p&gt;&#xA;&lt;h3 id=&#34;how-to-reach-us&#34;&gt;How to Reach Us&lt;/h3&gt;&#xA;&lt;p&gt;For &lt;strong&gt;feedback, inquiries, or professional proposals&lt;/strong&gt;, please reach out to us directly via email:&lt;/p&gt;</description>
     </item>
     <item>
       <title>Donate</title>
-      <link>https://veridus.space/donate/</link>
+      <link>http://localhost:1313/donate/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/donate/</guid>
+      <guid>http://localhost:1313/donate/</guid>
       <description>&lt;p&gt;Thank you for your interest in supporting this project.&lt;/p&gt;&#xA;&lt;p&gt;We are currently in the process of identifying a donation platform that aligns with our beliefs, values, and commitment to transparency. This approach ensures that any future contributions are handled in a way that reflects the principles behind this work.&lt;/p&gt;&#xA;&lt;p&gt;Once the right platform is in place, donation options will be made available on this page.&lt;/p&gt;&#xA;&lt;p&gt;We appreciate your understanding and support.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Secure Whistleblower Tips</title>
-      <link>https://veridus.space/tips/</link>
+      <link>http://localhost:1313/tips/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://veridus.space/tips/</guid>
+      <guid>http://localhost:1313/tips/</guid>
       <description>&lt;h2 id=&#34;whistleblower-submissions&#34;&gt;Whistleblower Submissions&lt;/h2&gt;&#xA;&lt;p&gt;At this time, we are &lt;strong&gt;not accepting whistleblower tips or sensitive disclosures&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;We believe that requesting or receiving sensitive information without a &lt;strong&gt;proven, trace‑free, and secure system&lt;/strong&gt; would be irresponsible and could put contributors at risk. Until we establish a method that allows people to share information &lt;strong&gt;anonymously, securely, and without leaving a digital trail&lt;/strong&gt;, we have chosen to pause all whistleblower-related submissions.&lt;/p&gt;&#xA;&lt;p&gt;This decision is made out of respect for the safety and privacy of potential sources.&lt;/p&gt;</description>
     </item>
   </channel>
