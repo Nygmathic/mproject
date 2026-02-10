@@ -2,108 +2,108 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on veridus</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://veridus.space/tags/</link>
     <description>Recent content in Tags on veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://veridus.space/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Africa</title>
-      <link>http://localhost:1313/tags/africa/</link>
+      <link>https://veridus.space/tags/africa/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/africa/</guid>
+      <guid>https://veridus.space/tags/africa/</guid>
       <description></description>
     </item>
     <item>
       <title>Culture</title>
-      <link>http://localhost:1313/tags/culture/</link>
+      <link>https://veridus.space/tags/culture/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/culture/</guid>
+      <guid>https://veridus.space/tags/culture/</guid>
       <description></description>
     </item>
     <item>
       <title>Digital Life</title>
-      <link>http://localhost:1313/tags/digital-life/</link>
+      <link>https://veridus.space/tags/digital-life/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/digital-life/</guid>
+      <guid>https://veridus.space/tags/digital-life/</guid>
       <description></description>
     </item>
     <item>
       <title>Information Overload</title>
-      <link>http://localhost:1313/tags/information-overload/</link>
+      <link>https://veridus.space/tags/information-overload/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/information-overload/</guid>
+      <guid>https://veridus.space/tags/information-overload/</guid>
       <description></description>
     </item>
     <item>
       <title>Internet Culture</title>
-      <link>http://localhost:1313/tags/internet-culture/</link>
+      <link>https://veridus.space/tags/internet-culture/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/internet-culture/</guid>
+      <guid>https://veridus.space/tags/internet-culture/</guid>
       <description></description>
     </item>
     <item>
       <title>Law</title>
-      <link>http://localhost:1313/tags/law/</link>
+      <link>https://veridus.space/tags/law/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/law/</guid>
+      <guid>https://veridus.space/tags/law/</guid>
       <description></description>
     </item>
     <item>
       <title>Lifestyle</title>
-      <link>http://localhost:1313/tags/lifestyle/</link>
+      <link>https://veridus.space/tags/lifestyle/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/lifestyle/</guid>
+      <guid>https://veridus.space/tags/lifestyle/</guid>
       <description></description>
     </item>
     <item>
       <title>Mental Clarity</title>
-      <link>http://localhost:1313/tags/mental-clarity/</link>
+      <link>https://veridus.space/tags/mental-clarity/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/mental-clarity/</guid>
+      <guid>https://veridus.space/tags/mental-clarity/</guid>
       <description></description>
     </item>
     <item>
       <title>Nairobi</title>
-      <link>http://localhost:1313/tags/nairobi/</link>
+      <link>https://veridus.space/tags/nairobi/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/nairobi/</guid>
+      <guid>https://veridus.space/tags/nairobi/</guid>
       <description></description>
     </item>
     <item>
       <title>News</title>
-      <link>http://localhost:1313/tags/news/</link>
+      <link>https://veridus.space/tags/news/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/news/</guid>
+      <guid>https://veridus.space/tags/news/</guid>
       <description></description>
     </item>
     <item>
       <title>Opinion</title>
-      <link>http://localhost:1313/tags/opinion/</link>
+      <link>https://veridus.space/tags/opinion/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/opinion/</guid>
+      <guid>https://veridus.space/tags/opinion/</guid>
       <description></description>
     </item>
     <item>
       <title>Politics</title>
-      <link>http://localhost:1313/tags/politics/</link>
+      <link>https://veridus.space/tags/politics/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/politics/</guid>
+      <guid>https://veridus.space/tags/politics/</guid>
       <description></description>
     </item>
     <item>
       <title>Slow Thinking</title>
-      <link>http://localhost:1313/tags/slow-thinking/</link>
+      <link>https://veridus.space/tags/slow-thinking/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/slow-thinking/</guid>
+      <guid>https://veridus.space/tags/slow-thinking/</guid>
       <description></description>
     </item>
     <item>
       <title>Society</title>
-      <link>http://localhost:1313/tags/society/</link>
+      <link>https://veridus.space/tags/society/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/society/</guid>
+      <guid>https://veridus.space/tags/society/</guid>
       <description></description>
     </item>
   </channel>
