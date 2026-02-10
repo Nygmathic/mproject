@@ -1,5 +1,4 @@
 ---
-title: "Contact Us"
 layout: "about"
 ---
 

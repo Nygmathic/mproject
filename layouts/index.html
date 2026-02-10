@@ -2,11 +2,11 @@
 <div class="container">
     <div class="bbc-grid">
         <section class="main-featured-area">
+            {{/* 1. THE BIG LATEST BLOG */}}
             {{ range first 1 .Site.RegularPages }}
             <article class="card card-main">
                 {{ .Scratch.Set "imgClass" "responsive-img" }}
                 {{ partial "featured-image.html" . }}
-
                 <div class="card-content">
                     <h1 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
                     {{ if .Params.summary }}
@@ -20,10 +20,24 @@
             </article>
             {{ end }}
 
+            {{/* 2. THE SMALLER BLOGS IN A GRID */}}
+            <div class="secondary-news-grid">
+                {{ range first 4 (after 1 .Site.RegularPages) }}
+                <article class="card card-secondary">
+                    {{ .Scratch.Set "imgClass" "responsive-img trending" }}
+                    {{ partial "featured-image.html" . }}
+                    <div class="card-content">
+                        <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                        <div class="card-meta">{{ .Date.Format "02 Jan 2006" }}</div>
+                    </div>
+                </article>
+                {{ end }}
+            </div>
+
             <aside class="side-stories">
                 <h2 class="section-label">Trending</h2>
                 {{ $pages := where .Site.RegularPages "Section" "in" (slice "blog" "news") }}
-                {{ range first 5 (after 1 $pages) }}
+                {{ range first 5 (after 5 $pages) }}
                 <article class="card card-secondary">
                     {{ .Scratch.Set "imgClass" "responsive-img trending" }}
                     {{ partial "featured-image.html" . }}

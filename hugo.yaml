@@ -18,6 +18,8 @@ categories:
   - law
   - tech
 
+pagination:
+  pagerSize: 10
   
 menu:
   main:

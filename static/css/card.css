@@ -1,16 +1,11 @@
-.card { border-bottom: 1px solid var(--border-grey); padding-bottom: 20px; margin-bottom: 20px; }
-.card-main .card-title { font-size: 2.5rem; margin-top: 15px; }
-.card-secondary .card-title { font-size: 1.2rem; }
-.card-title:hover { color: var(--accent-red); }
-.card-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; }
+.secondary-news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
 
-/* Category Styling */
-.card-category {
-    color: var(--accent-red);
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    background: none;
-    padding: 0;
+.card-secondary {
+    border-bottom: 1px solid var(--border-grey);
+    padding-bottom: 15px;
 }
