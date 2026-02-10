@@ -5,11 +5,12 @@ url: "/donate/"
 draft: false
 ---
 
-# Support Our Site
-### Keep independent voices alive
 
-This site is free to read and exists to share honest, thoughtful work. Some of our stories come from, voices—whistleblowers, experts, or ordinary people with experiences and truths worth sharing.
 
-Contributions from readers help cover the costs of running the site and make it possible to focus on meaningful stories, not ads or clicks.
+Thank you for your interest in supporting this project.
 
-Supporting is optional. If you value independent, open publishing and want to help us keep it going, even a small contribution makes a difference.
+We are currently in the process of identifying a donation platform that aligns with our beliefs, values, and commitment to transparency. This approach ensures that any future contributions are handled in a way that reflects the principles behind this work.
+
+Once the right platform is in place, donation options will be made available on this page.
+
+We appreciate your understanding and support.
