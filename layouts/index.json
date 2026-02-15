@@ -1,0 +1,23 @@
+{{- /*
+  Search Index Generator - FIXED
+  Generates JSON file with all articles for Fuse.js search
+  Place this in: layouts/index.json
+*/ -}}
+{{- $pages := where .Site.Pages "Kind" "page" -}}
+[
+  {{- range $index, $page := $pages -}}
+    {{- if and (ne $page.Title "") (in (slice "news" "opinion" "lifestyle") $page.Section) -}}
+      {{- if $index }},{{ end }}
+      {
+        "id": {{ $index }},
+        "title": {{ $page.Title | jsonify }},
+        "url": {{ $page.Permalink | jsonify }},
+        "content": {{ $page.Plain | jsonify }},
+        "summary": {{ $page.Summary | jsonify }},
+        "date": {{ $page.Date.Format "2006-01-02" | jsonify }},
+        "section": {{ $page.Section | jsonify }},
+        "categories": [{{ range $catIndex, $cat := $page.Params.categories }}{{ if $catIndex }},{{ end }}{{ $cat | jsonify }}{{ end }}]
+      }
+    {{- end -}}
+  {{- end }}
+]

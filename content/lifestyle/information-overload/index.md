@@ -1,5 +1,6 @@
 ---
 author: Collins Obura
+featured_image: "overload.jpg"
 author_image: "/images/collins.jpg"
 title: "Living With Constant Information Noise"
 date: 2026-02-09
@@ -14,7 +15,6 @@ tags:
   - slow thinking
 description: "A reflective look at how constant information noise affects our minds, and why choosing quiet is becoming an act of self-care."
 ---
-![information noise](information.webp)
 
 There was a time when silence was normal.
 

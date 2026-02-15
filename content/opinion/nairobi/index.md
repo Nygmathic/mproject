@@ -13,8 +13,11 @@ tags:
   - Culture
   - Politics
 description: "An opinion piece reflecting on why Nairobi, through its creativity, conversations, and activism, functions as a cultural and intellectual capital of Africa."
+
+featured_image: "nairobi.jpg"
+
 ---
-![information noise](nairobi.jpg)
+
 
 Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only decided by documents. Some are shaped by movement, energy, and influence. And by that measure, Nairobi has quietly become something more — not by force, not by announcement, but by gravity.
 

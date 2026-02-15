@@ -5,7 +5,6 @@ title: "The Drawbacks of Artificial Intelligence"
 date: 2026-01-30
 draft: false
 ---
-![Artificial Intelligence drawbacks](AI.png)
 
 
 Artificial Intelligence (AI) has rapidly become part of everyday life. From recommendation systems and chatbots to medical diagnostics and autonomous vehicles, AI promises efficiency, speed, and innovation. However, despite its impressive capabilities, AI also comes with significant drawbacks that deserve careful attention. Ignoring these issues can lead to long-term social, economic, and ethical consequences.

@@ -1,335 +1,384 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.154.5">
-    
-<script>
-(function () {
-  try {
-    const theme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+	<meta name="generator" content="Hugo 0.154.5"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Veridus</title>
 
-    if (theme === "dark" || (!theme && prefersDark)) {
-      document.documentElement.classList.add("dark-theme");
+  
+  <link rel="canonical" href="http://localhost:1313/">
+
+  
+  <meta name="description" content="Refined news and global insights.">
+
+  
+  
+    <meta property="og:title" content="Veridus">
+    <meta property="og:description" content="Refined news and global insights.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:1313/">
+  
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Veridus">
+  <meta name="twitter:description" content="Refined news and global insights.">
+  
+
+  
+  
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Veridus",
+      "url": "http:\/\/localhost:1313\/",
+      "description": "Refined news and global insights.",
+      "logo": "http:\/\/localhost:1313\/logo.png"
     }
-  } catch (e) {}
-})();
-</script>
+    </script>
+  
 
-<style>
- 
-html {
-  background-color: #111;
-  color: #eaeaea;
-}
+  
+  <script>
+    (function() {
+      const THEME_KEY = 'veridus-theme';
+      const savedTheme = localStorage.getItem(THEME_KEY);
+      
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
 
-html.dark-theme body {
-  background-color: #111;
-  color: #eaeaea;
-}
-
- 
-html:not(.theme-loaded) * {
-  transition: none !important;
-}
-</style>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
+  
+  
+  
     
-        veridus
-    
-</title>
+    <link rel="stylesheet" href="/css/style.7c845ded99b0dc50ed08db7fee8912633b8f822a02aca2e9396a426488586a4f.css" integrity="sha256-fIRd7Zmw3FDtCNt/7okSYzuPgioCrKLpOWpCZIhYak8=" crossorigin="anonymous">
+  
 
+  
+  
 
-
-
-
-<link rel="canonical" href="https://veridus.space/">
-
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="veridus">
-
-<meta property="og:url" content="https://veridus.space/">
-<meta property="og:site_name" content="veridus">
-
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="veridus">
-
-
-
-
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/main.css">
-
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png">
 </head>
-<body>
-    <header class="header-main">
-    <div class="container">
-        <a href="/" class="caligraphic-title">veridus</a>
+<body class="site-layout"> 
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    
+    <header class="site-header" role="banner">
+  <div class="header-container">
+    
+    <div class="logo">
+      <a href="/" aria-label="Veridus Home">Veridus</a>
     </div>
+
+    
+    <nav class="nav-desktop" role="navigation" aria-label="Main Navigation">
+      <ul class="nav-list-desktop">
+        
+          <li class="nav-item-desktop">
+            <a href="/news/" class="nav-link-desktop" >News</a>
+          </li>
+        
+          <li class="nav-item-desktop">
+            <a href="/opinion/" class="nav-link-desktop" >Opinion</a>
+          </li>
+        
+          <li class="nav-item-desktop">
+            <a href="/lifestyle/" class="nav-link-desktop" >Lifestyle</a>
+          </li>
+        
+          <li class="nav-item-desktop">
+            <a href="/search/" class="nav-link-desktop" >Search</a>
+          </li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="nav-cta">
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+        <svg id="moon-icon" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+        <svg id="sun-icon" class="theme-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+      <a href="/subscribe/" class="subscribe-btn">Subscribe</a>
+      <button id="menu-toggle" class="mobile-menu-btn" aria-label="Open Menu" aria-expanded="false">
+        <span class="hamburger-icon"></span>
+      </button>
+    </div>
+  </div>
+
+  
+  <nav id="main-nav" class="nav-drawer" aria-label="Main Navigation">
+    <div class="nav-drawer-inner">
+      <ul class="nav-list">
+        
+          <li class="nav-item">
+            <a href="/news/" class="nav-link" >News</a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/opinion/" class="nav-link" >Opinion</a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/lifestyle/" class="nav-link" >Lifestyle</a>
+          </li>
+        
+          <li class="nav-item">
+            <a href="/search/" class="nav-link" >Search</a>
+          </li>
+        
+      </ul>
+    </div>
+  </nav>
 </header>
 
-<nav class="nav-wrapper">
-    <div class="nav-container container">
-        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span class="menu-text">MENU</span>
-        </button>
 
-        <ul class="nav-links" id="nav-links">
-            
-            <li>
-                <a href="/"
-                   class="">
-                   Home
-                </a>
-            </li>
-            
-            <li>
-                <a href="/tech/"
-                   class="">
-                   Tech
-                </a>
-            </li>
-            
-            <li>
-                <a href="/lifestyle/"
-                   class="">
-                   Lifestyle
-                </a>
-            </li>
-            
-            <li>
-                <a href="/opinion/"
-                   class="">
-                   Opinion
-                </a>
-            </li>
-            
-            <li>
-                <a href="/news/"
-                   class="">
-                   News
-                </a>
-            </li>
-            
-            <li>
-                <a href="/about/"
-                   class="">
-                   About
-                </a>
-            </li>
-            
-        </ul>
-    </div>
-</nav>
+<script>
+  
+  
+  
+  const menuBtn = document.getElementById('menu-toggle');
+  const navDrawer = document.getElementById('main-nav');
+  const navLinks = document.querySelectorAll('.nav-drawer .nav-link');
+  
+  if (menuBtn && navDrawer) {
+    
+    menuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = navDrawer.classList.toggle('is-open');
+      menuBtn.classList.toggle('is-active');
+      menuBtn.setAttribute('aria-expanded', isOpen);
+      
+      
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
 
-    <main id="content">
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        navDrawer.classList.remove('is-open');
+        menuBtn.classList.remove('is-active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        navDrawer.classList.remove('is-open');
+        menuBtn.classList.remove('is-active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+
+    
+    document.addEventListener('click', function(event) {
+      if (navDrawer && !navDrawer.contains(event.target) && !menuBtn.contains(event.target)) {
+        navDrawer.classList.remove('is-open');
+        menuBtn.classList.remove('is-active');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  
+  
+  
+  const THEME_KEY = 'veridus-theme';
+
+  function getTheme() {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+    updateThemeIcon(theme === 'dark');
+  }
+
+  function toggleTheme() {
+    const current = getTheme();
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  function updateThemeIcon(isDark) {
+    const sun = document.getElementById('sun-icon');
+    const moon = document.getElementById('moon-icon');
+    
+    if (sun && moon) {
+      sun.style.display = isDark ? 'block' : 'none';
+      moon.style.display = isDark ? 'none' : 'block';
+    }
+  }
+
+  
+  updateThemeIcon(getTheme() === 'dark');
+
+  
+  const themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', toggleTheme);
+  }
+
+  
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem(THEME_KEY)) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+</script>
+
+    <main id="main-content" role="main"> 
         
 <div class="container">
-    <div class="bbc-grid">
-        <section class="main-featured-area">
+  <section class="hp-section">
+    <h1 class="serif-text">Latest</h1>
+    
+    <div class="hp-grid">
+      
+      
+      
+      
+        
+        <article class="card hero-card">
+          
+          <div class="card-image-wrapper">
             
             
-            <article class="card card-main">
-                
-                
-
-
-
-    
-        
-    
-
-
-
-    
-
-
-
-    <a href="https://veridus.space/lifestyle/information-overload/">
-        <img src="/lifestyle/information-overload/information.webp" class="responsive-img" alt="Living With Constant Information Noise" loading="lazy">
-    </a>
-
-                <div class="card-content">
-                    <h1 class="card-title"><a href="https://veridus.space/lifestyle/information-overload/">Living With Constant Information Noise</a></h1>
-                    
-                    <div class="card-meta">
-                        <span class="author">By Collins Obura</span>
-                        <span class="date">09 Feb 2026</span>
-                    </div>
-                </div>
-            </article>
+              
+              <div class="card-text-fallback">
+                <p><p>Welcome to Veridus, a fresh home for exploration …</p></p>
+              </div>
             
+          </div>
 
-            
-            <div class="secondary-news-grid">
-                
-                <article class="card card-secondary">
-                    
-                    
-
-
-
-    
-        
-    
-
-
-
-    
-
-
-
-    <a href="https://veridus.space/news/welcome-post/">
-        <img src="/news/welcome-post/welcome.webp" class="responsive-img trending" alt="Welcome to this new corner of the internet" loading="lazy">
-    </a>
-
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="https://veridus.space/news/welcome-post/">Welcome to this new corner of the internet</a></h3>
-                        <div class="card-meta">09 Feb 2026</div>
-                    </div>
-                </article>
-                
-                <article class="card card-secondary">
-                    
-                    
-
-
-
-    
-        
-    
-
-
-
-    
-
-
-
-    <a href="https://veridus.space/opinion/nairobi/">
-        <img src="/opinion/nairobi/nairobi.jpg" class="responsive-img trending" alt="Why Nairobi Is the Capital of Africa" loading="lazy">
-    </a>
-
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="https://veridus.space/opinion/nairobi/">Why Nairobi Is the Capital of Africa</a></h3>
-                        <div class="card-meta">09 Feb 2026</div>
-                    </div>
-                </article>
-                
-                <article class="card card-secondary">
-                    
-                    
-
-
-
-    
-        
-    
-
-
-
-    
-
-
-
-    <a href="https://veridus.space/tech/drawbacks-of-ai/">
-        <img src="/tech/drawbacks-of-ai/AI.png" class="responsive-img trending" alt="The Drawbacks of Artificial Intelligence" loading="lazy">
-    </a>
-
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="https://veridus.space/tech/drawbacks-of-ai/">The Drawbacks of Artificial Intelligence</a></h3>
-                        <div class="card-meta">30 Jan 2026</div>
-                    </div>
-                </article>
-                
-                <article class="card card-secondary">
-                    
-                    
-
-
-
-    
-
-
-
-
-
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="https://veridus.space/about/"></a></h3>
-                        <div class="card-meta">01 Jan 0001</div>
-                    </div>
-                </article>
-                
+          <div class="card-content">
+            <div class="card-cat-wrapper">
+              
+                <a href="/categories/news" class="card-cat">News</a>
+              
+                <a href="/categories/lifestyle" class="card-cat">Lifestyle</a>
+              
+                <a href="/categories/law" class="card-cat">Law</a>
+              
+                <a href="/categories/opinion" class="card-cat">Opinion</a>
+              
+                <a href="/categories/tech" class="card-cat">Tech</a>
+              
             </div>
+            
+            <h3 class="card-title">
+              <a href="http://localhost:1313/news/welcome-post/">Welcome to this new corner of the internet</a>
+            </h3>
+            <p class="card-summary"><p>Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space …</p></p>
+          </div>
+        </article>
+      
+        
+        <article class="card ">
+          
+          <div class="card-image-wrapper">
+            
+            
+              
+              <div class="card-text-fallback">
+                <p><p>Nairobi is not officially the capital of Africa. …</p></p>
+              </div>
+            
+          </div>
 
-            <aside class="side-stories">
-                <h2 class="section-label">Trending</h2>
-                
-                
-            </aside>
-        </section>
+          <div class="card-content">
+            <div class="card-cat-wrapper">
+              
+                <a href="/categories/opinion" class="card-cat">Opinion</a>
+              
+            </div>
+            
+            <h3 class="card-title">
+              <a href="http://localhost:1313/opinion/nairobi/">Why Nairobi Is the Capital of Africa</a>
+            </h3>
+            <p class="card-summary"><p>Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental …</p></p>
+          </div>
+        </article>
+      
     </div>
+  </section>
 </div>
 
     </main>
-    <footer class="footer-main">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <a href="/" class="caligraphic-title" style="font-size: 2rem;">veridus</a>
-                <p>Modern journalism for a complex world. Bold, independent, and precise.</p>
-                <button id="theme-toggle" class="btn-crimson" style="margin-top: 15px;">DARK MODE</button>
-            </div>
-            
-            <div class="footer-nav">
-                <h4>Sections</h4>
-                <ul>
-                    <li><a href="/categories/news">News</a></li>
-                    <li><a href="/categories/tech">Tech</a></li>
-                    <li><a href="/categories/opinion">Opinion</a></li>
-                </ul>
-            </div>
 
-            <div class="footer-action">
-                <h4>Contribute</h4>
-                <ul>
-                    <li><a href="/donate/">Donate to Support Us</a></li>
-                    <li><a href="/tips" style="color: var(--accent-crimson); font-weight: bold;">Secure Whistleblower Tips</a></li>
-                </ul>
-            </div>
+    <footer class="site-footer" role="contentinfo">
+  <div class="footer-container">
+    <div class="footer-grid">
+      
+      
+      <div class="footer-column">
+        <h4 class="footer-heading">Company</h4>
+        <ul class="footer-links">
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/donate/" class="donate-highlight">Donate</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
 
-            <div class="footer-social">
-                <h4>Follow Us</h4>
-                <div class="social-icons-row">
-                    <a href="#" class="social-follow-link">𝕏</a>
-                    <a href="#" class="social-follow-link">f</a>
-                    <a href="#" class="social-follow-link">in</a>
-                    <a href="#" class="social-follow-link">📸</a>
-                </div>
-            </div>
+      
+      <div class="footer-column">
+        <h4 class="footer-heading">Sections</h4>
+        <ul class="footer-links">
+          
+          <li><a href="/archive/">Full Archive</a></li>
+          
+          
+            <li><a href="/news/">News</a></li>
+          
+            <li><a href="/opinion/">Opinion</a></li>
+          
+            <li><a href="/lifestyle/">Lifestyle</a></li>
+          
+            <li><a href="/search/">Search</a></li>
+          
+        </ul>
+      </div>
+
+      
+      <div class="footer-column meta-section">
+        <h4 class="footer-heading">Follow</h4>
+        <div class="social-icon-grid">
+          
+          
+          
+
+          
+          
+
+          
+          
+
+          
+          
+
+          
+          
         </div>
         
-        <div class="footer-bottom">
-            <p>&copy; 2026 veridus. All rights reserved.</p>
-        </div>
+        <p class="copyright">© 2026 Veridus</p>
+      </div>
+
     </div>
+  </div>
 </footer>
-    <script src="/js/main.js"></script>
 </body>
 </html>

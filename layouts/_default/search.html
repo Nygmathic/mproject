@@ -1,0 +1,169 @@
+{{ define "main" }}
+<div class="container">
+  {{/* Breadcrumb Navigation */}}
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+      <li><a href="/">Home</a></li>
+      <li class="breadcrumb-current" aria-current="page">Search</li>
+    </ol>
+  </nav>
+
+  <header class="section-header">
+    <h1 class="serif-text">Search</h1>
+  </header>
+
+  {{/* Search Form */}}
+  <div class="search-container">
+    <form id="search-form" class="search-form" role="search">
+      <div class="search-input-wrapper">
+        <input 
+          type="search" 
+          id="search-input" 
+          class="search-input"
+          placeholder="Search articles, news, opinions..."
+          aria-label="Search articles"
+          autocomplete="off">
+        <button type="submit" class="search-btn" aria-label="Search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  {{/* Search Results */}}
+  <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results">
+    <!-- Results will be populated by JavaScript -->
+  </div>
+
+  {{/* No Search Input Message */}}
+  <div id="search-placeholder" class="search-placeholder">
+    <p>Start typing to search articles...</p>
+  </div>
+</div>
+
+{{/* Search Script (Fuse.js - lightweight fuzzy search) */}}
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<script>
+  // ================================================================
+  // SEARCH FUNCTIONALITY with Fuse.js
+  // ================================================================
+  
+  const searchInput = document.getElementById('search-input');
+  const searchForm = document.getElementById('search-form');
+  const resultsContainer = document.getElementById('search-results');
+  const placeholder = document.getElementById('search-placeholder');
+
+  let searchIndex = null;
+  let fuse = null;
+
+  // Fetch and initialize search index
+  async function initializeSearch() {
+    try {
+      const response = await fetch('/index.json');
+      if (!response.ok) throw new Error('Failed to load search index');
+      
+      searchIndex = await response.json();
+      
+      // Initialize Fuse.js with options
+      fuse = new Fuse(searchIndex, {
+        keys: ['title', 'content', 'summary', 'categories'],
+        threshold: 0.3,  // Fuzzy match threshold
+        ignoreLocation: true,
+        minMatchCharLength: 2
+      });
+    } catch (error) {
+      console.error('Search initialization error:', error);
+      resultsContainer.innerHTML = '<p style="color: var(--secondary-text);">Search is temporarily unavailable</p>';
+    }
+  }
+
+  // Perform search
+  function performSearch(query) {
+    if (!fuse || query.trim().length < 2) {
+      resultsContainer.innerHTML = '';
+      placeholder.style.display = 'block';
+      return;
+    }
+
+    placeholder.style.display = 'none';
+    
+    const results = fuse.search(query);
+    
+    if (results.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="search-no-results">
+          <p>No articles found matching "<strong>${escapeHtml(query)}</strong>"</p>
+          <p class="search-no-results-hint">Try different keywords or browse by <a href="/archive/">archive</a></p>
+        </div>
+      `;
+      return;
+    }
+
+    // Render results
+    const resultsHTML = results
+      .slice(0, 20)  // Limit to 20 results
+      .map(result => {
+        const item = result.item;
+        const highlightedTitle = highlightMatches(item.title, query);
+        const highlightedSummary = highlightMatches(item.summary, query);
+        
+        return `
+          <article class="search-result">
+            <h3 class="search-result-title">
+              <a href="${escapeHtml(item.url)}">${highlightedTitle}</a>
+            </h3>
+            <div class="search-result-meta">
+              <span class="search-result-date">${new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              ${item.section ? `<span class="search-result-section">${escapeHtml(item.section)}</span>` : ''}
+              ${item.categories && item.categories.length > 0 ? `<span class="search-result-categories">${item.categories.slice(0, 2).map(c => escapeHtml(c)).join(', ')}</span>` : ''}
+            </div>
+            <p class="search-result-summary">${highlightedSummary}</p>
+          </article>
+        `;
+      })
+      .join('');
+
+    resultsContainer.innerHTML = `
+      <div class="search-results-header">
+        <p>Found <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''}</p>
+      </div>
+      ${resultsHTML}
+    `;
+  }
+
+  // Highlight matching text in results
+  function highlightMatches(text, query) {
+    if (!text) return '';
+    
+    const regex = new RegExp(`(${query.split(' ').filter(w => w).join('|')})`, 'gi');
+    const truncated = text.length > 150 ? text.substring(0, 150) + '...' : text;
+    
+    return truncated.replace(regex, '<mark>$1</mark>');
+  }
+
+  // Escape HTML to prevent XSS
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Event listeners
+  searchInput.addEventListener('input', (e) => {
+    performSearch(e.target.value);
+  });
+
+  searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Optionally focus on first result
+    const firstResult = resultsContainer.querySelector('.search-result-title a');
+    if (firstResult) firstResult.focus();
+  });
+
+  // Initialize on load
+  window.addEventListener('DOMContentLoaded', initializeSearch);
+</script>
+{{ end }}

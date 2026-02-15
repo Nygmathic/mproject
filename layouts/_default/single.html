@@ -1,43 +1,84 @@
 {{ define "main" }}
-<article class="container">
-    <div class="article-layout">
-        <header class="article-header">
-            <h1 class="article-headline">{{ .Title }}</h1>
-            <p class="article-dek">{{ .Description }}</p>
-            
-            <div class="author-box">
-                <img src="{{ .Params.author_image }}" class="author-img" alt="">
-                <div class="author-info">
-                    <span class="author-name">By <strong>{{ .Params.author }}</strong></span>
-                    <time class="post-date">{{ .Date.Format "02 January 2006" }}</time>
-                </div>
-            </div>
-
-            <div class="share-bar">
-                <span class="share-label">SHARE</span>
-                <a href="https://twitter.com/share?url={{ .Permalink }}" class="share-icon" target="_blank">𝕏</a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" class="share-icon" target="_blank">f</a>
-                <a href="mailto:?subject={{ .Title }}&body={{ .Permalink }}" class="share-icon">✉</a>
-            </div>
-        </header>
-
-        {{ if .Params.image }}
-        <figure class="article-featured-image">
-            <img src="{{ .Params.image }}" class="responsive-img" alt="">
-        </figure>
+<article class="longform-container">
+  <header class="post-header">
+    <div class="metadata">
+      <span class="category">
+        {{ range .Params.categories }}
+          <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
         {{ end }}
-
-        <div class="article-body">
-            {{ .Content }}
-        </div>
-
-        <footer class="article-footer">
-            <div class="category-tags">
-                {{ range .Params.categories }}
-                <a href="/categories/{{ . | urlize }}" class="tag">{{ . }}</a>
-                {{ end }}
-            </div>
-        </footer>
+      </span>
+      <span class="reading-time" title="{{ .WordCount }} words">
+        {{ .ReadingTime }} min read
+      </span>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
+      {{/* Author Byline */}}
+      {{ with .Params.author }}
+        <span class="author-byline">by <span class="author-name">{{ . }}</span></span>
+      {{ end }}
     </div>
+    <h1 class="display-serif">{{ .Title }}</h1>
+  </header>
+
+  {{/* Feature Image or Text-Summary Fallback Logic */}}
+  {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+  {{ if $img }}
+    <figure class="hero-resource">
+      {{ $resp := $img.Fill "1200x600 center" }}
+      <img 
+        src="{{ $resp.RelPermalink }}" 
+        alt="{{ $.Title }}" 
+        loading="eager">
+    </figure>
+  {{ else }}
+    <div class="hero-text-block">
+      <h2>{{ .Summary | truncate 80 }}</h2>
+    </div>
+  {{ end }}
+
+  <section class="article-body">
+    <div class="copy-standard">{{ .Content }}</div>
+  </section>
+
+  {{/* Post Footer - Tags */}}
+  <footer class="post-footer">
+    <div class="tags">
+      {{ range .Params.tags }}
+        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">#{{ . }}</a>
+      {{ end }}
+    </div>
+  </footer>
+
+  {{/* Related Content Section */}}
+  {{ $related := .Site.RegularPages.Related . | first 3 }}
+  {{ with $related }}
+  <section class="related-reading" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="serif-text">Related Reading</h2>
+    <div class="hp-grid">
+      {{ range . }}
+      <article class="related-card">
+        <h3>
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </h3>
+        {{ if .Summary }}
+          <p class="related-summary">{{ .Summary | truncate 80 }}</p>
+        {{ end }}
+      </article>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* Breadcrumb Navigation at Bottom */}}
+  <nav class="breadcrumb breadcrumb-bottom" aria-label="Article Navigation">
+    <ol class="breadcrumb-list">
+      <li><a href="/">Home</a></li>
+      {{ if .Params.categories }}
+        {{ range .Params.categories }}
+          <li><a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+        {{ end }}
+      {{ end }}
+      <li class="breadcrumb-current" aria-current="page">{{ .Title }}</li>
+    </ol>
+  </nav>
 </article>
 {{ end }}

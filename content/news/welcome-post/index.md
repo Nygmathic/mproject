@@ -17,9 +17,6 @@ tags:
 - news
 ---
 
-![welcome](welcome.webp)
-
-
 Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.
 
 ### Tech, Culture, and Everything Between

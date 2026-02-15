@@ -1,51 +1,69 @@
 {{ define "main" }}
 <div class="container">
-    <h1 class="section-title">{{ .Title }}</h1>
+  {{/* Breadcrumb Navigation */}}
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+      <li><a href="/">Home</a></li>
+      <li class="breadcrumb-current" aria-current="page">{{ .Title }}</li>
+    </ol>
+  </nav>
 
-    <div class="list-grid">
-        {{ $pages := .Pages }}
-        {{ if .IsHome }}
-            {{ $pages = .Site.RegularPages }}
-        {{ end }}
+  <header class="section-header">
+    <h1 class="serif-text">{{ .Title }}</h1>
+    {{ if .Content }}<div class="section-desc">{{ .Content }}</div>{{ end }}
+  </header>
 
-        {{ range $pages.ByDate.Reverse }}
-        <article class="card">
-            <div class="card-image-box">
-                {{ partial "featured-image.html" . }}
+  <div class="hp-grid">
+    {{ range .Paginator.Pages }}
+      <article class="card">
+        {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+        
+        <div class="card-image-wrapper">
+          {{ if $img }}
+            {{ $thumb := $img.Fill "600x400 center" }}
+            <img 
+              src="{{ $thumb.RelPermalink }}" 
+              alt="{{ .Title }}" 
+              class="hp-card-img"
+              loading="lazy">
+          {{ else }}
+            <div class="card-text-fallback">
+              <p>{{ .Summary | truncate 50 }}</p>
             </div>
+          {{ end }}
+        </div>
 
-            <div class="card-content">
-                <h2 class="card-title">
-                    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                </h2>
+        <div class="card-content">
+          <div class="card-cat-wrapper">
+            {{ range .Params.categories }}
+              <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="card-cat">{{ . }}</a>
+            {{ end }}
+          </div>
+          
+          <h3 class="card-title">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h3>
+          <p class="card-summary">{{ .Summary | truncate 150 }}</p>
+        </div>
+      </article>
+    {{ end }}
+  </div>
 
-                <!-- Display categories exactly as written in front matter -->
-                {{ if .Params.categories }}
-                <p class="card-categories">
-                    {{ $last := sub (len .Params.categories) 1 }}
-                    {{ range $index, $cat := .Params.categories }}
-                        <a href="/categories/{{ $cat | urlize }}">{{ $cat }}</a>{{ if ne $index $last }}, {{ end }}
-                    {{ end }}
-                </p>
-                {{ end }}
-
-                {{ if .Params.summary }}
-                <p class="card-summary">
-                    {{ .Params.summary | truncate 150 }}
-                </p>
-                {{ end }}
-
-                {{ $audio := .Resources.GetMatch .Params.audio }}
-                {{ with $audio }}
-                <div class="card-audio-container">
-                    <audio controls style="width:100%; margin-top:0.5em;">
-                        <source src="{{ .RelPermalink }}" type="audio/mpeg">
-                    </audio>
-                </div>
-                {{ end }}
-            </div>
-        </article>
-        {{ end }}
-    </div>
+  {{/* Pagination */}}
+  {{ if gt .Paginator.TotalPages 1 }}
+    <nav class="pagination" aria-label="Pagination" role="navigation">
+      {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}" class="pagination-link pagination-prev">← Newer</a>
+      {{ end }}
+      
+      <span class="pagination-info">
+        Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}
+      </span>
+      
+      {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}" class="pagination-link pagination-next">Older →</a>
+      {{ end }}
+    </nav>
+  {{ end }}
 </div>
 {{ end }}

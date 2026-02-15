@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="container archive-container">
+  <header class="archive-header">
+    <h1 class="serif-text">Archive</h1>
+  </header>
+
+  {{/* Group all news/opinion pages by Year */}}
+  {{ range (where .Site.RegularPages "Section" "in" (slice "news" "opinion")).GroupByDate "2006" }}
+    <div class="archive-year-block">
+      <h2>{{ .Key }}</h2>
+      <ul>
+        {{ range .Pages }}
+          <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+</div>
+{{ end }}

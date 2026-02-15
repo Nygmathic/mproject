@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-<head>
-    {{ partial "head.html" . }}
-</head>
-<body>
-    {{ partial "header.html" . }}
-    <main id="content">
+<html lang="{{ .Site.LanguageCode | default "en-us" }}">
+{{ partial "head.html" . }}
+<body class="site-layout"> {{/* Changed from site-grid to site-layout */}}
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    
+    {{ partial "nav.html" . }}
+
+    <main id="main-content" role="main"> {{/* Removed 'container' class here to let internal pages handle padding */}}
         {{ block "main" . }}{{ end }}
     </main>
+
     {{ partial "footer.html" . }}
-    <script src="/js/main.js"></script>
 </body>
 </html>

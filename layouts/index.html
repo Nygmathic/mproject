@@ -1,54 +1,49 @@
 {{ define "main" }}
 <div class="container">
-    <div class="bbc-grid">
-        <section class="main-featured-area">
-            {{/* 1. THE BIG LATEST BLOG */}}
-            {{ range first 1 .Site.RegularPages }}
-            <article class="card card-main">
-                {{ .Scratch.Set "imgClass" "responsive-img" }}
-                {{ partial "featured-image.html" . }}
-                <div class="card-content">
-                    <h1 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
-                    {{ if .Params.summary }}
-                    <p class="card-description">{{ .Params.summary }}</p>
-                    {{ end }}
-                    <div class="card-meta">
-                        <span class="author">By {{ .Params.author | default .Site.Params.author }}</span>
-                        <span class="date">{{ .Date.Format "02 Jan 2006" }}</span>
-                    </div>
-                </div>
-            </article>
+  <section class="hp-section">
+    <h1 class="serif-text">Latest</h1>
+    
+    <div class="hp-grid">
+      {{/* Pull editorial sections */}}
+      {{ $posts := (where .Site.RegularPages "Section" "in" (slice "news" "opinion")) }}
+      
+      {{ range $index, $element := first 12 $posts }}
+        {{/* The first post is marked as 'hero-card' to span 2 columns */}}
+        <article class="card {{ if eq $index 0 }}hero-card{{ end }}">
+          
+          <div class="card-image-wrapper">
+            {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            {{ if $img }}
+              {{/* Hero gets a cinematic wide crop, others get standard crops */}}
+              {{ $thumb := cond (eq $index 0) ($img.Fill "1200x600 center") ($img.Fill "600x400 center") }}
+              <img 
+                src="{{ $thumb.RelPermalink }}" 
+                alt="{{ .Title }}" 
+                class="hp-card-img"
+                loading="lazy">
+            {{ else }}
+              {{/* Fallback shows a few words to prevent 'squeezing' */}}
+              <div class="card-text-fallback">
+                <p>{{ .Summary | truncate 50 }}</p>
+              </div>
             {{ end }}
+          </div>
 
-            {{/* 2. THE SMALLER BLOGS IN A GRID */}}
-            <div class="secondary-news-grid">
-                {{ range first 4 (after 1 .Site.RegularPages) }}
-                <article class="card card-secondary">
-                    {{ .Scratch.Set "imgClass" "responsive-img trending" }}
-                    {{ partial "featured-image.html" . }}
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                        <div class="card-meta">{{ .Date.Format "02 Jan 2006" }}</div>
-                    </div>
-                </article>
-                {{ end }}
+          <div class="card-content">
+            <div class="card-cat-wrapper">
+              {{ range .Params.categories }}
+                <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="card-cat">{{ . }}</a>
+              {{ end }}
             </div>
-
-            <aside class="side-stories">
-                <h2 class="section-label">Trending</h2>
-                {{ $pages := where .Site.RegularPages "Section" "in" (slice "blog" "news") }}
-                {{ range first 5 (after 5 $pages) }}
-                <article class="card card-secondary">
-                    {{ .Scratch.Set "imgClass" "responsive-img trending" }}
-                    {{ partial "featured-image.html" . }}
-                    <div class="card-content">
-                        <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                        <div class="card-meta">{{ .Date.Format "02 Jan 2006" }}</div>
-                    </div>
-                </article>
-                {{ end }}
-            </aside>
-        </section>
+            
+            <h3 class="card-title">
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h3>
+            <p class="card-summary">{{ .Summary | truncate 100 }}</p>
+          </div>
+        </article>
+      {{ end }}
     </div>
+  </section>
 </div>
 {{ end }}
