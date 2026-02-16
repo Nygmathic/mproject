@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Digital-Rights on Veridus</title>
+    <link>http://localhost:1313/tags/digital-rights/</link>
+    <description>Recent content in Digital-Rights on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 12 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/digital-rights/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Digital Privacy in 2024: What You Need to Know Right Now</title>
+      <link>http://localhost:1313/lifestyle/4-digital-privacy/</link>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/lifestyle/4-digital-privacy/</guid>
+      <description>&lt;p&gt;Last year, I received a targeted advertisement for a specific ailment I&amp;rsquo;d never searched for, never mentioned online, and barely acknowledged to myself. I was genuinely unsettled. How did they know? The answer, once I started investigating, was more complex and more troubling than simple algorithmic inference. They knew because my data had been sold, traded, and analyzed by at least seven different companies I&amp;rsquo;d never directly interacted with.&lt;/p&gt;&#xA;&lt;p&gt;That experience became the catalyst for understanding something I&amp;rsquo;d intellectually known but hadn&amp;rsquo;t emotionally grasped: your digital footprint is larger than you can probably imagine. Every app you download, every website you visit, every search you make—it&amp;rsquo;s being tracked, analyzed, combined with data from other sources, and sometimes sold to the highest bidder. In 2024, understanding digital privacy isn&amp;rsquo;t optional; it&amp;rsquo;s essential for maintaining autonomy over your own life.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Climate on Veridus</title>
+    <link>http://localhost:1313/tags/climate/</link>
+    <description>Recent content in Climate on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 06 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/climate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Africa&#39;s Renewable Energy Boom: Why the Continent Could Lead the World</title>
+      <link>http://localhost:1313/news/7-renewable-energy/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/7-renewable-energy/</guid>
+      <description>&lt;p&gt;I spent a week in rural Kenya last year, staying with a family that lives completely off-grid powered by solar panels the size of a small window. The mother of the household told me something I haven&amp;rsquo;t been able to shake: &amp;ldquo;For the first time in my life, I don&amp;rsquo;t have to think about energy.&amp;rdquo; She wasn&amp;rsquo;t using a generator that requires fuel she has to drive to town to buy. She wasn&amp;rsquo;t relying on an electrical grid that might fail for weeks. She had sunlight—which is abundantly free—converted into electricity.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

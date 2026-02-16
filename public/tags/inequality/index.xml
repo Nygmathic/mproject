@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Inequality on Veridus</title>
+    <link>http://localhost:1313/tags/inequality/</link>
+    <description>Recent content in Inequality on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/inequality/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Remote Work Isn&#39;t the Future—It&#39;s a Privilege We Need to Redistribute</title>
+      <link>http://localhost:1313/opinion/5-remote-work/</link>
+      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/opinion/5-remote-work/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;ve watched something troubling unfold over the past few years. We celebrate remote work as liberation. Tech workers in my circle praise the flexibility, the commute savings, the ability to live literally anywhere. But this celebration masks a troubling reality that I can&amp;rsquo;t ignore: remote work has become a new form of inequality.&lt;/p&gt;&#xA;&lt;p&gt;The narrative about remote work is overwhelmingly told by people who benefit from it. The software engineer who sold his Nairobi apartment and bought a bigger one in Mombasa. The designer who moved from Nairobi to a rural area, keeping her San Francisco salary. The consultant who negotiated flexible hours and now works from coffee shops three days a week. These stories are presented as inevitable and universal progress.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why Free Online Education Hasn&#39;t Solved Inequality—And What Might</title>
+      <link>http://localhost:1313/opinion/8-online-education/</link>
+      <pubDate>Sun, 04 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/opinion/8-online-education/</guid>
+      <description>&lt;p&gt;I believed in the promise. When massive open online courses (MOOCs) first appeared, I genuinely thought we were witnessing an educational revolution. Free lectures from world-class professors at elite universities. Anyone with internet access could learn quantum physics from MIT or economics from Stanford. YouTube became an infinite classroom. The narrative was compelling: information asymmetry was solved. Education was being democratized.&lt;/p&gt;&#xA;&lt;p&gt;Yet here I am, years later, watching educational inequality persist and even deepen. Not because online education failed. But because we fundamentally misunderstood what education actually is.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

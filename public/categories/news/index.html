@@ -46,11 +46,14 @@
   
   
     
-    <link rel="stylesheet" href="/css/style.7c845ded99b0dc50ed08db7fee8912633b8f822a02aca2e9396a426488586a4f.css" integrity="sha256-fIRd7Zmw3FDtCNt/7okSYzuPgioCrKLpOWpCZIhYak8=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.46c3b2537910fa6e4f8dc29aa047f29c237efae711af38907e086ed10cab4f6c.css" integrity="sha256-RsOyU3kQ&#43;m5PjcKaoEfynCN&#43;&#43;ucRrziQfghu0QyrT2w=" crossorigin="anonymous">
   
 
   
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -59,175 +62,25 @@
 <body class="site-layout"> 
     <a class="skip-link" href="#main-content">Skip to content</a>
     
-    <header class="site-header" role="banner">
-  <div class="header-container">
     
-    <div class="logo">
-      <a href="/" aria-label="Veridus Home">Veridus</a>
+<header class="site-header">
+  <div class="container">
+    <div class="site-title">
+      <a href="/">Veridus</a>
     </div>
-
+    <p class="site-tagline">Refined news and global insights.</p>
     
-    <nav class="nav-desktop" role="navigation" aria-label="Main Navigation">
-      <ul class="nav-list-desktop">
-        
-          <li class="nav-item-desktop">
-            <a href="/news/" class="nav-link-desktop" >News</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/opinion/" class="nav-link-desktop" >Opinion</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/lifestyle/" class="nav-link-desktop" >Lifestyle</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/search/" class="nav-link-desktop" >Search</a>
-          </li>
-        
+    <nav role="navigation" aria-label="Main">
+      <ul>
+        <li><a href="/" >Home</a></li>
+        <li><a href="/categories/news/" >News</a></li>
+        <li><a href="/categories/opinion/" >Opinion</a></li>
+        <li><a href="/categories/lifestyle/" >Lifestyle</a></li>
+        <li><a href="/about/">About</a></li>
       </ul>
     </nav>
-
-    
-    <div class="nav-cta">
-      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
-        <svg id="moon-icon" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-        <svg id="sun-icon" class="theme-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      </button>
-      <a href="/subscribe/" class="subscribe-btn">Subscribe</a>
-      <button id="menu-toggle" class="mobile-menu-btn" aria-label="Open Menu" aria-expanded="false">
-        <span class="hamburger-icon"></span>
-      </button>
-    </div>
   </div>
-
-  
-  <nav id="main-nav" class="nav-drawer" aria-label="Main Navigation">
-    <div class="nav-drawer-inner">
-      <ul class="nav-list">
-        
-          <li class="nav-item">
-            <a href="/news/" class="nav-link" >News</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/opinion/" class="nav-link" >Opinion</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/lifestyle/" class="nav-link" >Lifestyle</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/search/" class="nav-link" >Search</a>
-          </li>
-        
-      </ul>
-    </div>
-  </nav>
 </header>
-
-
-<script>
-  
-  
-  
-  const menuBtn = document.getElementById('menu-toggle');
-  const navDrawer = document.getElementById('main-nav');
-  const navLinks = document.querySelectorAll('.nav-drawer .nav-link');
-  
-  if (menuBtn && navDrawer) {
-    
-    menuBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const isOpen = navDrawer.classList.toggle('is-open');
-      menuBtn.classList.toggle('is-active');
-      menuBtn.setAttribute('aria-expanded', isOpen);
-      
-      
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-
-    
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-
-    
-    document.addEventListener('click', function(event) {
-      if (navDrawer && !navDrawer.contains(event.target) && !menuBtn.contains(event.target)) {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  
-  
-  
-  const THEME_KEY = 'veridus-theme';
-
-  function getTheme() {
-    return document.documentElement.getAttribute('data-theme') || 'light';
-  }
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
-    updateThemeIcon(theme === 'dark');
-  }
-
-  function toggleTheme() {
-    const current = getTheme();
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  }
-
-  function updateThemeIcon(isDark) {
-    const sun = document.getElementById('sun-icon');
-    const moon = document.getElementById('moon-icon');
-    
-    if (sun && moon) {
-      sun.style.display = isDark ? 'block' : 'none';
-      moon.style.display = isDark ? 'none' : 'block';
-    }
-  }
-
-  
-  updateThemeIcon(getTheme() === 'dark');
-
-  
-  const themeBtn = document.getElementById('theme-toggle');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', toggleTheme);
-  }
-
-  
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      if (!localStorage.getItem(THEME_KEY)) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    });
-  }
-</script>
 
     <main id="main-content" role="main"> 
         
@@ -280,6 +133,87 @@
         </div>
       </article>
     
+      <article class="card">
+        
+        
+        <div class="card-image-wrapper">
+          
+            <div class="card-text-fallback">
+              <p><p>Last year, I received a targeted advertisement for …</p></p>
+            </div>
+          
+        </div>
+
+        <div class="card-content">
+          <div class="card-cat-wrapper">
+            
+              <a href="/categories/news" class="card-cat">News</a>
+            
+              <a href="/categories/tech" class="card-cat">Tech</a>
+            
+          </div>
+          
+          <h3 class="card-title">
+            <a href="http://localhost:1313/lifestyle/4-digital-privacy/">Digital Privacy in 2024: What You Need to Know Right Now</a>
+          </h3>
+          <p class="card-summary"><p>Last year, I received a targeted advertisement for a specific ailment I&rsquo;d never searched for, never mentioned online, and barely acknowledged to …</p></p>
+        </div>
+      </article>
+    
+      <article class="card">
+        
+        
+        <div class="card-image-wrapper">
+          
+            <div class="card-text-fallback">
+              <p><p>I spent a week in rural Kenya last year, staying …</p></p>
+            </div>
+          
+        </div>
+
+        <div class="card-content">
+          <div class="card-cat-wrapper">
+            
+              <a href="/categories/news" class="card-cat">News</a>
+            
+              <a href="/categories/tech" class="card-cat">Tech</a>
+            
+          </div>
+          
+          <h3 class="card-title">
+            <a href="http://localhost:1313/news/7-renewable-energy/">Africa&#39;s Renewable Energy Boom: Why the Continent Could Lead the World</a>
+          </h3>
+          <p class="card-summary"><p>I spent a week in rural Kenya last year, staying with a family that lives completely off-grid powered by solar panels the size of a small window. The …</p></p>
+        </div>
+      </article>
+    
+      <article class="card">
+        
+        
+        <div class="card-image-wrapper">
+          
+            <div class="card-text-fallback">
+              <p><p>I was stuck in Lagos traffic for four hours last …</p></p>
+            </div>
+          
+        </div>
+
+        <div class="card-content">
+          <div class="card-cat-wrapper">
+            
+              <a href="/categories/news" class="card-cat">News</a>
+            
+              <a href="/categories/innovation" class="card-cat">Innovation</a>
+            
+          </div>
+          
+          <h3 class="card-title">
+            <a href="http://localhost:1313/news/10-grassroots-innovation/">How African Cities Are Solving Urban Problems With Grassroots Innovation</a>
+          </h3>
+          <p class="card-summary"><p>I was stuck in Lagos traffic for four hours last month—which isn&rsquo;t unusual, but this time I was sitting next to a founder who was solving the …</p></p>
+        </div>
+      </article>
+    
   </div>
 
   
@@ -288,63 +222,44 @@
 
     </main>
 
-    <footer class="site-footer" role="contentinfo">
-  <div class="footer-container">
-    <div class="footer-grid">
-      
-      
-      <div class="footer-column">
-        <h4 class="footer-heading">Company</h4>
-        <ul class="footer-links">
-          <li><a href="/about/">About Us</a></li>
-          <li><a href="/donate/" class="donate-highlight">Donate</a></li>
+    
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Veridus</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about/">About</a></li>
           <li><a href="/contact/">Contact</a></li>
+          <li><a href="/index.xml">RSS Feed</a></li>
         </ul>
       </div>
 
-      
-      <div class="footer-column">
-        <h4 class="footer-heading">Sections</h4>
-        <ul class="footer-links">
-          
-          <li><a href="/archive/">Full Archive</a></li>
-          
-          
-            <li><a href="/news/">News</a></li>
-          
-            <li><a href="/opinion/">Opinion</a></li>
-          
-            <li><a href="/lifestyle/">Lifestyle</a></li>
-          
-            <li><a href="/search/">Search</a></li>
-          
+      <div class="footer-section">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="/categories/news/">News</a></li>
+          <li><a href="/categories/opinion/">Opinion</a></li>
+          <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+          <li><a href="/categories/">All Topics</a></li>
         </ul>
       </div>
 
-      
-      <div class="footer-column meta-section">
-        <h4 class="footer-heading">Follow</h4>
-        <div class="social-icon-grid">
+      <div class="footer-section">
+        <h3>Follow</h3>
+        <div class="social-links">
           
           
-          
-
-          
-          
-
-          
-          
-
-          
-          
-
           
           
         </div>
-        
-        <p class="copyright">© 2026 Veridus</p>
       </div>
+    </div>
 
+    <div class="footer-bottom">
+      <p>&copy; 2026 Veridus. All rights reserved.</p>
+      <p>A publication focused on ideas, culture, and innovation.</p>
     </div>
   </div>
 </footer>

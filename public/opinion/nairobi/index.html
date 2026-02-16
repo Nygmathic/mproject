@@ -85,11 +85,14 @@ One way to see a city’s influence is to watch where people go. Nairobi draws p
   
   
     
-    <link rel="stylesheet" href="/css/style.7c845ded99b0dc50ed08db7fee8912633b8f822a02aca2e9396a426488586a4f.css" integrity="sha256-fIRd7Zmw3FDtCNt/7okSYzuPgioCrKLpOWpCZIhYak8=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.46c3b2537910fa6e4f8dc29aa047f29c237efae711af38907e086ed10cab4f6c.css" integrity="sha256-RsOyU3kQ&#43;m5PjcKaoEfynCN&#43;&#43;ucRrziQfghu0QyrT2w=" crossorigin="anonymous">
   
 
   
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -98,208 +101,51 @@ One way to see a city’s influence is to watch where people go. Nairobi draws p
 <body class="site-layout"> 
     <a class="skip-link" href="#main-content">Skip to content</a>
     
-    <header class="site-header" role="banner">
-  <div class="header-container">
     
-    <div class="logo">
-      <a href="/" aria-label="Veridus Home">Veridus</a>
+<header class="site-header">
+  <div class="container">
+    <div class="site-title">
+      <a href="/">Veridus</a>
     </div>
-
+    <p class="site-tagline">Refined news and global insights.</p>
     
-    <nav class="nav-desktop" role="navigation" aria-label="Main Navigation">
-      <ul class="nav-list-desktop">
-        
-          <li class="nav-item-desktop">
-            <a href="/news/" class="nav-link-desktop" >News</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/opinion/" class="nav-link-desktop" >Opinion</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/lifestyle/" class="nav-link-desktop" >Lifestyle</a>
-          </li>
-        
-          <li class="nav-item-desktop">
-            <a href="/search/" class="nav-link-desktop" >Search</a>
-          </li>
-        
+    <nav role="navigation" aria-label="Main">
+      <ul>
+        <li><a href="/" >Home</a></li>
+        <li><a href="/categories/news/" >News</a></li>
+        <li><a href="/categories/opinion/" class="active">Opinion</a></li>
+        <li><a href="/categories/lifestyle/" >Lifestyle</a></li>
+        <li><a href="/about/">About</a></li>
       </ul>
     </nav>
-
-    
-    <div class="nav-cta">
-      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
-        <svg id="moon-icon" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-        <svg id="sun-icon" class="theme-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      </button>
-      <a href="/subscribe/" class="subscribe-btn">Subscribe</a>
-      <button id="menu-toggle" class="mobile-menu-btn" aria-label="Open Menu" aria-expanded="false">
-        <span class="hamburger-icon"></span>
-      </button>
-    </div>
   </div>
-
-  
-  <nav id="main-nav" class="nav-drawer" aria-label="Main Navigation">
-    <div class="nav-drawer-inner">
-      <ul class="nav-list">
-        
-          <li class="nav-item">
-            <a href="/news/" class="nav-link" >News</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/opinion/" class="nav-link" >Opinion</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/lifestyle/" class="nav-link" >Lifestyle</a>
-          </li>
-        
-          <li class="nav-item">
-            <a href="/search/" class="nav-link" >Search</a>
-          </li>
-        
-      </ul>
-    </div>
-  </nav>
 </header>
-
-
-<script>
-  
-  
-  
-  const menuBtn = document.getElementById('menu-toggle');
-  const navDrawer = document.getElementById('main-nav');
-  const navLinks = document.querySelectorAll('.nav-drawer .nav-link');
-  
-  if (menuBtn && navDrawer) {
-    
-    menuBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const isOpen = navDrawer.classList.toggle('is-open');
-      menuBtn.classList.toggle('is-active');
-      menuBtn.setAttribute('aria-expanded', isOpen);
-      
-      
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-
-    
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-
-    
-    document.addEventListener('click', function(event) {
-      if (navDrawer && !navDrawer.contains(event.target) && !menuBtn.contains(event.target)) {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  
-  
-  
-  const THEME_KEY = 'veridus-theme';
-
-  function getTheme() {
-    return document.documentElement.getAttribute('data-theme') || 'light';
-  }
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
-    updateThemeIcon(theme === 'dark');
-  }
-
-  function toggleTheme() {
-    const current = getTheme();
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  }
-
-  function updateThemeIcon(isDark) {
-    const sun = document.getElementById('sun-icon');
-    const moon = document.getElementById('moon-icon');
-    
-    if (sun && moon) {
-      sun.style.display = isDark ? 'block' : 'none';
-      moon.style.display = isDark ? 'none' : 'block';
-    }
-  }
-
-  
-  updateThemeIcon(getTheme() === 'dark');
-
-  
-  const themeBtn = document.getElementById('theme-toggle');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', toggleTheme);
-  }
-
-  
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      if (!localStorage.getItem(THEME_KEY)) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    });
-  }
-</script>
 
     <main id="main-content" role="main"> 
         
-<article class="longform-container">
-  <header class="post-header">
-    <div class="metadata">
-      <span class="category">
-        
-          <a href="/categories/opinion">Opinion</a>
-        
-      </span>
-      <span class="reading-time" title="940 words">
-        5 min read
-      </span>
-      <time datetime="2026-02-09">Feb 09, 2026</time>
-      
-      
-        <span class="author-byline">by <span class="author-name">Collins Obura</span></span>
-      
+<article class="article-page">
+  
+  <header class="article-header">
+    
+    <div class="article-category-badge">
+      Opinion
     </div>
-    <h1 class="display-serif">Why Nairobi Is the Capital of Africa</h1>
+    
+    
+    <h1 class="article-title">Why Nairobi Is the Capital of Africa</h1>
+    
+    <div class="article-meta">
+      <span>February 9, 2026</span>
+      
+        <span>by Collins Obura</span>
+      
+      <span>5 minute read</span>
+    </div>
   </header>
 
   
-  
-  
-    <div class="hero-text-block">
-      <h2><p>Nairobi is not officially the capital of Africa. There is no declaration, no …</p></h2>
-    </div>
-  
-
-  <section class="article-body">
-    <div class="copy-standard"><p>Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only decided by documents. Some are shaped by movement, energy, and influence. And by that measure, Nairobi has quietly become something more — not by force, not by announcement, but by gravity.</p>
+  <div class="article-body">
+    <p>Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only decided by documents. Some are shaped by movement, energy, and influence. And by that measure, Nairobi has quietly become something more — not by force, not by announcement, but by gravity.</p>
 <p>One way to see a city’s influence is to watch where people go. Nairobi draws people from all over Africa — students, journalists, artists, activists, freelancers, and dreamers. Some arrive with clear plans. Many arrive unsure of what lies ahead. Most come because Nairobi feels like possibility. People arrive seeking opportunities, connection, and a chance to grow. Writers come to find new stories. Musicians come to collaborate. Entrepreneurs come because the city’s energy inspires action. Nairobi doesn’t promise an easy path, but it gives people a sense that something can happen — that they can create, learn, and contribute. This is what gives Nairobi its pull. It’s not about perfection. It’s about the chance to be part of something bigger, to move, to meet others, and to leave a mark that goes beyond the city itself.</p>
 <p>Nairobi is also a city where conversations shape ideas, not in boardrooms or official meetings, but in everyday spaces. Cafés, co-working spaces, campuses, studios, newsrooms, and even living rooms become venues for discussion. Africans talk to each other about the things that matter: identity, politics, freedom, inequality, and the future. These conversations are not always neat. People argue, challenge, and sometimes disagree sharply. That’s the point. Ideas grow when they are tested, questioned, and debated. Nairobi gives space for that. It encourages dialogue, reflection, and sometimes even discomfort — all of which are necessary for understanding and growth.</p>
 <p>This is also where revolutions quietly begin. Most locals are politically conscious, aware of injustices, and willing to speak out. Protests, movements, and public debates are not rare; they happen often, loudly, and sometimes reach the ears of the entire world. Students debate policy over coffee. Activists march for social justice. Artists address inequality in their work. Journalists craft stories that travel across borders. These discussions and actions ripple outward, influencing thoughts, stories, and movements in other parts of Africa. Nairobi is more than a city. It’s a hub where African voices meet, clash, collaborate, and rise up. It’s where ideas take shape before they travel, where activism finds its voice, and where influence quietly spreads across the continent.</p>
@@ -309,103 +155,107 @@ One way to see a city’s influence is to watch where people go. Nairobi draws p
 <p>Nairobi is not the richest city, nor the neatest, nor the most orderly. Its struggles are visible, and its contradictions live side by side: innovation and poverty, ambition and exhaustion, hope and frustration. But perhaps that is exactly why it feels real. Africa is not a finished project, and Nairobi is not a finished city. Both are still becoming. This unfinished, restless energy is what draws people in, what shapes ideas, and what spreads influence across borders.</p>
 <p>When people say “capital,” they often mean control. But influence works differently. Influence is where ideas travel, where conversations converge, where people feel seen, and where futures feel imaginable. By that definition, Nairobi carries weight far beyond its borders. It is a place where people grow intellectually and emotionally, where they challenge assumptions, and where they learn to see the world differently. For many, Nairobi is transformative — a city that shapes not just lives, but visions for the continent itself.</p>
 <p>Nairobi does not need a title to be influential. But in spirit — in culture, conversation, creativity, and courage — it already functions as a capital. Not of governments, but of African thought, ambition, and possibility. It is a city that dares, that inspires, and that leads quietly by example. And perhaps that is exactly the kind of capital Africa needs most right now.</p>
-</div>
-  </section>
+
+  </div>
 
   
-  <footer class="post-footer">
-    <div class="tags">
+  
+  <div class="article-tags">
+    <div class="tag-list">
       
-        <a href="/tags/nairobi">#Nairobi</a>
+        <a href="/tags/nairobi" class="tag-link">Nairobi</a>
       
-        <a href="/tags/africa">#Africa</a>
+        <a href="/tags/africa" class="tag-link">Africa</a>
       
-        <a href="/tags/society">#Society</a>
+        <a href="/tags/society" class="tag-link">Society</a>
       
-        <a href="/tags/culture">#Culture</a>
+        <a href="/tags/culture" class="tag-link">Culture</a>
       
-        <a href="/tags/politics">#Politics</a>
+        <a href="/tags/politics" class="tag-link">Politics</a>
       
     </div>
-  </footer>
+  </div>
+  
+
+  
+  
+  <section class="author-profile">
+    <div class="author-profile-header">
+      <h3 class="author-name">Collins Obura</h3>
+      <p class="author-title">Writer</p>
+    </div>
+    <p class="author-bio">
+      Collins Obura writes about technology, culture, and ideas on Veridus. 
+      Read more articles by this author or subscribe to follow their latest work.
+    </p>
+  </section>
+  
 
   
   
   
 
   
-  <nav class="breadcrumb breadcrumb-bottom" aria-label="Article Navigation">
-    <ol class="breadcrumb-list">
-      <li><a href="/">Home</a></li>
+  <nav class="article-navigation" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #e0e0e0;">
+    <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
       
-        
-          <li><a href="/categories/opinion">Opinion</a></li>
-        
       
-      <li class="breadcrumb-current" aria-current="page">Why Nairobi Is the Capital of Africa</li>
-    </ol>
+      
+      <div style="flex: 1; min-width: 200px;">
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">← Previous</p>
+        <h4 style="margin: 0;">
+          <a href="http://localhost:1313/opinion/5-remote-work/">Remote Work Isn&#39;t the Future—It&#39;s a Privilege We Need to Redistribute</a>
+        </h4>
+      </div>
+      
+      
+      
+      
+      
+    </div>
   </nav>
 </article>
 
     </main>
 
-    <footer class="site-footer" role="contentinfo">
-  <div class="footer-container">
-    <div class="footer-grid">
-      
-      
-      <div class="footer-column">
-        <h4 class="footer-heading">Company</h4>
-        <ul class="footer-links">
-          <li><a href="/about/">About Us</a></li>
-          <li><a href="/donate/" class="donate-highlight">Donate</a></li>
+    
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Veridus</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about/">About</a></li>
           <li><a href="/contact/">Contact</a></li>
+          <li><a href="/index.xml">RSS Feed</a></li>
         </ul>
       </div>
 
-      
-      <div class="footer-column">
-        <h4 class="footer-heading">Sections</h4>
-        <ul class="footer-links">
-          
-          <li><a href="/archive/">Full Archive</a></li>
-          
-          
-            <li><a href="/news/">News</a></li>
-          
-            <li><a href="/opinion/">Opinion</a></li>
-          
-            <li><a href="/lifestyle/">Lifestyle</a></li>
-          
-            <li><a href="/search/">Search</a></li>
-          
+      <div class="footer-section">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="/categories/news/">News</a></li>
+          <li><a href="/categories/opinion/">Opinion</a></li>
+          <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+          <li><a href="/categories/">All Topics</a></li>
         </ul>
       </div>
 
-      
-      <div class="footer-column meta-section">
-        <h4 class="footer-heading">Follow</h4>
-        <div class="social-icon-grid">
+      <div class="footer-section">
+        <h3>Follow</h3>
+        <div class="social-links">
           
           
-          
-
-          
-          
-
-          
-          
-
-          
-          
-
           
           
         </div>
-        
-        <p class="copyright">© 2026 Veridus</p>
       </div>
+    </div>
 
+    <div class="footer-bottom">
+      <p>&copy; 2026 Veridus. All rights reserved.</p>
+      <p>A publication focused on ideas, culture, and innovation.</p>
     </div>
   </div>
 </footer>

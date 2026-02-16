@@ -1,49 +1,78 @@
 {{ define "main" }}
-<div class="container">
-  <section class="hp-section">
-    <h1 class="serif-text">Latest</h1>
-    
-    <div class="hp-grid">
-      {{/* Pull editorial sections */}}
-      {{ $posts := (where .Site.RegularPages "Section" "in" (slice "news" "opinion")) }}
-      
-      {{ range $index, $element := first 12 $posts }}
-        {{/* The first post is marked as 'hero-card' to span 2 columns */}}
-        <article class="card {{ if eq $index 0 }}hero-card{{ end }}">
-          
-          <div class="card-image-wrapper">
-            {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            {{ if $img }}
-              {{/* Hero gets a cinematic wide crop, others get standard crops */}}
-              {{ $thumb := cond (eq $index 0) ($img.Fill "1200x600 center") ($img.Fill "600x400 center") }}
-              <img 
-                src="{{ $thumb.RelPermalink }}" 
-                alt="{{ .Title }}" 
-                class="hp-card-img"
-                loading="lazy">
-            {{ else }}
-              {{/* Fallback shows a few words to prevent 'squeezing' */}}
-              <div class="card-text-fallback">
-                <p>{{ .Summary | truncate 50 }}</p>
-              </div>
-            {{ end }}
-          </div>
+<div class="home-container">
+  <div class="home-hero">
+    <h1 class="hero-title">{{ .Site.Title }}</h1>
+    <p class="hero-subtitle">{{ .Site.Params.description }}</p>
+  </div>
 
-          <div class="card-content">
-            <div class="card-cat-wrapper">
-              {{ range .Params.categories }}
-                <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="card-cat">{{ . }}</a>
-              {{ end }}
-            </div>
-            
-            <h3 class="card-title">
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
-            </h3>
-            <p class="card-summary">{{ .Summary | truncate 100 }}</p>
+  {{/* FEATURED ARTICLES - 2-3 Large Articles */}}
+  {{ $featured := where .Site.RegularPages "Params.featured" true | first 3 }}
+  {{ if $featured }}
+  <section class="featured-section">
+    <div class="featured-articles">
+      {{ range $featured }}
+      <article class="featured-article-item">
+        {{ if .Params.categories }}
+          <div class="article-category">
+            {{ range first 1 .Params.categories }}{{ . }}{{ end }}
           </div>
-        </article>
+        {{ end }}
+        
+        <h2 class="featured-article-title">
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </h2>
+        
+        <div class="featured-article-meta">
+          <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
+          {{ if .Params.author }}
+            <span class="author">by {{ .Params.author }}</span>
+          {{ end }}
+          <span class="reading-time">{{ .ReadingTime }} min read</span>
+        </div>
+        
+        <p class="featured-article-excerpt">
+          {{ .Summary | truncate 300 }}
+        </p>
+        
+        <a href="{{ .Permalink }}" class="read-more">Read the article →</a>
+      </article>
       {{ end }}
     </div>
+  </section>
+  {{ end }}
+
+  {{/* ALL OTHER ARTICLES IN CARD GRID */}}
+  <section class="all-articles-section">
+    {{ $allArticles := where .Site.RegularPages "Type" "in" (slice "news" "opinion" "lifestyle") | complement $featured }}
+    
+    {{ if $allArticles }}
+    <div class="articles-container">
+      <div class="homepage-articles-grid">
+        {{ range $allArticles }}
+        <article class="article-grid-card">
+          {{ if .Params.categories }}
+            <div class="card-category">
+              {{ range first 1 .Params.categories }}{{ . }}{{ end }}
+            </div>
+          {{ end }}
+          
+          <h3 class="card-article-title">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h3>
+          
+          <div class="card-article-meta">
+            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+            {{ if .Params.author }}<span>{{ .Params.author }}</span>{{ end }}
+          </div>
+          
+          <p class="card-article-excerpt">
+            {{ .Summary | truncate 150 }}
+          </p>
+        </article>
+        {{ end }}
+      </div>
+    </div>
+    {{ end }}
   </section>
 </div>
 {{ end }}

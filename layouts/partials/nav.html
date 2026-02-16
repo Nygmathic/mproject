@@ -1,145 +1,19 @@
-<header class="site-header" role="banner">
-  <div class="header-container">
-    {{/* Left: Logo */}}
-    <div class="logo">
-      <a href="/" aria-label="{{ .Site.Title }} Home">{{ .Site.Title }}</a>
+{{/* Header Navigation */}}
+<header class="site-header">
+  <div class="container">
+    <div class="site-title">
+      <a href="/">{{ .Site.Title }}</a>
     </div>
-
-    {{/* Center: Desktop Navigation (Inline) */}}
-    <nav class="nav-desktop" role="navigation" aria-label="Main Navigation">
-      <ul class="nav-list-desktop">
-        {{ range .Site.Menus.main }}
-          <li class="nav-item-desktop">
-            <a href="{{ .URL | relURL }}" class="nav-link-desktop{{ if $.IsMenuCurrent "main" . }} nav-link--active{{ end }}" {{ if $.IsMenuCurrent "main" . }}aria-current="page"{{ end }}>{{ .Name }}</a>
-          </li>
-        {{ end }}
+    <p class="site-tagline">{{ .Site.Params.description }}</p>
+    
+    <nav role="navigation" aria-label="Main">
+      <ul>
+        <li><a href="/" {{ if eq .Section "" }}class="active"{{ end }}>Home</a></li>
+        <li><a href="/categories/news/" {{ if eq .Section "news" }}class="active"{{ end }}>News</a></li>
+        <li><a href="/categories/opinion/" {{ if eq .Section "opinion" }}class="active"{{ end }}>Opinion</a></li>
+        <li><a href="/categories/lifestyle/" {{ if eq .Section "lifestyle" }}class="active"{{ end }}>Lifestyle</a></li>
+        <li><a href="/about/">About</a></li>
       </ul>
     </nav>
-
-    {{/* Right: Theme Toggle + Subscribe Button + Mobile Menu */}}
-    <div class="nav-cta">
-      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
-        <svg id="moon-icon" class="theme-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
-        <svg id="sun-icon" class="theme-svg" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-      </button>
-      <a href="{{ .Site.Params.subscribe_url | default "/subscribe/" }}" class="subscribe-btn">Subscribe</a>
-      <button id="menu-toggle" class="mobile-menu-btn" aria-label="Open Menu" aria-expanded="false">
-        <span class="hamburger-icon"></span>
-      </button>
-    </div>
   </div>
-
-  {{/* Mobile Navigation Drawer */}}
-  <nav id="main-nav" class="nav-drawer" aria-label="Main Navigation">
-    <div class="nav-drawer-inner">
-      <ul class="nav-list">
-        {{ range .Site.Menus.main }}
-          <li class="nav-item{{ if $.IsMenuCurrent "main" . }} nav-item--active{{ end }}">
-            <a href="{{ .URL | relURL }}" class="nav-link{{ if $.IsMenuCurrent "main" . }} nav-link--active{{ end }}" {{ if $.IsMenuCurrent "main" . }}aria-current="page"{{ end }}>{{ .Name }}</a>
-          </li>
-        {{ end }}
-      </ul>
-    </div>
-  </nav>
 </header>
-
-{{/* Navigation & Theme Toggle Scripts */}}
-<script>
-  // ================================================================
-  // MENU TOGGLE (Full-Screen for all sizes)
-  // ================================================================
-  const menuBtn = document.getElementById('menu-toggle');
-  const navDrawer = document.getElementById('main-nav');
-  const navLinks = document.querySelectorAll('.nav-drawer .nav-link');
-  
-  if (menuBtn && navDrawer) {
-    // Toggle menu on button click
-    menuBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const isOpen = navDrawer.classList.toggle('is-open');
-      menuBtn.classList.toggle('is-active');
-      menuBtn.setAttribute('aria-expanded', isOpen);
-      
-      // Lock/unlock body scroll
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-
-    // Close menu when clicking on a nav link
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // Close menu when pressing Escape key
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-      if (navDrawer && !navDrawer.contains(event.target) && !menuBtn.contains(event.target)) {
-        navDrawer.classList.remove('is-open');
-        menuBtn.classList.remove('is-active');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-    });
-  }
-
-  // ================================================================
-  // THEME TOGGLE
-  // ================================================================
-  const THEME_KEY = 'veridus-theme';
-
-  function getTheme() {
-    return document.documentElement.getAttribute('data-theme') || 'light';
-  }
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
-    updateThemeIcon(theme === 'dark');
-  }
-
-  function toggleTheme() {
-    const current = getTheme();
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  }
-
-  function updateThemeIcon(isDark) {
-    const sun = document.getElementById('sun-icon');
-    const moon = document.getElementById('moon-icon');
-    
-    if (sun && moon) {
-      sun.style.display = isDark ? 'block' : 'none';
-      moon.style.display = isDark ? 'none' : 'block';
-    }
-  }
-
-  // Set initial icon state
-  updateThemeIcon(getTheme() === 'dark');
-
-  // Add theme toggle listener
-  const themeBtn = document.getElementById('theme-toggle');
-  if (themeBtn) {
-    themeBtn.addEventListener('click', toggleTheme);
-  }
-
-  // Listen for system theme changes
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      if (!localStorage.getItem(THEME_KEY)) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    });
-  }
-</script>

@@ -1,84 +1,100 @@
 {{ define "main" }}
-<article class="longform-container">
-  <header class="post-header">
-    <div class="metadata">
-      <span class="category">
-        {{ range .Params.categories }}
-          <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
-        {{ end }}
-      </span>
-      <span class="reading-time" title="{{ .WordCount }} words">
-        {{ .ReadingTime }} min read
-      </span>
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
-      {{/* Author Byline */}}
-      {{ with .Params.author }}
-        <span class="author-byline">by <span class="author-name">{{ . }}</span></span>
-      {{ end }}
+<article class="article-page">
+  {{/* Article Header */}}
+  <header class="article-header">
+    {{ if .Params.categories }}
+    <div class="article-category-badge">
+      {{ range first 1 .Params.categories }}{{ . }}{{ end }}
     </div>
-    <h1 class="display-serif">{{ .Title }}</h1>
+    {{ end }}
+    
+    <h1 class="article-title">{{ .Title }}</h1>
+    
+    <div class="article-meta">
+      <span>{{ .Date.Format "January 2, 2006" }}</span>
+      {{ if .Params.author }}
+        <span>by {{ .Params.author }}</span>
+      {{ end }}
+      <span>{{ .ReadingTime }} minute read</span>
+    </div>
   </header>
 
-  {{/* Feature Image or Text-Summary Fallback Logic */}}
-  {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-  {{ if $img }}
-    <figure class="hero-resource">
-      {{ $resp := $img.Fill "1200x600 center" }}
-      <img 
-        src="{{ $resp.RelPermalink }}" 
-        alt="{{ $.Title }}" 
-        loading="eager">
-    </figure>
-  {{ else }}
-    <div class="hero-text-block">
-      <h2>{{ .Summary | truncate 80 }}</h2>
-    </div>
-  {{ end }}
+  {{/* Article Content */}}
+  <div class="article-body">
+    {{ .Content }}
+  </div>
 
-  <section class="article-body">
-    <div class="copy-standard">{{ .Content }}</div>
-  </section>
-
-  {{/* Post Footer - Tags */}}
-  <footer class="post-footer">
-    <div class="tags">
+  {{/* Tags */}}
+  {{ if .Params.tags }}
+  <div class="article-tags">
+    <div class="tag-list">
       {{ range .Params.tags }}
-        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">#{{ . }}</a>
+        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag-link">{{ . }}</a>
       {{ end }}
     </div>
-  </footer>
+  </div>
+  {{ end }}
 
-  {{/* Related Content Section */}}
+  {{/* Author Profile */}}
+  {{ if .Params.author }}
+  <section class="author-profile">
+    <div class="author-profile-header">
+      <h3 class="author-name">{{ .Params.author }}</h3>
+      <p class="author-title">Writer</p>
+    </div>
+    <p class="author-bio">
+      {{ .Params.author }} writes about technology, culture, and ideas on Veridus. 
+      Read more articles by this author or subscribe to follow their latest work.
+    </p>
+  </section>
+  {{ end }}
+
+  {{/* Related Articles */}}
   {{ $related := .Site.RegularPages.Related . | first 3 }}
-  {{ with $related }}
-  <section class="related-reading" aria-labelledby="related-heading">
-    <h2 id="related-heading" class="serif-text">Related Reading</h2>
-    <div class="hp-grid">
-      {{ range . }}
-      <article class="related-card">
-        <h3>
+  {{ if $related }}
+  <section class="related-section">
+    <h2 class="related-title">More from Veridus</h2>
+    <div class="related-articles">
+      {{ range $related }}
+      <article class="related-item">
+        <h3 class="related-item-title">
           <a href="{{ .Permalink }}">{{ .Title }}</a>
         </h3>
-        {{ if .Summary }}
-          <p class="related-summary">{{ .Summary | truncate 80 }}</p>
-        {{ end }}
+        <div class="related-item-meta">
+          {{ .Date.Format "Jan 2, 2006" }}
+          {{ if .Params.author }} · {{ .Params.author }}{{ end }}
+        </div>
       </article>
       {{ end }}
     </div>
   </section>
   {{ end }}
 
-  {{/* Breadcrumb Navigation at Bottom */}}
-  <nav class="breadcrumb breadcrumb-bottom" aria-label="Article Navigation">
-    <ol class="breadcrumb-list">
-      <li><a href="/">Home</a></li>
-      {{ if .Params.categories }}
-        {{ range .Params.categories }}
-          <li><a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
-        {{ end }}
+  {{/* Navigation */}}
+  <nav class="article-navigation" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #e0e0e0;">
+    <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+      {{/* Previous Article */}}
+      {{ $prev := .PrevInSection }}
+      {{ if $prev }}
+      <div style="flex: 1; min-width: 200px;">
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">← Previous</p>
+        <h4 style="margin: 0;">
+          <a href="{{ $prev.Permalink }}">{{ $prev.Title }}</a>
+        </h4>
+      </div>
       {{ end }}
-      <li class="breadcrumb-current" aria-current="page">{{ .Title }}</li>
-    </ol>
+      
+      {{/* Next Article */}}
+      {{ $next := .NextInSection }}
+      {{ if $next }}
+      <div style="flex: 1; min-width: 200px; text-align: right;">
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">Next →</p>
+        <h4 style="margin: 0;">
+          <a href="{{ $next.Permalink }}">{{ $next.Title }}</a>
+        </h4>
+      </div>
+      {{ end }}
+    </div>
   </nav>
 </article>
 {{ end }}

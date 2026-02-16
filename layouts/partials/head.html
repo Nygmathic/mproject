@@ -110,11 +110,11 @@
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
   {{ end }}
 
-  {{/* Preload Critical Fonts (Uncomment if using web fonts) */}}
-  {{/* 
-  <link rel="preload" as="font" href="/fonts/lyon-display.woff2" type="font/woff2" crossorigin>
-  <link rel="preload" as="font" href="/fonts/helvetica-neue.woff2" type="font/woff2" crossorigin>
-  */}}
+  {{/* Preload Critical Fonts */}}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 
   {{/* Favicon */}}
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

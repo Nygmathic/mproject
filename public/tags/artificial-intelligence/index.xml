@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Artificial-Intelligence on Veridus</title>
+    <link>http://localhost:1313/tags/artificial-intelligence/</link>
+    <description>Recent content in Artificial-Intelligence on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 10 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/artificial-intelligence/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Future of AI in African Tech: Building Local Solutions</title>
+      <link>http://localhost:1313/news/1-ai-in-africa/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/1-ai-in-africa/</guid>
+      <description>&lt;p&gt;I remember the first time I understood that Africa&amp;rsquo;s tech future wouldn&amp;rsquo;t look like Silicon Valley&amp;rsquo;s past. It was at a startup pitch event in Nairobi three years ago, watching a young developer from Kisii present an AI system that could predict crop diseases from mobile phone images. The room fell silent—not because the technology was groundbreaking by global standards, but because it was built by someone who had spent their childhood watching their parents lose harvests to preventable diseases.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

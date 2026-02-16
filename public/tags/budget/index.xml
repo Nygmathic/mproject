@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Budget on Veridus</title>
+    <link>http://localhost:1313/tags/budget/</link>
+    <description>Recent content in Budget on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/budget/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Art of the Simple Dinner: Building a Weeknight Cooking Practice</title>
+      <link>http://localhost:1313/lifestyle/9-simple-cooking/</link>
+      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/lifestyle/9-simple-cooking/</guid>
+      <description>&lt;p&gt;I stood in my kitchen last month looking at a recipe promising &amp;ldquo;30 minutes.&amp;rdquo; I started cooking. An hour later, I&amp;rsquo;d burned something, forgotten an ingredient I didn&amp;rsquo;t have, and spent three times what takeout would have cost. I ordered pizza. Again.&lt;/p&gt;&#xA;&lt;p&gt;This is a pattern I lived for years. Cooking felt impossible. Too time-consuming, too complicated, too likely to fail. The safer option was outsourcing meals. And if you spend more than ten minutes in any urban center, you know outsourcing is always available.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

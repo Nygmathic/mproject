@@ -1,74 +1,49 @@
-<footer class="site-footer" role="contentinfo">
-  <div class="footer-container">
-    <div class="footer-grid">
-      
-      {{/* Column 1: Company Links */}}
-      <div class="footer-column">
-        <h4 class="footer-heading">Company</h4>
-        <ul class="footer-links">
-          <li><a href="/about/">About Us</a></li>
-          <li><a href="/donate/" class="donate-highlight">Donate</a></li>
+{{/* Footer */}}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Veridus</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about/">About</a></li>
           <li><a href="/contact/">Contact</a></li>
+          <li><a href="/index.xml">RSS Feed</a></li>
         </ul>
       </div>
 
-      {{/* Column 2: Editorial Sections */}}
-      <div class="footer-column">
-        <h4 class="footer-heading">Sections</h4>
-        <ul class="footer-links">
-          {{/* The Full Archive link is now grouped here for editorial clarity */}}
-          <li><a href="/archive/">Full Archive</a></li>
-          
-          {{ range .Site.Menus.main }}
-            <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
-          {{ end }}
+      <div class="footer-section">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="/categories/news/">News</a></li>
+          <li><a href="/categories/opinion/">Opinion</a></li>
+          <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+          <li><a href="/categories/">All Topics</a></li>
         </ul>
       </div>
 
-      {{/* Column 3: Follow (Thin Icons) */}}
-      <div class="footer-column meta-section">
-        <h4 class="footer-heading">Follow</h4>
-        <div class="social-icon-grid">
-          
-          {{/* X (Twitter) */}}
-          {{ if .Site.Params.social.x }}
-            <a href="{{ .Site.Params.social.x }}" target="_blank" rel="noopener noreferrer" aria-label="X" class="social-link">
-              <svg class="social-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
+      <div class="footer-section">
+        <h3>Follow</h3>
+        <div class="social-links">
+          {{ if .Site.Params.social.twitter }}
+            <a href="{{ .Site.Params.social.twitter }}" target="_blank" rel="noopener noreferrer">Twitter</a>
           {{ end }}
-
-          {{/* Instagram */}}
-          {{ if .Site.Params.social.instagram }}
-            <a href="{{ .Site.Params.social.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-link">
-              <svg class="social-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            </a>
-          {{ end }}
-
-          {{/* YouTube */}}
-          {{ if .Site.Params.social.youtube }}
-            <a href="{{ .Site.Params.social.youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-link">
-              <svg class="social-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2C1 8.14 1 12 1 12s0 3.86.42 5.58a2.78 2.78 0 0 0 1.94 2c1.71.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2C23 15.86 23 12 23 12s0-3.86-.42-5.58z"></path><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon></svg>
-            </a>
-          {{ end }}
-
-          {{/* WhatsApp */}}
-          {{ if .Site.Params.social.whatsapp }}
-            <a href="{{ .Site.Params.social.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-link">
-              <svg class="social-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            </a>
-          {{ end }}
-
-          {{/* Facebook */}}
           {{ if .Site.Params.social.facebook }}
-            <a href="{{ .Site.Params.social.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-link">
-              <svg class="social-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-            </a>
+            <a href="{{ .Site.Params.social.facebook }}" target="_blank" rel="noopener noreferrer">Facebook</a>
+          {{ end }}
+          {{ if .Site.Params.social.linkedin }}
+            <a href="{{ .Site.Params.social.linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          {{ end }}
+          {{ if .Site.Params.social.email }}
+            <a href="mailto:{{ .Site.Params.social.email }}">Email</a>
           {{ end }}
         </div>
-        
-        <p class="copyright">© {{ now.Format "2006" }} {{ .Site.Title }}</p>
       </div>
+    </div>
 
+    <div class="footer-bottom">
+      <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+      <p>A publication focused on ideas, culture, and innovation.</p>
     </div>
   </div>
 </footer>
