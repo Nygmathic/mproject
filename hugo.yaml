@@ -23,7 +23,6 @@ params:
     linkedin: "https://linkedin.com/in/yourprofile"
     instagram: "https://instagram.com/yourusername"
     youtube: "https://youtube.com/@yourchannel"
-    github: "https://github.com/yourusername"
     # tiktok: "https://tiktok.com/@yourusername"
     email: "contact@yourdomain.com"
     rss: "/index.xml"
