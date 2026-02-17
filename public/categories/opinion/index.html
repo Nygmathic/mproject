@@ -46,14 +46,8 @@
   
   
     
-    <link rel="stylesheet" href="/css/style.46c3b2537910fa6e4f8dc29aa047f29c237efae711af38907e086ed10cab4f6c.css" integrity="sha256-RsOyU3kQ&#43;m5PjcKaoEfynCN&#43;&#43;ucRrziQfghu0QyrT2w=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.1c27cbf9cf352e448271dcc305a4c3cdae435113d95f2cc16102b75ddc15f132.css" integrity="sha256-HCfL&#43;c81LkSCcdzDBaTDza5DURPZXyzBYQK3XdwV8TI=" crossorigin="anonymous">
   
-
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
 
   
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -64,254 +58,410 @@
     
     
 <header class="site-header">
-  <div class="container">
-    <div class="site-title">
-      <a href="/">Veridus</a>
+  
+  <div class="header-top">
+    <div class="header-inner">
+      <time class="header-date" datetime="2026-02-17">
+        Tuesday, February 17, 2026
+      </time>
+      
+      <div class="header-actions">
+        <a href="/search/" class="search-trigger" aria-label="Search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </a>
+        
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-icon">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </span>
+        </button>
+      </div>
     </div>
-    <p class="site-tagline">Refined news and global insights.</p>
-    
-    <nav role="navigation" aria-label="Main">
-      <ul>
-        <li><a href="/" >Home</a></li>
-        <li><a href="/categories/news/" >News</a></li>
-        <li><a href="/categories/opinion/" >Opinion</a></li>
-        <li><a href="/categories/lifestyle/" >Lifestyle</a></li>
-        <li><a href="/about/">About</a></li>
-      </ul>
-    </nav>
   </div>
+  
+  
+  <div class="header-main">
+    <div class="header-inner">
+      <h1 class="site-title">
+        <a href="/">Veridus</a>
+      </h1>
+      <p class="site-tagline">Refined news and global insights.</p>
+    </div>
+  </div>
+  
+  
+  <nav class="main-nav desktop-nav" role="navigation" aria-label="Main Navigation">
+    <div class="header-inner">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-item">Home</a></li>
+        <li><a href="/categories/news/" class="nav-item">News</a></li>
+        <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
+        <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
+        <li><a href="/about/" class="nav-item">About</a></li>
+        <li><a href="/contact/" class="nav-item">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 </header>
+
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <h2 class="mobile-menu-title">Menu</h2>
+    <button class="menu-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  
+  <nav class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
+    <ul class="mobile-nav-list">
+      <li><a href="/" class="mobile-nav-item">Home</a></li>
+      <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
+      <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
+      <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
+      <li><a href="/about/" class="mobile-nav-item">About</a></li>
+      <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
+      <li><a href="/search/" class="mobile-nav-item">Search</a></li>
+    </ul>
+  </nav>
+  
+  <div class="mobile-menu-footer">
+    <div class="mobile-social">
+      
+        <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+          </svg>
+        </a>
+      
+      
+        <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+          </svg>
+        </a>
+      
+      
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+      
+      
+        <a href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+
+<script>
+(function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menuClose = document.querySelector('.menu-close');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const body = document.body;
+  
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    body.style.overflow = 'hidden';
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+  
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    body.style.overflow = '';
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+  
+  if (menuToggle) {
+    menuToggle.addEventListener('click', openMenu);
+  }
+  
+  if (menuClose) {
+    menuClose.addEventListener('click', closeMenu);
+  }
+  
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', closeMenu);
+  }
+  
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+})();
+</script>
 
     <main id="main-content" role="main"> 
         
-<div class="container">
+<section class="list-page">
   
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol class="breadcrumb-list">
-      <li><a href="/">Home</a></li>
-      <li class="breadcrumb-current" aria-current="page">Opinion</li>
-    </ol>
-  </nav>
+  <div class="list-header">
+    <div class="container">
+      <h1 class="list-title">Opinion</h1>
+      
+    </div>
+  </div>
 
-  <header class="section-header">
-    <h1 class="serif-text">Opinion</h1>
-    
-  </header>
-
-  <div class="hp-grid">
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
+  <div class="container">
+    <div class="list-items">
+      
+        <article class="list-item">
           
-            <div class="card-text-fallback">
-              <p><p>Welcome to Veridus, a fresh home for exploration …</p></p>
+            <div class="item-cats">
+              
+                <span class="item-cat">News</span>
+              
             </div>
           
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/news" class="card-cat">News</a>
-            
-              <a href="/categories/lifestyle" class="card-cat">Lifestyle</a>
-            
-              <a href="/categories/law" class="card-cat">Law</a>
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
-              <a href="/categories/tech" class="card-cat">Tech</a>
-            
+          <h2 class="item-title"><a href="http://localhost:1313/news/welcome-post/">Welcome to this new corner of the internet</a></h2>
+
+          <div class="item-meta">
+            <span>Feb 9, 2026</span>
+            <span>Collins Obura</span>
+            <span>2 min</span>
           </div>
+
+          <p class="item-excerpt"><p>Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful …</p></p>
+        </article>
+      
+        <article class="list-item">
           
-          <h3 class="card-title">
-            <a href="http://localhost:1313/news/welcome-post/">Welcome to this new corner of the internet</a>
-          </h3>
-          <p class="card-summary"><p>Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the …</p></p>
-        </div>
-      </article>
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
-          
-            <div class="card-text-fallback">
-              <p><p>Nairobi is not officially the capital of Africa. …</p></p>
+            <div class="item-cats">
+              
+                <span class="item-cat">Opinion</span>
+              
             </div>
           
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
+          <h2 class="item-title"><a href="http://localhost:1313/opinion/nairobi/">Why Nairobi Is the Capital of Africa</a></h2>
+
+          <div class="item-meta">
+            <span>Feb 9, 2026</span>
+            <span>Collins Obura</span>
+            <span>5 min</span>
           </div>
+
+          <p class="item-excerpt"><p>Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only …</p></p>
+        </article>
+      
+        <article class="list-item">
           
-          <h3 class="card-title">
-            <a href="http://localhost:1313/opinion/nairobi/">Why Nairobi Is the Capital of Africa</a>
-          </h3>
-          <p class="card-summary"><p>Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title …</p></p>
-        </div>
-      </article>
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
-          
-            <div class="card-text-fallback">
-              <p><p>I&rsquo;ve watched something troubling unfold over …</p></p>
+            <div class="item-cats">
+              
+                <span class="item-cat">Opinion</span>
+              
             </div>
           
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
-              <a href="/categories/work" class="card-cat">Work</a>
-            
+          <h2 class="item-title"><a href="http://localhost:1313/opinion/5-remote-work/">Remote Work Isn&#39;t the Future—It&#39;s a Privilege We Need to Redistribute</a></h2>
+
+          <div class="item-meta">
+            <span>Feb 9, 2024</span>
+            <span>Collins Obura</span>
+            <span>4 min</span>
           </div>
+
+          <p class="item-excerpt"><p>I&rsquo;ve watched something troubling unfold over the past few years. We celebrate remote work as liberation. Tech workers in my circle praise the flexibility, the commute savings, the ability to …</p></p>
+        </article>
+      
+        <article class="list-item">
           
-          <h3 class="card-title">
-            <a href="http://localhost:1313/opinion/5-remote-work/">Remote Work Isn&#39;t the Future—It&#39;s a Privilege We Need to Redistribute</a>
-          </h3>
-          <p class="card-summary"><p>I&rsquo;ve watched something troubling unfold over the past few years. We celebrate remote work as liberation. Tech workers in my circle praise the …</p></p>
-        </div>
-      </article>
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
-          
-            <div class="card-text-fallback">
-              <p><p>There&rsquo;s a prevailing narrative that Cairo is …</p></p>
+            <div class="item-cats">
+              
+                <span class="item-cat">Opinion</span>
+              
             </div>
           
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
-              <a href="/categories/culture" class="card-cat">Culture</a>
-            
+          <h2 class="item-title"><a href="http://localhost:1313/opinion/2-nairobi-culture/">Why Nairobi Deserves to Be the Cultural Capital of East Africa</a></h2>
+
+          <div class="item-meta">
+            <span>Feb 8, 2024</span>
+            <span>Collins Obura</span>
+            <span>4 min</span>
           </div>
+
+          <p class="item-excerpt"><p>There&rsquo;s a prevailing narrative that Cairo is the cultural capital of Africa. Or that Lagos represents the creative heartbeat of the continent. But I would argue—passionately—that Nairobi, my …</p></p>
+        </article>
+      
+        <article class="list-item">
           
-          <h3 class="card-title">
-            <a href="http://localhost:1313/news/2-nairobi-culture/">Why Nairobi Deserves to Be the Cultural Capital of East Africa</a>
-          </h3>
-          <p class="card-summary"><p>There&rsquo;s a prevailing narrative that Cairo is the cultural capital of Africa. Or that Lagos represents the creative heartbeat of the continent. …</p></p>
-        </div>
-      </article>
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
-          
-            <div class="card-text-fallback">
-              <p><p>There&rsquo;s a prevailing narrative that Cairo is …</p></p>
+            <div class="item-cats">
+              
+                <span class="item-cat">Opinion</span>
+              
             </div>
           
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
-              <a href="/categories/culture" class="card-cat">Culture</a>
-            
-          </div>
-          
-          <h3 class="card-title">
-            <a href="http://localhost:1313/opinion/2-nairobi-culture/">Why Nairobi Deserves to Be the Cultural Capital of East Africa</a>
-          </h3>
-          <p class="card-summary"><p>There&rsquo;s a prevailing narrative that Cairo is the cultural capital of Africa. Or that Lagos represents the creative heartbeat of the continent. …</p></p>
-        </div>
-      </article>
-    
-      <article class="card">
-        
-        
-        <div class="card-image-wrapper">
-          
-            <div class="card-text-fallback">
-              <p><p>I believed in the promise. When massive open …</p></p>
-            </div>
-          
-        </div>
+          <h2 class="item-title"><a href="http://localhost:1313/opinion/8-online-education/">Why Free Online Education Hasn&#39;t Solved Inequality—And What Might</a></h2>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            
-              <a href="/categories/opinion" class="card-cat">Opinion</a>
-            
-              <a href="/categories/education" class="card-cat">Education</a>
-            
+          <div class="item-meta">
+            <span>Feb 4, 2024</span>
+            <span>Collins Obura</span>
+            <span>5 min</span>
           </div>
-          
-          <h3 class="card-title">
-            <a href="http://localhost:1313/opinion/8-online-education/">Why Free Online Education Hasn&#39;t Solved Inequality—And What Might</a>
-          </h3>
-          <p class="card-summary"><p>I believed in the promise. When massive open online courses (MOOCs) first appeared, I genuinely thought we were witnessing an educational revolution. …</p></p>
-        </div>
-      </article>
+
+          <p class="item-excerpt"><p>I believed in the promise. When massive open online courses (MOOCs) first appeared, I genuinely thought we were witnessing an educational revolution. Free lectures from world-class professors at elite …</p></p>
+        </article>
+      
+    </div>
+
     
   </div>
 
-  
-  
-</div>
+</section>
 
     </main>
 
     
 <footer class="site-footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Veridus</h3>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/contact/">Contact</a></li>
-          <li><a href="/index.xml">RSS Feed</a></li>
-        </ul>
-      </div>
+  <div class="footer-wrapper">
+    <div class="article-container">
+      <div class="footer-content">
+        
+        <div class="footer-column footer-about">
+          <h3 class="footer-title">Veridus</h3>
+          <p class="footer-description">Refined news and global insights.</p>
+          <p class="footer-meta">A publication exploring ideas, culture, and innovation.</p>
+        </div>
 
-      <div class="footer-section">
-        <h3>Categories</h3>
-        <ul>
-          <li><a href="/categories/news/">News</a></li>
-          <li><a href="/categories/opinion/">Opinion</a></li>
-          <li><a href="/categories/lifestyle/">Lifestyle</a></li>
-          <li><a href="/categories/">All Topics</a></li>
-        </ul>
-      </div>
+        <div class="footer-column footer-links">
+          <h4 class="footer-subtitle">Explore</h4>
+          <ul class="footer-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/search/">Search</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-section">
-        <h3>Follow</h3>
-        <div class="social-links">
+        <div class="footer-column footer-categories">
+          <h4 class="footer-subtitle">Categories</h4>
+          <ul class="footer-list">
+            <li><a href="/categories/news/">News</a></li>
+            <li><a href="/categories/opinion/">Opinion</a></li>
+            <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+        </div>
+
+      </div>
+      
+      
+      <div class="footer-social-section">
+        <h3 class="social-section-title">Follow Us</h3>
+        <div class="social-icons-grid">
+          
+            <a href="https://twitter.com/yourusername" class="social-icon-box twitter" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+              </svg>
+              <span class="social-label">Twitter</span>
+            </a>
           
           
           
+            <a href="https://facebook.com/yourpage" class="social-icon-box facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+              </svg>
+              <span class="social-label">Facebook</span>
+            </a>
+          
+          
+          
+            <a href="https://linkedin.com/in/yourprofile" class="social-icon-box linkedin" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+              <span class="social-label">LinkedIn</span>
+            </a>
+          
+          
+          
+            <a href="https://instagram.com/yourusername" class="social-icon-box instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round"></line>
+              </svg>
+              <span class="social-label">Instagram</span>
+            </a>
+          
+          
+          
+            <a href="https://youtube.com/@yourchannel" class="social-icon-box youtube" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"></polygon>
+              </svg>
+              <span class="social-label">YouTube</span>
+            </a>
+          
+          
+          
+            <a href="https://github.com/yourusername" class="social-icon-box github" target="_blank" rel="noopener noreferrer" aria-label="Follow us on GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path>
+              </svg>
+              <span class="social-label">GitHub</span>
+            </a>
+          
+          
+          
+          
+          
+            <a href="mailto:contact@yourdomain.com" class="social-icon-box email" aria-label="Email us">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span class="social-label">Email</span>
+            </a>
+          
+          
+          
+            <a href="/index.xml" class="social-icon-box rss" aria-label="RSS Feed">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"></path>
+              </svg>
+              <span class="social-label">RSS</span>
+            </a>
           
         </div>
       </div>
-    </div>
 
-    <div class="footer-bottom">
-      <p>&copy; 2026 Veridus. All rights reserved.</p>
-      <p>A publication focused on ideas, culture, and innovation.</p>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Veridus. All rights reserved.</p>
+      </div>
     </div>
   </div>
 </footer>

@@ -1,69 +1,50 @@
 {{ define "main" }}
-<div class="container">
-  {{/* Breadcrumb Navigation */}}
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol class="breadcrumb-list">
-      <li><a href="/">Home</a></li>
-      <li class="breadcrumb-current" aria-current="page">{{ .Title }}</li>
-    </ol>
-  </nav>
+<section class="list-page">
+  
+  <div class="list-header">
+    <div class="container">
+      <h1 class="list-title">{{ .Title }}</h1>
+      {{ if .Content }}<div class="list-desc">{{ .Content }}</div>{{ end }}
+    </div>
+  </div>
 
-  <header class="section-header">
-    <h1 class="serif-text">{{ .Title }}</h1>
-    {{ if .Content }}<div class="section-desc">{{ .Content }}</div>{{ end }}
-  </header>
-
-  <div class="hp-grid">
-    {{ range .Paginator.Pages }}
-      <article class="card">
-        {{ $img := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-        
-        <div class="card-image-wrapper">
-          {{ if $img }}
-            {{ $thumb := $img.Fill "600x400 center" }}
-            <img 
-              src="{{ $thumb.RelPermalink }}" 
-              alt="{{ .Title }}" 
-              class="hp-card-img"
-              loading="lazy">
-          {{ else }}
-            <div class="card-text-fallback">
-              <p>{{ .Summary | truncate 50 }}</p>
+  <div class="container">
+    <div class="list-items">
+      {{ range .Paginator.Pages }}
+        <article class="list-item">
+          {{ if .Params.categories }}
+            <div class="item-cats">
+              {{ range first 1 .Params.categories }}
+                <span class="item-cat">{{ . }}</span>
+              {{ end }}
             </div>
           {{ end }}
-        </div>
 
-        <div class="card-content">
-          <div class="card-cat-wrapper">
-            {{ range .Params.categories }}
-              <a href="{{ "/categories/" | relLangURL }}{{ . | urlize }}" class="card-cat">{{ . }}</a>
-            {{ end }}
+          <h2 class="item-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+
+          <div class="item-meta">
+            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+            {{ if .Params.author }}<span>{{ .Params.author }}</span>{{ end }}
+            <span>{{ .ReadingTime }} min</span>
           </div>
-          
-          <h3 class="card-title">
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-          </h3>
-          <p class="card-summary">{{ .Summary | truncate 150 }}</p>
-        </div>
-      </article>
+
+          <p class="item-excerpt">{{ .Summary | truncate 200 }}</p>
+        </article>
+      {{ end }}
+    </div>
+
+    {{ if gt .Paginator.TotalPages 1 }}
+      <nav class="pagination">
+        {{ if .Paginator.HasPrev }}
+          <a href="{{ .Paginator.Prev.URL }}" class="page-link">← Newer</a>
+        {{ end }}
+        <span class="page-info">{{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}</span>
+        {{ if .Paginator.HasNext }}
+          <a href="{{ .Paginator.Next.URL }}" class="page-link">Older →</a>
+        {{ end }}
+      </nav>
     {{ end }}
   </div>
 
-  {{/* Pagination */}}
-  {{ if gt .Paginator.TotalPages 1 }}
-    <nav class="pagination" aria-label="Pagination" role="navigation">
-      {{ if .Paginator.HasPrev }}
-        <a href="{{ .Paginator.Prev.URL }}" class="pagination-link pagination-prev">← Newer</a>
-      {{ end }}
-      
-      <span class="pagination-info">
-        Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}
-      </span>
-      
-      {{ if .Paginator.HasNext }}
-        <a href="{{ .Paginator.Next.URL }}" class="pagination-link pagination-next">Older →</a>
-      {{ end }}
-    </nav>
-  {{ end }}
-</div>
+</section>
 {{ end }}

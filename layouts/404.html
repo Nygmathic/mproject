@@ -1,48 +1,50 @@
 {{ define "main" }}
-<div class="container">
-  <div class="error-page">
-    <div class="error-content">
-      <h1 class="error-title">404</h1>
-      <p class="error-subtitle">Page Not Found</p>
-      
-      <p class="error-description">
-        We couldn't find the page you're looking for. It may have been moved, deleted, or perhaps it never existed.
-      </p>
+<div class="error-page">
+  <div class="article-container">
+    
+    <header class="error-header">
+      <h1 class="error-number">404</h1>
+      <h2 class="error-heading">Page Not Found</h2>
+      <p class="error-subheading">The page you're looking for doesn't exist or has been moved.</p>
+    </header>
 
-      <div class="error-actions">
-        <a href="/" class="error-btn error-btn-primary">Back to Home</a>
-        <a href="/categories/" class="error-btn error-btn-secondary">Browse Categories</a>
+    <div class="error-content">
+      <div class="error-main">
+        <p class="error-intro">
+          Sometimes the best ideas come from unexpected places. This isn't one of them.
+        </p>
+
+        <p class="error-text">
+          We searched high and low, through every section of Veridus, but the page you requested simply isn't here. Perhaps it was archived, renamed, or existed only in our dreams. Whatever the case, we're sorry you've reached this point.
+        </p>
+
+        <nav class="error-actions">
+          <a href="/" class="error-btn error-btn-primary">Return to Home</a>
+          <a href="/categories/" class="error-btn error-btn-secondary">Browse Categories</a>
+        </nav>
       </div>
 
-      <div class="error-suggestions">
-        <h2>Explore Veridus</h2>
-        
-        <div class="recent-articles">
-          <h3>Recent Articles</h3>
-          <ul>
+      <aside class="error-sidebar">
+        <div class="error-box">
+          <h3 class="error-box-title">Latest Articles</h3>
+          <ul class="error-list">
             {{ range first 5 .Site.RegularPages }}
               <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
             {{ end }}
           </ul>
         </div>
 
-        <div class="popular-categories">
-          <h3>Categories</h3>
-          <ul>
+        <div class="error-box">
+          <h3 class="error-box-title">Explore Topics</h3>
+          <ul class="error-list">
             {{ range $name, $pages := .Site.Taxonomies.categories }}
               <li><a href="/categories/{{ $name | urlize }}/">{{ $name }}</a></li>
             {{ end }}
           </ul>
         </div>
-      </div>
+      </aside>
     </div>
 
-    <div class="error-visual">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="error-icon">
-        <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>
-        <text x="100" y="130" font-size="90" font-weight="300" text-anchor="middle" font-family="Crimson Text" fill="currentColor">?</text>
-      </svg>
-    </div>
   </div>
 </div>
 {{ end }}

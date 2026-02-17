@@ -1,19 +1,160 @@
-{{/* Header Navigation */}}
+{{/* News Editorial Header */}}
 <header class="site-header">
-  <div class="container">
-    <div class="site-title">
-      <a href="/">{{ .Site.Title }}</a>
+  {{/* Top Bar with Date and Search */}}
+  <div class="header-top">
+    <div class="header-inner">
+      <time class="header-date" datetime="{{ now.Format "2006-01-02" }}">
+        {{ now.Format "Monday, January 2, 2006" }}
+      </time>
+      
+      <div class="header-actions">
+        <a href="/search/" class="search-trigger" aria-label="Search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+        </a>
+        
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-icon">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+          </span>
+        </button>
+      </div>
     </div>
-    <p class="site-tagline">{{ .Site.Params.description }}</p>
-    
-    <nav role="navigation" aria-label="Main">
-      <ul>
-        <li><a href="/" {{ if eq .Section "" }}class="active"{{ end }}>Home</a></li>
-        <li><a href="/categories/news/" {{ if eq .Section "news" }}class="active"{{ end }}>News</a></li>
-        <li><a href="/categories/opinion/" {{ if eq .Section "opinion" }}class="active"{{ end }}>Opinion</a></li>
-        <li><a href="/categories/lifestyle/" {{ if eq .Section "lifestyle" }}class="active"{{ end }}>Lifestyle</a></li>
-        <li><a href="/about/">About</a></li>
-      </ul>
-    </nav>
   </div>
+  
+  {{/* Main Header with Title */}}
+  <div class="header-main">
+    <div class="header-inner">
+      <h1 class="site-title">
+        <a href="/">{{ .Site.Title }}</a>
+      </h1>
+      <p class="site-tagline">{{ .Site.Params.description }}</p>
+    </div>
+  </div>
+  
+  {{/* Desktop Navigation */}}
+  <nav class="main-nav desktop-nav" role="navigation" aria-label="Main Navigation">
+    <div class="header-inner">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-item">Home</a></li>
+        <li><a href="/categories/news/" class="nav-item">News</a></li>
+        <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
+        <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
+        <li><a href="/about/" class="nav-item">About</a></li>
+        <li><a href="/contact/" class="nav-item">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 </header>
+
+{{/* Mobile Slide-out Menu */}}
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <h2 class="mobile-menu-title">Menu</h2>
+    <button class="menu-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+  
+  <nav class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
+    <ul class="mobile-nav-list">
+      <li><a href="/" class="mobile-nav-item">Home</a></li>
+      <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
+      <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
+      <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
+      <li><a href="/about/" class="mobile-nav-item">About</a></li>
+      <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
+      <li><a href="/search/" class="mobile-nav-item">Search</a></li>
+    </ul>
+  </nav>
+  
+  <div class="mobile-menu-footer">
+    <div class="mobile-social">
+      {{ if .Site.Params.social.twitter }}
+        <a href="{{ .Site.Params.social.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+          </svg>
+        </a>
+      {{ end }}
+      {{ if .Site.Params.social.facebook }}
+        <a href="{{ .Site.Params.social.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+          </svg>
+        </a>
+      {{ end }}
+      {{ if .Site.Params.social.linkedin }}
+        <a href="{{ .Site.Params.social.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+      {{ end }}
+      {{ if .Site.Params.social.instagram }}
+        <a href="{{ .Site.Params.social.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+{{/* Menu Overlay */}}
+<div class="menu-overlay" id="menuOverlay"></div>
+
+{{/* Mobile Menu Script */}}
+<script>
+(function() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menuClose = document.querySelector('.menu-close');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const body = document.body;
+  
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    body.style.overflow = 'hidden';
+    menuToggle.setAttribute('aria-expanded', 'true');
+  }
+  
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    body.style.overflow = '';
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+  
+  if (menuToggle) {
+    menuToggle.addEventListener('click', openMenu);
+  }
+  
+  if (menuClose) {
+    menuClose.addEventListener('click', closeMenu);
+  }
+  
+  if (menuOverlay) {
+    menuOverlay.addEventListener('click', closeMenu);
+  }
+  
+  // Close on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+})();
+</script>

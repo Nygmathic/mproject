@@ -15,6 +15,18 @@ params:
   description: "Refined news and global insights."
   brand_name: "Veridus"
   subscribe_url: "/subscribe/"
+  
+  # Social Media Links - Icons will appear for any configured links
+  social:
+    twitter: "https://twitter.com/yourusername"
+    facebook: "https://facebook.com/yourpage"
+    linkedin: "https://linkedin.com/in/yourprofile"
+    instagram: "https://instagram.com/yourusername"
+    youtube: "https://youtube.com/@yourchannel"
+    github: "https://github.com/yourusername"
+    # tiktok: "https://tiktok.com/@yourusername"
+    email: "contact@yourdomain.com"
+    rss: "/index.xml"
 
 menu:
   main:
@@ -29,4 +41,10 @@ menu:
       weight: 3
     - name: "Search"
       url: "/search/"
+      weight: 6
+    - name: "Videos"
+      url: "/videos/"
       weight: 4
+    - name: "Podcasts"
+      url: "/podcasts/"
+      weight: 5 

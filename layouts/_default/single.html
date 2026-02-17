@@ -1,100 +1,83 @@
 {{ define "main" }}
-<article class="article-page">
-  {{/* Article Header */}}
-  <header class="article-header">
-    {{ if .Params.categories }}
-    <div class="article-category-badge">
-      {{ range first 1 .Params.categories }}{{ . }}{{ end }}
-    </div>
+<article class="single-article">
+  <div class="article-container">
+    
+    <header class="article-header">
+      <div class="article-meta-top">
+        {{ if .Params.categories }}
+          <div class="article-categories">
+            {{ range .Params.categories }}
+              <a href="/categories/{{ . | urlize }}/" class="category-badge">{{ . }}</a>
+            {{ end }}
+          </div>
+        {{ end }}
+      </div>
+
+      <h1 class="article-title">{{ .Title }}</h1>
+
+      <div class="article-meta">
+        <span class="article-date">{{ .Date.Format "January 2, 2006" }}</span>
+        {{ if .Params.author }}
+          <span class="article-author">by {{ .Params.author }}</span>
+        {{ end }}
+        <span class="article-reading-time">{{ .ReadingTime }} min read</span>
+      </div>
+    </header>
+
+    {{ if .Params.feature_image }}
+      <div class="article-featured-image">
+        {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+          {{ $img := .Fill "1200x600 center" }}
+          <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+        {{ end }}
+      </div>
     {{ end }}
-    
-    <h1 class="article-title">{{ .Title }}</h1>
-    
-    <div class="article-meta">
-      <span>{{ .Date.Format "January 2, 2006" }}</span>
+
+    <div class="article-content">
+      {{ .Content }}
+    </div>
+
+    <footer class="article-footer">
       {{ if .Params.author }}
-        <span>by {{ .Params.author }}</span>
+        <div class="author-bio">
+          <h3>About the Author</h3>
+          <p>{{ .Params.author }}</p>
+        </div>
       {{ end }}
-      <span>{{ .ReadingTime }} minute read</span>
-    </div>
-  </header>
 
-  {{/* Article Content */}}
-  <div class="article-body">
-    {{ .Content }}
+      <div class="article-tags">
+        {{ if .Params.tags }}
+          <h3>Tags</h3>
+          <ul class="tags-list">
+            {{ range .Params.tags }}
+              <li><a href="/tags/{{ . | urlize }}/">{{ . }}</a></li>
+            {{ end }}
+          </ul>
+        {{ end }}
+      </div>
+    </footer>
+
   </div>
-
-  {{/* Tags */}}
-  {{ if .Params.tags }}
-  <div class="article-tags">
-    <div class="tag-list">
-      {{ range .Params.tags }}
-        <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" class="tag-link">{{ . }}</a>
-      {{ end }}
-    </div>
-  </div>
-  {{ end }}
-
-  {{/* Author Profile */}}
-  {{ if .Params.author }}
-  <section class="author-profile">
-    <div class="author-profile-header">
-      <h3 class="author-name">{{ .Params.author }}</h3>
-      <p class="author-title">Writer</p>
-    </div>
-    <p class="author-bio">
-      {{ .Params.author }} writes about technology, culture, and ideas on Veridus. 
-      Read more articles by this author or subscribe to follow their latest work.
-    </p>
-  </section>
-  {{ end }}
 
   {{/* Related Articles */}}
-  {{ $related := .Site.RegularPages.Related . | first 3 }}
+  {{ $related := site.RegularPages.Related . | first 3 }}
   {{ if $related }}
-  <section class="related-section">
-    <h2 class="related-title">More from Veridus</h2>
-    <div class="related-articles">
-      {{ range $related }}
-      <article class="related-item">
-        <h3 class="related-item-title">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </h3>
-        <div class="related-item-meta">
-          {{ .Date.Format "Jan 2, 2006" }}
-          {{ if .Params.author }} · {{ .Params.author }}{{ end }}
-        </div>
-      </article>
-      {{ end }}
+  <aside class="related-articles">
+    <div class="article-container">
+      <h2 class="related-title">More to Read</h2>
+      <div class="related-grid">
+        {{ range $related }}
+          <article class="related-card">
+            <h3 class="related-card-title">
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h3>
+            <p class="related-card-excerpt">{{ .Summary | truncate 120 }}</p>
+          </article>
+        {{ end }}
+      </div>
     </div>
-  </section>
+  </aside>
   {{ end }}
 
-  {{/* Navigation */}}
-  <nav class="article-navigation" style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #e0e0e0;">
-    <div style="display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
-      {{/* Previous Article */}}
-      {{ $prev := .PrevInSection }}
-      {{ if $prev }}
-      <div style="flex: 1; min-width: 200px;">
-        <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">← Previous</p>
-        <h4 style="margin: 0;">
-          <a href="{{ $prev.Permalink }}">{{ $prev.Title }}</a>
-        </h4>
-      </div>
-      {{ end }}
-      
-      {{/* Next Article */}}
-      {{ $next := .NextInSection }}
-      {{ if $next }}
-      <div style="flex: 1; min-width: 200px; text-align: right;">
-        <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">Next →</p>
-        <h4 style="margin: 0;">
-          <a href="{{ $next.Permalink }}">{{ $next.Title }}</a>
-        </h4>
-      </div>
-      {{ end }}
-    </div>
-  </nav>
 </article>
 {{ end }}

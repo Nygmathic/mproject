@@ -2,37 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/design/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/editorial/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/experiments/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/longform/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/news/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/news/post-one/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/typography/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2026-02-13T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/africa/</loc>
+    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/culture/</loc>
@@ -74,6 +47,9 @@
     <loc>http://localhost:1313/categories/news/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/news/</loc>
+    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/news/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
@@ -95,7 +71,13 @@
     <loc>http://localhost:1313/tags/society/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/categories/tech/</loc>
+    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/news/welcome-post/</loc>
@@ -165,9 +147,6 @@
     <lastmod>2024-02-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/east-africa/</loc>
-    <lastmod>2024-02-08T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/news/2-nairobi-culture/</loc>
     <lastmod>2024-02-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/opinion/2-nairobi-culture/</loc>

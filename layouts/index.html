@@ -1,78 +1,67 @@
 {{ define "main" }}
-<div class="home-container">
-  <div class="home-hero">
-    <h1 class="hero-title">{{ .Site.Title }}</h1>
-    <p class="hero-subtitle">{{ .Site.Params.description }}</p>
-  </div>
+<div class="home-page">
 
-  {{/* FEATURED ARTICLES - 2-3 Large Articles */}}
-  {{ $featured := where .Site.RegularPages "Params.featured" true | first 3 }}
-  {{ if $featured }}
-  <section class="featured-section">
-    <div class="featured-articles">
-      {{ range $featured }}
-      <article class="featured-article-item">
+  {{/* LATEST ARTICLES - Featured Horizontal Layout */}}
+  {{ $allArticles := where .Site.RegularPages "Type" "in" (slice "news" "opinion" "lifestyle") }}
+  {{ $latest := first 2 $allArticles }}
+  {{ $remaining := after 2 $allArticles }}
+  
+  {{ if $latest }}
+  <section class="latest-articles">
+    <div class="latest-articles-header">
+      <h2>Latest Stories</h2>
+      <div class="latest-divider"></div>
+    </div>
+    
+    <div class="latest-articles-grid">
+      {{ range $latest }}
+      <article class="latest-card">
         {{ if .Params.categories }}
-          <div class="article-category">
-            {{ range first 1 .Params.categories }}{{ . }}{{ end }}
-          </div>
+          <span class="latest-card-category">{{ index .Params.categories 0 }}</span>
         {{ end }}
-        
-        <h2 class="featured-article-title">
+
+        <h2 class="latest-card-title">
           <a href="{{ .Permalink }}">{{ .Title }}</a>
         </h2>
-        
-        <div class="featured-article-meta">
-          <span class="date">{{ .Date.Format "January 2, 2006" }}</span>
-          {{ if .Params.author }}
-            <span class="author">by {{ .Params.author }}</span>
-          {{ end }}
-          <span class="reading-time">{{ .ReadingTime }} min read</span>
+
+        <div class="latest-card-meta">
+          <span class="latest-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+          {{ if .Params.author }}<span class="latest-author">{{ .Params.author }}</span>{{ end }}
+          <span class="latest-reading-time">{{ .ReadingTime }} min read</span>
         </div>
+
+        <p class="latest-card-excerpt">{{ .Summary | truncate 180 }}</p>
         
-        <p class="featured-article-excerpt">
-          {{ .Summary | truncate 300 }}
-        </p>
-        
-        <a href="{{ .Permalink }}" class="read-more">Read the article →</a>
+        <span class="latest-card-cta">Read Full Story</span>
       </article>
       {{ end }}
     </div>
   </section>
   {{ end }}
 
-  {{/* ALL OTHER ARTICLES IN CARD GRID */}}
-  <section class="all-articles-section">
-    {{ $allArticles := where .Site.RegularPages "Type" "in" (slice "news" "opinion" "lifestyle") | complement $featured }}
-    
-    {{ if $allArticles }}
-    <div class="articles-container">
-      <div class="homepage-articles-grid">
-        {{ range $allArticles }}
-        <article class="article-grid-card">
-          {{ if .Params.categories }}
-            <div class="card-category">
-              {{ range first 1 .Params.categories }}{{ . }}{{ end }}
-            </div>
-          {{ end }}
-          
-          <h3 class="card-article-title">
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-          </h3>
-          
-          <div class="card-article-meta">
-            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
-            {{ if .Params.author }}<span>{{ .Params.author }}</span>{{ end }}
-          </div>
-          
-          <p class="card-article-excerpt">
-            {{ .Summary | truncate 150 }}
-          </p>
-        </article>
-        {{ end }}
+  {{/* REMAINING ARTICLES - Grid Layout */}}
+  {{ if $remaining }}
+  <div class="articles-grid">
+    {{ range first 12 $remaining }}
+    <article class="article-card">
+      {{ if .Params.categories }}
+        <span class="card-category">{{ index .Params.categories 0 }}</span>
+      {{ end }}
+
+      <h2 class="card-title">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </h2>
+
+      <div class="card-meta">
+        <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+        {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
       </div>
-    </div>
+
+      <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>
+    </article>
     {{ end }}
-  </section>
+  </div>
+  {{ end }}
+
 </div>
 {{ end }}
