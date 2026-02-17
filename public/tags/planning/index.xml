@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Planning on Veridus</title>
+    <link>http://localhost:1313/tags/planning/</link>
+    <description>Recent content in Planning on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/planning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Africa&#39;s Cities Are Growing Faster Than Their Plans. That Might Not Be a Disaster.</title>
+      <link>http://localhost:1313/news/african-cities-informal-growth/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/african-cities-informal-growth/</guid>
+      <description>&lt;p&gt;The standard way of talking about African urban growth is a warning.&lt;/p&gt;&#xA;&lt;p&gt;Cities expanding faster than roads can be built or pipes can be laid. Housing shortages that push millions into informal settlements. Traffic that turns short distances into long ordeals. Flooding in neighbourhoods that were built without drainage because nobody planned for them at all.&lt;/p&gt;&#xA;&lt;p&gt;These are real problems. Anyone who has spent time in a rapidly growing African city knows them directly.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

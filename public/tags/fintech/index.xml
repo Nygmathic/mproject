@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fintech on Veridus</title>
+    <link>http://localhost:1313/tags/fintech/</link>
+    <description>Recent content in Fintech on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/fintech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mobile Money Changed Everything. Here&#39;s What Comes Next.</title>
+      <link>http://localhost:1313/news/mobile-money-future-africa/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/mobile-money-future-africa/</guid>
+      <description>&lt;p&gt;When M-Pesa launched in Kenya in 2007, most of the global finance world did not pay much attention.&lt;/p&gt;&#xA;&lt;p&gt;A mobile money service for a developing market. Useful, perhaps, for people without bank accounts. But not exactly the kind of thing that turns heads in London or New York.&lt;/p&gt;&#xA;&lt;p&gt;What followed surprised almost everyone.&lt;/p&gt;&#xA;&lt;p&gt;Within a few years, millions of Kenyans who had never held a bank account were sending money, paying bills, and setting aside savings — all through a basic mobile phone. Research later showed that M-Pesa helped lift a measurable share of Kenyan households out of poverty by giving people, and women in particular, a new kind of economic independence.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

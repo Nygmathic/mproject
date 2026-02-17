@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reading Habits on Veridus</title>
+    <link>http://localhost:1313/tags/reading-habits/</link>
+    <description>Recent content in Reading Habits on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/reading-habits/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Problem Is Not That People Don&#39;t Read. It&#39;s What They&#39;re Reading.</title>
+      <link>http://localhost:1313/opinion/what-people-are-reading/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/opinion/what-people-are-reading/</guid>
+      <description>&lt;p&gt;Every so often, a new study or column appears warning that people are reading less.&lt;/p&gt;&#xA;&lt;p&gt;Attention spans are shrinking. Books are losing ground. Long-form journalism is struggling to survive. The concern is framed as a quantity problem: not enough reading is happening.&lt;/p&gt;&#xA;&lt;p&gt;But watch what people actually do with their phones.&lt;/p&gt;&#xA;&lt;p&gt;They read constantly. Captions. Threads. Comment sections. Group chats. Newsletters. Long arguments that play out over dozens of replies. People who say they do not read are often reading for several hours every day.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

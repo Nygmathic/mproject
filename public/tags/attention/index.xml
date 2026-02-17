@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Attention on Veridus</title>
+    <link>http://localhost:1313/tags/attention/</link>
+    <description>Recent content in Attention on Veridus</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/attention/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>In Defence of Reading Slowly</title>
+      <link>http://localhost:1313/lifestyle/in-defense-of-reading-slowly/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/lifestyle/in-defense-of-reading-slowly/</guid>
+      <description>&lt;p&gt;There is a certain satisfaction in finishing a book.&lt;/p&gt;&#xA;&lt;p&gt;Closing the last page, adding the title to a list, moving on to the next one. It feels like progress — measured, visible, building up over time. Many readers track how many books they get through in a year and feel a quiet sense of accomplishment when the number grows.&lt;/p&gt;&#xA;&lt;p&gt;The trouble is that reading a book and absorbing a book are not always the same thing.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Why We Stopped Being Bored — and What We Lost</title>
+      <link>http://localhost:1313/lifestyle/why-we-stopped-being-bored/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/lifestyle/why-we-stopped-being-bored/</guid>
+      <description>&lt;p&gt;There used to be a moment on public transport that almost everyone knew.&lt;/p&gt;&#xA;&lt;p&gt;You sat down. You had nothing in your hands. Your eyes drifted to the window, and your mind went somewhere — a half-formed thought, an old memory, a question that had been sitting at the back of your head for days. Nobody asked for that moment. It just happened.&lt;/p&gt;&#xA;&lt;p&gt;Today, that moment barely gets a chance to show up.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

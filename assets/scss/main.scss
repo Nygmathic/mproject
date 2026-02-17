@@ -1147,6 +1147,20 @@ em, i {
   p {
     margin-bottom: var(--space-lg);
   }
+
+  /* ===== DROPCAP ===== */
+  > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--font-reading);
+    font-size: 4.5em;
+    font-weight: 700;
+    line-height: 0.75;
+    margin-top: 0.07em;
+    margin-right: 0.07em;
+    margin-bottom: 0;
+    color: var(--color-primary);
+    text-transform: uppercase;
+  }
   
   ul, ol {
     margin-bottom: var(--space-lg);
