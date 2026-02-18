@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Keep utility pages out of search index
+Disallow: /thanks/
+Disallow: /search/
+
+# Sitemap
+Sitemap: https://veridus.space/sitemap.xml

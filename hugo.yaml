@@ -1,4 +1,4 @@
-baseURL: "http://localhost:1313/"
+baseURL: "https://veridus.space/"
 languageCode: "en-us"
 title: "Veridus"
 
@@ -6,10 +6,18 @@ outputs:
   home:
     - HTML
     - JSON
+    - RSS
   section:
     - HTML
+    - RSS
   page:
     - HTML
+
+# Hugo auto-generates /sitemap.xml — this configures it
+sitemap:
+  changefreq: "weekly"
+  filename: "sitemap.xml"
+  priority: 0.5
 
 params:
   description: "Refined news and global insights."
@@ -46,4 +54,4 @@ menu:
       weight: 4
     - name: "Podcasts"
       url: "/podcasts/"
-      weight: 5 
+      weight: 5

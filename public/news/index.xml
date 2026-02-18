@@ -6,14 +6,21 @@
     <description>Recent content in News on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/news/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>The Architecture of Silence</title>
-      <link>http://localhost:1313/news/post-one/</link>
-      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/post-one/</guid>
-      <description>A structural experiment in typography, rhythm, spacing, and narrative tone.</description>
+      <title>Africa&#39;s Cities Are Growing Faster Than Their Plans. That Might Not Be a Disaster.</title>
+      <link>http://localhost:1313/news/african-cities-informal-growth/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/african-cities-informal-growth/</guid>
+      <description>&lt;p&gt;The standard way of talking about African urban growth is a warning.&lt;/p&gt;&#xA;&lt;p&gt;Cities expanding faster than roads can be built or pipes can be laid. Housing shortages that push millions into informal settlements. Traffic that turns short distances into long ordeals. Flooding in neighbourhoods that were built without drainage because nobody planned for them at all.&lt;/p&gt;&#xA;&lt;p&gt;These are real problems. Anyone who has spent time in a rapidly growing African city knows them directly.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mobile Money Changed Everything. Here&#39;s What Comes Next.</title>
+      <link>http://localhost:1313/news/mobile-money-future-africa/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/mobile-money-future-africa/</guid>
+      <description>&lt;p&gt;When M-Pesa launched in Kenya in 2007, most of the global finance world did not pay much attention.&lt;/p&gt;&#xA;&lt;p&gt;A mobile money service for a developing market. Useful, perhaps, for people without bank accounts. But not exactly the kind of thing that turns heads in London or New York.&lt;/p&gt;&#xA;&lt;p&gt;What followed surprised almost everyone.&lt;/p&gt;&#xA;&lt;p&gt;Within a few years, millions of Kenyans who had never held a bank account were sending money, paying bills, and setting aside savings — all through a basic mobile phone. Research later showed that M-Pesa helped lift a measurable share of Kenyan households out of poverty by giving people, and women in particular, a new kind of economic independence.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Welcome to this new corner of the internet</title>
@@ -21,6 +28,27 @@
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/news/welcome-post/</guid>
       <description>&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Future of AI in African Tech: Building Local Solutions</title>
+      <link>http://localhost:1313/news/1-ai-in-africa/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/1-ai-in-africa/</guid>
+      <description>&lt;p&gt;I remember the first time I understood that Africa&amp;rsquo;s tech future wouldn&amp;rsquo;t look like Silicon Valley&amp;rsquo;s past. It was at a startup pitch event in Nairobi three years ago, watching a young developer from Kisii present an AI system that could predict crop diseases from mobile phone images. The room fell silent—not because the technology was groundbreaking by global standards, but because it was built by someone who had spent their childhood watching their parents lose harvests to preventable diseases.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Africa&#39;s Renewable Energy Boom: Why the Continent Could Lead the World</title>
+      <link>http://localhost:1313/news/7-renewable-energy/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/7-renewable-energy/</guid>
+      <description>&lt;p&gt;I spent a week in rural Kenya last year, staying with a family that lives completely off-grid powered by solar panels the size of a small window. The mother of the household told me something I haven&amp;rsquo;t been able to shake: &amp;ldquo;For the first time in my life, I don&amp;rsquo;t have to think about energy.&amp;rdquo; She wasn&amp;rsquo;t using a generator that requires fuel she has to drive to town to buy. She wasn&amp;rsquo;t relying on an electrical grid that might fail for weeks. She had sunlight—which is abundantly free—converted into electricity.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How African Cities Are Solving Urban Problems With Grassroots Innovation</title>
+      <link>http://localhost:1313/news/10-grassroots-innovation/</link>
+      <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/10-grassroots-innovation/</guid>
+      <description>&lt;p&gt;I was stuck in Lagos traffic for four hours last month—which isn&amp;rsquo;t unusual, but this time I was sitting next to a founder who was solving the problem I was experiencing. She was on a call about an app that coordinates shared electric vehicles for last-mile transportation. Meanwhile, the woman in front of me was struggling with plastic waste, a problem being tackled by a startup converting that waste into building materials. The traffic caused me frustration; it caused these entrepreneurs to see opportunity.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
