@@ -23,6 +23,20 @@
       <description></description>
     </item>
     <item>
+      <title>Barack Obama</title>
+      <link>http://localhost:1313/tags/barack-obama/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/barack-obama/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Black History</title>
+      <link>http://localhost:1313/tags/black-history/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/black-history/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Books</title>
       <link>http://localhost:1313/tags/books/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
@@ -41,6 +55,13 @@
       <link>http://localhost:1313/tags/cities/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/cities/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Civil Rights</title>
+      <link>http://localhost:1313/tags/civil-rights/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/civil-rights/</guid>
       <description></description>
     </item>
     <item>
@@ -170,6 +191,13 @@
       <description></description>
     </item>
     <item>
+      <title>Jesse Jackson</title>
+      <link>http://localhost:1313/tags/jesse-jackson/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/jesse-jackson/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Journalism</title>
       <link>http://localhost:1313/tags/journalism/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
@@ -205,7 +233,7 @@
       <description></description>
     </item>
     <item>
-      <title>Mental-Health</title>
+      <title>Mental Health</title>
       <link>http://localhost:1313/tags/mental-health/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/mental-health/</guid>
@@ -216,6 +244,13 @@
       <link>http://localhost:1313/tags/mobile-money/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/mobile-money/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nelson Mandela</title>
+      <link>http://localhost:1313/tags/nelson-mandela/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/nelson-mandela/</guid>
       <description></description>
     </item>
     <item>
@@ -300,6 +335,13 @@
       <link>http://localhost:1313/tags/time/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/time/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tribute</title>
+      <link>http://localhost:1313/tags/tribute/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tribute/</guid>
       <description></description>
     </item>
     <item>

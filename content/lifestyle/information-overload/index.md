@@ -1,6 +1,6 @@
 ---
 author: Collins Obura
-featured_image: "overload.jpg"
+feature_image: "overload.jpg"
 author_image: "/images/collins.jpg"
 title: "Living With Constant Information Noise"
 date: 2026-02-09

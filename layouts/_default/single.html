@@ -27,7 +27,7 @@
     {{ if .Params.feature_image }}
       <div class="article-featured-image">
         {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-          {{ $img := .Fill "1200x600 center" }}
+          {{ $img := .Resize "1200x" }}
           <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
         {{ end }}
       </div>

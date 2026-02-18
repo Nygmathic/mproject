@@ -1,64 +1,202 @@
 {{ define "main" }}
 <div class="home-page">
 
-  {{/* LATEST ARTICLES - Featured Horizontal Layout */}}
+  {{/* ─────────────────────────────────────────────────────────────
+       HELPER: resolve a page-bundle image by filename.
+       Falls back to a global /static/images/ path if not in bundle.
+       ───────────────────────────────────────────────────────────── */}}
+
+  {{/* ─── PINNED POSTS ─────────────────────────────────────────── */}}
   {{ $allArticles := where .Site.RegularPages "Type" "in" (slice "news" "opinion" "lifestyle") }}
-  {{ $latest := first 2 $allArticles }}
-  {{ $remaining := after 2 $allArticles }}
-  
+
+  {{/* Collect posts where pin = true AND pin has not expired */}}
+  {{ $pinned := slice }}
+  {{ range where $allArticles "Params.pin" true }}
+    {{ $expired := false }}
+    {{ with .Params.pin_expiry }}
+      {{ $expiryTime := time . }}
+      {{ if lt $expiryTime now }}
+        {{ $expired = true }}
+      {{ end }}
+    {{ end }}
+    {{ if not $expired }}
+      {{ $pinned = $pinned | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ if $pinned }}
+  <section class="pinned-posts">
+    <div class="section-header">
+      <h2>Breaking</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="pinned-grid">
+      {{ range $pinned }}
+        {{/* Resolve image */}}
+        {{ $img := "" }}
+        {{ if .Params.feature_image }}
+          {{ with .Resources.GetMatch .Params.feature_image }}
+            {{ $img = .RelPermalink }}
+          {{ else }}
+            {{ $img = printf "/images/%s" $.Params.feature_image }}
+          {{ end }}
+        {{ end }}
+
+        <article class="pinned-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
+
+          {{ if and $img .Params.show_image_homepage }}
+          <div class="card-image-wrap">
+            <img
+              src="{{ $img }}"
+              alt="{{ .Title }}"
+              class="card-image"
+              loading="lazy"
+            />
+          </div>
+          {{ end }}
+
+          <div class="card-body">
+            {{ if .Params.categories }}
+              <span class="card-category">{{ index .Params.categories 0 }}</span>
+            {{ end }}
+
+            <h2 class="card-title">
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h2>
+
+            <div class="card-meta">
+              <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+              {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
+              <span class="card-reading-time">{{ .ReadingTime }} min read</span>
+            </div>
+
+            <p class="card-excerpt">{{ .Summary | truncate 200 }}</p>
+            <span class="card-cta">Read Full Story →</span>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* ─── LATEST ARTICLES ────────────────────────────────────────
+       Exclude pinned posts so they don't appear twice.           */}}
+  {{ $pinnedPermalinks := slice }}
+  {{ range $pinned }}
+    {{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}
+  {{ end }}
+
+  {{ $unpinned := slice }}
+  {{ range $allArticles }}
+    {{ if not (in $pinnedPermalinks .Permalink) }}
+      {{ $unpinned = $unpinned | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ $latest    := first 2 $unpinned }}
+  {{ $remaining := after 2 $unpinned }}
+
   {{ if $latest }}
   <section class="latest-articles">
     <div class="latest-articles-header">
       <h2>Latest Stories</h2>
       <div class="latest-divider"></div>
     </div>
-    
+
     <div class="latest-articles-grid">
       {{ range $latest }}
-      <article class="latest-card">
-        {{ if .Params.categories }}
-          <span class="latest-card-category">{{ index .Params.categories 0 }}</span>
+        {{/* Resolve image */}}
+        {{ $img := "" }}
+        {{ if .Params.feature_image }}
+          {{ with .Resources.GetMatch .Params.feature_image }}
+            {{ $img = .RelPermalink }}
+          {{ else }}
+            {{ $img = printf "/images/%s" $.Params.feature_image }}
+          {{ end }}
         {{ end }}
 
-        <h2 class="latest-card-title">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </h2>
+        <article class="latest-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
 
-        <div class="latest-card-meta">
-          <span class="latest-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-          {{ if .Params.author }}<span class="latest-author">{{ .Params.author }}</span>{{ end }}
-          <span class="latest-reading-time">{{ .ReadingTime }} min read</span>
-        </div>
+          {{ if and $img .Params.show_image_homepage }}
+          <div class="latest-card-image-wrap">
+            <img
+              src="{{ $img }}"
+              alt="{{ .Title }}"
+              class="latest-card-image"
+              loading="lazy"
+            />
+          </div>
+          {{ end }}
 
-        <p class="latest-card-excerpt">{{ .Summary | truncate 180 }}</p>
-        
-        <span class="latest-card-cta">Read Full Story</span>
-      </article>
+          <div class="latest-card-body">
+            {{ if .Params.categories }}
+              <span class="latest-card-category">{{ index .Params.categories 0 }}</span>
+            {{ end }}
+
+            <h2 class="latest-card-title">
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h2>
+
+            <div class="latest-card-meta">
+              <span class="latest-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+              {{ if .Params.author }}<span class="latest-author">{{ .Params.author }}</span>{{ end }}
+              <span class="latest-reading-time">{{ .ReadingTime }} min read</span>
+            </div>
+
+            <p class="latest-card-excerpt">{{ .Summary | truncate 180 }}</p>
+            <span class="latest-card-cta">Read Full Story →</span>
+          </div>
+        </article>
       {{ end }}
     </div>
   </section>
   {{ end }}
 
-  {{/* REMAINING ARTICLES - Grid Layout */}}
+  {{/* ─── REMAINING ARTICLES GRID ────────────────────────────── */}}
   {{ if $remaining }}
   <div class="articles-grid">
     {{ range first 12 $remaining }}
-    <article class="article-card">
-      {{ if .Params.categories }}
-        <span class="card-category">{{ index .Params.categories 0 }}</span>
+      {{/* Resolve image */}}
+      {{ $img := "" }}
+      {{ if .Params.feature_image }}
+        {{ with .Resources.GetMatch .Params.feature_image }}
+          {{ $img = .RelPermalink }}
+        {{ else }}
+          {{ $img = printf "/images/%s" $.Params.feature_image }}
+        {{ end }}
       {{ end }}
 
-      <h2 class="card-title">
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-      </h2>
+      <article class="article-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
 
-      <div class="card-meta">
-        <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-        {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
-      </div>
+        {{ if and $img .Params.show_image_homepage }}
+        <div class="article-card-image-wrap">
+          <img
+            src="{{ $img }}"
+            alt="{{ .Title }}"
+            class="article-card-image"
+            loading="lazy"
+          />
+        </div>
+        {{ end }}
 
-      <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>
-    </article>
+        <div class="article-card-body">
+          {{ if .Params.categories }}
+            <span class="card-category">{{ index .Params.categories 0 }}</span>
+          {{ end }}
+
+          <h2 class="card-title">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h2>
+
+          <div class="card-meta">
+            <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+            {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
+          </div>
+
+          <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>
+        </div>
+      </article>
     {{ end }}
   </div>
   {{ end }}

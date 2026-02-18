@@ -6,9 +6,10 @@
 /* ===== DESIGN SYSTEM ===== */
 
 :root {
-  /* Typography Scale - E-Reader Optimized */
-  --font-reading: Georgia, 'Times New Roman', serif;
-  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Typography Scale - Option 2: New Yorker / Intellectual */
+  --font-display: 'DM Serif Display', Georgia, serif;    /* headlines — elegant, thin-thick contrast */
+  --font-reading: 'Libre Baskerville', Georgia, serif;   /* body — bookish, prestige, screen-optimised */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; /* meta, nav, labels */
   
   /* Color Palette - E-Reader Comfort */
   --color-primary: #007acc;
@@ -56,8 +57,8 @@ html {
 body {
   font-family: var(--font-reading);
   font-weight: 400;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.975rem;       /* Libre Baskerville renders large — dial back slightly */
+  line-height: 1.85;         /* bookish spacing */
   color: var(--color-text);
   background: var(--color-bg);
 }
@@ -65,9 +66,9 @@ body {
 /* ===== TYPOGRAPHY ===== */
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-reading);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: var(--font-display);
+  font-weight: 400;          /* DM Serif Display Regular — the thin-thick contrast does the work */
+  line-height: 1.2;
   color: var(--color-text);
   margin-bottom: var(--space-md);
 }
@@ -116,8 +117,8 @@ h6 {
 
 p {
   margin-bottom: var(--space-lg);
-  line-height: 1.6;
-  font-size: 1rem;
+  line-height: 1.85;
+  font-size: 0.975rem;
 }
 
 a {
@@ -350,7 +351,7 @@ em, i {
 }
 
 .site-title {
-  font-family: var(--font-reading);
+  font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 var(--space-xs) 0;
@@ -1028,6 +1029,65 @@ em, i {
   flex-grow: 1;
 }
 
+/* ===== FEATURE IMAGE WRAPPERS =====
+   Used by: pinned cards, latest cards, article-grid cards, list cards.
+   The padding-top trick locks the aspect ratio so the browser can never
+   auto-crop or collapse the image container.
+   ─────────────────────────────────────────────────────────────────── */
+
+/* Shared base for all card image wrappers */
+.card-image-wrap,
+.latest-card-image-wrap,
+.article-card-image-wrap,
+.list-card-image-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;   /* 16:9 — change to 66.67% for 3:2          */
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-bg-alt);
+  margin-bottom: var(--space-md);
+  flex-shrink: 0;        /* never let flexbox squash the image        */
+}
+
+/* Shared base for all card images */
+.card-image,
+.latest-card-image,
+.article-card-image,
+.list-card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  
+  /* "center top" keeps heads/faces visible when cover crops height.
+     Change to "center center" for landscape/scenery images.          */
+  object-position: center top;
+  
+  transition: transform 0.35s ease;
+}
+
+/* Subtle zoom on hover — consistent with card hover lift */
+.pinned-card:hover .card-image,
+.latest-card:hover .latest-card-image,
+.article-card:hover .article-card-image,
+.list-card:hover .list-card-image {
+  transform: scale(1.04);
+}
+
+/* On mobile, use a slightly taller ratio so images don't feel
+   too wide and thin on narrow screens                              */
+@media (max-width: 640px) {
+  .card-image-wrap,
+  .latest-card-image-wrap,
+  .article-card-image-wrap,
+  .list-card-image-wrap {
+    padding-top: 66.67%; /* 3:2 on mobile */
+  }
+}
+
 /* ===== SINGLE ARTICLE ===== */
 
 .single-article {
@@ -1116,10 +1176,13 @@ em, i {
 
 .article-featured-image {
   margin-bottom: var(--space-xl);
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
   
   img {
     width: 100%;
-    height: auto;
+    height: auto;      /* natural height — no cropping at all */
     display: block;
   }
 }
