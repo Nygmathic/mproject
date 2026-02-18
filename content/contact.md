@@ -2,6 +2,7 @@
 title: "Get in Touch"
 subtitle: "Story tips, corrections, collaborations, or just a hello."
 layout: "single"
+type: "contact"
 url: "/contact/"
 ---
 
