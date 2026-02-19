@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="policy-page">
+  <div class="article-container">
+
+    <header class="policy-header">
+      <h1 class="policy-title">{{ .Title }}</h1>
+      {{ with .Params.subtitle }}
+        <p class="policy-subtitle">{{ . }}</p>
+      {{ end }}
+      {{ with .Params.updated }}
+        <p class="policy-updated">Last updated: {{ . }}</p>
+      {{ end }}
+    </header>
+
+    <div class="policy-body">
+      {{ .Content }}
+    </div>
+
+  </div>
+</div>
+{{ end }}

@@ -184,11 +184,25 @@
       <description>&lt;p&gt;I was stuck in Lagos traffic for four hours last month—which isn&amp;rsquo;t unusual, but this time I was sitting next to a founder who was solving the problem I was experiencing. She was on a call about an app that coordinates shared electric vehicles for last-mile transportation. Meanwhile, the woman in front of me was struggling with plastic waste, a problem being tackled by a startup converting that waste into building materials. The traffic caused me frustration; it caused these entrepreneurs to see opportunity.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>About Veridus</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;h2 id=&#34;what-is-veridus&#34;&gt;What is Veridus?&lt;/h2&gt;&#xA;&lt;p&gt;Veridus is an independent news review publication dedicated to making sense of the world&amp;rsquo;s most important stories. We dig into the headlines, provide context, and offer clear-eyed analysis of events unfolding across the globe.&lt;/p&gt;&#xA;&lt;p&gt;The name &lt;em&gt;Veridus&lt;/em&gt; is rooted in truth — and that is the standard we hold ourselves to.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-we-cover&#34;&gt;What we cover&lt;/h2&gt;&#xA;&lt;p&gt;We review and analyse news across politics, culture, technology, and society. Rather than simply reporting what happened, we ask &lt;em&gt;why it matters&lt;/em&gt; and &lt;em&gt;what it means&lt;/em&gt; — for your community, your country, and the world.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Get in Touch</title>
       <link>http://localhost:1313/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/contact/</guid>
       <description>&lt;p&gt;Whether you have a story tip, spotted an error, want to collaborate, or simply want to say hello — we want to hear from you. Veridus is built on curiosity and conversation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Privacy Policy</title>
+      <link>http://localhost:1313/privacy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/privacy/</guid>
+      <description>&lt;p&gt;This Privacy Policy explains how Veridus (&amp;ldquo;we&amp;rdquo;, &amp;ldquo;us&amp;rdquo;, &amp;ldquo;our&amp;rdquo;) collects and handles information when you visit veridus.space. By using this site you agree to the practices described below.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-information-we-collect&#34;&gt;1. Information We Collect&lt;/h2&gt;&#xA;&lt;h3 id=&#34;usage-data&#34;&gt;Usage Data&lt;/h3&gt;&#xA;&lt;p&gt;We collect anonymous, aggregated data about how visitors interact with the site. This includes pages visited, time spent reading, general geographic location at a country or city level, device type, and browser type. This data cannot be used to identify you personally.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Search</title>

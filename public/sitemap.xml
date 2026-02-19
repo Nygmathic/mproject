@@ -672,6 +672,10 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>http://localhost:1313/about/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>http://localhost:1313/archive/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -679,6 +683,10 @@
     <loc>http://localhost:1313/contact/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
+  </url><url>
+    <loc>http://localhost:1313/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url><url>
     <loc>http://localhost:1313/search/</loc>
     <changefreq>weekly</changefreq>
