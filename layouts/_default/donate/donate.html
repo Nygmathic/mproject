@@ -1,0 +1,360 @@
+{{ define "main" }}
+
+<style>
+  /* ========================================
+     DONATE PAGE — matches Veridus design system
+     ======================================== */
+
+  .donate-page {
+    padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
+  }
+
+  /* ── Page Header ─────────────────────────────── */
+  .donate-header {
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .donate-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .donate-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0 0 var(--space-sm);
+    color: var(--color-text);
+  }
+
+  .donate-subtitle {
+    font-family: var(--font-reading);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+  /* ── Body copy ───────────────────────────────── */
+  .donate-intro {
+    font-family: var(--font-reading);
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* ── Notice block ────────────────────────────── */
+  .donate-notice {
+    border-left: 2px solid var(--color-primary);
+    padding: var(--space-md) var(--space-xl);
+    background: var(--color-bg-alt);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .donate-notice p {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin: 0;
+  }
+
+  .donate-notice strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* ── Section heading (like about/policy pages) ─ */
+  .donate-section-label {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 var(--space-md);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .donate-section-body {
+    font-family: var(--font-reading);
+    font-size: 0.975rem;
+    line-height: 1.85;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-xl);
+  }
+
+  /* ── CTA buttons — matches .form-submit style ── */
+  .donate-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .donate-action-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--color-border-light);
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .donate-action-item:first-child {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .donate-action-text {
+    flex: 1;
+  }
+
+  .donate-action-title {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .donate-action-desc {
+    font-family: var(--font-reading);
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    line-height: 1.65;
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* ── Shared button base ── */
+  .donate-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 2px;
+    transition: background 0.2s ease, color 0.2s ease,
+                border-color 0.2s ease, transform 0.15s ease,
+                box-shadow 0.2s ease;
+  }
+
+  .donate-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    stroke: currentColor;
+  }
+
+  /* Primary: "Email your intent" — solid black, white text, always */
+  .donate-btn-primary {
+    background: #1a1a1a;
+    color: #ffffff !important;
+    border: 2px solid #1a1a1a;
+  }
+
+  .donate-btn-primary:hover {
+    background: #333333;
+    border-color: #333333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Secondary: "Notify me when ready" — same as primary */
+  .donate-btn-secondary {
+    background: #1a1a1a;
+    color: #ffffff !important;
+    border: 2px solid #1a1a1a;
+  }
+
+  .donate-btn-secondary:hover {
+    background: #333333;
+    border-color: #333333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  }
+
+  /* ── Impact grid ─────────────────────────────── */
+  .donate-impact {
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--space-2xl);
+  }
+
+  .donate-impact-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    margin: 0 0 var(--space-xl);
+    display: block;
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  .impact-item {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+  }
+
+  .impact-item h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .impact-item p {
+    font-family: var(--font-reading);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin: 0;
+  }
+
+  /* ── Dark mode tweaks ────────────────────────── */
+  [data-theme="dark"] .donate-notice {
+    background: var(--color-bg-alt);
+  }
+
+  [data-theme="dark"] .donate-btn {
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  [data-theme="dark"] .donate-btn:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+  }
+</style>
+
+<div class="article-container">
+  <div class="donate-page">
+
+    <!-- Header -->
+    <div class="donate-header">
+      <span class="donate-label">Support Our Work</span>
+      <h1 class="donate-title">Help keep Veridus independent.</h1>
+      <p class="donate-subtitle">
+        Good journalism takes time, care, and resources. If our work has meant something to you, consider supporting us.
+      </p>
+    </div>
+
+    <!-- Intro -->
+    <p class="donate-intro">
+      Veridus is an independent publication. We don't carry advertisements and we are not backed by a media conglomerate.
+      Everything published here is the result of genuine effort to report, analyse, and reflect on the world honestly.
+      Your support — however modest — helps us continue doing exactly that.
+    </p>
+
+    <!-- Notice -->
+    <div class="donate-notice">
+      <p>
+        <strong>Please note:</strong> We do not yet have an online payment system in place.
+        We are actively working to set one up, and this page will be updated as soon as it is live.
+        In the meantime, if you would like to support Veridus, please get in touch by email —
+        we will respond to every message personally.
+      </p>
+    </div>
+
+    <!-- How to support -->
+    <h2 class="donate-section-label">How to support us right now</h2>
+    <p class="donate-section-body">
+      Until our online donation system is ready, there are two simple ways to express your support.
+      Both take less than a minute.
+    </p>
+
+    <div class="donate-actions">
+
+      <div class="donate-action-item">
+        <div class="donate-action-text">
+          <p class="donate-action-title">Express your donation intent</p>
+          <p class="donate-action-desc">
+            Send us an email letting us know you'd like to contribute. We'll follow up once a payment method is in place.
+          </p>
+        </div>
+        <a class="donate-btn donate-btn-primary"
+           href="mailto:contact@veridus.space?subject=I%20would%20like%20to%20support%20Veridus&body=Hi%20Veridus%20team%2C%0A%0AI%20would%20like%20to%20support%20your%20work.%20Please%20get%20in%20touch%20once%20your%20donation%20system%20is%20ready.%0A%0AThank%20you.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email your intent
+        </a>
+      </div>
+
+      <div class="donate-action-item">
+        <div class="donate-action-text">
+          <p class="donate-action-title">Get notified when payments go live</p>
+          <p class="donate-action-desc">
+            Drop us a line and we'll notify you the moment our secure donation system is up and running.
+          </p>
+        </div>
+        <a class="donate-btn donate-btn-secondary"
+           href="mailto:contact@veridus.space?subject=Notify%20me%20when%20Veridus%20donations%20go%20live&body=Hi%2C%0A%0APlease%20notify%20me%20when%20your%20online%20donation%20system%20is%20ready.%0A%0AThank%20you.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          Notify me when ready
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Impact -->
+    <div class="donate-impact">
+      <span class="donate-impact-label">What your support makes possible</span>
+      <div class="impact-grid">
+        <div class="impact-item">
+          <h4>Independent Reporting</h4>
+          <p>Stories covered on their merits — not shaped by advertisers, sponsors, or editorial pressure from above.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Thoughtful Analysis</h4>
+          <p>Long-form opinion and insight that goes beyond the headline and takes time to get things right.</p>
+        </div>
+        <div class="impact-item">
+          <h4>Free for Every Reader</h4>
+          <p>Keeping Veridus open and accessible to all — no paywalls, no subscriptions, no barriers.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{ end }}

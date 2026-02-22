@@ -67,8 +67,9 @@
         <li><a href="/categories/news/" class="nav-item">News</a></li>
         <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
         <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
-        <li><a href="/about/" class="nav-item">About</a></li>
-        <li><a href="/contact/" class="nav-item">Contact</a></li>
+        <li><a href="/videos/" class="nav-item">Videos</a></li>
+        <li><a href="/podcasts/" class="nav-item">Podcasts</a></li>
+        <li><a href="/radio/" class="nav-item">Radio</a></li>
       </ul>
     </div>
   </nav>
@@ -92,9 +93,13 @@
       <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
       <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
       <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
+      <li><a href="/videos/" class="mobile-nav-item">Videos</a></li>
+      <li><a href="/podcasts/" class="mobile-nav-item">Podcasts</a></li>
+      <li><a href="/radio/" class="mobile-nav-item">Radio</a></li>
       <li><a href="/about/" class="mobile-nav-item">About</a></li>
       <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
       <li><a href="/search/" class="mobile-nav-item">Search</a></li>
+      <li><a href="/donate/" class="mobile-nav-item mobile-nav-donate">Support Us</a></li>
     </ul>
   </nav>
   
@@ -181,6 +186,17 @@
   });
 })();
 </script>
+
+<style>
+.mobile-nav-donate {
+  color: var(--color-text-lighter) !important;
+  font-style: italic;
+  transition: color 0.2s ease;
+}
+.mobile-nav-donate:hover {
+  color: var(--color-primary) !important;
+}
+</style>
 
 {{/* Theme Toggle Script */}}
 <script>

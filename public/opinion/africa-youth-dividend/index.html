@@ -87,7 +87,7 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
   
   
     
-    <link rel="stylesheet" href="/css/style.550792618e0348b8fa25a3b8ec811218e2bfa4c87127bc4114881d8c19a19cb5.css" integrity="sha256-VQeSYY4DSLj6JaO47IESGOK/pMhxJ7xBFIgdjBmhnLU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.7fdb93d9cfb8c266462e7f94611398a2de48ba57c04c3d91ef3d739c278da8e6.css" integrity="sha256-f9uT2c&#43;4wmZGLn&#43;UYROYot5IulfATD2R7z1znCeNqOY=" crossorigin="anonymous">
   
 
   
@@ -114,8 +114,8 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
   
   <div class="header-top">
     <div class="header-inner">
-      <time class="header-date" datetime="2026-02-19">
-        Thursday, February 19, 2026
+      <time class="header-date" datetime="2026-02-22">
+        Sunday, February 22, 2026
       </time>
       
       <div class="header-actions">
@@ -178,8 +178,9 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
         <li><a href="/categories/news/" class="nav-item">News</a></li>
         <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
         <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
-        <li><a href="/about/" class="nav-item">About</a></li>
-        <li><a href="/contact/" class="nav-item">Contact</a></li>
+        <li><a href="/videos/" class="nav-item">Videos</a></li>
+        <li><a href="/podcasts/" class="nav-item">Podcasts</a></li>
+        <li><a href="/radio/" class="nav-item">Radio</a></li>
       </ul>
     </div>
   </nav>
@@ -203,9 +204,13 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
       <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
       <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
       <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
+      <li><a href="/videos/" class="mobile-nav-item">Videos</a></li>
+      <li><a href="/podcasts/" class="mobile-nav-item">Podcasts</a></li>
+      <li><a href="/radio/" class="mobile-nav-item">Radio</a></li>
       <li><a href="/about/" class="mobile-nav-item">About</a></li>
       <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
       <li><a href="/search/" class="mobile-nav-item">Search</a></li>
+      <li><a href="/donate/" class="mobile-nav-item mobile-nav-donate">Support Us</a></li>
     </ul>
   </nav>
   
@@ -219,7 +224,7 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
         </a>
       
       
-        <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <a href="https://facebook.com/profile.php?id=61587502772266" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
           </svg>
@@ -292,6 +297,17 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
   });
 })();
 </script>
+
+<style>
+.mobile-nav-donate {
+  color: var(--color-text-lighter) !important;
+  font-style: italic;
+  transition: color 0.2s ease;
+}
+.mobile-nav-donate:hover {
+  color: var(--color-primary) !important;
+}
+</style>
 
 
 <script>
@@ -472,6 +488,7 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
             <li><a href="/contact/">Contact</a></li>
             <li><a href="/search/">Search</a></li>
             <li><a href="/privacy/">Privacy Policy</a></li>
+            <li><a href="/donate/" class="footer-donate-link">Support Us</a></li>
           </ul>
         </div>
 
@@ -491,77 +508,51 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
       <div class="footer-social-section">
         <h3 class="social-section-title">Follow Us</h3>
         <div class="social-icons-grid">
+
           
-            <a href="https://twitter.com/yourusername" class="social-icon-box twitter" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-              </svg>
-              <span class="social-label">Twitter</span>
+            <a href="https://twitter.com/yourusername" class="social-icon-box" style="--brand: #000000;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
           
+
           
-          
-            <a href="https://facebook.com/yourpage" class="social-icon-box facebook" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-              </svg>
-              <span class="social-label">Facebook</span>
+            <a href="https://facebook.com/profile.php?id=61587502772266" class="social-icon-box" style="--brand: #1877F2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           
+
           
-          
-            <a href="https://linkedin.com/in/yourprofile" class="social-icon-box linkedin" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-              <span class="social-label">LinkedIn</span>
+            <a href="https://linkedin.com/in/yourprofile" class="social-icon-box" style="--brand: #0A66C2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
           
+
           
-          
-            <a href="https://instagram.com/yourusername" class="social-icon-box instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round"></line>
-              </svg>
-              <span class="social-label">Instagram</span>
+            <a href="https://instagram.com/yourusername" class="social-icon-box social-icon-instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           
+
           
-          
-            <a href="https://youtube.com/@yourchannel" class="social-icon-box youtube" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path>
-                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"></polygon>
-              </svg>
-              <span class="social-label">YouTube</span>
+            <a href="https://youtube.com/@yourchannel" class="social-icon-box" style="--brand: #FF0000;" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
           
+
           
+
           
-          
-          
-          
-          
-            <a href="mailto:contact@yourdomain.com" class="social-icon-box email" aria-label="Email us">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-              <span class="social-label">Email</span>
+            <a href="mailto:contact@veridus.space" class="social-icon-box" style="--brand: #007acc;" aria-label="Email us">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </a>
           
+
           
-          
-            <a href="/index.xml" class="social-icon-box rss" aria-label="RSS Feed">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"></path>
-              </svg>
-              <span class="social-label">RSS</span>
+            <a href="/index.xml" class="social-icon-box" style="--brand: #F26522;" aria-label="RSS Feed">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
             </a>
           
+
         </div>
       </div>
 
@@ -571,5 +562,68 @@ The concern is real. But the framing is wrong — and it keeps getting in the wa
     </div>
   </div>
 </footer>
+
+<style>
+ 
+.footer-social-section {
+  padding: var(--space-xl) 0;
+  border-top: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: var(--space-xl);
+}
+
+.social-section-title {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+  margin-bottom: var(--space-lg);
+}
+
+.social-icons-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.social-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand, var(--color-text-lighter));
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.18s ease;
+  line-height: 0;
+}
+
+.social-icon-box svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.social-icon-box:hover {
+  opacity: 0.65;
+  transform: translateY(-2px);
+}
+
+.social-icon-instagram {
+  color: #C13584;
+}
+
+ 
+.footer-donate-link {
+  color: var(--color-text-lighter) !important;
+  font-style: italic;
+  transition: color 0.2s ease;
+}
+.footer-donate-link:hover {
+  color: var(--color-primary) !important;
+}
+</style>
 </body>
 </html>

@@ -27,12 +27,12 @@ params:
   # Social Media Links - Icons will appear for any configured links
   social:
     twitter: "https://twitter.com/yourusername"
-    facebook: "https://facebook.com/yourpage"
+    facebook: "https://facebook.com/profile.php?id=61587502772266"
     linkedin: "https://linkedin.com/in/yourprofile"
     instagram: "https://instagram.com/yourusername"
     youtube: "https://youtube.com/@yourchannel"
     # tiktok: "https://tiktok.com/@yourusername"
-    email: "contact@yourdomain.com"
+    email: "contact@veridus.space"
     rss: "/index.xml"
 
 menu:
@@ -55,3 +55,6 @@ menu:
     - name: "Podcasts"
       url: "/podcasts/"
       weight: 5
+
+
+      
