@@ -1,6 +1,6 @@
 ---
 title: "The Problem Is Not That People Don't Read. It's What They're Reading."
-date: 2026-02-17
+date: 2026-02-19
 author: "Collins Obura"
 categories: ["opinion"]
 tags: ["media literacy", "information", "journalism", "reading habits", "opinion"]

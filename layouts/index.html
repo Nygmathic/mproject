@@ -192,6 +192,7 @@
           <div class="card-meta">
             <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
             {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
+            <span class="card-reading-time">{{ .ReadingTime }} min read</span>
           </div>
 
           <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>

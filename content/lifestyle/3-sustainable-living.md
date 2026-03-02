@@ -1,6 +1,6 @@
 ---
 title: "A Beginner's Guide to Sustainable Living in the City"
-date: 2024-02-05
+date: 2024-02-11
 author: "Collins Obura"
 categories: ["Lifestyle", "Sustainability"]
 tags: ["sustainability", "city-living", "eco-friendly", "green-living"]

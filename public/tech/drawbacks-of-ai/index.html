@@ -106,6 +106,35 @@ One major drawback of AI is job displacement. As AI systems automate tasks once 
 
 </head>
 <body class="site-layout"> 
+
+    
+    <div id="reading-progress" aria-hidden="true"></div>
+    <style>
+      #reading-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: #c0392b;
+        z-index: 9999;
+        transition: width 0.1s linear;
+        pointer-events: none;
+      }
+    </style>
+    <script>
+      (function() {
+        var bar = document.getElementById('reading-progress');
+        if (!bar) return;
+        window.addEventListener('scroll', function() {
+          var scrollTop = window.scrollY || document.documentElement.scrollTop;
+          var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          bar.style.width = Math.min(pct, 100) + '%';
+        }, { passive: true });
+      })();
+    </script>
+
     <a class="skip-link" href="#main-content">Skip to content</a>
     
     
@@ -113,9 +142,19 @@ One major drawback of AI is job displacement. As AI systems automate tasks once 
   
   <div class="header-top">
     <div class="header-inner">
-      <time class="header-date" datetime="2026-02-22">
-        Sunday, February 22, 2026
-      </time>
+      <time class="header-date" id="header-date"></time>
+      <script>
+        (function() {
+          var el = document.getElementById('header-date');
+          var now = new Date();
+          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+          var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          var dateStr = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+          var isoStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+          el.setAttribute('datetime', isoStr);
+          el.textContent = dateStr;
+        })();
+      </script>
       
       <div class="header-actions">
         <a href="/search/" class="search-trigger" aria-label="Search">

@@ -25,7 +25,7 @@
           <div class="item-meta">
             <span>{{ .Date.Format "Jan 2, 2006" }}</span>
             {{ if .Params.author }}<span>{{ .Params.author }}</span>{{ end }}
-            <span>{{ .ReadingTime }} min</span>
+            <span>{{ .ReadingTime }} min read</span>
           </div>
 
           <p class="item-excerpt">{{ .Summary | truncate 200 }}</p>

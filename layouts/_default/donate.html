@@ -76,7 +76,7 @@
     font-weight: 600;
   }
 
-  /* ── Section heading (like about/policy pages) ─ */
+  /* ── Section heading ─ */
   .donate-section-label {
     font-family: var(--font-display);
     font-size: 1.35rem;
@@ -95,7 +95,7 @@
     margin-bottom: var(--space-xl);
   }
 
-  /* ── CTA buttons — matches .form-submit style ── */
+  /* ── CTA layout ── */
   .donate-actions {
     display: flex;
     flex-direction: column;
@@ -144,7 +144,7 @@
     font-style: italic;
   }
 
-  /* ── Shared button base ── */
+  /* ── Buttons — match back-to-top style ── */
   .donate-btn {
     flex-shrink: 0;
     display: inline-flex;
@@ -159,10 +159,9 @@
     padding: 0.85rem 1.75rem;
     cursor: pointer;
     white-space: nowrap;
-    border-radius: 2px;
-    transition: background 0.2s ease, color 0.2s ease,
-                border-color 0.2s ease, transform 0.15s ease,
-                box-shadow 0.2s ease;
+    border: none;
+    border-radius: 50px;
+    transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
   }
 
   .donate-btn svg {
@@ -172,32 +171,18 @@
     stroke: currentColor;
   }
 
-  /* Primary: "Email your intent" — solid black, white text, always */
-  .donate-btn-primary {
-    background: #1a1a1a;
-    color: #ffffff !important;
-    border: 2px solid #1a1a1a;
-  }
-
-  .donate-btn-primary:hover {
-    background: #333333;
-    border-color: #333333;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-  }
-
-  /* Secondary: "Notify me when ready" — same as primary */
+  .donate-btn-primary,
   .donate-btn-secondary {
-    background: #1a1a1a;
-    color: #ffffff !important;
-    border: 2px solid #1a1a1a;
+    background: #007ACC;
+    color: #fff;
   }
 
+  .donate-btn-primary:hover,
   .donate-btn-secondary:hover {
-    background: #333333;
-    border-color: #333333;
+    background: #0062a3;
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 
   /* ── Impact grid ─────────────────────────────── */
@@ -253,17 +238,6 @@
   /* ── Dark mode tweaks ────────────────────────── */
   [data-theme="dark"] .donate-notice {
     background: var(--color-bg-alt);
-  }
-
-  [data-theme="dark"] .donate-btn {
-    border-color: var(--color-border);
-    color: var(--color-text);
-  }
-
-  [data-theme="dark"] .donate-btn:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
   }
 </style>
 

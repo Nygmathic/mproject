@@ -1,6 +1,6 @@
 ---
 title: "What Loss Teaches About the Value of Ordinary Time"
-date: 2026-02-17
+date: 2026-02-25
 author: "Collins Obura"
 categories: ["lifestyle"]
 tags: ["grief", "loss", "time", "perspective", "personal essay"]

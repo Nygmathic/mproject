@@ -1,6 +1,6 @@
 ---
 title: "Why We Stopped Being Bored — and What We Lost"
-date: 2026-02-17
+date: 2026-02-22
 author: "Collins Obura"
 categories: ["lifestyle"]
 tags: ["attention", "creativity", "mental health", "slow living", "boredom"]

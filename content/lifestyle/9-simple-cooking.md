@@ -1,6 +1,6 @@
 ---
 title: "The Art of the Simple Dinner: Building a Weeknight Cooking Practice"
-date: 2024-02-03
+date: 2024-02-07
 author: "Collins Obura"
 categories: ["Lifestyle", "Food"]
 tags: ["cooking", "health", "food", "wellness", "budget"]

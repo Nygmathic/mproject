@@ -1,6 +1,6 @@
 ---
 title: "Africa's Youth Is Not a Problem. It's the Point."
-date: 2026-02-17
+date: 2026-02-15
 author: "Collins Obura"
 categories: ["opinion"]
 tags: ["Africa", "youth", "development", "economy", "opportunity"]

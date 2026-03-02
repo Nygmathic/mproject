@@ -1,6 +1,6 @@
 ---
 title: "What the Yaytseslav Scandal Reveals About Kenya's Blind Spots"
-date: 2026-02-17
+date: 2026-02-16
 author: "Collins Obura"
 categories: ["opinion"]
 tags: ["Kenya", "digital rights", "gender", "cybercrime", "consent", "opinion"]

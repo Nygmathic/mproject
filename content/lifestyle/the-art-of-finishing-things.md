@@ -1,6 +1,6 @@
 ---
 title: "The Forgotten Art of Finishing Things"
-date: 2026-02-17
+date: 2026-02-16
 author: "Collins Obura"
 categories: ["lifestyle"]
 tags: ["habits", "focus", "creative work", "completion", "productivity"]

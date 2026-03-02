@@ -1,6 +1,6 @@
 ---
 title: "We Talk About Mental Health. We Don't Fund It."
-date: 2026-02-17
+date: 2026-02-13
 author: "Collins Obura"
 categories: ["opinion"]
 tags: ["mental health", "healthcare", "Africa", "policy", "wellbeing"]

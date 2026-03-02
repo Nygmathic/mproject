@@ -2655,9 +2655,8 @@ img {
 
 .form-submit {
   flex-shrink: 0;
-  background: transparent;
-  border: 1px solid var(--color-text);
-  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
@@ -2665,15 +2664,21 @@ img {
   text-transform: uppercase;
   padding: 0.8rem 2rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border: none;
+  border-radius: 50px;
+  background: #007ACC;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
 
   &:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
+    background: #0062a3;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid #007ACC;
     outline-offset: 3px;
   }
 }
@@ -2686,17 +2691,6 @@ img {
 
     &:focus {
       border-bottom-color: var(--color-primary);
-    }
-  }
-
-  .form-submit {
-    border-color: var(--color-border);
-    color: var(--color-text);
-
-    &:hover {
-      background: var(--color-text);
-      color: var(--color-bg);
-      border-color: var(--color-text);
     }
   }
 }

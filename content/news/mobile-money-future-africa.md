@@ -1,6 +1,6 @@
 ---
 title: "Mobile Money Changed Everything. Here's What Comes Next."
-date: 2026-02-17
+date: 2026-02-15
 author: "Collins Obura"
 categories: ["news"]
 tags: ["fintech", "Africa", "mobile money", "financial inclusion", "technology"]

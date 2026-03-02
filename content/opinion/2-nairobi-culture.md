@@ -1,6 +1,6 @@
 ---
 title: "Why Nairobi Deserves to Be the Cultural Capital of East Africa"
-date: 2024-02-08
+date: 2024-02-10
 author: "Collins Obura"
 categories: ["Opinion", "Culture"]
 tags: ["nairobi", "culture", "east-africa", "arts"]

@@ -1,6 +1,6 @@
 ---
 title: "Why Free Online Education Hasn't Solved Inequality—And What Might"
-date: 2024-02-04
+date: 2024-02-12
 author: "Collins Obura"
 categories: ["Opinion", "Education"]
 tags: ["education", "inequality", "access", "learning"]

@@ -3,9 +3,19 @@
   {{/* Top Bar with Date and Search */}}
   <div class="header-top">
     <div class="header-inner">
-      <time class="header-date" datetime="{{ now.Format "2006-01-02" }}">
-        {{ now.Format "Monday, January 2, 2006" }}
-      </time>
+      <time class="header-date" id="header-date"></time>
+      <script>
+        (function() {
+          var el = document.getElementById('header-date');
+          var now = new Date();
+          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+          var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          var dateStr = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+          var isoStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+          el.setAttribute('datetime', isoStr);
+          el.textContent = dateStr;
+        })();
+      </script>
       
       <div class="header-actions">
         <a href="/search/" class="search-trigger" aria-label="Search">

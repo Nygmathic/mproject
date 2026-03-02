@@ -9,11 +9,21 @@
   <link rel="canonical" href="http://localhost:1313/about/">
 
   
+  <link rel="alternate" type="application/rss+xml" title="Veridus RSS Feed" href="http://localhost:1313/index.xml">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="http://localhost:1313/sitemap.xml">
+
+  
   <meta name="description" content="What is Veridus?
 Veridus is an independent news review publication dedicated to making sense of the world&rsquo;s most important stories. We dig into the headlines, provide context, and offer clear-eyed analysis of events unfolding across the globe.
 The name Veridus is rooted in truth — and that is the standard we hold ourselves to.
 What we cover
 We review and analyse news across politics, culture, technology, and society. Rather than simply reporting what happened, we ask why it matters and what it means — for your community, your country, and the world.">
+
+  
+  
+  
+    
+  
 
   
   
@@ -25,9 +35,9 @@ What we cover
 We review and analyse news across politics, culture, technology, and society. Rather than simply reporting what happened, we ask why it matters and what it means — for your community, your country, and the world.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="http://localhost:1313/about/">
-    
-    
-    
+    <meta property="og:image" content="http://localhost:1313/images/og-default.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="article:published_time" content="0001-01-01T00:00:00Z">
     
   
@@ -41,7 +51,7 @@ The name Veridus is rooted in truth — and that is the standard we hold ourselv
 What we cover
 We review and analyse news across politics, culture, technology, and society. Rather than simply reporting what happened, we ask why it matters and what it means — for your community, your country, and the world.">
   
-    
+    <meta name="twitter:image" content="http://localhost:1313/images/og-default.jpg">
   
 
   
@@ -52,11 +62,10 @@ We review and analyse news across politics, culture, technology, and society. Ra
       "@type": "NewsArticle",
       "headline": "About Veridus",
       "description": "\u003ch2 id=\u0022what-is-veridus\u0022\u003eWhat is Veridus?\u003c\/h2\u003e\n\u003cp\u003eVeridus is an independent news review publication dedicated to making sense of the world\u0026rsquo;s most important stories. We dig into the headlines, provide context, and offer clear-eyed analysis of events unfolding across the globe.\u003c\/p\u003e\n\u003cp\u003eThe name \u003cem\u003eVeridus\u003c\/em\u003e is rooted in truth — and that is the standard we hold ourselves to.\u003c\/p\u003e\n\u003ch2 id=\u0022what-we-cover\u0022\u003eWhat we cover\u003c\/h2\u003e\n\u003cp\u003eWe review and analyse news across politics, culture, technology, and society. Rather than simply reporting what happened, we ask \u003cem\u003ewhy it matters\u003c\/em\u003e and \u003cem\u003ewhat it means\u003c\/em\u003e — for your community, your country, and the world.\u003c\/p\u003e",
-      "image": [
-        
-      ],
+      "image": ["http:\/\/localhost:1313\/images\/og-default.jpg"],
       "datePublished": "0001-01-01T00:00:00Z",
       "dateModified": "0001-01-01T00:00:00Z",
+      "timeRequired": "PT2M",
       "author": {
         "@type": "Person",
         "name": ""
@@ -95,7 +104,7 @@ We review and analyse news across politics, culture, technology, and society. Ra
   
   
     
-    <link rel="stylesheet" href="/css/style.7fdb93d9cfb8c266462e7f94611398a2de48ba57c04c3d91ef3d739c278da8e6.css" integrity="sha256-f9uT2c&#43;4wmZGLn&#43;UYROYot5IulfATD2R7z1znCeNqOY=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.20535c32daba2db1fda1fd16fb8b2c2b0dd4a166b931e25a021e7976d03be9a3.css" integrity="sha256-IFNcMtq6LbH9of0W&#43;4ssKw3UoWa5MeJaAh55dtA76aM=" crossorigin="anonymous">
   
 
   
@@ -115,6 +124,35 @@ We review and analyse news across politics, culture, technology, and society. Ra
 
 </head>
 <body class="site-layout"> 
+
+    
+    <div id="reading-progress" aria-hidden="true"></div>
+    <style>
+      #reading-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: #c0392b;
+        z-index: 9999;
+        transition: width 0.1s linear;
+        pointer-events: none;
+      }
+    </style>
+    <script>
+      (function() {
+        var bar = document.getElementById('reading-progress');
+        if (!bar) return;
+        window.addEventListener('scroll', function() {
+          var scrollTop = window.scrollY || document.documentElement.scrollTop;
+          var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          bar.style.width = Math.min(pct, 100) + '%';
+        }, { passive: true });
+      })();
+    </script>
+
     <a class="skip-link" href="#main-content">Skip to content</a>
     
     
@@ -122,9 +160,19 @@ We review and analyse news across politics, culture, technology, and society. Ra
   
   <div class="header-top">
     <div class="header-inner">
-      <time class="header-date" datetime="2026-02-22">
-        Sunday, February 22, 2026
-      </time>
+      <time class="header-date" id="header-date"></time>
+      <script>
+        (function() {
+          var el = document.getElementById('header-date');
+          var now = new Date();
+          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+          var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+          var dateStr = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+          var isoStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+          el.setAttribute('datetime', isoStr);
+          el.textContent = dateStr;
+        })();
+      </script>
       
       <div class="header-actions">
         <a href="/search/" class="search-trigger" aria-label="Search">
@@ -378,6 +426,67 @@ We review and analyse news across politics, culture, technology, and society. Ra
     </main>
 
     
+    <button id="back-to-top" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <style>
+      #back-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background: var(--color-primary, #c0392b);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+        z-index: 999;
+      }
+      #back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      #back-to-top:hover {
+        background: var(--color-primary-dark, #a93226);
+        transform: translateY(-2px);
+      }
+      #back-to-top svg {
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+    </style>
+
+    <script>
+      (function() {
+        var btn = document.getElementById('back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > 400) {
+            btn.classList.add('visible');
+          } else {
+            btn.classList.remove('visible');
+          }
+        }, { passive: true });
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      })();
+    </script>
+
+    
 <footer class="site-footer">
   <div class="footer-wrapper">
     <div class="article-container">
@@ -419,31 +528,31 @@ We review and analyse news across politics, culture, technology, and society. Ra
         <div class="social-icons-grid">
 
           
-            <a href="https://twitter.com/yourusername" class="social-icon-box" style="--brand: #000000;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X">
+            <a href="https://twitter.com/yourusername" class="social-icon-circle" style="background:#000000;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X" title="Follow us on X">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
           
 
           
-            <a href="https://facebook.com/profile.php?id=61587502772266" class="social-icon-box" style="--brand: #1877F2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
+            <a href="https://facebook.com/profile.php?id=61587502772266" class="social-icon-circle" style="background:#1877F2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" title="Follow us on Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           
 
           
-            <a href="https://linkedin.com/in/yourprofile" class="social-icon-box" style="--brand: #0A66C2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn">
+            <a href="https://linkedin.com/in/yourprofile" class="social-icon-circle" style="background:#0A66C2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" title="Follow us on LinkedIn">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
           
 
           
-            <a href="https://instagram.com/yourusername" class="social-icon-box social-icon-instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram">
+            <a href="https://instagram.com/yourusername" class="social-icon-circle social-icon-instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" title="Follow us on Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           
 
           
-            <a href="https://youtube.com/@yourchannel" class="social-icon-box" style="--brand: #FF0000;" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube">
+            <a href="https://youtube.com/@yourchannel" class="social-icon-circle" style="background:#FF0000;" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" title="Subscribe on YouTube">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
           
@@ -451,13 +560,13 @@ We review and analyse news across politics, culture, technology, and society. Ra
           
 
           
-            <a href="mailto:contact@veridus.space" class="social-icon-box" style="--brand: #007acc;" aria-label="Email us">
+            <a href="mailto:contact@veridus.space" class="social-icon-circle" style="background:#007ACC;" aria-label="Email us" title="Email us">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </a>
           
 
           
-            <a href="/index.xml" class="social-icon-box" style="--brand: #F26522;" aria-label="RSS Feed">
+            <a href="/index.xml" class="social-icon-circle" style="background:#F26522;" aria-label="RSS Feed" title="RSS Feed">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
             </a>
           
@@ -496,32 +605,36 @@ We review and analyse news across politics, culture, technology, and society. Ra
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.65rem;
 }
 
-.social-icon-box {
-  display: flex;
+.social-icon-circle {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--brand, var(--color-text-lighter));
+  color: #fff;
   text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.18s ease;
-  line-height: 0;
+  flex-shrink: 0;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
-.social-icon-box svg {
-  width: 20px;
-  height: 20px;
+.social-icon-circle svg {
+  width: 13px;
+  height: 13px;
   display: block;
 }
 
-.social-icon-box:hover {
-  opacity: 0.65;
-  transform: translateY(-2px);
+.social-icon-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0.9;
 }
 
 .social-icon-instagram {
-  color: #C13584;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
  

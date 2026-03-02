@@ -1,6 +1,6 @@
 ---
 title: "In Defence of Reading Slowly"
-date: 2026-02-17
+date: 2026-02-08
 author: "Collins Obura"
 categories: ["lifestyle"]
 tags: ["reading", "books", "attention", "learning", "slow living"]
