@@ -6,8 +6,15 @@
     <description>Recent content in Categories on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lifestyle</title>
+      <link>http://localhost:1313/categories/lifestyle/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/lifestyle/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Legal Affairs</title>
       <link>http://localhost:1313/categories/legal-affairs/</link>
@@ -23,16 +30,9 @@
       <description></description>
     </item>
     <item>
-      <title>Lifestyle</title>
-      <link>http://localhost:1313/categories/lifestyle/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/lifestyle/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Opinion</title>
       <link>http://localhost:1313/categories/opinion/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/categories/opinion/</guid>
       <description></description>
     </item>
@@ -51,6 +51,27 @@
       <description></description>
     </item>
     <item>
+      <title>Education</title>
+      <link>http://localhost:1313/categories/education/</link>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/education/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sustainability</title>
+      <link>http://localhost:1313/categories/sustainability/</link>
+      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/sustainability/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Culture</title>
+      <link>http://localhost:1313/categories/culture/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/culture/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Innovation</title>
       <link>http://localhost:1313/categories/innovation/</link>
       <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
@@ -65,10 +86,10 @@
       <description></description>
     </item>
     <item>
-      <title>Culture</title>
-      <link>http://localhost:1313/categories/culture/</link>
-      <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/culture/</guid>
+      <title>Food</title>
+      <link>http://localhost:1313/categories/food/</link>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/food/</guid>
       <description></description>
     </item>
     <item>
@@ -76,27 +97,6 @@
       <link>http://localhost:1313/categories/wellness/</link>
       <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/categories/wellness/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Sustainability</title>
-      <link>http://localhost:1313/categories/sustainability/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/sustainability/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Education</title>
-      <link>http://localhost:1313/categories/education/</link>
-      <pubDate>Sun, 04 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/education/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Food</title>
-      <link>http://localhost:1313/categories/food/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/food/</guid>
       <description></description>
     </item>
   </channel>

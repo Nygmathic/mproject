@@ -680,10 +680,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>http://localhost:1313/tags/climate/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>http://localhost:1313/contact/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -691,10 +687,6 @@
     <loc>http://localhost:1313/privacy/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-  </url><url>
-    <loc>http://localhost:1313/tags/renewable-energy/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url><url>
     <loc>http://localhost:1313/search/</loc>
     <changefreq>weekly</changefreq>
@@ -707,9 +699,5 @@
     <loc>http://localhost:1313/thanks/</loc>
     <changefreq>never</changefreq>
     <priority>0</priority>
-  </url><url>
-    <loc>http://localhost:1313/tags/urban-development/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
 </urlset>

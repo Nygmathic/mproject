@@ -6,8 +6,78 @@
     <description>Recent content in Tags on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Grief</title>
+      <link>http://localhost:1313/tags/grief/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/grief/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Loss</title>
+      <link>http://localhost:1313/tags/loss/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/loss/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Personal Essay</title>
+      <link>http://localhost:1313/tags/personal-essay/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/personal-essay/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Perspective</title>
+      <link>http://localhost:1313/tags/perspective/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/perspective/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Time</title>
+      <link>http://localhost:1313/tags/time/</link>
+      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/time/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Attention</title>
+      <link>http://localhost:1313/tags/attention/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/attention/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Boredom</title>
+      <link>http://localhost:1313/tags/boredom/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/boredom/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Creativity</title>
+      <link>http://localhost:1313/tags/creativity/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/creativity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mental-Health</title>
+      <link>http://localhost:1313/tags/mental-health/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/mental-health/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Slow Living</title>
+      <link>http://localhost:1313/tags/slow-living/</link>
+      <pubDate>Sun, 22 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/slow-living/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Charles Kanjama</title>
       <link>http://localhost:1313/tags/charles-kanjama/</link>
@@ -51,17 +121,45 @@
       <description></description>
     </item>
     <item>
+      <title>Information</title>
+      <link>http://localhost:1313/tags/information/</link>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/information/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Journalism</title>
+      <link>http://localhost:1313/tags/journalism/</link>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/journalism/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Media Literacy</title>
+      <link>http://localhost:1313/tags/media-literacy/</link>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/media-literacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Opinion</title>
+      <link>http://localhost:1313/tags/opinion/</link>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/opinion/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reading Habits</title>
+      <link>http://localhost:1313/tags/reading-habits/</link>
+      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/reading-habits/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Africa</title>
       <link>http://localhost:1313/tags/africa/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/africa/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Attention</title>
-      <link>http://localhost:1313/tags/attention/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/attention/</guid>
       <description></description>
     </item>
     <item>
@@ -79,136 +177,10 @@
       <description></description>
     </item>
     <item>
-      <title>Books</title>
-      <link>http://localhost:1313/tags/books/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/books/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Boredom</title>
-      <link>http://localhost:1313/tags/boredom/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/boredom/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Civil Rights</title>
       <link>http://localhost:1313/tags/civil-rights/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/civil-rights/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Completion</title>
-      <link>http://localhost:1313/tags/completion/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/completion/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Consent</title>
-      <link>http://localhost:1313/tags/consent/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/consent/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Creative Work</title>
-      <link>http://localhost:1313/tags/creative-work/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/creative-work/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Creativity</title>
-      <link>http://localhost:1313/tags/creativity/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/creativity/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Cybercrime</title>
-      <link>http://localhost:1313/tags/cybercrime/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/cybercrime/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Development</title>
-      <link>http://localhost:1313/tags/development/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/development/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Digital Rights</title>
-      <link>http://localhost:1313/tags/digital-rights/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/digital-rights/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Economy</title>
-      <link>http://localhost:1313/tags/economy/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/economy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Financial Inclusion</title>
-      <link>http://localhost:1313/tags/financial-inclusion/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/financial-inclusion/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Fintech</title>
-      <link>http://localhost:1313/tags/fintech/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/fintech/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Focus</title>
-      <link>http://localhost:1313/tags/focus/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/focus/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Gender</title>
-      <link>http://localhost:1313/tags/gender/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/gender/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Grief</title>
-      <link>http://localhost:1313/tags/grief/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/grief/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Habits</title>
-      <link>http://localhost:1313/tags/habits/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/habits/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Healthcare</title>
-      <link>http://localhost:1313/tags/healthcare/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/healthcare/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Information</title>
-      <link>http://localhost:1313/tags/information/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/information/</guid>
       <description></description>
     </item>
     <item>
@@ -219,129 +191,10 @@
       <description></description>
     </item>
     <item>
-      <title>Journalism</title>
-      <link>http://localhost:1313/tags/journalism/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/journalism/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Learning</title>
-      <link>http://localhost:1313/tags/learning/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/learning/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Loss</title>
-      <link>http://localhost:1313/tags/loss/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/loss/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Media Literacy</title>
-      <link>http://localhost:1313/tags/media-literacy/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/media-literacy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Mental-Health</title>
-      <link>http://localhost:1313/tags/mental-health/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/mental-health/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Mobile Money</title>
-      <link>http://localhost:1313/tags/mobile-money/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/mobile-money/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Nelson Mandela</title>
       <link>http://localhost:1313/tags/nelson-mandela/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/nelson-mandela/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Opinion</title>
-      <link>http://localhost:1313/tags/opinion/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/opinion/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Opportunity</title>
-      <link>http://localhost:1313/tags/opportunity/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/opportunity/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Personal Essay</title>
-      <link>http://localhost:1313/tags/personal-essay/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/personal-essay/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Perspective</title>
-      <link>http://localhost:1313/tags/perspective/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/perspective/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Policy</title>
-      <link>http://localhost:1313/tags/policy/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/policy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Productivity</title>
-      <link>http://localhost:1313/tags/productivity/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/productivity/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Reading</title>
-      <link>http://localhost:1313/tags/reading/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/reading/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Reading Habits</title>
-      <link>http://localhost:1313/tags/reading-habits/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/reading-habits/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Slow Living</title>
-      <link>http://localhost:1313/tags/slow-living/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/slow-living/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Technology</title>
-      <link>http://localhost:1313/tags/technology/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/technology/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Time</title>
-      <link>http://localhost:1313/tags/time/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/time/</guid>
       <description></description>
     </item>
     <item>
@@ -352,16 +205,121 @@
       <description></description>
     </item>
     <item>
-      <title>Wellbeing</title>
-      <link>http://localhost:1313/tags/wellbeing/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/wellbeing/</guid>
+      <title>Completion</title>
+      <link>http://localhost:1313/tags/completion/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/completion/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Consent</title>
+      <link>http://localhost:1313/tags/consent/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/consent/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Creative Work</title>
+      <link>http://localhost:1313/tags/creative-work/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/creative-work/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cybercrime</title>
+      <link>http://localhost:1313/tags/cybercrime/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cybercrime/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Digital Rights</title>
+      <link>http://localhost:1313/tags/digital-rights/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/digital-rights/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Focus</title>
+      <link>http://localhost:1313/tags/focus/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/focus/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Gender</title>
+      <link>http://localhost:1313/tags/gender/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/gender/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Habits</title>
+      <link>http://localhost:1313/tags/habits/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/habits/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Productivity</title>
+      <link>http://localhost:1313/tags/productivity/</link>
+      <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/productivity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Development</title>
+      <link>http://localhost:1313/tags/development/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/development/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Economy</title>
+      <link>http://localhost:1313/tags/economy/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/economy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Financial Inclusion</title>
+      <link>http://localhost:1313/tags/financial-inclusion/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/financial-inclusion/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Fintech</title>
+      <link>http://localhost:1313/tags/fintech/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/fintech/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mobile Money</title>
+      <link>http://localhost:1313/tags/mobile-money/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/mobile-money/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Opportunity</title>
+      <link>http://localhost:1313/tags/opportunity/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/opportunity/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Technology</title>
+      <link>http://localhost:1313/tags/technology/</link>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/technology/</guid>
       <description></description>
     </item>
     <item>
       <title>Youth</title>
       <link>http://localhost:1313/tags/youth/</link>
-      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/youth/</guid>
       <description></description>
     </item>
@@ -398,6 +356,27 @@
       <link>http://localhost:1313/tags/urbanisation/</link>
       <pubDate>Sat, 14 Feb 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/urbanisation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Healthcare</title>
+      <link>http://localhost:1313/tags/healthcare/</link>
+      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/healthcare/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Policy</title>
+      <link>http://localhost:1313/tags/policy/</link>
+      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/policy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wellbeing</title>
+      <link>http://localhost:1313/tags/wellbeing/</link>
+      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/wellbeing/</guid>
       <description></description>
     </item>
     <item>
@@ -485,10 +464,52 @@
       <description></description>
     </item>
     <item>
+      <title>Books</title>
+      <link>http://localhost:1313/tags/books/</link>
+      <pubDate>Sun, 08 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/books/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Learning</title>
+      <link>http://localhost:1313/tags/learning/</link>
+      <pubDate>Sun, 08 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/learning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reading</title>
+      <link>http://localhost:1313/tags/reading/</link>
+      <pubDate>Sun, 08 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/reading/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Access</title>
+      <link>http://localhost:1313/tags/access/</link>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/access/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Data-Protection</title>
       <link>http://localhost:1313/tags/data-protection/</link>
       <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/data-protection/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Education</title>
+      <link>http://localhost:1313/tags/education/</link>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/education/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Inequality</title>
+      <link>http://localhost:1313/tags/inequality/</link>
+      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/inequality/</guid>
       <description></description>
     </item>
     <item>
@@ -506,10 +527,52 @@
       <description></description>
     </item>
     <item>
+      <title>City-Living</title>
+      <link>http://localhost:1313/tags/city-living/</link>
+      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/city-living/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eco-Friendly</title>
+      <link>http://localhost:1313/tags/eco-friendly/</link>
+      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/eco-friendly/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Green-Living</title>
+      <link>http://localhost:1313/tags/green-living/</link>
+      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/green-living/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sustainability</title>
+      <link>http://localhost:1313/tags/sustainability/</link>
+      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/sustainability/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Artificial-Intelligence</title>
       <link>http://localhost:1313/tags/artificial-intelligence/</link>
       <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/artificial-intelligence/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arts</title>
+      <link>http://localhost:1313/tags/arts/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/arts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>East-Africa</title>
+      <link>http://localhost:1313/tags/east-africa/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/east-africa/</guid>
       <description></description>
     </item>
     <item>
@@ -527,13 +590,6 @@
       <description></description>
     </item>
     <item>
-      <title>Inequality</title>
-      <link>http://localhost:1313/tags/inequality/</link>
-      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/inequality/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Labor</title>
       <link>http://localhost:1313/tags/labor/</link>
       <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
@@ -548,17 +604,17 @@
       <description></description>
     </item>
     <item>
-      <title>Arts</title>
-      <link>http://localhost:1313/tags/arts/</link>
-      <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/arts/</guid>
+      <title>Budget</title>
+      <link>http://localhost:1313/tags/budget/</link>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/budget/</guid>
       <description></description>
     </item>
     <item>
-      <title>East-Africa</title>
-      <link>http://localhost:1313/tags/east-africa/</link>
-      <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/east-africa/</guid>
+      <title>Cooking</title>
+      <link>http://localhost:1313/tags/cooking/</link>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cooking/</guid>
       <description></description>
     </item>
     <item>
@@ -569,6 +625,20 @@
       <description></description>
     </item>
     <item>
+      <title>Food</title>
+      <link>http://localhost:1313/tags/food/</link>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/food/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Health</title>
+      <link>http://localhost:1313/tags/health/</link>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/health/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Mindfulness</title>
       <link>http://localhost:1313/tags/mindfulness/</link>
       <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
@@ -576,101 +646,10 @@
       <description></description>
     </item>
     <item>
-      <title>City-Living</title>
-      <link>http://localhost:1313/tags/city-living/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/city-living/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Eco-Friendly</title>
-      <link>http://localhost:1313/tags/eco-friendly/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/eco-friendly/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Green-Living</title>
-      <link>http://localhost:1313/tags/green-living/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/green-living/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Sustainability</title>
-      <link>http://localhost:1313/tags/sustainability/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/sustainability/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Access</title>
-      <link>http://localhost:1313/tags/access/</link>
-      <pubDate>Sun, 04 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/access/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Education</title>
-      <link>http://localhost:1313/tags/education/</link>
-      <pubDate>Sun, 04 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/education/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Budget</title>
-      <link>http://localhost:1313/tags/budget/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/budget/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Cooking</title>
-      <link>http://localhost:1313/tags/cooking/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/cooking/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Food</title>
-      <link>http://localhost:1313/tags/food/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/food/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Health</title>
-      <link>http://localhost:1313/tags/health/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/health/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Wellness</title>
       <link>http://localhost:1313/tags/wellness/</link>
-      <pubDate>Sat, 03 Feb 2024 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/tags/wellness/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Climate</title>
-      <link>http://localhost:1313/tags/climate/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/climate/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Renewable-Energy</title>
-      <link>http://localhost:1313/tags/renewable-energy/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/renewable-energy/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Urban-Development</title>
-      <link>http://localhost:1313/tags/urban-development/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tags/urban-development/</guid>
       <description></description>
     </item>
   </channel>
