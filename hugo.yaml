@@ -19,20 +19,27 @@ sitemap:
   priority: 0.5
 
 params:
-  description: "Refined news and global insights."
+  description: "Information with intention."
   brand_name: "Veridus"
-  subscribe_url: "/subscribe/"
+
+  # Author — site-level fallback used in single.html author bio card
+  author: "Collins Obura"
+  author_title: "Information Activist"
+  author_bio: "Collins Obura is an information activist based in Nairobi. He runs Veridus to challenge how Africa's stories are told."
+  author_twitter: ""        # e.g. https://twitter.com/yourhandle
+  author_linkedin: ""       # e.g. https://linkedin.com/in/yourprofile
+  author_email: "contact@veridus.space"
 
   # Google Analytics — set your Measurement ID here, used in head.html
   analytics_id: "G-RTN42NN743"
 
-  # Social Media Links — remove or comment out any that are not active yet
+  # Social Media Links — comment out any that are not yet active
   social:
-    twitter: "https://twitter.com/yourusername"
+    # twitter: "https://twitter.com/yourusername"     # uncomment when active
     facebook: "https://facebook.com/profile.php?id=61587502772266"
-    linkedin: "https://linkedin.com/in/yourprofile"
-    instagram: "https://instagram.com/yourusername"
-    youtube: "https://youtube.com/@yourchannel"
+    # linkedin: "https://linkedin.com/in/yourprofile" # uncomment when active
+    # instagram: "https://instagram.com/yourusername" # uncomment when active
+    # youtube: "https://youtube.com/@yourchannel"     # uncomment when active
     email: "contact@veridus.space"
     rss: "/index.xml"
 
@@ -47,12 +54,9 @@ menu:
     - name: "Lifestyle"
       url: "/lifestyle/"
       weight: 3
-    - name: "Videos"
-      url: "/videos/"
+    - name: "Archive"
+      url: "/archive/"
       weight: 4
-    - name: "Podcasts"
-      url: "/podcasts/"
-      weight: 5
     - name: "Search"
       url: "/search/"
-      weight: 6
+      weight: 5

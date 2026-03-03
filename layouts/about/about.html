@@ -3,14 +3,39 @@
   <div class="article-container">
 
     <header class="about-header">
-      <h1 class="about-title">{{ .Title }}</h1>
+      <h1 class="about-title">{{ .Title | default "About" }}</h1>
       {{ with .Params.subtitle }}
         <p class="about-subtitle">{{ . }}</p>
       {{ end }}
     </header>
 
     <div class="about-body">
-      {{ .Content }}
+      {{ if .Content }}
+        {{ .Content }}
+      {{ else }}
+      {{/* Fallback content — replace with about/index.md for full control */}}
+      <p class="about-lead">Veridus is not a newsroom. It is not a media company. It is one person with a point of view, a commitment to honesty, and a belief that Africa's stories deserve better than the frames they are usually given.</p>
+
+      <p>My name is Collins Obura. I am an information activist based in Nairobi. That is a deliberate choice of words. Journalists report. Activists fight for something. What I fight for is clarity — the kind that helps people understand what is actually happening, why it matters, and what is at stake.</p>
+
+      <p>I started Veridus because I kept reading coverage of African politics, culture, and ideas that felt wrong — not factually wrong, but tonally wrong. Stories told from the outside looking in. Analysis that explained Africa to the world rather than to Africans. Opinion that dressed itself as neutrality.</p>
+
+      <p>Veridus is my attempt at something different. Every piece here is written with intention. Nothing is filler. Nothing is chasing traffic. The goal is to publish things worth reading — slowly, carefully, and without apology.</p>
+
+      <h2>What you will find here</h2>
+
+      <p>News covered on its merits. Opinion that takes a position. Lifestyle writing that treats ordinary life as worthy of serious attention. All of it filtered through the conviction that how a story is told shapes what people think is possible.</p>
+
+      <h2>What you will not find here</h2>
+
+      <p>Advertisements. Sponsored content. Clickbait. Press releases dressed as reporting. Content produced to satisfy an algorithm. Veridus has no investors, no advertisers, and no editorial board. It answers to readers — and to the truth.</p>
+
+      <h2>Get in touch</h2>
+
+      <p>If something you read here made you think, argue, or change your mind, I would genuinely like to hear about it. Write to me at <a href="mailto:contact@veridus.space">contact@veridus.space</a>. I read everything.</p>
+
+      <p>If you want to be notified when new pieces are published, send me an email with the subject line <em>"Add me to Veridus updates"</em> — I will add you to a simple mailing list. No newsletter platform, no tracking, no noise.</p>
+      {{ end }}
     </div>
 
   </div>

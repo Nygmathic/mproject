@@ -23,9 +23,15 @@
 
     {{ if .Params.feature_image }}
       <div class="article-featured-image">
-        {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-          {{ $img := .Resize "1200x" }}
-          <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+        {{ $img := "" }}
+        {{ with .Resources.GetMatch .Params.feature_image }}
+          {{ $resized := .Resize "1200x" }}
+          {{ $img = $resized.RelPermalink }}
+        {{ else }}
+          {{ $img = printf "/images/%s" $.Params.feature_image }}
+        {{ end }}
+        {{ if $img }}
+          <img src="{{ $img }}" alt="{{ .Title }}" loading="lazy">
         {{ end }}
       </div>
     {{ end }}
@@ -91,44 +97,122 @@
 
   </div>
 
-  {{/* ── Author Bio Card (bottom) ── */}}
-  {{ if .Params.author }}
+  {{/* ── Newsletter CTA ── */}}
+  <div class="article-newsletter">
+    <div class="article-container">
+      <div class="article-newsletter-inner">
+        <p class="article-newsletter-label">Stay in the loop</p>
+        <h3 class="article-newsletter-heading">If this made you think, more is coming.</h3>
+        <p class="article-newsletter-body">New pieces on Africa's ideas, politics, and future — straight to your inbox. No noise.</p>
+        <a href="mailto:contact@veridus.space?subject=Add me to Veridus updates&body=Hi Collins%2C%0A%0APlease add me to your mailing list.%0A%0AThank you." class="article-newsletter-btn">
+          Get notified by email →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+  .article-newsletter {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
+    padding: var(--space-2xl) 0;
+    margin: var(--space-2xl) 0 0;
+  }
+  .article-newsletter-inner {
+    max-width: 560px;
+  }
+  .article-newsletter-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    margin: 0 0 var(--space-sm);
+  }
+  .article-newsletter-heading {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 var(--space-sm);
+    line-height: 1.3;
+  }
+  .article-newsletter-body {
+    font-family: var(--font-reading);
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin: 0 0 var(--space-xl);
+  }
+  .article-newsletter-btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    background: #007ACC;
+    padding: 0.85rem 1.75rem;
+    border-radius: 50px;
+    transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+  }
+  .article-newsletter-btn:hover {
+    background: #0062a3;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  }
+  </style>
+  {{ $authorName     := .Params.author          | default .Site.Params.author }}
+  {{ $authorTitle    := .Params.author_title    | default .Site.Params.author_title }}
+  {{ $authorBio      := .Params.author_bio      | default .Site.Params.author_bio }}
+  {{ $authorPhoto    := .Params.author_photo    | default .Site.Params.author_photo }}
+  {{ $authorTwitter  := .Params.author_twitter  | default .Site.Params.author_twitter }}
+  {{ $authorLinkedin := .Params.author_linkedin | default .Site.Params.author_linkedin }}
+  {{ $authorEmail    := .Params.author_email    | default .Site.Params.author_email }}
+
+  {{ if $authorName }}
   <div class="author-bio-card">
     <div class="article-container">
       <div class="author-bio-card-inner">
-        {{ if .Params.author_photo }}
+        {{ if $authorPhoto }}
           <div class="author-bio-card-photo-wrap">
-            {{ with .Resources.GetMatch .Params.author_photo }}
+            {{ with $.Resources.GetMatch $authorPhoto }}
               {{ $photo := .Fill "160x160" }}
-              <img src="{{ $photo.RelPermalink }}" alt="{{ $.Params.author }}" class="author-bio-card-photo" loading="lazy">
+              <img src="{{ $photo.RelPermalink }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
             {{ else }}
-              <img src="{{ $.Params.author_photo }}" alt="{{ $.Params.author }}" class="author-bio-card-photo" loading="lazy">
+              <img src="{{ $authorPhoto }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
             {{ end }}
           </div>
         {{ end }}
         <div class="author-bio-card-body">
           <span class="author-bio-card-label">Written by</span>
-          <h3 class="author-bio-card-name">{{ .Params.author }}</h3>
-          {{ if .Params.author_title }}
-            <p class="author-bio-card-title">{{ .Params.author_title }}</p>
+          <h3 class="author-bio-card-name">{{ $authorName }}</h3>
+          {{ if $authorTitle }}
+            <p class="author-bio-card-title">{{ $authorTitle }}</p>
           {{ end }}
-          {{ if .Params.author_bio }}
-            <p class="author-bio-card-text">{{ .Params.author_bio }}</p>
+          {{ if $authorBio }}
+            <p class="author-bio-card-text">{{ $authorBio }}</p>
           {{ end }}
-          {{ if or .Params.author_twitter .Params.author_linkedin .Params.author_email }}
+          {{ if or $authorTwitter $authorLinkedin $authorEmail }}
           <div class="author-bio-card-socials">
-            {{ if .Params.author_twitter }}
-              <a href="{{ .Params.author_twitter }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+            {{ if $authorTwitter }}
+              <a href="{{ $authorTwitter }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
             {{ end }}
-            {{ if .Params.author_linkedin }}
-              <a href="{{ .Params.author_linkedin }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            {{ if $authorLinkedin }}
+              <a href="{{ $authorLinkedin }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
               </a>
             {{ end }}
-            {{ if .Params.author_email }}
-              <a href="mailto:{{ .Params.author_email }}" class="author-social-icon" aria-label="Email" title="Email">
+            {{ if $authorEmail }}
+              <a href="mailto:{{ $authorEmail }}" class="author-social-icon" aria-label="Email" title="Email">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </a>
             {{ end }}
@@ -386,6 +470,7 @@
 
   .share-trigger:hover {
     background: #0062a3;
+    color: #fff;
     transform: translateY(-2px);
   }
 
@@ -423,6 +508,7 @@
 
   .share-icon:hover {
     background: #0062a3 !important;
+    color: #fff !important;
     transform: scale(1.1) !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }

@@ -77,9 +77,7 @@
         <li><a href="/categories/news/" class="nav-item">News</a></li>
         <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
         <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
-        <li><a href="/videos/" class="nav-item">Videos</a></li>
-        <li><a href="/podcasts/" class="nav-item">Podcasts</a></li>
-        <li><a href="/radio/" class="nav-item">Radio</a></li>
+        <li><a href="/archive/" class="nav-item">Archive</a></li>
       </ul>
     </div>
   </nav>
@@ -103,9 +101,7 @@
       <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
       <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
       <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
-      <li><a href="/videos/" class="mobile-nav-item">Videos</a></li>
-      <li><a href="/podcasts/" class="mobile-nav-item">Podcasts</a></li>
-      <li><a href="/radio/" class="mobile-nav-item">Radio</a></li>
+      <li><a href="/archive/" class="mobile-nav-item">Archive</a></li>
       <li><a href="/about/" class="mobile-nav-item">About</a></li>
       <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
       <li><a href="/search/" class="mobile-nav-item">Search</a></li>
@@ -114,39 +110,13 @@
   </nav>
   
   <div class="mobile-menu-footer">
-    <div class="mobile-social">
-      {{ if .Site.Params.social.twitter }}
-        <a href="{{ .Site.Params.social.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-          </svg>
-        </a>
-      {{ end }}
-      {{ if .Site.Params.social.facebook }}
-        <a href="{{ .Site.Params.social.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-          </svg>
-        </a>
-      {{ end }}
-      {{ if .Site.Params.social.linkedin }}
-        <a href="{{ .Site.Params.social.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-        </a>
-      {{ end }}
-      {{ if .Site.Params.social.instagram }}
-        <a href="{{ .Site.Params.social.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-        </a>
-      {{ end }}
-    </div>
+    <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="mobile-email-cta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      Get new pieces by email
+    </a>
   </div>
 </div>
 
@@ -162,9 +132,7 @@
         <li><a href="/categories/news/">News</a></li>
         <li><a href="/categories/opinion/">Opinion</a></li>
         <li><a href="/categories/lifestyle/">Lifestyle</a></li>
-        <li><a href="/videos/">Videos</a></li>
-        <li><a href="/podcasts/">Podcasts</a></li>
-        <li><a href="/radio/">Radio</a></li>
+        <li><a href="/archive/">Archive</a></li>
       </ul>
     </nav>
     <a href="/search/" class="sticky-search" aria-label="Search">
@@ -227,37 +195,33 @@
   color: var(--color-primary) !important;
 }
 
-.mobile-social {
+/* ── Mobile menu email CTA ── */
+.mobile-email-cta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  padding: var(--space-lg) 0;
-}
-
-.mobile-social-icon {
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  background: #007ACC;
-  color: #fff;
+  gap: 0.65rem;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
+  color: #fff;
+  background: #007ACC;
+  padding: 0.95rem 1.4rem;
+  margin: var(--space-lg) 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mobile-email-cta svg {
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
-  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.mobile-social-icon svg {
-  width: 13px;
-  height: 13px;
-  display: block;
-}
-
-.mobile-social-icon:hover {
+.mobile-email-cta:hover {
   background: #0062a3;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #fff;
 }
 
 /* ── Slim Sticky Bar ── */
