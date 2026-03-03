@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
 
-  {{/* SEO: Canonical Tag (CRITICAL - Prevents duplicate content issues) */}}
+  {{/* SEO: Canonical Tag */}}
   <link rel="canonical" href="{{ .Permalink | absURL }}">
 
   {{/* Feed & Sitemap Autodiscovery */}}
@@ -21,7 +21,7 @@
     {{ end }}
   {{ end }}
 
-  {{/* Open Graph Tags (Social Media Sharing) */}}
+  {{/* Open Graph Tags */}}
   {{ if .IsPage }}
     <meta property="og:title" content="{{ .Title }}">
     <meta property="og:description" content="{{ .Summary }}">
@@ -90,12 +90,11 @@
     </script>
   {{ end }}
 
-  {{/* BLOCKING THEME SCRIPT: Prevents the white flash on load */}}
+  {{/* BLOCKING THEME SCRIPT: Prevents white flash on load */}}
   <script>
     (function() {
       const THEME_KEY = 'veridus-theme';
       const savedTheme = localStorage.getItem(THEME_KEY);
-      
       if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -111,7 +110,7 @@
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
   {{ end }}
 
-  {{/* Google Fonts - Option 2: DM Serif Display + Libre Baskerville + Inter */}}
+  {{/* Google Fonts */}}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -123,14 +122,14 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  {{/* Google Analytics — only loads in production, never during local hugo server */}}
-  {{ if not hugo.IsServer }}
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RTN42NN743"></script>
+  {{/* Google Analytics — only in production, ID pulled from hugo.yaml params */}}
+  {{ if and (not hugo.IsServer) .Site.Params.analytics_id }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.analytics_id }}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-RTN42NN743');
+    gtag('config', '{{ .Site.Params.analytics_id }}');
   </script>
   {{ end }}
 

@@ -1,41 +1,29 @@
 {{ define "main" }}
 <div class="home-page">
 
-  {{/* ─── FILTERED ARTICLE LIST ──────────────────────────────── */}}
   {{ $allArticles := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle") }}
 
-  {{/* ─── PINNED POSTS ─────────────────────────────────────────── */}}
   {{ $pinned := slice }}
   {{ range where $allArticles "Params.pin" true }}
     {{ $expired := false }}
     {{ with .Params.pin_expiry }}
       {{ $expiryTime := time . }}
-      {{ if lt $expiryTime now }}
-        {{ $expired = true }}
-      {{ end }}
+      {{ if lt $expiryTime now }}{{ $expired = true }}{{ end }}
     {{ end }}
-    {{ if not $expired }}
-      {{ $pinned = $pinned | append . }}
-    {{ end }}
+    {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
   {{ end }}
 
-  {{/* ─── BUILD UNPINNED LIST ─────────────────────────────────── */}}
   {{ $pinnedPermalinks := slice }}
-  {{ range $pinned }}
-    {{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}
-  {{ end }}
+  {{ range $pinned }}{{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}{{ end }}
 
   {{ $unpinned := slice }}
   {{ range $allArticles }}
-    {{ if not (in $pinnedPermalinks .Permalink) }}
-      {{ $unpinned = $unpinned | append . }}
-    {{ end }}
+    {{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}
   {{ end }}
 
-  {{/* ─── PAGINATOR — built from filtered unpinned list only ─── */}}
   {{ $paginator := .Paginate $unpinned }}
 
-  {{/* ─── PINNED: only on page 1 ──────────────────────────────── */}}
+  {{/* PINNED — page 1 only. Always-visible CTA: these are hero cards */}}
   {{ if and $pinned (eq $paginator.PageNumber 1) }}
   <section class="pinned-posts">
     <div class="section-header">
@@ -49,7 +37,7 @@
           {{ with .Resources.GetMatch .Params.feature_image }}
             {{ $img = .RelPermalink }}
           {{ else }}
-            {{ $img = printf "/images/%s" $.Params.feature_image }}
+            {{ $img = printf "/images/%s" .Params.feature_image }}
           {{ end }}
         {{ end }}
         <article class="pinned-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
@@ -69,7 +57,7 @@
               <span class="card-reading-time">{{ .ReadingTime }} min read</span>
             </div>
             <p class="card-excerpt">{{ .Summary | truncate 200 }}</p>
-            <span class="card-cta">Read Full Story →</span>
+            <a href="{{ .Permalink }}" class="card-cta">Read Full Story →</a>
           </div>
         </article>
       {{ end }}
@@ -77,7 +65,6 @@
   </section>
   {{ end }}
 
-  {{/* ─── PAGE 1: LATEST 2 + REST ──────────────────────────────── */}}
   {{ if eq $paginator.PageNumber 1 }}
 
     {{ $latest    := first 2 $unpinned }}
@@ -96,7 +83,7 @@
             {{ with .Resources.GetMatch .Params.feature_image }}
               {{ $img = .RelPermalink }}
             {{ else }}
-              {{ $img = printf "/images/%s" $.Params.feature_image }}
+              {{ $img = printf "/images/%s" .Params.feature_image }}
             {{ end }}
           {{ end }}
           <article class="latest-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
@@ -116,7 +103,8 @@
                 <span class="latest-reading-time">{{ .ReadingTime }} min read</span>
               </div>
               <p class="latest-card-excerpt">{{ .Summary | truncate 180 }}</p>
-              <span class="latest-card-cta">Read Full Story →</span>
+              {{/* CTA hidden at rest — slides up on hover via CSS only */}}
+              <a href="{{ .Permalink }}" class="latest-card-cta">Read Full Story</a>
             </div>
           </article>
         {{ end }}
@@ -132,9 +120,10 @@
           {{ with .Resources.GetMatch .Params.feature_image }}
             {{ $img = .RelPermalink }}
           {{ else }}
-            {{ $img = printf "/images/%s" $.Params.feature_image }}
+            {{ $img = printf "/images/%s" .Params.feature_image }}
           {{ end }}
         {{ end }}
+        {{/* No CTA on grid cards — title is the link, stays clean */}}
         <article class="article-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
           {{ if and $img .Params.show_image_homepage }}
           <div class="article-card-image-wrap">
@@ -160,7 +149,7 @@
 
   {{ else }}
 
-  {{/* ─── PAGE 2+: PAGINATED GRID ───────────────────────────── */}}
+  {{/* PAGE 2+: paginated grid — no CTA */}}
   <div class="articles-grid">
     {{ range $paginator.Pages }}
       {{ $img := "" }}
@@ -168,7 +157,7 @@
         {{ with .Resources.GetMatch .Params.feature_image }}
           {{ $img = .RelPermalink }}
         {{ else }}
-          {{ $img = printf "/images/%s" $.Params.feature_image }}
+          {{ $img = printf "/images/%s" .Params.feature_image }}
         {{ end }}
       {{ end }}
       <article class="article-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
@@ -195,7 +184,6 @@
 
   {{ end }}
 
-  {{/* ── Pagination Controls ── */}}
   {{ if gt $paginator.TotalPages 1 }}
   <nav class="home-pagination" aria-label="Page navigation">
     {{ if $paginator.HasPrev }}
