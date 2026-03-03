@@ -153,6 +153,26 @@
 {{/* Menu Overlay */}}
 <div class="menu-overlay" id="menuOverlay"></div>
 
+{{/* Slim Sticky Bar — slides in after scrolling past header */}}
+<div class="sticky-bar" id="stickyBar" aria-hidden="true">
+  <div class="sticky-bar-inner">
+    <a href="/" class="sticky-logo">{{ .Site.Title }}</a>
+    <nav class="sticky-nav" aria-label="Sticky Navigation">
+      <ul class="sticky-nav-list">
+        <li><a href="/categories/news/">News</a></li>
+        <li><a href="/categories/opinion/">Opinion</a></li>
+        <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+        <li><a href="/videos/">Videos</a></li>
+        <li><a href="/podcasts/">Podcasts</a></li>
+        <li><a href="/radio/">Radio</a></li>
+      </ul>
+    </nav>
+    <a href="/search/" class="sticky-search" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </a>
+  </div>
+</div>
+
 {{/* Mobile Menu Script */}}
 <script>
 (function() {
@@ -206,6 +226,131 @@
 .mobile-nav-donate:hover {
   color: var(--color-primary) !important;
 }
+
+.mobile-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: var(--space-lg) 0;
+}
+
+.mobile-social-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #007ACC;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mobile-social-icon svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.mobile-social-icon:hover {
+  background: #0062a3;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ── Slim Sticky Bar ── */
+.sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.sticky-bar.visible {
+  transform: translateY(0);
+}
+
+.sticky-bar-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.sticky-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sticky-logo:hover {
+  color: var(--color-primary);
+}
+
+.sticky-nav {
+  flex: 1;
+}
+
+.sticky-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.sticky-nav-list a {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.sticky-nav-list a:hover {
+  color: var(--color-primary);
+}
+
+.sticky-search {
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.sticky-search svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sticky-search:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .sticky-nav { display: none; }
+  .sticky-logo { font-size: 1rem; }
+}
 </style>
 
 {{/* Theme Toggle Script */}}
@@ -232,5 +377,27 @@
         html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
       }
     });
+})();
+</script>
+
+{{/* Sticky Bar Script */}}
+<script>
+(function() {
+  var stickyBar = document.getElementById('stickyBar');
+  var header = document.querySelector('.site-header');
+  if (!stickyBar || !header) return;
+
+  function onScroll() {
+    var headerBottom = header.getBoundingClientRect().bottom;
+    if (headerBottom < 0) {
+      stickyBar.classList.add('visible');
+      stickyBar.setAttribute('aria-hidden', 'false');
+    } else {
+      stickyBar.classList.remove('visible');
+      stickyBar.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>

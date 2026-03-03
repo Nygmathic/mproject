@@ -2,21 +2,157 @@
 <div class="container archive-container">
   <header class="archive-header">
     <h1 class="serif-text">Archive</h1>
+    <p class="archive-subtitle">Every article, organised by year.</p>
   </header>
 
-  {{/* Group all news/opinion pages by Year */}}
-  {{ range (where .Site.RegularPages "Section" "in" (slice "news" "opinion")).GroupByDate "2006" }}
+  {{/* Group all news/opinion/lifestyle pages by Year */}}
+  {{ range (where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle")).GroupByDate "2006" }}
     <div class="archive-year-block">
-      <h2>{{ .Key }}</h2>
-      <ul>
+      <h2 class="archive-year">{{ .Key }}</h2>
+      <ul class="archive-list">
         {{ range .Pages }}
-          <li>
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+          <li class="archive-item">
+            <div class="archive-item-main">
+              {{ if .Params.categories }}
+                <span class="archive-category">{{ index .Params.categories 0 }}</span>
+              {{ end }}
+              <a href="{{ .Permalink }}" class="archive-title">{{ .Title }}</a>
+            </div>
+            <div class="archive-item-meta">
+              <time datetime="{{ .Date.Format "2006-01-02" }}" class="archive-date">{{ .Date.Format "Jan 02" }}</time>
+              <span class="archive-read-time">{{ .ReadingTime }} min read</span>
+            </div>
           </li>
         {{ end }}
       </ul>
     </div>
   {{ end }}
 </div>
+
+<style>
+  .archive-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .archive-header {
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .archive-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .archive-subtitle {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--color-text-lighter);
+  }
+
+  .archive-year-block {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .archive-year {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .archive-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .archive-item:last-child {
+    border-bottom: none;
+  }
+
+  .archive-item-main {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .archive-category {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .archive-title {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-decoration: none;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .archive-title:hover {
+    color: var(--color-primary);
+  }
+
+  .archive-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .archive-date {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    color: var(--color-text-lighter);
+    white-space: nowrap;
+  }
+
+  .archive-read-time {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    color: var(--color-text-lighter);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .archive-item {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .archive-title {
+      white-space: normal;
+    }
+    .archive-item-meta {
+      gap: 0.5rem;
+    }
+  }
+</style>
 {{ end }}

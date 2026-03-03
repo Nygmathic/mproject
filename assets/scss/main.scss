@@ -2118,34 +2118,40 @@ em, i {
 }
 
 .error-btn {
-  display: inline-block;
-  padding: var(--space-md) var(--space-xl);
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.9rem;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  transition: background 0.2s ease, transform 0.18s ease, color 0.18s ease;
   text-align: center;
-  
+
   &.error-btn-primary {
-    background: var(--color-primary);
-    color: white;
-    
+    background: #007ACC;
+    color: #fff;
+    border: 2px solid #007ACC;
+
     &:hover {
-      background: var(--color-primary-dark);
+      background: #0062a3;
+      border-color: #0062a3;
       transform: translateY(-2px);
     }
   }
-  
+
   &.error-btn-secondary {
-    background: var(--color-bg-alt);
-    color: var(--color-text);
-    border: 2px solid var(--color-border);
-    
+    background: transparent;
+    color: #007ACC;
+    border: 2px solid #007ACC;
+
     &:hover {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
+      background: #007ACC;
+      color: #fff;
+      transform: translateY(-2px);
     }
   }
 }
@@ -2933,4 +2939,39 @@ img {
     color: var(--color-text);
     font-weight: 600;
   }
+}
+/* ── Home Pagination ── */
+.home-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  padding: var(--space-2xl) 0 var(--space-3xl);
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  background: #007ACC;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.18s ease;
+
+  &:hover {
+    background: #0062a3;
+    transform: translateY(-2px);
+  }
+}
+
+.page-info {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--color-text-lighter);
 }

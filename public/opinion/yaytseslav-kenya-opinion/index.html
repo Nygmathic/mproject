@@ -96,7 +96,7 @@ When the videos spread widely across Kenyan social media last week, the reaction
   
   
     
-    <link rel="stylesheet" href="/css/style.20535c32daba2db1fda1fd16fb8b2c2b0dd4a166b931e25a021e7976d03be9a3.css" integrity="sha256-IFNcMtq6LbH9of0W&#43;4ssKw3UoWa5MeJaAh55dtA76aM=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.cb3dd365c0c7deb655a2e34cd64c04f03fb055957a0f173f239aad024a1a1ddc.css" integrity="sha256-yz3TZcDH3rZVouNM1kwE8D&#43;wVZV6Dxc/I5qtAkoaHdw=" crossorigin="anonymous">
   
 
   
@@ -126,7 +126,7 @@ When the videos spread widely across Kenyan social media last week, the reaction
         left: 0;
         width: 0%;
         height: 3px;
-        background: #c0392b;
+        background: #007ACC;
         z-index: 9999;
         transition: width 0.1s linear;
         pointer-events: none;
@@ -303,6 +303,26 @@ When the videos spread widely across Kenyan social media last week, the reaction
 <div class="menu-overlay" id="menuOverlay"></div>
 
 
+<div class="sticky-bar" id="stickyBar" aria-hidden="true">
+  <div class="sticky-bar-inner">
+    <a href="/" class="sticky-logo">Veridus</a>
+    <nav class="sticky-nav" aria-label="Sticky Navigation">
+      <ul class="sticky-nav-list">
+        <li><a href="/categories/news/">News</a></li>
+        <li><a href="/categories/opinion/">Opinion</a></li>
+        <li><a href="/categories/lifestyle/">Lifestyle</a></li>
+        <li><a href="/videos/">Videos</a></li>
+        <li><a href="/podcasts/">Podcasts</a></li>
+        <li><a href="/radio/">Radio</a></li>
+      </ul>
+    </nav>
+    <a href="/search/" class="sticky-search" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </a>
+  </div>
+</div>
+
+
 <script>
 (function() {
   const menuToggle = document.querySelector('.menu-toggle');
@@ -355,6 +375,131 @@ When the videos spread widely across Kenyan social media last week, the reaction
 .mobile-nav-donate:hover {
   color: var(--color-primary) !important;
 }
+
+.mobile-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: var(--space-lg) 0;
+}
+
+.mobile-social-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #007ACC;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mobile-social-icon svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.mobile-social-icon:hover {
+  background: #0062a3;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+ 
+.sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.sticky-bar.visible {
+  transform: translateY(0);
+}
+
+.sticky-bar-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.sticky-logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sticky-logo:hover {
+  color: var(--color-primary);
+}
+
+.sticky-nav {
+  flex: 1;
+}
+
+.sticky-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--space-xl);
+}
+
+.sticky-nav-list a {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.sticky-nav-list a:hover {
+  color: var(--color-primary);
+}
+
+.sticky-search {
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.sticky-search svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sticky-search:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .sticky-nav { display: none; }
+  .sticky-logo { font-size: 1rem; }
+}
 </style>
 
 
@@ -384,11 +529,33 @@ When the videos spread widely across Kenyan social media last week, the reaction
 })();
 </script>
 
+
+<script>
+(function() {
+  var stickyBar = document.getElementById('stickyBar');
+  var header = document.querySelector('.site-header');
+  if (!stickyBar || !header) return;
+
+  function onScroll() {
+    var headerBottom = header.getBoundingClientRect().bottom;
+    if (headerBottom < 0) {
+      stickyBar.classList.add('visible');
+      stickyBar.setAttribute('aria-hidden', 'false');
+    } else {
+      stickyBar.classList.remove('visible');
+      stickyBar.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+</script>
+
     <main id="main-content" role="main"> 
         
 <article class="single-article">
   <div class="article-container">
-    
+
     <header class="article-header">
       <div class="article-meta-top">
         
@@ -404,9 +571,6 @@ When the videos spread widely across Kenyan social media last week, the reaction
 
       <div class="article-meta">
         <span class="article-date">February 16, 2026</span>
-        
-          <span class="article-author">by Collins Obura</span>
-        
         <span class="article-reading-time">5 min read</span>
       </div>
     </header>
@@ -452,248 +616,90 @@ When the videos spread widely across Kenyan social media last week, the reaction
     </div>
 
     <footer class="article-footer">
-      
-        <div class="author-bio">
-          <h3>About the Author</h3>
-          <p>Collins Obura</p>
-        </div>
-      
 
-      <div class="article-tags">
-        
-          <h3>Tags</h3>
-          <ul class="tags-list">
+          <div class="article-tags">
             
-              <li><a href="/tags/kenya/">Kenya</a></li>
+              <h3>Tags</h3>
+              <ul class="tags-list">
+                
+                  <li><a href="/tags/kenya/">Kenya</a></li>
+                
+                  <li><a href="/tags/digital-rights/">digital rights</a></li>
+                
+                  <li><a href="/tags/gender/">gender</a></li>
+                
+                  <li><a href="/tags/cybercrime/">cybercrime</a></li>
+                
+                  <li><a href="/tags/consent/">consent</a></li>
+                
+                  <li><a href="/tags/opinion/">opinion</a></li>
+                
+              </ul>
             
-              <li><a href="/tags/digital-rights/">digital rights</a></li>
-            
-              <li><a href="/tags/gender/">gender</a></li>
-            
-              <li><a href="/tags/cybercrime/">cybercrime</a></li>
-            
-              <li><a href="/tags/consent/">consent</a></li>
-            
-              <li><a href="/tags/opinion/">opinion</a></li>
-            
-          </ul>
-        
-      </div>
-
-      
-      <div class="article-share">
-        <span class="article-share-label">Share this article</span>
-        <div class="share-container">
-
-          <button class="share-trigger" id="share-trigger" aria-expanded="false" aria-label="Share this article">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            <span class="share-trigger-label">Share</span>
-          </button>
-
-          <div class="share-icons" id="share-icons" aria-hidden="true">
-
-            <a class="share-icon share-icon-x"
-               href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f&text=What&#43;the&#43;Yaytseslav&#43;Scandal&#43;Reveals&#43;About&#43;Kenya%27s&#43;Blind&#43;Spots"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-
-            <a class="share-icon share-icon-whatsapp"
-               href="https://wa.me/?text=What&#43;the&#43;Yaytseslav&#43;Scandal&#43;Reveals&#43;About&#43;Kenya%27s&#43;Blind&#43;Spots%20http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
-
-            <a class="share-icon share-icon-facebook"
-               href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-            </a>
-
-            <a class="share-icon share-icon-linkedin"
-               href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-
-            <button class="share-icon share-icon-copy" id="copy-link-btn"
-                    data-url="http://localhost:1313/opinion/yaytseslav-kenya-opinion/" aria-label="Copy link" title="Copy link">
-              <svg class="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
-              <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            </button>
-
           </div>
-        </div>
-      </div>
 
-    </footer>
+          
+          <div class="article-share">
+            <span class="article-share-label">Share this article</span>
+            <div class="share-container">
 
-    <style>
-      .article-share {
-        margin-top: var(--space-2xl);
-        padding-top: var(--space-xl);
-        border-top: 1px solid var(--color-border-light);
-      }
+              <button class="share-trigger" id="share-trigger" aria-expanded="false" aria-label="Share this article">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                <span class="share-trigger-label">Share</span>
+              </button>
 
-      .article-share-label {
-        display: block;
-        font-family: var(--font-ui);
-        font-size: 0.68rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--color-text-lighter);
-        margin-bottom: var(--space-lg);
-      }
+              <div class="share-icons" id="share-icons" aria-hidden="true">
+                <a class="share-icon share-icon-x"
+                   href="https://twitter.com/intent/tweet?url=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f&text=What&#43;the&#43;Yaytseslav&#43;Scandal&#43;Reveals&#43;About&#43;Kenya%27s&#43;Blind&#43;Spots"
+                   target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a class="share-icon share-icon-whatsapp"
+                   href="https://wa.me/?text=What&#43;the&#43;Yaytseslav&#43;Scandal&#43;Reveals&#43;About&#43;Kenya%27s&#43;Blind&#43;Spots%20http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
+                   target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <a class="share-icon share-icon-facebook"
+                   href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
+                   target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                </a>
+                <a class="share-icon share-icon-linkedin"
+                   href="https://www.linkedin.com/sharing/share-offsite/?url=http%3a%2f%2flocalhost%3a1313%2fopinion%2fyaytseslav-kenya-opinion%2f"
+                   target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <button class="share-icon share-icon-copy" id="copy-link-btn"
+                        data-url="http://localhost:1313/opinion/yaytseslav-kenya-opinion/" aria-label="Copy link" title="Copy link">
+                  <svg class="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
 
-      .share-container {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-      }
-
-       
-      .share-trigger {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-family: var(--font-ui);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        padding: 0.6rem 1.2rem;
-        border-radius: 50px;
-        border: none;
-        background: #007ACC;
-        color: #fff;
-        cursor: pointer;
-        transition: background 0.2s ease, transform 0.18s ease;
-        flex-shrink: 0;
-      }
-
-      .share-trigger svg {
-        width: 13px;
-        height: 13px;
-        transition: transform 0.3s ease;
-      }
-
-      .share-trigger:hover {
-        background: #0062a3;
-        transform: translateY(-2px);
-      }
-
-      .share-trigger[aria-expanded="true"] svg {
-        transform: rotate(180deg);
-      }
-
-       
-      .share-icons {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-      }
-
-      .share-icon {
-        width: 2.2rem;
-        height: 2.2rem;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        cursor: pointer;
-        color: #fff;
-        text-decoration: none;
-        flex-shrink: 0;
-        opacity: 0;
-        transform: scale(0.6) translateX(-8px);
-        transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-        pointer-events: none;
-      }
-
-      .share-icon svg {
-        width: 13px;
-        height: 13px;
-      }
-
-      .share-icon:hover {
-        transform: scale(1.1) !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      }
-
-       
-      .share-icons.open .share-icon {
-        opacity: 1;
-        transform: scale(1) translateX(0);
-        pointer-events: auto;
-      }
-
-      .share-icons.open .share-icon:nth-child(1) { transition-delay: 0.03s; }
-      .share-icons.open .share-icon:nth-child(2) { transition-delay: 0.07s; }
-      .share-icons.open .share-icon:nth-child(3) { transition-delay: 0.11s; }
-      .share-icons.open .share-icon:nth-child(4) { transition-delay: 0.15s; }
-      .share-icons.open .share-icon:nth-child(5) { transition-delay: 0.19s; }
-
-      .share-icon-x        { background: #000000; }
-      .share-icon-whatsapp { background: #25D366; }
-      .share-icon-facebook { background: #1877F2; }
-      .share-icon-linkedin { background: #0A66C2; }
-      .share-icon-copy     { background: #007ACC; }
-
-       
-      .share-icon-copy .icon-check { display: none; }
-      .share-icon-copy.copied .icon-link  { display: none; }
-      .share-icon-copy.copied .icon-check { display: block; }
-      .share-icon-copy.copied { background: #2e7d32; }
-    </style>
-
-    <script>
-      (function() {
-        var trigger = document.getElementById('share-trigger');
-        var icons   = document.getElementById('share-icons');
-        if (!trigger || !icons) return;
-
-        function open() {
-          icons.classList.add('open');
-          icons.setAttribute('aria-hidden', 'false');
-          trigger.setAttribute('aria-expanded', 'true');
-        }
-
-        function close() {
-          icons.classList.remove('open');
-          icons.setAttribute('aria-hidden', 'true');
-          trigger.setAttribute('aria-expanded', 'false');
-        }
-
-        trigger.addEventListener('click', function() {
-          icons.classList.contains('open') ? close() : open();
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!trigger.contains(e.target) && !icons.contains(e.target)) {
-            close();
-          }
-        });
-
-        
-        var copyBtn = document.getElementById('copy-link-btn');
-        if (copyBtn) {
-          copyBtn.addEventListener('click', function() {
-            navigator.clipboard.writeText(copyBtn.getAttribute('data-url')).then(function() {
-              copyBtn.classList.add('copied');
-              setTimeout(function() { copyBtn.classList.remove('copied'); }, 2000);
-            });
-          });
-        }
-      })();
-    </script>
+        </footer>
 
   </div>
 
   
+  
+  <div class="author-bio-card">
+    <div class="article-container">
+      <div class="author-bio-card-inner">
+        
+        <div class="author-bio-card-body">
+          <span class="author-bio-card-label">Written by</span>
+          <h3 class="author-bio-card-name">Collins Obura</h3>
+          
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
   
   
   
@@ -736,110 +742,9 @@ When the videos spread widely across Kenyan social media last week, the reaction
   </nav>
   
 
-  <style>
-    .article-nav {
-      border-top: 1px solid var(--color-border);
-      border-bottom: 1px solid var(--color-border);
-      margin: 0;
-    }
-
-    .article-nav-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-
-    .article-nav-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-      padding: var(--space-xl) 0;
-      text-decoration: none;
-      transition: background 0.2s ease;
-    }
-
-    .article-nav-item:hover {
-      background: var(--color-bg-alt);
-    }
-
-    .article-nav-prev {
-      padding-right: var(--space-xl);
-      border-right: 1px solid var(--color-border);
-    }
-
-    .article-nav-next {
-      padding-left: var(--space-xl);
-      align-items: flex-end;
-      text-align: right;
-    }
-
-    .article-nav-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-family: var(--font-ui);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--color-text-lighter);
-    }
-
-    .article-nav-label svg {
-      width: 14px;
-      height: 14px;
-      stroke: currentColor;
-    }
-
-    .article-nav-category {
-      font-family: var(--font-ui);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-primary);
-    }
-
-    .article-nav-title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 400;
-      color: var(--color-text);
-      line-height: 1.35;
-    }
-
-    .article-nav-item:hover .article-nav-title {
-      color: var(--color-primary);
-    }
-
-    .article-nav-meta {
-      font-family: var(--font-ui);
-      font-size: 0.72rem;
-      color: var(--color-text-lighter);
-    }
-
-    @media (max-width: 640px) {
-      .article-nav-inner {
-        grid-template-columns: 1fr;
-      }
-      .article-nav-prev {
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
-        padding-right: 0;
-      }
-      .article-nav-next {
-        padding-left: 0;
-        align-items: flex-start;
-        text-align: left;
-      }
-    }
-  </style>
-
   
   
-
   
-
   
 
   
@@ -869,6 +774,353 @@ When the videos spread widely across Kenyan social media last week, the reaction
 
 </article>
 
+<style>
+   
+  .author-bio-card {
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-2xl) 0;
+    margin-top: var(--space-2xl);
+  }
+
+  .author-bio-card-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2xl);
+  }
+
+  .author-bio-card-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 3px solid var(--color-border);
+  }
+
+  .author-bio-card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .author-bio-card-label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    margin-bottom: 0.3rem;
+  }
+
+  .author-bio-card-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 0.2rem;
+    line-height: 1.2;
+  }
+
+  .author-bio-card-title {
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 var(--space-md);
+    letter-spacing: 0.02em;
+  }
+
+  .author-bio-card-text {
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin: 0 0 var(--space-lg);
+    max-width: 560px;
+  }
+
+  .author-bio-card-socials {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .author-social-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #007ACC;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+
+  .author-social-icon svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .author-social-icon:hover {
+    background: #0062a3;
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 600px) {
+    .author-bio-card-inner {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .author-bio-card-text {
+      max-width: 100%;
+    }
+    .author-bio-card-socials {
+      justify-content: center;
+    }
+  }
+
+   
+  .article-share {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .article-share-label {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+    margin-bottom: var(--space-lg);
+  }
+
+  .share-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .share-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    border: none;
+    background: #007ACC;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.18s ease;
+    flex-shrink: 0;
+  }
+
+  .share-trigger svg {
+    width: 13px;
+    height: 13px;
+    transition: transform 0.3s ease;
+  }
+
+  .share-trigger:hover {
+    background: #0062a3;
+    transform: translateY(-2px);
+  }
+
+  .share-trigger[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .share-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .share-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    flex-shrink: 0;
+    opacity: 0;
+    transform: scale(0.6) translateX(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    pointer-events: none;
+    background: #007ACC;
+  }
+
+  .share-icon svg { width: 13px; height: 13px; }
+
+  .share-icon:hover {
+    background: #0062a3 !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .share-icons.open .share-icon {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    pointer-events: auto;
+  }
+
+  .share-icons.open .share-icon:nth-child(1) { transition-delay: 0.03s; }
+  .share-icons.open .share-icon:nth-child(2) { transition-delay: 0.07s; }
+  .share-icons.open .share-icon:nth-child(3) { transition-delay: 0.11s; }
+  .share-icons.open .share-icon:nth-child(4) { transition-delay: 0.15s; }
+  .share-icons.open .share-icon:nth-child(5) { transition-delay: 0.19s; }
+
+  .share-icon-copy .icon-check { display: none; }
+  .share-icon-copy.copied .icon-link  { display: none; }
+  .share-icon-copy.copied .icon-check { display: block; }
+  .share-icon-copy.copied { background: #2e7d32 !important; }
+
+   
+  .article-nav {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin: 0;
+  }
+
+  .article-nav-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .article-nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: var(--space-xl) 0;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .article-nav-item:hover { background: var(--color-bg-alt); }
+
+  .article-nav-prev {
+    padding-right: var(--space-xl);
+    border-right: 1px solid var(--color-border);
+  }
+
+  .article-nav-next {
+    padding-left: var(--space-xl);
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .article-nav-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-lighter);
+  }
+
+  .article-nav-label svg { width: 14px; height: 14px; }
+
+  .article-nav-category {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .article-nav-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+
+  .article-nav-item:hover .article-nav-title { color: var(--color-primary); }
+
+  .article-nav-meta {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    color: var(--color-text-lighter);
+  }
+
+  @media (max-width: 640px) {
+    .article-nav-inner { grid-template-columns: 1fr; }
+    .article-nav-prev {
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+      padding-right: 0;
+    }
+    .article-nav-next {
+      padding-left: 0;
+      align-items: flex-start;
+      text-align: left;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var trigger = document.getElementById('share-trigger');
+    var icons   = document.getElementById('share-icons');
+    if (!trigger || !icons) return;
+
+    function open() {
+      icons.classList.add('open');
+      icons.setAttribute('aria-hidden', 'false');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
+      icons.classList.remove('open');
+      icons.setAttribute('aria-hidden', 'true');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function() {
+      icons.classList.contains('open') ? close() : open();
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!trigger.contains(e.target) && !icons.contains(e.target)) close();
+    });
+
+    var copyBtn = document.getElementById('copy-link-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function() {
+        navigator.clipboard.writeText(copyBtn.getAttribute('data-url')).then(function() {
+          copyBtn.classList.add('copied');
+          setTimeout(function() { copyBtn.classList.remove('copied'); }, 2000);
+        });
+      });
+    }
+  })();
+</script>
+
+
     </main>
 
     
@@ -886,7 +1138,7 @@ When the videos spread widely across Kenyan social media last week, the reaction
         width: 2.75rem;
         height: 2.75rem;
         border-radius: 50%;
-        background: var(--color-primary, #c0392b);
+        background: var(--color-primary, #007ACC);
         color: #fff;
         border: none;
         cursor: pointer;
@@ -974,31 +1226,31 @@ When the videos spread widely across Kenyan social media last week, the reaction
         <div class="social-icons-grid">
 
           
-            <a href="https://twitter.com/yourusername" class="social-icon-circle" style="background:#000000;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X" title="Follow us on X">
+            <a href="https://twitter.com/yourusername" class="social-icon-circle" target="_blank" rel="noopener noreferrer" aria-label="Follow us on X" title="Follow us on X">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
           
 
           
-            <a href="https://facebook.com/profile.php?id=61587502772266" class="social-icon-circle" style="background:#1877F2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" title="Follow us on Facebook">
+            <a href="https://facebook.com/profile.php?id=61587502772266" class="social-icon-circle" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" title="Follow us on Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           
 
           
-            <a href="https://linkedin.com/in/yourprofile" class="social-icon-circle" style="background:#0A66C2;" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" title="Follow us on LinkedIn">
+            <a href="https://linkedin.com/in/yourprofile" class="social-icon-circle" target="_blank" rel="noopener noreferrer" aria-label="Follow us on LinkedIn" title="Follow us on LinkedIn">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
           
 
           
-            <a href="https://instagram.com/yourusername" class="social-icon-circle social-icon-instagram" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" title="Follow us on Instagram">
+            <a href="https://instagram.com/yourusername" class="social-icon-circle" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" title="Follow us on Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           
 
           
-            <a href="https://youtube.com/@yourchannel" class="social-icon-circle" style="background:#FF0000;" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" title="Subscribe on YouTube">
+            <a href="https://youtube.com/@yourchannel" class="social-icon-circle" target="_blank" rel="noopener noreferrer" aria-label="Subscribe on YouTube" title="Subscribe on YouTube">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
           
@@ -1006,13 +1258,13 @@ When the videos spread widely across Kenyan social media last week, the reaction
           
 
           
-            <a href="mailto:contact@veridus.space" class="social-icon-circle" style="background:#007ACC;" aria-label="Email us" title="Email us">
+            <a href="mailto:contact@veridus.space" class="social-icon-circle" aria-label="Email us" title="Email us">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </a>
           
 
           
-            <a href="/index.xml" class="social-icon-circle" style="background:#F26522;" aria-label="RSS Feed" title="RSS Feed">
+            <a href="/index.xml" class="social-icon-circle" aria-label="RSS Feed" title="RSS Feed">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 010 4.36 2.18 2.18 0 010-4.36M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/></svg>
             </a>
           
@@ -1061,10 +1313,11 @@ When the videos spread widely across Kenyan social media last week, the reaction
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background: #007ACC;
   color: #fff;
   text-decoration: none;
   flex-shrink: 0;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .social-icon-circle svg {
@@ -1074,13 +1327,9 @@ When the videos spread widely across Kenyan social media last week, the reaction
 }
 
 .social-icon-circle:hover {
+  background: #0062a3;
   transform: scale(1.1);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  opacity: 0.9;
-}
-
-.social-icon-instagram {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 }
 
  
