@@ -1,6 +1,6 @@
-{{/* Footer — editorial newsletter banner + clean links, no social */}}
+{{/* Footer — ProPublica-style: dark, grid-based, no bullets */}}
 
-{{/* ── Newsletter Banner — full-width, Forbes-style ── */}}
+{{/* ── Newsletter Banner ── */}}
 <section class="footer-newsletter-banner">
   <div class="footer-newsletter-inner">
     <div class="fnb-left">
@@ -9,7 +9,7 @@
       <p class="fnb-sub">New pieces on Africa's ideas, politics, and future — no algorithm, no noise. Just the work.</p>
     </div>
     <div class="fnb-right">
-      <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Collins%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you."
+      <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Veridus%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you."
          class="fnb-btn">
         Get New Pieces by Email
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -24,54 +24,79 @@
 
 {{/* ── Main Footer ── */}}
 <footer class="site-footer">
-  <div class="footer-wrapper">
-    <div class="article-container">
 
-      <div class="footer-content">
+  {{/* Wordmark bar */}}
+  <div class="footer-wordmark-bar">
+    <div class="footer-container">
+      <div class="footer-wordmark-row">
+        <a href="/" class="footer-wordmark">{{ .Site.Title }}</a>
+        <p class="footer-wordmark-tagline">{{ .Site.Params.description }}</p>
+      </div>
+    </div>
+  </div>
 
-        <div class="footer-column footer-about">
-          <h3 class="footer-title">{{ .Site.Title }}</h3>
-          <p class="footer-description">{{ .Site.Params.description }}</p>
-          <p class="footer-meta">An independent publication by Collins Obura, covering Africa's ideas, politics, and future.</p>
-        </div>
+  {{/* Main grid */}}
+  <div class="footer-grid-bar">
+    <div class="footer-container footer-grid">
 
-        <div class="footer-column footer-links">
-          <h4 class="footer-subtitle">Explore</h4>
-          <ul class="footer-list">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about/">About</a></li>
-            <li><a href="/contact/">Contact</a></li>
-            <li><a href="/search/">Search</a></li>
-            <li><a href="/privacy/">Privacy Policy</a></li>
-            <li><a href="/donate/" class="footer-donate-link">Support Us</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-column footer-categories">
-          <h4 class="footer-subtitle">Categories</h4>
-          <ul class="footer-list">
-            <li><a href="/categories/news/">News</a></li>
-            <li><a href="/categories/opinion/">Opinion</a></li>
-            <li><a href="/categories/lifestyle/">Lifestyle</a></li>
-            <li><a href="/archive/">Archive</a></li>
-          </ul>
-        </div>
-
+      <div class="footer-col footer-col--mission">
+        <p class="footer-col-body">Independent coverage of Africa's ideas, politics, and future. No advertisers. No sponsors. No editorial pressure from above.</p>
+        <a href="/about/" class="footer-col-more">About Veridus →</a>
       </div>
 
-      <div class="footer-bottom">
-        <p class="footer-copyright">&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
-        <p class="footer-rss"><a href="/index.xml">RSS Feed</a></p>
+      <div class="footer-col">
+        <h4 class="footer-col-heading">Explore</h4>
+        <nav aria-label="Footer explore links">
+          <a href="/">Home</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/search/">Search</a>
+          <a href="/privacy/">Privacy Policy</a>
+          <a href="/donate/">Support Us</a>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-heading">Topics</h4>
+        <nav aria-label="Footer topic links">
+          <a href="/categories/news/">News</a>
+          <a href="/categories/opinion/">Opinion</a>
+          <a href="/categories/lifestyle/">Lifestyle</a>
+          <a href="/archive/">Archive</a>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-heading">Connect</h4>
+        <nav aria-label="Footer connect links">
+          <a href="mailto:contact@veridus.space">contact@veridus.space</a>
+          <a href="/index.xml">RSS Feed</a>
+          {{ with .Site.Params.social.facebook }}
+            <a href="{{ . }}" target="_blank" rel="noopener noreferrer">Facebook</a>
+          {{ end }}
+        </nav>
       </div>
 
     </div>
   </div>
+
+  {{/* Bottom bar */}}
+  <div class="footer-bottom-bar">
+    <div class="footer-container footer-bottom-inner">
+      <p class="footer-copyright">&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy/">Privacy</a>
+        <a href="/index.xml">RSS</a>
+        <a href="/donate/">Support</a>
+      </div>
+    </div>
+  </div>
+
 </footer>
 
 <style>
 /* ════════════════════════════════════════════
-   NEWSLETTER BANNER — Forbes-inspired
-   Always navy — cohesive across light and dark mode
+   NEWSLETTER BANNER
    ════════════════════════════════════════════ */
 
 .footer-newsletter-banner {
@@ -83,7 +108,6 @@
   border-top: 1px solid rgba(0, 122, 204, 0.3);
 }
 
-/* Blue accent line across the top */
 .footer-newsletter-banner::before {
   content: '';
   position: absolute;
@@ -92,11 +116,9 @@
   background: linear-gradient(90deg, #007ACC 0%, #00b4d8 50%, #007ACC 100%);
 }
 
-/* Dark mode: slightly lighter navy so banner still reads as distinct from page */
 [data-theme="dark"] .footer-newsletter-banner {
-  background: #112236;
-  border-top: 1px solid rgba(0, 122, 204, 0.25);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: #0a1628;
+  border-top: 1px solid rgba(0, 122, 204, 0.2);
 }
 
 .footer-newsletter-inner {
@@ -161,12 +183,11 @@
   padding: 0.75rem 1.4rem;
   border-radius: 50px;
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
 }
 
 .fnb-btn svg {
-  width: 13px;
-  height: 13px;
+  width: 13px; height: 13px;
   flex-shrink: 0;
   transition: transform 0.2s ease;
 }
@@ -178,9 +199,7 @@
   box-shadow: 0 8px 24px rgba(0,122,204,0.45);
 }
 
-.fnb-btn:hover svg {
-  transform: translateX(3px);
-}
+.fnb-btn:hover svg { transform: translateX(3px); }
 
 .fnb-note {
   font-family: var(--font-ui);
@@ -195,51 +214,272 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  .fnb-btn {
-    font-size: 0.68rem;
-    padding: 0.65rem 1.2rem;
-    width: auto;
-    align-self: flex-start;
-  }
-  .fnb-right {
-    align-items: stretch;
-  }
+  .fnb-btn { align-self: flex-start; }
 }
 
 /* ════════════════════════════════════════════
-   MAIN FOOTER
+   MAIN FOOTER — ProPublica structure
+   Light mode: warm grey  |  Dark mode: navy
    ════════════════════════════════════════════ */
 
-/* ── Footer bottom row ── */
-.footer-bottom {
+/* ── Light mode tokens ── */
+.site-footer {
+  --ft-bg:           #e2e2de;
+  --ft-bg-bottom:    #d6d6d2;
+  --ft-border:       rgba(0,0,0,0.1);
+  --ft-border-col:   rgba(0,0,0,0.09);
+  --ft-text:         #1a1a1a;
+  --ft-text-muted:   #5a5a5a;
+  --ft-text-faint:   #8a8a8a;
+  --ft-link:         #1a1a1a;
+  --ft-link-hover:   #007ACC;
+  --ft-more:         #007ACC;
+  --ft-more-hover:   #0062a3;
+  --ft-heading:      #8a8a8a;
+
+  background: var(--ft-bg);
+  color: var(--ft-text);
+}
+
+/* ── Dark mode tokens ── */
+[data-theme="dark"] .site-footer {
+  --ft-bg:           #0d1e33;
+  --ft-bg-bottom:    #091728;
+  --ft-border:       rgba(255,255,255,0.07);
+  --ft-border-col:   rgba(255,255,255,0.06);
+  --ft-text:         #e2e8f0;
+  --ft-text-muted:   rgba(226,232,240,0.55);
+  --ft-text-faint:   rgba(226,232,240,0.28);
+  --ft-link:         rgba(226,232,240,0.72);
+  --ft-link-hover:   #fff;
+  --ft-more:         #7dd3fc;
+  --ft-more-hover:   #bae6fd;
+  --ft-heading:      rgba(226,232,240,0.3);
+
+  background: var(--ft-bg);
+}
+
+/* ── Shared container ── */
+.footer-container {
+  max-width: var(--container-max, 1200px);
+  margin: 0 auto;
+  padding: 0 var(--space-xl, 2rem);
+}
+
+/* ── Wordmark bar ── */
+.footer-wordmark-bar {
+  padding: 2.75rem 0 2rem;
+  border-bottom: 1px solid var(--ft-border);
+}
+
+.footer-wordmark-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.footer-wordmark {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--ft-text);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.footer-wordmark:hover { color: var(--ft-more); }
+
+.footer-wordmark-tagline {
+  font-family: var(--font-reading, Georgia, serif);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--ft-text-faint);
+  margin: 0;
+  line-height: 1;
+}
+
+/* ── Grid bar ── */
+.footer-grid-bar {
+  padding: 2.25rem 0 2rem;
+  border-bottom: 1px solid var(--ft-border);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+.footer-col + .footer-col {
+  border-left: 1px solid var(--ft-border-col);
+  padding-left: 2rem;
+  margin-left: 2rem;
+}
+
+/* ── Mission column ── */
+.footer-col--mission .footer-col-body {
+  font-family: var(--font-reading, Georgia, serif);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--ft-text-muted);
+  margin: 0 0 1.2rem;
+  max-width: 280px;
+}
+
+.footer-col-more {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ft-more);
+  transition: color 0.18s ease;
+}
+
+.footer-col-more:hover { color: var(--ft-more-hover); }
+
+/* ── Column heading ── */
+.footer-col-heading {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ft-heading);
+  margin: 0 0 0.9rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--ft-border-col);
+}
+
+/* ── Nav links — no bullets, stacked ── */
+.footer-col nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-col nav a {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ft-link);
+  text-decoration: none;
+  padding: 0.42rem 0;
+  border-bottom: 1px solid var(--ft-border-col);
+  transition: color 0.18s ease, padding-left 0.15s ease;
+  line-height: 1.4;
+}
+
+.footer-col nav a:last-child {
+  border-bottom: none;
+}
+
+.footer-col nav a:hover {
+  color: var(--ft-link-hover);
+  padding-left: 0.4rem;
+}
+
+/* ── Bottom bar ── */
+.footer-bottom-bar {
+  background: var(--ft-bg-bottom);
+  padding: 1.1rem 0;
+}
+
+.footer-bottom-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-border-light);
-  margin-top: var(--space-xl);
+  gap: 1rem;
 }
 
-.footer-rss a {
+.footer-copyright {
   font-family: var(--font-ui);
-  font-size: 0.75rem;
-  color: var(--color-text-lighter);
+  font-size: 0.7rem;
+  color: var(--ft-text-faint);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.footer-bottom-links a {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-decoration: none;
-  letter-spacing: 0.05em;
-  transition: color 0.2s ease;
+  color: var(--ft-text-faint);
+  transition: color 0.18s ease;
 }
 
-.footer-rss a:hover {
-  color: var(--color-primary);
+.footer-bottom-links a:hover { color: var(--ft-link-hover); }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════ */
+
+@media (max-width: 960px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+  }
+
+  /* Remove all column dividers first */
+  .footer-col + .footer-col {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  /* Mission spans full width */
+  .footer-col--mission {
+    grid-column: 1 / -1;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .footer-col--mission .footer-col-body {
+    max-width: 100%;
+  }
+
+  /* Right column of each row gets a left border */
+  .footer-col:nth-child(even):not(.footer-col--mission) {
+    border-left: 1px solid rgba(255,255,255,0.07);
+    padding-left: 2rem;
+    margin-left: 2rem;
+  }
 }
 
-/* ── Footer donate link ── */
-.footer-donate-link {
-  color: var(--color-text-lighter) !important;
-  font-style: italic;
-  transition: color 0.2s ease;
-}
-.footer-donate-link:hover {
-  color: var(--color-primary) !important;
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    row-gap: 1.6rem;
+  }
+
+  .footer-col:nth-child(even):not(.footer-col--mission) {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  .footer-wordmark { font-size: 1.7rem; }
+
+  .footer-wordmark-bar { padding: 2rem 0 1.5rem; }
+
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
 }
 </style>

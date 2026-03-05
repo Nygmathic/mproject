@@ -1,51 +1,242 @@
 {{ define "main" }}
 <div class="error-page">
   <div class="article-container">
-    
-    <header class="error-header">
-      <h1 class="error-number">404</h1>
-      <h2 class="error-heading">Page Not Found</h2>
-      <p class="error-subheading">The page you're looking for doesn't exist or has been moved.</p>
-    </header>
 
-    <div class="error-content">
+    <div class="error-inner">
+
       <div class="error-main">
-        <p class="error-intro">
-          Sometimes the best ideas come from unexpected places. This isn't one of them.
-        </p>
+        <p class="error-eyebrow">404</p>
+        <h1 class="error-heading">This page doesn't exist.</h1>
+        <p class="error-body">It may have been moved, renamed, or never existed at all. These things happen. What matters is what you do next.</p>
 
-        <p class="error-text">
-          We searched high and low, through every section of Veridus, but the page you requested simply isn't here. Perhaps it was archived, renamed, or existed only in our dreams. Whatever the case, we're sorry you've reached this point.
-        </p>
-
-        <nav class="error-actions">
-          <a href="/" class="error-btn error-btn-primary">Return to Home</a>
-          <a href="/categories/" class="error-btn error-btn-secondary">Browse Categories</a>
-        </nav>
+        <div class="error-actions">
+          <a href="/" class="error-btn-primary">Take me home</a>
+          <a href="/search/" class="error-btn-secondary">Search articles</a>
+        </div>
       </div>
 
       <aside class="error-sidebar">
-        <div class="error-box">
-          <h3 class="error-box-title">Latest Articles</h3>
-          <ul class="error-list">
+
+        <div class="error-aside-block">
+          <h3 class="error-aside-title">Latest pieces</h3>
+          <ul class="error-aside-list">
             {{ range first 5 .Site.RegularPages }}
-              <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+              <li>
+                {{ if .Params.categories }}
+                  <span class="error-aside-cat">{{ index .Params.categories 0 }}</span>
+                {{ end }}
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+              </li>
             {{ end }}
           </ul>
         </div>
 
-        <div class="error-box">
-          <h3 class="error-box-title">Explore Topics</h3>
-          <ul class="error-list">
-            {{ range $name, $pages := .Site.Taxonomies.categories }}
-              <li><a href="/categories/{{ $name | urlize }}/">{{ $name }}</a></li>
-            {{ end }}
-          </ul>
+        <div class="error-aside-block">
+          <h3 class="error-aside-title">Browse by topic</h3>
+          <div class="error-aside-topics">
+            <a href="/categories/news/" class="error-topic-pill">News</a>
+            <a href="/categories/opinion/" class="error-topic-pill">Opinion</a>
+            <a href="/categories/lifestyle/" class="error-topic-pill">Lifestyle</a>
+            <a href="/archive/" class="error-topic-pill">Archive</a>
+          </div>
         </div>
+
       </aside>
+
     </div>
 
   </div>
 </div>
+
+<style>
+/* ════════════════════════════════════════════
+   404 PAGE
+   ════════════════════════════════════════════ */
+
+.error-page {
+  padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
+}
+
+.error-inner {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+
+/* ── Main ── */
+.error-eyebrow {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 9rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-border);
+  margin: 0 0 var(--space-lg);
+  letter-spacing: -0.03em;
+  user-select: none;
+}
+
+.error-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0 0 var(--space-lg);
+}
+
+.error-body {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.75;
+  color: var(--color-text-light);
+  max-width: 420px;
+  margin: 0 0 var(--space-2xl);
+}
+
+.error-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.error-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: #007ACC;
+  padding: 0.8rem 1.6rem;
+  border-radius: 50px;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.error-btn-primary:hover {
+  background: #0062a3;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,122,204,0.3);
+}
+
+.error-btn-secondary {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-light);
+  transition: color 0.2s ease;
+}
+
+.error-btn-secondary:hover {
+  color: var(--color-primary);
+}
+
+/* ── Sidebar ── */
+.error-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  padding-top: var(--space-sm);
+}
+
+.error-aside-block {
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.error-aside-title {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+  margin: 0 0 var(--space-md);
+}
+
+.error-aside-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.error-aside-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.error-aside-cat {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.error-aside-list a {
+  font-family: var(--font-reading);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.error-aside-list a:hover {
+  color: var(--color-primary);
+}
+
+.error-aside-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.error-topic-pill {
+  display: inline-flex;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-light);
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.9rem;
+  border-radius: 50px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.error-topic-pill:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .error-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+  }
+  .error-eyebrow {
+    font-size: 5rem;
+  }
+}
+</style>
 
 {{ end }}

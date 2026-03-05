@@ -3,24 +3,105 @@
 {{ partial "head.html" . }}
 <body class="site-layout">
 
-    {{ if .IsPage }}<div id="reading-progress" aria-hidden="true"></div>{{ end }}
+    {{ if .IsPage }}
+    <div id="reading-progress" aria-hidden="true"></div>
+    <div id="reading-time-indicator" aria-hidden="true" data-reading-time="{{ .ReadingTime }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span id="reading-time-text">{{ .ReadingTime }} min read</span>
+    </div>
+    {{ end }}
     <style>
       #reading-progress {
         position: fixed; top: 0; left: 0;
         width: 0%; height: 3px;
-        background: #007ACC;
+        background: linear-gradient(90deg, #007ACC, #00b4d8);
         z-index: 9999; transition: width 0.1s linear; pointer-events: none;
+      }
+
+      #reading-time-indicator {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--font-ui, 'Inter', sans-serif);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #fff;
+        background: rgba(10, 10, 10, 0.82);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        padding: 0.45rem 0.85rem;
+        border-radius: 50px;
+        z-index: 998;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+
+      #reading-time-indicator.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #reading-time-indicator.done {
+        background: rgba(0, 122, 204, 0.9);
+      }
+
+      #reading-time-indicator svg {
+        width: 11px;
+        height: 11px;
+        flex-shrink: 0;
+      }
+
+      [data-theme="dark"] #reading-time-indicator {
+        background: rgba(255,255,255,0.12);
+        color: #fff;
+      }
+
+      [data-theme="dark"] #reading-time-indicator.done {
+        background: rgba(0, 122, 204, 0.85);
+      }
+
+      @media print {
+        #reading-progress, #reading-time-indicator { display: none !important; }
       }
     </style>
     <script>
       (function() {
-        var bar = document.getElementById('reading-progress');
+        var bar  = document.getElementById('reading-progress');
+        var pill = document.getElementById('reading-time-indicator');
+        var txt  = document.getElementById('reading-time-text');
+        var totalMins = pill ? parseInt(pill.getAttribute('data-reading-time'), 10) || 0 : 0;
         if (!bar) return;
+
         window.addEventListener('scroll', function() {
-          var scrollTop = window.scrollY || document.documentElement.scrollTop;
-          var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-          bar.style.width = Math.min(pct, 100) + '%';
+          var scrollTop  = window.scrollY || document.documentElement.scrollTop;
+          var docHeight  = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          var pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          pct = Math.min(pct, 100);
+
+          bar.style.width = pct + '%';
+
+          if (!pill || !txt) return;
+
+          // Show pill after scrolling 8% into article
+          if (pct > 8 && pct < 98) {
+            pill.classList.add('visible');
+            pill.classList.remove('done');
+            var minsLeft = Math.ceil(totalMins * (1 - pct / 100));
+            txt.textContent = minsLeft <= 1 ? 'Almost done' : minsLeft + ' min left';
+          } else if (pct >= 98) {
+            pill.classList.add('visible', 'done');
+            txt.textContent = 'Finished ✓';
+          } else {
+            pill.classList.remove('visible', 'done');
+          }
         }, { passive: true });
       })();
     </script>

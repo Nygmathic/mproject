@@ -73,11 +73,11 @@
   <nav class="main-nav desktop-nav" role="navigation" aria-label="Main Navigation">
     <div class="header-inner">
       <ul class="nav-list">
-        <li><a href="/" class="nav-item">Home</a></li>
-        <li><a href="/categories/news/" class="nav-item">News</a></li>
-        <li><a href="/categories/opinion/" class="nav-item">Opinion</a></li>
-        <li><a href="/categories/lifestyle/" class="nav-item">Lifestyle</a></li>
-        <li><a href="/archive/" class="nav-item">Archive</a></li>
+        <li><a href="/" class="nav-item{{ if .IsHome }} nav-item--active{{ end }}">Home</a></li>
+        <li><a href="/categories/news/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/news" }} nav-item--active{{ end }}">News</a></li>
+        <li><a href="/categories/opinion/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/opinion" }} nav-item--active{{ end }}">Opinion</a></li>
+        <li><a href="/categories/lifestyle/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/lifestyle" }} nav-item--active{{ end }}">Lifestyle</a></li>
+        <li><a href="/archive/" class="nav-item{{ if hasPrefix .RelPermalink "/archive" }} nav-item--active{{ end }}">Archive</a></li>
       </ul>
     </div>
   </nav>

@@ -1,40 +1,82 @@
 {{ define "main" }}
-<section class="list-page">
-  
+
+{{/* ── Category metadata ── */}}
+{{ $categoryMeta := dict
+  "news"      "What is happening, reported clearly and without noise."
+  "opinion"   "Ideas worth arguing about. Perspectives that take a position."
+  "lifestyle" "Ordinary life, taken seriously."
+}}
+
+{{ $slug := .Title | urlize }}
+{{ $desc := index $categoryMeta $slug }}
+
+<div class="list-page">
+
+  {{/* ── Category Header ── */}}
   <div class="list-header">
-    <div class="container">
-      <h1 class="list-title">{{ .Title }}</h1>
-      {{ if .Content }}<div class="list-desc">{{ .Content }}</div>{{ end }}
+    <div class="list-header-inner article-container">
+      <div class="list-header-left">
+        <p class="list-eyebrow">Category</p>
+        <h1 class="list-title">{{ .Title }}</h1>
+        {{ if $desc }}
+          <p class="list-desc">{{ $desc }}</p>
+        {{ else if .Content }}
+          <div class="list-desc">{{ .Content }}</div>
+        {{ end }}
+      </div>
+      <div class="list-header-right">
+        <span class="list-count">{{ len .Pages }}<br><span class="list-count-label">piece{{ if ne (len .Pages) 1 }}s{{ end }}</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="container">
+  {{/* ── Article List ── */}}
+  <div class="article-container">
     <div class="list-items">
       {{ range .Paginator.Pages }}
-        <article class="list-item">
-          {{ if .Params.categories }}
-            <div class="item-cats">
-              {{ range first 1 .Params.categories }}
-                <span class="item-cat">{{ . }}</span>
-              {{ end }}
-            </div>
+
+        {{ $hasImage := and .Params.feature_image .Params.show_image_homepage }}
+        {{ $img := "" }}
+        {{ if $hasImage }}
+          {{ with .Resources.GetMatch .Params.feature_image }}
+            {{ $img = (.Resize "800x").RelPermalink }}
+          {{ else }}
           {{ end }}
+        {{ end }}
 
-          <h2 class="item-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+        <article class="list-item{{ if $img }} has-image{{ end }}">
 
-          <div class="item-meta">
-            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
-            {{ if .Params.author }}<span>{{ .Params.author }}</span>{{ end }}
-            <span>{{ .ReadingTime }} min read</span>
+          <div class="list-item-body">
+            {{ if .Params.categories }}
+              <span class="list-item-cat">{{ index .Params.categories 0 }}</span>
+            {{ end }}
+
+            <h2 class="list-item-title">
+              <a href="{{ .Permalink }}">{{ .Title }}</a>
+            </h2>
+
+            <p class="list-item-excerpt">{{ .Summary | truncate 180 }}</p>
+
+            <div class="list-item-meta">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+              <span class="list-item-dot">·</span>
+              <span>{{ .ReadingTime }} min read</span>
+            </div>
           </div>
 
-          <p class="item-excerpt">{{ .Summary | truncate 200 }}</p>
+          {{ if $img }}
+            <a href="{{ .Permalink }}" class="list-item-image-wrap" tabindex="-1" aria-hidden="true">
+              <img src="{{ $img }}" alt="{{ .Title }}" loading="lazy">
+            </a>
+          {{ end }}
+
         </article>
+
       {{ end }}
     </div>
 
     {{ if gt .Paginator.TotalPages 1 }}
-      <nav class="pagination">
+      <nav class="list-pagination" aria-label="Page navigation">
         {{ if .Paginator.HasPrev }}
           <a href="{{ .Paginator.Prev.URL }}" class="page-link">← Newer</a>
         {{ end }}
@@ -46,5 +88,245 @@
     {{ end }}
   </div>
 
-</section>
+</div>
+
+<style>
+/* ════════════════════════════════════════════
+   CATEGORY LIST PAGE — Editorial
+   ════════════════════════════════════════════ */
+
+.list-page {
+  padding-bottom: var(--space-3xl);
+}
+
+/* ── Header ── */
+.list-header {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2xl) 0 var(--space-xl);
+  margin-bottom: var(--space-2xl);
+}
+
+.list-header-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-xl);
+}
+
+.list-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.list-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 0.65rem;
+  line-height: 1.05;
+  text-transform: capitalize;
+  letter-spacing: -0.02em;
+}
+
+.list-desc {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0;
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+.list-header-right {
+  flex-shrink: 0;
+  text-align: right;
+  padding-bottom: 0.2rem;
+}
+
+.list-count {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--color-border);
+  display: block;
+  letter-spacing: -0.02em;
+}
+
+.list-count-label {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+}
+
+/* ── Items ── */
+.list-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--color-border-light);
+  gap: var(--space-lg);
+  transition: background 0.15s ease;
+}
+
+.list-item.has-image {
+  grid-template-columns: 1fr 160px;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Image — right-side thumbnail, fixed square crop like ProPublica */
+.list-item-image-wrap {
+  display: block;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  aspect-ratio: 1 / 1;
+}
+
+.list-item-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.list-item:hover .list-item-image-wrap img {
+  transform: scale(1.04);
+}
+
+.list-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.list-item-cat {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.list-item-title {
+  font-family: var(--font-card);
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.list-item-title a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.list-item-title a:hover {
+  color: var(--color-primary);
+}
+
+.list-item-excerpt {
+  font-family: var(--font-reading);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.list-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+  margin-top: 0.1rem;
+}
+
+.list-item-dot {
+  opacity: 0.3;
+  font-size: 0.5rem;
+}
+
+/* ── Pagination ── */
+.list-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  padding: var(--space-2xl) 0;
+  border-top: 1px solid var(--color-border-light);
+  margin-top: var(--space-xl);
+}
+
+.page-link {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-light);
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 1.3rem;
+  border-radius: 50px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.page-link:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.page-info {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--color-text-lighter);
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .list-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+  .list-header-right { text-align: left; }
+  .list-item.has-image {
+    grid-template-columns: 1fr;
+  }
+  .list-item-image-wrap {
+    aspect-ratio: 16 / 9;
+    order: -1;
+  }
+  .list-item-image-wrap img {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>
+
 {{ end }}

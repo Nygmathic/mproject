@@ -23,9 +23,9 @@ params:
   brand_name: "Veridus"
 
   # Author — site-level fallback used in single.html author bio card
-  author: "Collins Obura"
-  author_title: "Information Activist"
-  author_bio: "Collins Obura is an information activist based in Nairobi. He runs Veridus to challenge how Africa's stories are told."
+  author: "Veridus Editorial"
+  author_title: "Editorial Team"
+  author_bio: "Veridus is an independent publication covering Africa's ideas, politics, and future."
   author_twitter: ""        # e.g. https://twitter.com/yourhandle
   author_linkedin: ""       # e.g. https://linkedin.com/in/yourprofile
   author_email: "contact@veridus.space"
@@ -36,7 +36,7 @@ params:
   # Social Media Links — comment out any that are not yet active
   social:
     # twitter: "https://twitter.com/yourusername"     # uncomment when active
-    facebook: "https://facebook.com/profile.php?id=61587502772266"
+   #facebook: "https://facebook.com/profile.php?id=61587502772266"
     # linkedin: "https://linkedin.com/in/yourprofile" # uncomment when active
     # instagram: "https://instagram.com/yourusername" # uncomment when active
     # youtube: "https://youtube.com/@yourchannel"     # uncomment when active

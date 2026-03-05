@@ -3,12 +3,12 @@
 
   {{ $allArticles := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle") }}
 
+  {{/* ── Resolve pinned ── */}}
   {{ $pinned := slice }}
   {{ range where $allArticles "Params.pin" true }}
     {{ $expired := false }}
     {{ with .Params.pin_expiry }}
-      {{ $expiryTime := time . }}
-      {{ if lt $expiryTime now }}{{ $expired = true }}{{ end }}
+      {{ if lt (time .) now }}{{ $expired = true }}{{ end }}
     {{ end }}
     {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
   {{ end }}
@@ -23,164 +23,188 @@
 
   {{ $paginator := .Paginate $unpinned }}
 
-  {{/* PINNED — page 1 only. Always-visible CTA: these are hero cards */}}
-  {{ if and $pinned (eq $paginator.PageNumber 1) }}
-  <section class="pinned-posts">
-    <div class="section-header">
-      <h2>📌 Pinned</h2>
-      <div class="section-divider"></div>
-    </div>
-    <div class="pinned-grid">
-      {{ range $pinned }}
-        {{ $img := "" }}
-        {{ if .Params.feature_image }}
-          {{ with .Resources.GetMatch .Params.feature_image }}
-            {{ $img = .RelPermalink }}
-          {{ else }}
-            {{ $img = printf "/images/%s" .Params.feature_image }}
-          {{ end }}
+  {{ if eq $paginator.PageNumber 1 }}
+
+    {{/* ══════════════════════════════════════
+         HERO — first pinned or first paginator page
+         ══════════════════════════════════════ */}}
+    {{ $hero := "" }}
+    {{ if $pinned }}
+      {{ $hero = index $pinned 0 }}
+    {{ else if $paginator.Pages }}
+      {{ $hero = index $paginator.Pages 0 }}
+    {{ end }}
+
+    {{ with $hero }}
+      <section class="hp-hero">
+        {{ $heroPermalink := .Permalink }}
+        {{ $heroTitle := .Title }}
+        {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+          <a href="{{ $heroPermalink }}" class="hp-hero-img" tabindex="-1" aria-hidden="true">
+            {{ $img := .Resize "1400x" }}
+            <img src="{{ $img.RelPermalink }}"
+                 alt="{{ $heroTitle }}"
+                 loading="eager"
+                 fetchpriority="high"
+                 decoding="sync"
+                 width="{{ $img.Width }}"
+                 height="{{ $img.Height }}">
+          </a>
         {{ end }}
-        <article class="pinned-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
-          {{ if and $img .Params.show_image_homepage }}
-          <div class="card-image-wrap">
-            <img src="{{ $img }}" alt="{{ .Title }}" class="card-image" loading="lazy"/>
+        <div class="hp-hero-text">
+          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+          <h2 class="hp-hero-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <p class="hp-hero-standfirst">{{ .Summary | truncate 200 }}</p>
+          <div class="hp-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            <span class="hp-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
           </div>
+        </div>
+      </section>
+    {{ end }}
+
+    {{/* ══════════════════════════════════════
+         Determine grid source from paginator pages
+         (fixes bug where page 1 rendered all articles)
+         ══════════════════════════════════════ */}}
+    {{ $gridPages := $paginator.Pages }}
+    {{ if not $pinned }}
+      {{/* Hero came from paginator slot 0 — skip it in the grid */}}
+      {{ $gridPages = after 1 $paginator.Pages }}
+    {{ end }}
+
+    {{/* ══════════════════════════════════════
+         MAIN GRID — Lead | Secondary | Stack
+         ══════════════════════════════════════ */}}
+    {{ if $gridPages }}
+    <section class="hp-grid">
+
+      {{/* Lead — col 1+2 */}}
+      {{ with index $gridPages 0 }}
+        {{ $p := .Permalink }}{{ $t := .Title }}
+        <article class="hp-lead">
+          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
+              {{ $img := .Resize "900x" }}
+              <img src="{{ $img.RelPermalink }}"
+                   alt="{{ $t }}"
+                   loading="lazy"
+                   decoding="async"
+                   width="{{ $img.Width }}"
+                   height="{{ $img.Height }}">
+            </a>
           {{ end }}
-          <div class="card-body">
-            {{ if .Params.categories }}
-              <span class="card-category">{{ index .Params.categories 0 }}</span>
-            {{ end }}
-            <h2 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <div class="card-meta">
-              <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-              {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
-              <span class="card-reading-time">{{ .ReadingTime }} min read</span>
-            </div>
-            <p class="card-excerpt">{{ .Summary | truncate 200 }}</p>
-            <a href="{{ .Permalink }}" class="card-cta">Read Full Story →</a>
+          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+          <h2 class="hp-lead-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <p class="hp-standfirst">{{ .Summary | truncate 180 }}</p>
+          <div class="hp-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            <span class="hp-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
           </div>
         </article>
       {{ end }}
-    </div>
-  </section>
-  {{ end }}
 
-  {{ if eq $paginator.PageNumber 1 }}
-
-    {{ $latest    := first 2 $unpinned }}
-    {{ $remaining := after 2 $unpinned }}
-
-    {{ if $latest }}
-    <section class="latest-articles">
-      <div class="latest-articles-header">
-        <h2>Latest Stories</h2>
-        <div class="latest-divider"></div>
-      </div>
-      <div class="latest-articles-grid">
-        {{ range $latest }}
-          {{ $img := "" }}
-          {{ if .Params.feature_image }}
-            {{ with .Resources.GetMatch .Params.feature_image }}
-              {{ $img = .RelPermalink }}
-            {{ else }}
-              {{ $img = printf "/images/%s" .Params.feature_image }}
-            {{ end }}
+      {{/* Secondary — col 3 */}}
+      {{ with index $gridPages 1 }}
+        {{ $p := .Permalink }}{{ $t := .Title }}
+        <article class="hp-secondary">
+          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
+              {{ $img := .Resize "600x" }}
+              <img src="{{ $img.RelPermalink }}"
+                   alt="{{ $t }}"
+                   loading="lazy"
+                   decoding="async"
+                   width="{{ $img.Width }}"
+                   height="{{ $img.Height }}">
+            </a>
           {{ end }}
-          <article class="latest-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
-            {{ if and $img .Params.show_image_homepage }}
-            <div class="latest-card-image-wrap">
-              <img src="{{ $img }}" alt="{{ .Title }}" class="latest-card-image" loading="lazy"/>
-            </div>
-            {{ end }}
-            <div class="latest-card-body">
-              {{ if .Params.categories }}
-                <span class="latest-card-category">{{ index .Params.categories 0 }}</span>
-              {{ end }}
-              <h2 class="latest-card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-              <div class="latest-card-meta">
-                <span class="latest-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-                {{ if .Params.author }}<span class="latest-author">{{ .Params.author }}</span>{{ end }}
-                <span class="latest-reading-time">{{ .ReadingTime }} min read</span>
-              </div>
-              <p class="latest-card-excerpt">{{ .Summary | truncate 180 }}</p>
-              {{/* CTA hidden at rest — slides up on hover via CSS only */}}
-              <a href="{{ .Permalink }}" class="latest-card-cta">Read Full Story</a>
+          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+          <h2 class="hp-secondary-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <p class="hp-standfirst">{{ .Summary | truncate 130 }}</p>
+          <div class="hp-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            <span class="hp-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
+          </div>
+        </article>
+      {{ end }}
+
+      {{/* Stack — col 4, text-only */}}
+      <div class="hp-stack">
+        {{ range after 2 (first 4 $gridPages) }}
+          <article class="hp-stack-item">
+            {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+            <h2 class="hp-stack-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+            <div class="hp-meta">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+              <span class="hp-dot">·</span>
+              <span>{{ .ReadingTime }} min read</span>
             </div>
           </article>
         {{ end }}
       </div>
+
     </section>
     {{ end }}
 
-    {{ if $remaining }}
-    <div class="articles-grid">
-      {{ range $remaining }}
-        {{ $img := "" }}
-        {{ if .Params.feature_image }}
-          {{ with .Resources.GetMatch .Params.feature_image }}
-            {{ $img = .RelPermalink }}
-          {{ else }}
-            {{ $img = printf "/images/%s" .Params.feature_image }}
+    {{/* ══════════════════════════════════════
+         MORE STORIES — all remaining articles,
+         3-col grid, no section labels
+         ══════════════════════════════════════ */}}
+    {{ $moreArticles := after 4 $gridPages }}
+    {{ if $moreArticles }}
+    <section class="hp-more">
+      {{ range $moreArticles }}
+        {{ $p := .Permalink }}{{ $t := .Title }}
+        <article class="hp-trio-item">
+          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
+              {{ $img := .Resize "600x" }}
+              <img src="{{ $img.RelPermalink }}" alt="{{ $t }}" loading="lazy" decoding="async" width="{{ $img.Width }}" height="{{ $img.Height }}">
+            </a>
           {{ end }}
-        {{ end }}
-        {{/* No CTA on grid cards — title is the link, stays clean */}}
-        <article class="article-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
-          {{ if and $img .Params.show_image_homepage }}
-          <div class="article-card-image-wrap">
-            <img src="{{ $img }}" alt="{{ .Title }}" class="article-card-image" loading="lazy"/>
-          </div>
-          {{ end }}
-          <div class="article-card-body">
-            {{ if .Params.categories }}
-              <span class="card-category">{{ index .Params.categories 0 }}</span>
-            {{ end }}
-            <h2 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <div class="card-meta">
-              <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-              {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
-              <span class="card-reading-time">{{ .ReadingTime }} min read</span>
-            </div>
-            <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>
+          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+          <h2 class="hp-trio-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <p class="hp-standfirst hp-standfirst--sm">{{ .Summary | truncate 120 }}</p>
+          <div class="hp-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            <span class="hp-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
           </div>
         </article>
       {{ end }}
-    </div>
+    </section>
     {{ end }}
 
   {{ else }}
 
-  {{/* PAGE 2+: paginated grid — no CTA */}}
-  <div class="articles-grid">
-    {{ range $paginator.Pages }}
-      {{ $img := "" }}
-      {{ if .Params.feature_image }}
-        {{ with .Resources.GetMatch .Params.feature_image }}
-          {{ $img = .RelPermalink }}
-        {{ else }}
-          {{ $img = printf "/images/%s" .Params.feature_image }}
-        {{ end }}
-      {{ end }}
-      <article class="article-card {{ if and $img .Params.show_image_homepage }}has-image{{ end }}">
-        {{ if and $img .Params.show_image_homepage }}
-        <div class="article-card-image-wrap">
-          <img src="{{ $img }}" alt="{{ .Title }}" class="article-card-image" loading="lazy"/>
-        </div>
-        {{ end }}
-        <div class="article-card-body">
-          {{ if .Params.categories }}
-            <span class="card-category">{{ index .Params.categories 0 }}</span>
+    {{/* ══════════════════════════════════════
+         PAGE 2+: 3-column grid
+         ══════════════════════════════════════ */}}
+    <section class="hp-trio hp-trio--page2">
+      {{ range $paginator.Pages }}
+        {{ $p := .Permalink }}{{ $t := .Title }}
+        <article class="hp-trio-item">
+          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
+              {{ $img := .Resize "600x" }}
+              <img src="{{ $img.RelPermalink }}" alt="{{ $t }}" loading="lazy" decoding="async" width="{{ $img.Width }}" height="{{ $img.Height }}">
+            </a>
           {{ end }}
-          <h2 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <div class="card-meta">
-            <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
-            {{ if .Params.author }}<span class="card-author">{{ .Params.author }}</span>{{ end }}
-            <span class="card-reading-time">{{ .ReadingTime }} min read</span>
+          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
+          <h2 class="hp-trio-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <p class="hp-standfirst hp-standfirst--sm">{{ .Summary | truncate 120 }}</p>
+          <div class="hp-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            <span class="hp-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
           </div>
-          <p class="card-excerpt">{{ .Summary | truncate 150 }}</p>
-        </div>
-      </article>
-    {{ end }}
-  </div>
+        </article>
+      {{ end }}
+    </section>
 
   {{ end }}
 
@@ -197,4 +221,29 @@
   {{ end }}
 
 </div>
+
+<style>
+/* ════════════════════════════════════════════
+   MORE STORIES — 3-col grid, flows directly
+   beneath the main grid with a single top rule
+   ════════════════════════════════════════════ */
+
+.hp-more {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xl);
+  padding-top: var(--space-2xl);
+  margin-top: var(--space-xl);
+  border-top: 1px solid var(--color-border-light);
+}
+
+@media (max-width: 900px) {
+  .hp-more { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .hp-more { grid-template-columns: 1fr; }
+}
+</style>
+
 {{ end }}
