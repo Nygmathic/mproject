@@ -1,169 +1,495 @@
 {{ define "main" }}
-<div class="container">
-  {{/* Breadcrumb Navigation */}}
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <ol class="breadcrumb-list">
-      <li><a href="/">Home</a></li>
-      <li class="breadcrumb-current" aria-current="page">Search</li>
-    </ol>
-  </nav>
+<div class="search-page">
+  <div class="search-page-inner">
 
-  <header class="section-header">
-    <h1 class="serif-text">Search</h1>
-  </header>
+    {{/* ── Page Header ── */}}
+    <header class="search-header">
+      <p class="search-eyebrow">Veridus</p>
+      <h1 class="search-title">Search</h1>
+      <p class="search-subtitle">Find articles across news, opinion, and lifestyle.</p>
+    </header>
 
-  {{/* Search Form */}}
-  <div class="search-container">
-    <form id="search-form" class="search-form" role="search">
-      <div class="search-input-wrapper">
-        <input 
-          type="search" 
-          id="search-input" 
-          class="search-input"
-          placeholder="Search articles, news, opinions..."
-          aria-label="Search articles"
-          autocomplete="off">
-        <button type="submit" class="search-btn" aria-label="Search">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
+    {{/* ── Search Form ── */}}
+    <div class="search-form-wrap">
+      <form id="search-form" role="search" autocomplete="off">
+        <div class="search-field">
+          <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
           </svg>
-        </button>
-      </div>
-    </form>
-  </div>
+          <input
+            type="search"
+            id="search-input"
+            class="search-field-input"
+            placeholder="Search articles…"
+            aria-label="Search articles"
+            autocomplete="off"
+            spellcheck="false">
+          <button type="button" id="search-clear" class="search-field-clear" aria-label="Clear search" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
 
-  {{/* Search Results */}}
-  <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results">
-    <!-- Results will be populated by JavaScript -->
-  </div>
+    {{/* ── Status / Results ── */}}
+    <div id="search-status" class="search-status" aria-live="polite"></div>
 
-  {{/* No Search Input Message */}}
-  <div id="search-placeholder" class="search-placeholder">
-    <p>Start typing to search articles...</p>
+    {{/* ── Placeholder ── */}}
+    <div id="search-placeholder" class="search-placeholder">
+      <p class="search-placeholder-hint">Start typing to search all articles.</p>
+    </div>
+
+    {{/* ── Results list ── */}}
+    <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results"></div>
+
   </div>
 </div>
 
-{{/* Search Script (Fuse.js - lightweight fuzzy search) */}}
+<style>
+/* ════════════════════════════════════════════
+   SEARCH PAGE
+   ════════════════════════════════════════════ */
+
+.search-page {
+  padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
+}
+
+.search-page-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+/* ── Header ── */
+.search-header {
+  padding-bottom: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.search-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 0.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.search-subtitle {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── Search Field ── */
+.search-form-wrap {
+  margin-bottom: var(--space-2xl);
+  position: relative;
+}
+
+/* Animated underline bar */
+.search-form-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--color-primary);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-form-wrap:focus-within::after {
+  width: 100%;
+}
+
+.search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.search-field-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-lighter);
+  pointer-events: none;
+  transition: color 0.25s ease;
+  margin-right: 0.9rem;
+}
+
+.search-field:focus-within .search-field-icon {
+  color: var(--color-primary);
+}
+
+.search-field-input {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.65rem 2.5rem 0.65rem 0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  caret-color: var(--color-primary);
+}
+
+.search-field-input::placeholder {
+  color: var(--color-border);
+  font-style: italic;
+}
+
+.search-field-input:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Remove browser search clear button */
+.search-field-input::-webkit-search-cancel-button,
+.search-field-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.search-field-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-lighter);
+  border-radius: 50%;
+  transition: color 0.2s ease, background 0.2s ease;
+  padding: 0;
+  margin-left: 0.5rem;
+}
+
+.search-field-clear:hover {
+  color: var(--color-text);
+  background: var(--color-border-light);
+}
+
+.search-field-clear svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Status line ── */
+.search-status {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+  margin-bottom: var(--space-lg);
+  min-height: 1.2em;
+}
+
+.search-status strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* ── Placeholder ── */
+.search-placeholder {
+  padding: var(--space-3xl) 0;
+  text-align: center;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.search-placeholder-hint {
+  font-family: var(--font-reading);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-text-lighter);
+  margin: 0;
+}
+
+/* ── Results ── */
+.search-results {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Single result ── */
+.search-result {
+  padding: var(--space-xl) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.search-result:first-child {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.search-result-cat {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.search-result-title {
+  font-family: var(--font-card);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.search-result-title a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.search-result-title a:hover {
+  color: var(--color-primary);
+}
+
+.search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-lighter);
+  margin-bottom: 0.55rem;
+}
+
+.search-result-dot {
+  opacity: 0.3;
+  font-size: 0.5rem;
+}
+
+.search-result-summary {
+  font-family: var(--font-reading);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* Highlight matched text */
+.search-result-title mark,
+.search-result-summary mark {
+  background: rgba(0, 122, 204, 0.15);
+  color: var(--color-text);
+  border-radius: 2px;
+  padding: 0 0.1em;
+}
+
+[data-theme="dark"] .search-result-title mark,
+[data-theme="dark"] .search-result-summary mark {
+  background: rgba(125, 211, 252, 0.18);
+  color: var(--color-text);
+}
+
+/* ── No results ── */
+.search-no-results {
+  padding: var(--space-3xl) 0;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.search-no-results p {
+  font-family: var(--font-reading);
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin: 0 0 var(--space-sm);
+}
+
+.search-no-results p:first-child {
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.search-no-results a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .search-page-inner {
+    padding: 0 var(--space-lg);
+  }
+  .search-result-meta {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+}
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
 <script>
-  // ================================================================
-  // SEARCH FUNCTIONALITY with Fuse.js
-  // ================================================================
-  
-  const searchInput = document.getElementById('search-input');
-  const searchForm = document.getElementById('search-form');
-  const resultsContainer = document.getElementById('search-results');
+(function () {
+  const input       = document.getElementById('search-input');
+  const clearBtn    = document.getElementById('search-clear');
+  const statusEl    = document.getElementById('search-status');
   const placeholder = document.getElementById('search-placeholder');
+  const resultsEl   = document.getElementById('search-results');
 
-  let searchIndex = null;
   let fuse = null;
 
-  // Fetch and initialize search index
-  async function initializeSearch() {
+  /* ── Initialise ── */
+  async function init() {
     try {
-      const response = await fetch('/index.json');
-      if (!response.ok) throw new Error('Failed to load search index');
-      
-      searchIndex = await response.json();
-      
-      // Initialize Fuse.js with options
-      fuse = new Fuse(searchIndex, {
-        keys: ['title', 'content', 'summary', 'categories'],
-        threshold: 0.3,  // Fuzzy match threshold
+      const res = await fetch('/index.json');
+      if (!res.ok) throw new Error('index not found');
+      const data = await res.json();
+      fuse = new Fuse(data, {
+        keys: ['title', 'summary', 'content', 'categories'],
+        threshold: 0.3,
         ignoreLocation: true,
         minMatchCharLength: 2
       });
-    } catch (error) {
-      console.error('Search initialization error:', error);
-      resultsContainer.innerHTML = '<p style="color: var(--secondary-text);">Search is temporarily unavailable</p>';
+    } catch (e) {
+      console.error('Search init failed:', e);
     }
   }
 
-  // Perform search
-  function performSearch(query) {
-    if (!fuse || query.trim().length < 2) {
-      resultsContainer.innerHTML = '';
-      placeholder.style.display = 'block';
-      return;
-    }
-
-    placeholder.style.display = 'none';
-    
-    const results = fuse.search(query);
-    
-    if (results.length === 0) {
-      resultsContainer.innerHTML = `
-        <div class="search-no-results">
-          <p>No articles found matching "<strong>${escapeHtml(query)}</strong>"</p>
-          <p class="search-no-results-hint">Try different keywords or browse by <a href="/archive/">archive</a></p>
-        </div>
-      `;
-      return;
-    }
-
-    // Render results
-    const resultsHTML = results
-      .slice(0, 20)  // Limit to 20 results
-      .map(result => {
-        const item = result.item;
-        const highlightedTitle = highlightMatches(item.title, query);
-        const highlightedSummary = highlightMatches(item.summary, query);
-        
-        return `
-          <article class="search-result">
-            <h3 class="search-result-title">
-              <a href="${escapeHtml(item.url)}">${highlightedTitle}</a>
-            </h3>
-            <div class="search-result-meta">
-              <span class="search-result-date">${new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-              ${item.section ? `<span class="search-result-section">${escapeHtml(item.section)}</span>` : ''}
-              ${item.categories && item.categories.length > 0 ? `<span class="search-result-categories">${item.categories.slice(0, 2).map(c => escapeHtml(c)).join(', ')}</span>` : ''}
-            </div>
-            <p class="search-result-summary">${highlightedSummary}</p>
-          </article>
-        `;
-      })
-      .join('');
-
-    resultsContainer.innerHTML = `
-      <div class="search-results-header">
-        <p>Found <strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''}</p>
-      </div>
-      ${resultsHTML}
-    `;
+  /* ── Escape HTML ── */
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
   }
 
-  // Highlight matching text in results
-  function highlightMatches(text, query) {
+  /* ── Highlight matches ── */
+  function highlight(text, query) {
     if (!text) return '';
-    
-    const regex = new RegExp(`(${query.split(' ').filter(w => w).join('|')})`, 'gi');
-    const truncated = text.length > 150 ? text.substring(0, 150) + '...' : text;
-    
-    return truncated.replace(regex, '<mark>$1</mark>');
+    const safe = text.length > 160 ? text.slice(0, 160) + '…' : text;
+    const words = query.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return esc(safe);
+    const rx = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+    return esc(safe).replace(rx, '<mark>$1</mark>');
   }
 
-  // Escape HTML to prevent XSS
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+  /* ── Format date ── */
+  function fmt(dateStr) {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   }
 
-  // Event listeners
-  searchInput.addEventListener('input', (e) => {
-    performSearch(e.target.value);
+  /* ── Render ── */
+  function render(query) {
+    const q = query.trim();
+
+    if (q.length < 2) {
+      resultsEl.innerHTML = '';
+      statusEl.innerHTML  = '';
+      placeholder.hidden  = false;
+      clearBtn.hidden     = q.length === 0;
+      return;
+    }
+
+    placeholder.hidden = true;
+    clearBtn.hidden    = false;
+
+    if (!fuse) {
+      statusEl.textContent = 'Search unavailable — please try again shortly.';
+      return;
+    }
+
+    const results = fuse.search(q).slice(0, 20);
+
+    /* Status */
+    statusEl.innerHTML = results.length
+      ? `<strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for &ldquo;${esc(q)}&rdquo;`
+      : '';
+
+    if (!results.length) {
+      resultsEl.innerHTML = `
+        <div class="search-no-results">
+          <p>No articles found for &ldquo;<strong>${esc(q)}</strong>&rdquo;</p>
+          <p>Try different keywords, or browse the <a href="/archive/">archive</a>.</p>
+        </div>`;
+      return;
+    }
+
+    resultsEl.innerHTML = results.map(({ item }) => {
+      const cat = item.categories && item.categories[0] ? item.categories[0] : (item.section || '');
+      return `
+        <article class="search-result">
+          ${cat ? `<span class="search-result-cat">${esc(cat)}</span>` : ''}
+          <h2 class="search-result-title">
+            <a href="${esc(item.url)}">${highlight(item.title, q)}</a>
+          </h2>
+          <div class="search-result-meta">
+            ${item.date ? `<time datetime="${esc(item.date)}">${fmt(item.date)}</time>` : ''}
+            ${item.readingTime ? `<span class="search-result-dot">·</span><span>${item.readingTime} min read</span>` : ''}
+          </div>
+          ${item.summary ? `<p class="search-result-summary">${highlight(item.summary, q)}</p>` : ''}
+        </article>`;
+    }).join('');
+  }
+
+  /* ── Events ── */
+  input.addEventListener('input', () => render(input.value));
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    render('');
+    input.focus();
   });
 
-  searchForm.addEventListener('submit', (e) => {
+  document.getElementById('search-form').addEventListener('submit', e => {
     e.preventDefault();
-    // Optionally focus on first result
-    const firstResult = resultsContainer.querySelector('.search-result-title a');
-    if (firstResult) firstResult.focus();
+    const first = resultsEl.querySelector('.search-result-title a');
+    if (first) first.focus();
   });
 
-  // Initialize on load
-  window.addEventListener('DOMContentLoaded', initializeSearch);
+  /* ── URL query support: /search/?q=something ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    init().then(() => {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q') || '';
+      if (q) {
+        input.value = q;
+        render(q);
+      }
+    });
+  });
+})();
 </script>
+
 {{ end }}

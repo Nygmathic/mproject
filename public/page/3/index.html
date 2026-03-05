@@ -781,6 +781,115 @@
 <style>
  
 
+.hp-newsletter {
+  margin: var(--space-2xl) 0;
+  padding: var(--space-2xl) var(--space-2xl);
+  background: var(--color-bg-alt);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 0 0 12px 12px;
+}
+
+[data-theme="dark"] .hp-newsletter {
+  background: var(--color-bg-alt);
+}
+
+.hp-newsletter-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.hp-newsletter-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin: 0 0 0.4rem;
+}
+
+.hp-newsletter-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  font-weight: 400;
+  color: var(--color-text);
+  margin: 0 0 0.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.hp-newsletter-sub {
+  font-family: var(--font-reading);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.hp-newsletter-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.hp-newsletter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: #007ACC;
+  padding: 0.75rem 1.4rem;
+  border-radius: 50px;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.hp-newsletter-btn svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.hp-newsletter-btn:hover {
+  background: #0062a3;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,122,204,0.35);
+}
+
+.hp-newsletter-btn:hover svg {
+  transform: translateX(2px);
+}
+
+.hp-newsletter-note {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--color-text-lighter);
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 680px) {
+  .hp-newsletter-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+}
+
+ 
+
 .hp-more {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -840,28 +949,6 @@
     </script>
 
     
-
-
-<section class="footer-newsletter-banner">
-  <div class="footer-newsletter-inner">
-    <div class="fnb-left">
-      <p class="fnb-eyebrow">Stay Informed</p>
-      <h2 class="fnb-heading">Information with intention.<br>Straight to your inbox.</h2>
-      <p class="fnb-sub">New pieces on Africa's ideas, politics, and future — no algorithm, no noise. Just the work.</p>
-    </div>
-    <div class="fnb-right">
-      <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Veridus%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you."
-         class="fnb-btn">
-        Get New Pieces by Email
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <p class="fnb-note">No platform. No tracking. Just email.</p>
-    </div>
-  </div>
-</section>
 
 
 <footer class="site-footer">
@@ -934,126 +1021,6 @@
 </footer>
 
 <style>
- 
-
-.footer-newsletter-banner {
-  background: #0d1b2a;
-  color: #fff;
-  padding: 4rem 0;
-  position: relative;
-  overflow: hidden;
-  border-top: 1px solid rgba(0, 122, 204, 0.3);
-}
-
-.footer-newsletter-banner::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #007ACC 0%, #00b4d8 50%, #007ACC 100%);
-}
-
-[data-theme="dark"] .footer-newsletter-banner {
-  background: #0a1628;
-  border-top: 1px solid rgba(0, 122, 204, 0.2);
-}
-
-.footer-newsletter-inner {
-  max-width: var(--container-max, 1200px);
-  margin: 0 auto;
-  padding: 0 var(--space-xl, 2rem);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 3rem;
-  align-items: center;
-}
-
-.fnb-eyebrow {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #007ACC;
-  margin: 0 0 0.85rem;
-}
-
-.fnb-heading {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 400;
-  line-height: 1.2;
-  color: #fff;
-  margin: 0 0 1rem;
-  letter-spacing: -0.01em;
-}
-
-.fnb-sub {
-  font-family: var(--font-reading, Georgia, serif);
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.55);
-  margin: 0;
-  max-width: 480px;
-}
-
-.fnb-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.85rem;
-  flex-shrink: 0;
-}
-
-.fnb-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  background: #007ACC;
-  padding: 0.75rem 1.4rem;
-  border-radius: 50px;
-  white-space: nowrap;
-  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
-}
-
-.fnb-btn svg {
-  width: 13px; height: 13px;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.fnb-btn:hover {
-  background: #0062a3;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,122,204,0.45);
-}
-
-.fnb-btn:hover svg { transform: translateX(3px); }
-
-.fnb-note {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.35);
-  margin: 0;
-  letter-spacing: 0.04em;
-}
-
-@media (max-width: 768px) {
-  .footer-newsletter-inner {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .fnb-btn { align-self: flex-start; }
-}
-
  
 
  
