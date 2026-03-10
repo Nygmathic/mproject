@@ -12,6 +12,7 @@ jobs:
 
     permissions:
       contents: write  # needed to push new markdown files
+      actions: write   # needed to trigger Hugo deploy workflow
 
     steps:
       # 1. Check out your Hugo repo
@@ -31,13 +32,25 @@ jobs:
         run: |
           pip install feedparser requests
 
-      # 4. Run the news poster script
+      # 4. Check Gemini API key is present
+      - name: Check Gemini API key
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "❌ GEMINI_API_KEY is NOT set — check GitHub Secrets"
+            exit 1
+          else
+            echo "✅ GEMINI_API_KEY is set (length: ${#GEMINI_API_KEY})"
+          fi
+
+      # 5. Run the news poster script
       - name: Fetch and post news
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python auto_news_poster.py
 
-      # 5. Commit and push new articles if any were created
+      # 6. Commit and push new articles if any were created
       - name: Commit new articles
         run: |
           git config --global user.name "Veridus Auto Poster"
@@ -45,3 +58,12 @@ jobs:
           git add content/news/ .posted_articles.json
           git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
           git push
+
+      # 7. Trigger Hugo deploy so site rebuilds immediately
+      - name: Trigger Hugo deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/hugo.yml/dispatches \
+            -d '{"ref":"main"}'
