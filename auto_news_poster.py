@@ -207,22 +207,26 @@ Original Summary: {article['summary']}
 Source: {article['source']}
 """
 
-    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+    url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent"
     headers = {"Content-Type": "application/json"}
     params = {"key": GEMINI_API_KEY}
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 800},
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1024},
     }
 
     try:
         resp = requests.post(url, headers=headers, params=params, json=body, timeout=30)
-        resp.raise_for_status()
+        print(f"  🔍 Gemini status: {resp.status_code}")
+        if not resp.ok:
+            print(f"  ⚠️  Gemini error body: {resp.text[:300]}")
+            return None
         data = resp.json()
         text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+        print(f"  ✅ Gemini rewrote: {len(text)} chars")
         return text
     except Exception as e:
-        print(f"  ⚠️  Gemini error: {e}")
+        print(f"  ⚠️  Gemini exception: {e}")
         return None
 
 def build_hugo_markdown(article, body):
