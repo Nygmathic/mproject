@@ -31,63 +31,65 @@ NICHE_LIMITS = {
 }
 
 # ─── RSS FEED SOURCES ─────────────────────────────────────────────────────────
-# Sources deliberately include media FROM each region, not just Western coverage.
+# Deliberately diverse — Africa, Asia, Europe, Americas, Middle East all represented.
 
 RSS_FEEDS = {
     "politics": [
-        "https://feeds.bbci.co.uk/news/politics/rss.xml",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
-        "https://feeds.npr.org/1014/rss.xml",                        # NPR Politics
-        "https://www.theguardian.com/politics/rss",
-        "https://feeds.reuters.com/Reuters/PoliticsNews",
+        "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",  # NYT — USA
+        "https://feeds.npr.org/1014/rss.xml",                         # NPR — USA
+        "https://www.theguardian.com/politics/rss",                   # Guardian — UK
+        "https://www.dw.com/en/politics/rss",                         # DW — Germany
+        "https://www.aljazeera.com/xml/rss/all.xml",                  # Al Jazeera — Middle East
+        "https://feeds.feedburner.com/ndtvnews-latest",               # NDTV — India
+        "https://feeds.reuters.com/Reuters/PoliticsNews",             # Reuters — Global
     ],
+
     "business": [
-        "https://feeds.bbci.co.uk/news/business/rss.xml",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
-        "https://feeds.npr.org/1006/rss.xml",                        # NPR Business
-        "https://www.theguardian.com/business/rss",
-        "https://feeds.reuters.com/reuters/businessNews",
+        "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",  # NYT — USA
+        "https://feeds.bbci.co.uk/news/business/rss.xml",             # BBC — UK
+        "https://www.scmp.com/rss/92/feed",                           # SCMP — Hong Kong
+        "https://feeds.feedburner.com/business-standard",             # Business Standard — India
+        "https://www.theafricareport.com/feed/",                      # Africa Report — Africa
+        "https://feeds.reuters.com/reuters/businessNews",             # Reuters — Global
     ],
 
-    # ── GLOBAL AFFAIRS ────────────────────────────────────────────────────────
-    # International relations, diplomacy, conflict, and geopolitics worldwide.
     "global-affairs": [
-        "https://feeds.bbci.co.uk/news/world/rss.xml",               # BBC World
-        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",    # NYT World
-        "https://www.theguardian.com/world/rss",                     # Guardian World
-        "https://feeds.reuters.com/Reuters/worldNews",               # Reuters World
-        "https://foreignpolicy.com/feed/",                           # Foreign Policy — premier geopolitics journal
+        "https://foreignpolicy.com/feed/",                            # Foreign Policy — USA
+        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",     # NYT — USA
+        "https://www.theguardian.com/world/rss",                      # Guardian — UK
+        "https://www.dw.com/en/world/rss",                            # DW — Germany
+        "https://www.aljazeera.com/xml/rss/all.xml",                  # Al Jazeera — Middle East
+        "https://www3.nhk.or.jp/nhkworld/en/news/feeds/",             # NHK — Japan
+        "https://feeds.reuters.com/Reuters/worldNews",                # Reuters — Global
     ],
 
-    # ── CLIMATE ───────────────────────────────────────────────────────────────
-    # Covers climate change, energy, environment, and sustainability.
-    # Especially relevant to Africa, which bears disproportionate climate impact.
-    "climate": [
-        "https://www.theguardian.com/environment/climate-crisis/rss", # Guardian Climate Crisis
-        "https://insideclimatenews.org/feed/",                       # Inside Climate News — top climate journalism
-        "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml", # BBC Science & Environment
-        "https://www.climatecentral.org/feed",                       # Climate Central — science-first reporting
-        "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",  # NYT Climate
-    ],
-
-    # ── SPORTS ────────────────────────────────────────────────────────────────
-    # Global sports coverage with emphasis on football, athletics and African sports.
     "sports": [
-        "https://feeds.bbci.co.uk/sport/rss.xml",                    # BBC Sport — global
-        "https://www.theguardian.com/sport/rss",                     # Guardian Sport
-        "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",   # NYT Sports
-        "https://www.espn.com/espn/rss/news",                        # ESPN — global sports
-        "https://supersport.com/rss",                                # SuperSport — Africa-focused sports
+        "https://feeds.bbci.co.uk/sport/rss.xml",                     # BBC Sport — UK/Global
+        "https://www.theguardian.com/sport/rss",                      # Guardian — UK
+        "https://www.espn.com/espn/rss/news",                         # ESPN — Americas
+        "https://supersport.com/rss",                                 # SuperSport — Africa
+        "https://www.scmp.com/rss/95/feed",                           # SCMP Sport — Asia
+        "https://www.dw.com/en/sports/rss",                           # DW Sport — Europe
     ],
 
-    # ── AFRICA ────────────────────────────────────────────────────────────────
-    # Prioritises African-owned and African-based media over Western Africa desks.
+    "climate": [
+        "https://www.theguardian.com/environment/climate-crisis/rss", # Guardian — UK
+        "https://insideclimatenews.org/feed/",                        # Inside Climate News — USA
+        "https://www.climatecentral.org/feed",                        # Climate Central — USA
+        "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",   # NYT — USA
+        "https://www.dw.com/en/environment/rss",                      # DW — Germany/Europe
+        "https://www.aljazeera.com/xml/rss/all.xml",                  # Al Jazeera — Global South
+    ],
+
     "africa": [
-        "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",  # AllAfrica — pan-African aggregator
-        "https://www.dailymaverick.co.za/feed/",                     # Daily Maverick — top South African investigative outlet
-        "https://www.theafricareport.com/feed/",                     # The Africa Report — pan-African business & politics
-        "https://www.premiumtimesng.com/feed",                       # Premium Times — leading Nigerian independent news
-        "https://eastafrican.nation.africa/feed",                    # The East African — Kenya/EA region
+        "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf", # AllAfrica — Pan-African
+        "https://www.theafricareport.com/feed/",                      # Africa Report — Pan-African
+        "https://www.premiumtimesng.com/feed",                        # Premium Times — Nigeria
+        "https://www.ghanaweb.com/GhanaHomePage/NewsArchive/rss.php", # GhanaWeb — Ghana
+        "https://eastafrican.nation.africa/feed",                     # East African — Kenya/EA
+        "https://www.dailymaverick.co.za/feed/",                      # Daily Maverick — South Africa
+        "https://www.monitor.co.ug/rss",                              # Daily Monitor — Uganda
+        "https://www.egyptindependent.com/feed/",                     # Egypt Independent — North Africa
     ],
 }
 
@@ -200,11 +202,12 @@ Rules:
 - Present all sides fairly — avoid ideological or geographic bias
 - End with a forward-looking sentence about what to watch next
 - Write in English ONLY — do not use any other language under any circumstances
+- Do NOT mention, reference, or credit any external news source, outlet, or publication anywhere in the article
+- Write as if this is original Veridus reporting
 {regional_note}
 Article Niche: {niche.upper()}
 Original Title: {article['title']}
 Original Summary: {article['summary']}
-Source: {article['source']}
 """
 
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent"
@@ -255,15 +258,10 @@ draft: false
 categories: {categories}
 tags: {tags}
 description: "{description}"
-source: "{article['source']}"
-sourceUrl: "{article['url']}"
 ---
 
 """
-    # Attribution footer
-    attribution = f"\n\n---\n*This article is based on reporting from [{article['source']}]({article['url']}). Original reporting rights remain with the source.*"
-
-    return frontmatter + body + attribution
+    return frontmatter + body
 
 def save_hugo_post(article, content):
     """Save article as a Hugo markdown file."""
