@@ -191,16 +191,20 @@ def rewrite_with_gemini(article):
 
     prompt = f"""You are a professional news editor for Veridus.space, a credible international news website committed to fair, balanced global coverage.
 
-Rewrite the following news article summary into a complete, engaging, original news article.
+Rewrite the following news article summary into a complete, detailed, engaging, original news article of AT LEAST 800 words.
 
 Rules:
-- Write 3–5 paragraphs
+- Write a MINIMUM of 800 words and a MAXIMUM of 1200 words
+- Write 6–8 full paragraphs
 - Use your own words entirely — do NOT copy the original
-- Add brief context or background where helpful
-- Maintain a neutral, professional tone
-- Do NOT make up facts or quotes
+- Start with a strong opening paragraph that sets the scene
+- Add detailed context, background, and analysis in the middle paragraphs
+- Explain why this story matters to readers globally
+- Include relevant historical context where helpful
+- Maintain a neutral, professional tone throughout
+- Do NOT make up facts, statistics or quotes
 - Present all sides fairly — avoid ideological or geographic bias
-- End with a forward-looking sentence about what to watch next
+- End with a strong forward-looking paragraph about what to watch next
 - Write in English ONLY — do not use any other language under any circumstances
 - Do NOT mention, reference, or credit any external news source, outlet, or publication anywhere in the article
 - Write as if this is original Veridus reporting
@@ -215,7 +219,7 @@ Original Summary: {article['summary']}
     params = {"key": GEMINI_API_KEY}
     body = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 1024},
+        "generationConfig": {"temperature": 0.7, "maxOutputTokens": 2000},
     }
 
     try:
