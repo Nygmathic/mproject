@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Legal on Veridus</title>
-    <link>http://localhost:1313/tags/legal/</link>
+    <link>http://localhost:36961/tags/legal/</link>
     <description>Recent content in Legal on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/legal/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:36961/tags/legal/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>El Presidente: Senior Counsel Charles Kanjama Elected 52nd LSK President</title>
-      <link>http://localhost:1313/news/kanjama/</link>
+      <link>http://localhost:36961/news/kanjama/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/kanjama/</guid>
+      <guid>http://localhost:36961/news/kanjama/</guid>
       <description>&lt;p&gt;Senior Counsel Charles Kanjama has been elected President of the Law Society of Kenya (LSK), becoming the 52nd person to hold the office following a closely watched election held on February 19, 2026, with results announced the following day. For many in the legal fraternity, the outcome was more than a routine leadership transition — it was the ascent of one of Kenya&amp;rsquo;s sharpest legal minds to a seat the country cannot afford to leave in ordinary hands.&lt;/p&gt;</description>
     </item>
   </channel>

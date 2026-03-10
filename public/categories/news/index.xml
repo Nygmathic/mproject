@@ -2,46 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>News on Veridus</title>
-    <link>http://localhost:1313/categories/news/</link>
+    <link>http://localhost:36961/categories/news/</link>
     <description>Recent content in News on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/news/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:36961/categories/news/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>El Presidente: Senior Counsel Charles Kanjama Elected 52nd LSK President</title>
-      <link>http://localhost:1313/news/kanjama/</link>
+      <link>http://localhost:36961/news/kanjama/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/kanjama/</guid>
+      <guid>http://localhost:36961/news/kanjama/</guid>
       <description>&lt;p&gt;Senior Counsel Charles Kanjama has been elected President of the Law Society of Kenya (LSK), becoming the 52nd person to hold the office following a closely watched election held on February 19, 2026, with results announced the following day. For many in the legal fraternity, the outcome was more than a routine leadership transition — it was the ascent of one of Kenya&amp;rsquo;s sharpest legal minds to a seat the country cannot afford to leave in ordinary hands.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Mobile Money Changed Everything. Here&#39;s What Comes Next.</title>
-      <link>http://localhost:1313/news/mobile-money-future-africa/</link>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/mobile-money-future-africa/</guid>
-      <description>&lt;p&gt;When M-Pesa launched in Kenya in 2007, most of the global finance world did not pay much attention.&lt;/p&gt;&#xA;&lt;p&gt;A mobile money service for a developing market. Useful, perhaps, for people without bank accounts. But not exactly the kind of thing that turns heads in London or New York.&lt;/p&gt;&#xA;&lt;p&gt;What followed surprised almost everyone.&lt;/p&gt;&#xA;&lt;p&gt;Within a few years, millions of Kenyans who had never held a bank account were sending money, paying bills, and setting aside savings — all through a basic mobile phone. Research later showed that M-Pesa helped lift a measurable share of Kenyan households out of poverty by giving people, and women in particular, a new kind of economic independence.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Africa&#39;s Cities Are Growing Faster Than Their Plans. That Might Not Be a Disaster.</title>
-      <link>http://localhost:1313/news/african-cities-informal-growth/</link>
-      <pubDate>Sat, 14 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/african-cities-informal-growth/</guid>
-      <description>&lt;p&gt;The standard way of talking about African urban growth is a warning.&lt;/p&gt;&#xA;&lt;p&gt;Cities expanding faster than roads can be built or pipes can be laid. Housing shortages that push millions into informal settlements. Traffic that turns short distances into long ordeals. Flooding in neighbourhoods that were built without drainage because nobody planned for them at all.&lt;/p&gt;&#xA;&lt;p&gt;These are real problems. Anyone who has spent time in a rapidly growing African city knows them directly.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Welcome to this new corner of the internet</title>
-      <link>http://localhost:1313/news/welcome-post/</link>
-      <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/welcome-post/</guid>
-      <description>&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Digital Privacy in 2024: What You Need to Know Right Now</title>
-      <link>http://localhost:1313/lifestyle/4-digital-privacy/</link>
-      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/lifestyle/4-digital-privacy/</guid>
-      <description>&lt;p&gt;Last year, I received a targeted advertisement for a specific ailment I&amp;rsquo;d never searched for, never mentioned online, and barely acknowledged to myself. I was genuinely unsettled. How did they know? The answer, once I started investigating, was more complex and more troubling than simple algorithmic inference. They knew because my data had been sold, traded, and analyzed by at least seven different companies I&amp;rsquo;d never directly interacted with.&lt;/p&gt;&#xA;&lt;p&gt;That experience became the catalyst for understanding something I&amp;rsquo;d intellectually known but hadn&amp;rsquo;t emotionally grasped: your digital footprint is larger than you can probably imagine. Every app you download, every website you visit, every search you make—it&amp;rsquo;s being tracked, analyzed, combined with data from other sources, and sometimes sold to the highest bidder. In 2024, understanding digital privacy isn&amp;rsquo;t optional; it&amp;rsquo;s essential for maintaining autonomy over your own life.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

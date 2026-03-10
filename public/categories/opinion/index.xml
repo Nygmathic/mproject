@@ -2,81 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Opinion on Veridus</title>
-    <link>http://localhost:1313/categories/opinion/</link>
+    <link>http://localhost:36961/categories/opinion/</link>
     <description>Recent content in Opinion on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/opinion/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>The Problem Is Not That People Don&#39;t Read. It&#39;s What They&#39;re Reading.</title>
-      <link>http://localhost:1313/opinion/what-people-are-reading/</link>
-      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/what-people-are-reading/</guid>
-      <description>&lt;p&gt;Every so often, a new study or column appears warning that people are reading less.&lt;/p&gt;&#xA;&lt;p&gt;Attention spans are shrinking. Books are losing ground. Long-form journalism is struggling to survive. The concern is framed as a quantity problem: not enough reading is happening.&lt;/p&gt;&#xA;&lt;p&gt;But watch what people actually do with their phones.&lt;/p&gt;&#xA;&lt;p&gt;They read constantly. Captions. Threads. Comment sections. Group chats. Newsletters. Long arguments that play out over dozens of replies. People who say they do not read are often reading for several hours every day.&lt;/p&gt;</description>
-    </item>
+    <lastBuildDate>Tue, 17 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:36961/categories/opinion/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Drum Major Is Gone: A Tribute to Reverend Jesse Louis Jackson</title>
-      <link>http://localhost:1313/opinion/jesse-jackson/</link>
+      <link>http://localhost:36961/opinion/jesse-jackson/</link>
       <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/jesse-jackson/</guid>
+      <guid>http://localhost:36961/opinion/jesse-jackson/</guid>
       <description>&lt;p&gt;There are people who arrive in the world as if they were sent with a specific assignment. They do not drift through history — they &lt;strong&gt;shape&lt;/strong&gt; it. They do not ask permission to speak — they thunder. Reverend Jesse Louis Jackson was one of those people. Born October 8, 1941, in Greenville, South Carolina, a city that taught him injustice before it taught him anything else, he left this world on February 17, 2026, at the age of 84 — peacefully, surrounded by family, in Chicago, the city he made his pulpit and his battlefield.&lt;/p&gt;</description>
     </item>
     <item>
       <title>What the Yaytseslav Scandal Reveals About Kenya&#39;s Blind Spots</title>
-      <link>http://localhost:1313/opinion/yaytseslav-kenya-opinion/</link>
+      <link>http://localhost:36961/opinion/yaytseslav-kenya-opinion/</link>
       <pubDate>Mon, 16 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/yaytseslav-kenya-opinion/</guid>
+      <guid>http://localhost:36961/opinion/yaytseslav-kenya-opinion/</guid>
       <description>&lt;p&gt;By now, most Kenyans online know the name Yaytseslav.&lt;/p&gt;&#xA;&lt;p&gt;A Russian national, also identified as Vyacheslav Trahov, spent time in Kenya — and Ghana — approaching women in malls, on streets, and in supermarkets. He struck up conversations, collected phone numbers, arranged private meetups, and secretly filmed the encounters. The footage was then shared on TikTok, Instagram, and Telegram to an audience that treated it as entertainment.&lt;/p&gt;&#xA;&lt;p&gt;When the videos spread widely across Kenyan social media last week, the reaction was swift. The Ministry of Gender condemned the acts. Security agencies were directed to trace and arrest the man. Ghana&amp;rsquo;s government announced it would seek cooperation from Moscow through diplomatic channels. The word &amp;ldquo;exploitation&amp;rdquo; appeared in official statements. The word &amp;ldquo;violation&amp;rdquo; appeared in many more.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Africa&#39;s Youth Is Not a Problem. It&#39;s the Point.</title>
-      <link>http://localhost:1313/opinion/africa-youth-dividend/</link>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/africa-youth-dividend/</guid>
-      <description>&lt;p&gt;Every few months, a new report comes out about Africa&amp;rsquo;s growing youth population.&lt;/p&gt;&#xA;&lt;p&gt;The language is nearly always the same. Words like &amp;ldquo;challenge,&amp;rdquo; &amp;ldquo;pressure,&amp;rdquo; and &amp;ldquo;risk&amp;rdquo; show up early. The concern is built around jobs, stability, and the strain that a large young population puts on systems that were not built with them in mind.&lt;/p&gt;&#xA;&lt;p&gt;The concern is real. But the framing is wrong — and it keeps getting in the way of a more honest conversation.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>We Talk About Mental Health. We Don&#39;t Fund It.</title>
-      <link>http://localhost:1313/opinion/mental-health-funding-gap-africa/</link>
-      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/mental-health-funding-gap-africa/</guid>
-      <description>&lt;p&gt;Something has shifted in the way people talk about mental health.&lt;/p&gt;&#xA;&lt;p&gt;The conversations have become more open. In certain circles, the old silence has started to break down. Young people especially have been more willing to speak honestly — about anxiety, about burnout, about the strain of navigating economies that demand a great deal and offer little security in return.&lt;/p&gt;&#xA;&lt;p&gt;This change matters. Language shapes how problems get understood. Naming something is the first step toward addressing it.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Welcome to this new corner of the internet</title>
-      <link>http://localhost:1313/news/welcome-post/</link>
-      <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/welcome-post/</guid>
-      <description>&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Why Nairobi Is the Capital of Africa</title>
-      <link>http://localhost:1313/opinion/nairobi/</link>
+      <link>http://localhost:36961/opinion/nairobi/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/nairobi/</guid>
+      <guid>http://localhost:36961/opinion/nairobi/</guid>
       <description>&lt;p&gt;Nairobi is not officially the capital of Africa. There is no declaration, no charter, no continental vote that says so. Addis Ababa holds that title on paper, and rightly so. But capitals are not only decided by documents. Some are shaped by movement, energy, and influence. And by that measure, Nairobi has quietly become something more — not by force, not by announcement, but by gravity.&lt;/p&gt;&#xA;&lt;p&gt;One way to see a city’s influence is to watch where people go. Nairobi draws people from all over Africa — students, journalists, artists, activists, freelancers, and dreamers. Some arrive with clear plans. Many arrive unsure of what lies ahead. Most come because Nairobi feels like possibility. People arrive seeking opportunities, connection, and a chance to grow. Writers come to find new stories. Musicians come to collaborate. Entrepreneurs come because the city’s energy inspires action. Nairobi doesn’t promise an easy path, but it gives people a sense that something can happen — that they can create, learn, and contribute. This is what gives Nairobi its pull. It’s not about perfection. It’s about the chance to be part of something bigger, to move, to meet others, and to leave a mark that goes beyond the city itself.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Why Free Online Education Hasn&#39;t Solved Inequality—And What Might</title>
-      <link>http://localhost:1313/opinion/8-online-education/</link>
-      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/8-online-education/</guid>
-      <description>&lt;p&gt;I believed in the promise. When massive open online courses (MOOCs) first appeared, I genuinely thought we were witnessing an educational revolution. Free lectures from world-class professors at elite universities. Anyone with internet access could learn quantum physics from MIT or economics from Stanford. YouTube became an infinite classroom. The narrative was compelling: information asymmetry was solved. Education was being democratized.&lt;/p&gt;&#xA;&lt;p&gt;Yet here I am, years later, watching educational inequality persist and even deepen. Not because online education failed. But because we fundamentally misunderstood what education actually is.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Why Nairobi Deserves to Be the Cultural Capital of East Africa</title>
-      <link>http://localhost:1313/opinion/2-nairobi-culture/</link>
-      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/2-nairobi-culture/</guid>
-      <description>&lt;p&gt;There&amp;rsquo;s a prevailing narrative that Cairo is the cultural capital of Africa. Or that Lagos represents the creative heartbeat of the continent. But I would argue—passionately—that Nairobi, my home, and increasingly the epicenter of East African culture, deserves equal recognition. Not because it&amp;rsquo;s trying to be like the others. Because it&amp;rsquo;s becoming something entirely its own.&lt;/p&gt;&#xA;&lt;p&gt;I grew up in Nairobi in the 1990s, when it was regarded internationally as primarily a political capital and safari gateway. But something has shifted fundamentally in the last fifteen years. Walk through neighborhoods like Westlands, Karen, or South B today and you&amp;rsquo;ll encounter something remarkable: a genuinely cosmopolitan creative scene that draws from the city&amp;rsquo;s incredibly diverse populations while maintaining a distinct identity that feels authentically Nairobi.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Remote Work Isn&#39;t the Future—It&#39;s a Privilege We Need to Redistribute</title>
-      <link>http://localhost:1313/opinion/5-remote-work/</link>
-      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/opinion/5-remote-work/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;ve watched something troubling unfold over the past few years. We celebrate remote work as liberation. Tech workers in my circle praise the flexibility, the commute savings, the ability to live literally anywhere. But this celebration masks a troubling reality that I can&amp;rsquo;t ignore: remote work has become a new form of inequality.&lt;/p&gt;&#xA;&lt;p&gt;The narrative about remote work is overwhelmingly told by people who benefit from it. The software engineer who sold his Nairobi apartment and bought a bigger one in Mombasa. The designer who moved from Nairobi to a rural area, keeping her San Francisco salary. The consultant who negotiated flexible hours and now works from coffee shops three days a week. These stories are presented as inevitable and universal progress.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

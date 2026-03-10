@@ -1,0 +1,47 @@
+name: Auto News Poster
+
+on:
+  schedule:
+    # Runs twice a day: 8am and 8pm UTC → 10 articles per run = ~20/day
+    - cron: "0 8,20 * * *"
+  workflow_dispatch: # allows you to manually trigger it from GitHub
+
+jobs:
+  post-news:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # needed to push new markdown files
+
+    steps:
+      # 1. Check out your Hugo repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install feedparser requests
+
+      # 4. Run the news poster script
+      - name: Fetch and post news
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python auto_news_poster.py
+
+      # 5. Commit and push new articles if any were created
+      - name: Commit new articles
+        run: |
+          git config --global user.name "Veridus Auto Poster"
+          git config --global user.email "autopost@veridus.space"
+          git add content/news/ .posted_articles.json
+          git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
+          git push

@@ -2,9 +2,15 @@
 
 {{/* ── Category metadata ── */}}
 {{ $categoryMeta := dict
-  "news"      "What is happening, reported clearly and without noise."
-  "opinion"   "Ideas worth arguing about. Perspectives that take a position."
-  "lifestyle" "Ordinary life, taken seriously."
+  "news"       "What is happening, reported clearly and without noise."
+  "opinion"    "Ideas worth arguing about. Perspectives that take a position."
+  "lifestyle"  "Ordinary life, taken seriously."
+  "politics"   "Power, governance, and the forces that shape our world."
+  "business"   "Markets, economies, and the people driving global commerce."
+  "global-affairs" "International relations, diplomacy, and the forces shaping our world order."
+  "sports"         "Football, athletics, and the games that move the world."
+  "climate"        "The defining challenge of our time — what is happening, and what comes next."
+  "africa"     "Stories from the continent, told on Africa's own terms."
 }}
 
 {{ $slug := .Title | urlize }}

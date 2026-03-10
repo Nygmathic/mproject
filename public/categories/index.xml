@@ -2,101 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Veridus</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>http://localhost:36961/categories/</link>
     <description>Recent content in Categories on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Lifestyle</title>
-      <link>http://localhost:1313/categories/lifestyle/</link>
-      <pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/lifestyle/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:36961/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Legal Affairs</title>
-      <link>http://localhost:1313/categories/legal-affairs/</link>
+      <link>http://localhost:36961/categories/legal-affairs/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/legal-affairs/</guid>
+      <guid>http://localhost:36961/categories/legal-affairs/</guid>
       <description></description>
     </item>
     <item>
       <title>News</title>
-      <link>http://localhost:1313/categories/news/</link>
+      <link>http://localhost:36961/categories/news/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/news/</guid>
+      <guid>http://localhost:36961/categories/news/</guid>
       <description></description>
     </item>
     <item>
       <title>Opinion</title>
-      <link>http://localhost:1313/categories/opinion/</link>
-      <pubDate>Thu, 19 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/opinion/</guid>
+      <link>http://localhost:36961/categories/opinion/</link>
+      <pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:36961/categories/opinion/</guid>
       <description></description>
     </item>
     <item>
-      <title>Law</title>
-      <link>http://localhost:1313/categories/law/</link>
+      <title>Lifestyle</title>
+      <link>http://localhost:36961/categories/lifestyle/</link>
       <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/law/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Tech</title>
-      <link>http://localhost:1313/categories/tech/</link>
-      <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/tech/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Education</title>
-      <link>http://localhost:1313/categories/education/</link>
-      <pubDate>Mon, 12 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/education/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Sustainability</title>
-      <link>http://localhost:1313/categories/sustainability/</link>
-      <pubDate>Sun, 11 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/sustainability/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Culture</title>
-      <link>http://localhost:1313/categories/culture/</link>
-      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/culture/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Innovation</title>
-      <link>http://localhost:1313/categories/innovation/</link>
-      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/innovation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Work</title>
-      <link>http://localhost:1313/categories/work/</link>
-      <pubDate>Fri, 09 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/work/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Food</title>
-      <link>http://localhost:1313/categories/food/</link>
-      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/food/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Wellness</title>
-      <link>http://localhost:1313/categories/wellness/</link>
-      <pubDate>Wed, 07 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/categories/wellness/</guid>
+      <guid>http://localhost:36961/categories/lifestyle/</guid>
       <description></description>
     </item>
   </channel>

@@ -2,46 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>News on Veridus</title>
-    <link>http://localhost:1313/news/</link>
+    <link>http://localhost:36961/news/</link>
     <description>Recent content in News on Veridus</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 20 Feb 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/news/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:36961/news/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>El Presidente: Senior Counsel Charles Kanjama Elected 52nd LSK President</title>
-      <link>http://localhost:1313/news/kanjama/</link>
+      <link>http://localhost:36961/news/kanjama/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/kanjama/</guid>
+      <guid>http://localhost:36961/news/kanjama/</guid>
       <description>&lt;p&gt;Senior Counsel Charles Kanjama has been elected President of the Law Society of Kenya (LSK), becoming the 52nd person to hold the office following a closely watched election held on February 19, 2026, with results announced the following day. For many in the legal fraternity, the outcome was more than a routine leadership transition — it was the ascent of one of Kenya&amp;rsquo;s sharpest legal minds to a seat the country cannot afford to leave in ordinary hands.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Mobile Money Changed Everything. Here&#39;s What Comes Next.</title>
-      <link>http://localhost:1313/news/mobile-money-future-africa/</link>
-      <pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/mobile-money-future-africa/</guid>
-      <description>&lt;p&gt;When M-Pesa launched in Kenya in 2007, most of the global finance world did not pay much attention.&lt;/p&gt;&#xA;&lt;p&gt;A mobile money service for a developing market. Useful, perhaps, for people without bank accounts. But not exactly the kind of thing that turns heads in London or New York.&lt;/p&gt;&#xA;&lt;p&gt;What followed surprised almost everyone.&lt;/p&gt;&#xA;&lt;p&gt;Within a few years, millions of Kenyans who had never held a bank account were sending money, paying bills, and setting aside savings — all through a basic mobile phone. Research later showed that M-Pesa helped lift a measurable share of Kenyan households out of poverty by giving people, and women in particular, a new kind of economic independence.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Africa&#39;s Cities Are Growing Faster Than Their Plans. That Might Not Be a Disaster.</title>
-      <link>http://localhost:1313/news/african-cities-informal-growth/</link>
-      <pubDate>Sat, 14 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/african-cities-informal-growth/</guid>
-      <description>&lt;p&gt;The standard way of talking about African urban growth is a warning.&lt;/p&gt;&#xA;&lt;p&gt;Cities expanding faster than roads can be built or pipes can be laid. Housing shortages that push millions into informal settlements. Traffic that turns short distances into long ordeals. Flooding in neighbourhoods that were built without drainage because nobody planned for them at all.&lt;/p&gt;&#xA;&lt;p&gt;These are real problems. Anyone who has spent time in a rapidly growing African city knows them directly.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Welcome to this new corner of the internet</title>
-      <link>http://localhost:1313/news/welcome-post/</link>
-      <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/welcome-post/</guid>
-      <description>&lt;p&gt;Welcome to Veridus, a fresh home for exploration and shared discovery. We built this digital space for anyone who finds themselves fascinated by the intersection of modern technology and mindful living. Our goal is to move beyond the surface level, offering a hub where curiosity leads to genuine inspiration for readers from every walk of life.&lt;/p&gt;&#xA;&lt;h3 id=&#34;tech-culture-and-everything-between&#34;&gt;Tech, Culture, and Everything Between&lt;/h3&gt;&#xA;&lt;p&gt;If you are a tech enthusiast, you will find deep dives into Linux tips, ethical hacking insights, and the software trends currently defining our digital landscape. We believe technology is best understood when paired with a human perspective. That is why we also explore the vibrant world of culture and creativity. From time-honored traditions and literature to the diverse stories that make our world unique, we aim to celebrate the arts in all their forms.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>The Future of AI in African Tech: Building Local Solutions</title>
-      <link>http://localhost:1313/news/1-ai-in-africa/</link>
-      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/news/1-ai-in-africa/</guid>
-      <description>&lt;p&gt;I remember the first time I understood that Africa&amp;rsquo;s tech future wouldn&amp;rsquo;t look like Silicon Valley&amp;rsquo;s past. It was at a startup pitch event in Nairobi three years ago, watching a young developer from Kisii present an AI system that could predict crop diseases from mobile phone images. The room fell silent—not because the technology was groundbreaking by global standards, but because it was built by someone who had spent their childhood watching their parents lose harvests to preventable diseases.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
