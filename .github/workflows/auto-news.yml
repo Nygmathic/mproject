@@ -2,55 +2,46 @@ name: Auto News Poster
 
 on:
   schedule:
-    # Runs twice a day: 8am and 8pm UTC → 10 articles per run = ~20/day
-    - cron: "0 8,20 * * *"
-  workflow_dispatch: # allows you to manually trigger it from GitHub
+    - cron: "0 8,20 * * *"  # 8am and 8pm UTC — 20 articles/day
+  workflow_dispatch:
 
 jobs:
   post-news:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write  # needed to push new markdown files
-      actions: write   # needed to trigger Hugo deploy workflow
+      contents: write
+      actions: write
 
     steps:
-      # 1. Check out your Hugo repo
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
-      # 3. Install dependencies
       - name: Install dependencies
-        run: |
-          pip install feedparser requests
+        run: pip install feedparser requests
 
-      # 4. Check Gemini API key is present
-      - name: Check Gemini API key
+      - name: Check API keys
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
         run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
-            echo "❌ GEMINI_API_KEY is NOT set — check GitHub Secrets"
-            exit 1
-          else
-            echo "✅ GEMINI_API_KEY is set (length: ${#GEMINI_API_KEY})"
-          fi
+          [ -n "$GEMINI_API_KEY" ] && echo "✅ Gemini key set (length: ${#GEMINI_API_KEY})" || echo "⚠️  Gemini key NOT set"
+          [ -n "$GROQ_API_KEY" ]   && echo "✅ Groq key set (length: ${#GROQ_API_KEY})"   || echo "⚠️  Groq key NOT set"
+          [ -z "$GEMINI_API_KEY" ] && [ -z "$GROQ_API_KEY" ] && echo "❌ No AI keys — aborting" && exit 1 || true
 
-      # 5. Run the news poster script
       - name: Fetch and post news
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
         run: python auto_news_poster.py
 
-      # 6. Commit and push new articles if any were created
       - name: Commit new articles
         run: |
           git config --global user.name "Veridus Auto Poster"
@@ -59,7 +50,6 @@ jobs:
           git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
           git push
 
-      # 7. Trigger Hugo deploy so site rebuilds immediately
       - name: Trigger Hugo deployment
         run: |
           curl -X POST \
