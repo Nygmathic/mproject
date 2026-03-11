@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}  # PAT triggers Hugo deploy on push
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -42,18 +42,10 @@ jobs:
           GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
         run: python auto_news_poster.py
 
-      - name: Commit new articles
+      - name: Commit and push new articles
         run: |
           git config --global user.name "Veridus Auto Poster"
           git config --global user.email "autopost@veridus.space"
           git add content/news/ .posted_articles.json
           git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
           git push
-
-      - name: Trigger Hugo deployment
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/hugo.yml/dispatches \
-            -d '{"ref":"main"}'
