@@ -35,10 +35,7 @@ jobs:
           sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
       - name: Install Dart Sass
-        run: |
-          curl -sLo /tmp/sass.tar.gz https://github.com/sass/dart-sass/releases/download/1.77.6/dart-sass-1.77.6-linux-x64.tar.gz
-          tar -xzf /tmp/sass.tar.gz -C /tmp
-          sudo mv /tmp/dart-sass/sass /usr/local/bin/sass
+        run: npm install -g sass
 
       - name: Setup Pages
         id: pages
