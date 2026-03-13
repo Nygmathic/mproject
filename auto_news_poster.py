@@ -4,7 +4,7 @@ Veridus.space Auto News Poster
 - Fetches global news from RSS (Europe, Africa, Americas, Russia, China)
 - Rewrites in Guardian-style journalistic English (800-1200 words)
 - Generates full SEO metadata: title tag, meta description, focus keyword, slug
-- Primary AI: Google Gemini 2.0 Flash (free)
+- Primary AI: Google Gemini 2.0 Flash (free) — rotates across 3 keys
 - Fallback AI: Groq / Llama 3.3 70B (free)
 - Skips article entirely if neither AI produces usable content
 - Never posts raw RSS content or source attributions
@@ -21,8 +21,16 @@ from pathlib import Path
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-GROQ_API_KEY   = os.environ.get("GROQ_API_KEY", "")
+# Multiple Gemini keys — rotates automatically on 429 quota errors
+GEMINI_API_KEYS = [
+    key for key in [
+        os.environ.get("GEMINI_API_KEY_1", ""),
+        os.environ.get("GEMINI_API_KEY_2", ""),
+        os.environ.get("GEMINI_API_KEY_3", ""),
+    ] if key
+]
+
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 CONTENT_DIR = Path("content/news")
 POSTED_LOG  = Path(".posted_articles.json")
@@ -257,15 +265,14 @@ ARTICLE BODY (first 400 words): {' '.join(body.split()[:400])}
 
 Return only the JSON object:"""
 
-# ─── AI CALL (SHARED) ─────────────────────────────────────────────────────────
+# ─── AI CALLS ─────────────────────────────────────────────────────────────────
 
-def call_gemini(prompt, max_tokens=2048):
-    if not GEMINI_API_KEY:
-        return None
+def call_gemini_with_key(prompt, api_key, max_tokens=2048):
+    """Call Gemini with a specific API key. Returns (result, quota_exceeded)."""
     try:
         resp = requests.post(
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-            params={"key": GEMINI_API_KEY},
+            params={"key": api_key},
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": {"temperature": 0.7, "maxOutputTokens": max_tokens, "topP": 0.9},
@@ -273,13 +280,31 @@ def call_gemini(prompt, max_tokens=2048):
             headers={"Content-Type": "application/json"},
             timeout=60,
         )
+        if resp.status_code == 429:
+            print(f"  ⚠️  Gemini key quota exceeded (429) — trying next key...")
+            return None, True  # quota exceeded
         if not resp.ok:
             print(f"  ❌ Gemini error {resp.status_code}: {resp.text[:250]}")
-            return None
-        return resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+            return None, False
+        return resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip(), False
     except Exception as e:
         print(f"  ❌ Gemini exception: {e}")
+        return None, False
+
+def call_gemini(prompt, max_tokens=2048):
+    """Try all Gemini keys in rotation, skipping any that hit quota."""
+    if not GEMINI_API_KEYS:
         return None
+    for i, key in enumerate(GEMINI_API_KEYS):
+        print(f"  🤖 Trying Gemini key {i + 1}/{len(GEMINI_API_KEYS)}...")
+        result, quota_exceeded = call_gemini_with_key(prompt, key, max_tokens)
+        if result:
+            return result
+        if not quota_exceeded:
+            # Non-quota error — don't bother trying next key
+            return None
+    print(f"  ❌ All {len(GEMINI_API_KEYS)} Gemini keys exhausted")
+    return None
 
 def call_groq(prompt, max_tokens=2048):
     if not GROQ_API_KEY:
@@ -309,8 +334,7 @@ def call_groq(prompt, max_tokens=2048):
 def rewrite_article(article):
     prompt = build_article_prompt(article)
 
-    # Try Gemini first
-    print(f"  🤖 Trying Gemini...")
+    # Try all Gemini keys first
     text = call_gemini(prompt, max_tokens=2048)
     if text:
         words = len(text.split())
@@ -329,7 +353,7 @@ def rewrite_article(article):
             return text
         print(f"  ⚠️  Too short ({words} words)")
 
-    print("  ❌ Both AIs failed — skipping article")
+    print("  ❌ All AIs failed — skipping article")
     return None
 
 # ─── SEO METADATA GENERATION ──────────────────────────────────────────────────
@@ -365,18 +389,16 @@ def build_hugo_markdown(article, body, seo):
     niche = article["niche"]
     _, categories, base_tags = NICHE_META.get(niche, ("World", '["News"]', '["world news"]'))
 
-    # Use AI-generated SEO title if available, else original headline
     display_title = article["title"].replace('"', '\\"')
     seo_title     = seo["seo_title"].replace('"', '\\"')           if seo else display_title
     meta_desc     = seo["meta_description"].replace('"', '\\"')    if seo else article["summary"][:155].replace('"', '\\"')
     focus_kw      = seo["focus_keyword"].replace('"', '\\"')       if seo else ""
     sec_kws       = json.dumps(seo["secondary_keywords"])          if seo else "[]"
 
-    # Merge base tags with secondary keywords for richer tagging
     try:
         base_list = json.loads(base_tags)
         sec_list  = seo["secondary_keywords"] if seo else []
-        all_tags  = list(dict.fromkeys(base_list + sec_list))[:8]  # dedupe, max 8
+        all_tags  = list(dict.fromkeys(base_list + sec_list))[:8]
         tags_str  = json.dumps(all_tags)
     except Exception:
         tags_str = base_tags
@@ -402,7 +424,6 @@ def save_hugo_post(article, content, seo):
     niche_dir.mkdir(parents=True, exist_ok=True)
     date_str = datetime.now().strftime("%Y-%m-%d")
 
-    # Use SEO slug if available, else fall back to slugified title
     slug = slugify(seo["seo_slug"]) if seo and seo.get("seo_slug") else slugify(article["title"])
     filename = niche_dir / f"{date_str}-{slug}.md"
 
@@ -425,12 +446,11 @@ def main():
     print(f"   {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"{'=' * 65}")
 
-    if not GEMINI_API_KEY and not GROQ_API_KEY:
-        print("❌ No AI API keys set. Add GEMINI_API_KEY or GROQ_API_KEY to GitHub Secrets.")
+    if not GEMINI_API_KEYS and not GROQ_API_KEY:
+        print("❌ No AI API keys set. Add GEMINI_API_KEY_1 or GROQ_API_KEY to GitHub Secrets.")
         return
 
-    if GEMINI_API_KEY:
-        print(f"✅ Gemini key loaded (length: {len(GEMINI_API_KEY)})")
+    print(f"✅ Gemini keys loaded: {len(GEMINI_API_KEYS)} key(s)")
     if GROQ_API_KEY:
         print(f"✅ Groq key loaded (length: {len(GROQ_API_KEY)})")
 
@@ -451,12 +471,10 @@ def main():
 
             print(f"\n  📝 {article['title'][:75]}")
 
-            # Step 1: Rewrite article body
             body = rewrite_article(article)
             if not body:
                 continue
 
-            # Step 2: Generate SEO metadata
             print(f"  🔍 Generating SEO metadata...")
             seo = generate_seo(article, body)
             if seo:
@@ -464,7 +482,6 @@ def main():
             else:
                 print(f"  ⚠️  SEO generation failed — using defaults")
 
-            # Step 3: Build and save
             content = build_hugo_markdown(article, body, seo)
             save_hugo_post(article, content, seo)
 

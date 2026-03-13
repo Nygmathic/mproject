@@ -27,17 +27,23 @@ jobs:
 
       - name: Check API keys
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GROQ_API_KEY:     ${{ secrets.GROQ_API_KEY }}
         run: |
-          [ -n "$GEMINI_API_KEY" ] && echo "✅ Gemini key set (length: ${#GEMINI_API_KEY})" || echo "⚠️  Gemini key NOT set"
-          [ -n "$GROQ_API_KEY" ]   && echo "✅ Groq key set (length: ${#GROQ_API_KEY})"   || echo "⚠️  Groq key NOT set"
-          [ -z "$GEMINI_API_KEY" ] && [ -z "$GROQ_API_KEY" ] && echo "❌ No AI keys — aborting" && exit 1 || true
+          [ -n "$GEMINI_API_KEY_1" ] && echo "✅ Gemini key 1 set" || echo "⚠️  Gemini key 1 NOT set"
+          [ -n "$GEMINI_API_KEY_2" ] && echo "✅ Gemini key 2 set" || echo "⚠️  Gemini key 2 NOT set"
+          [ -n "$GEMINI_API_KEY_3" ] && echo "✅ Gemini key 3 set" || echo "⚠️  Gemini key 3 NOT set"
+          [ -n "$GROQ_API_KEY" ]     && echo "✅ Groq key set"     || echo "⚠️  Groq key NOT set"
+          [ -z "$GEMINI_API_KEY_1" ] && [ -z "$GEMINI_API_KEY_2" ] && [ -z "$GEMINI_API_KEY_3" ] && [ -z "$GROQ_API_KEY" ] && echo "❌ No AI keys — aborting" && exit 1 || true
 
       - name: Fetch and post news
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
+          GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
+          GROQ_API_KEY:     ${{ secrets.GROQ_API_KEY }}
         run: python auto_news_poster.py
 
       - name: Commit and push new articles
