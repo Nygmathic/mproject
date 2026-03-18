@@ -1,1 +1,3 @@
----\ntitle: "Politics"\n---
+---
+title: "Politics"
+---

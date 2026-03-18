@@ -1,1 +1,3 @@
----\ntitle: "Climate"\n---
+---
+title: "Climate"
+---

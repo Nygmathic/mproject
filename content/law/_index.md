@@ -1,1 +1,3 @@
----\ntitle: "Law"\n---
+---
+title: "Law"
+---

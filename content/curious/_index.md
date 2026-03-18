@@ -1,1 +1,3 @@
----\ntitle: "Curious"\n---
+---
+title: "Curious"
+---

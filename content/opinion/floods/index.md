@@ -2,6 +2,8 @@
 title: "Nairobi Floods Again. When Does 'Again' Become Enough?"
 date: 2026-03-08
 author: Collins Obura
+pin: true
+weight: 1
 description: "Every rainy season, Nairobi floods. Every time, officials act surprised. The problem has never been the rain."
 tags:
   - nairobi
@@ -9,9 +11,10 @@ tags:
   - urban planning
   - kenya
   - opinion
-category: opinion
+categories: ["Opinion"]
 slug: nairobi-floods-lesson
 feature_image: "flood.jpg"
+show_image_homepage: true
 ---
 
 On the evening of Friday, March 6, the same desperate calculation played out in home after home across Mukuru kwa Njenga, Mathare, Kibera, and Pipeline — Nairobi's densest, most flood-prone neighbourhoods: what could be saved, and what had already been lost.

@@ -1,1 +1,3 @@
----\ntitle: "Africa"\n---
+---
+title: "Africa"
+---

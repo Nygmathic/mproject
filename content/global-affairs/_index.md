@@ -1,1 +1,3 @@
----\ntitle: "Global Affairs"\n---
+---
+title: "Global Affairs"
+---

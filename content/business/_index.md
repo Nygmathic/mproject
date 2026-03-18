@@ -1,1 +1,3 @@
----\ntitle: "Business"\n---
+---
+title: "Business"
+---
