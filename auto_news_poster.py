@@ -36,8 +36,7 @@ POSTED_LOG  = Path(".posted_articles.json")
 
 # How many articles to post per niche per run
 NICHE_LIMITS = {
-    "politics":       2,
-    "global-affairs": 2,
+    "politics":       3,  # Increased — absorbs global affairs content
     "africa":         2,
     "sports":         3,  # Higher — post-match reports, live events
     "business":       1,
@@ -53,7 +52,6 @@ NICHE_LIMITS = {
 RECENCY_HOURS = {
     "sports":         3,
     "politics":       6,
-    "global-affairs": 6,
     "africa":         8,
     "business":       8,
     "curious":        12,
@@ -66,6 +64,7 @@ RECENCY_HOURS = {
 
 RSS_FEEDS = {
     "politics": [
+        # ── Domestic & Regional Politics ─────────────────────────────
         "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
         "https://feeds.npr.org/1014/rss.xml",
         "https://www.theguardian.com/politics/rss",
@@ -77,6 +76,16 @@ RSS_FEEDS = {
         "https://www.sixthtone.com/feed",
         "https://www.aljazeera.com/xml/rss/all.xml",
         "https://feeds.reuters.com/Reuters/PoliticsNews",
+        # ── Global Affairs (merged) ───────────────────────────────────
+        "https://foreignpolicy.com/feed/",
+        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "https://www.theguardian.com/world/rss",
+        "https://www.dw.com/en/world/rss",
+        "https://feeds.reuters.com/Reuters/worldNews",
+        # ── United Nations ────────────────────────────────────────────
+        "https://news.un.org/feed/subscribe/en/news/all/feed/rss.xml",
+        "https://news.un.org/feed/subscribe/en/news/topic/peace-and-security/feed/rss.xml",
+        "https://peacekeeping.un.org/en/rss.xml",
     ],
     "business": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
@@ -87,21 +96,6 @@ RSS_FEEDS = {
         "https://www.theafricareport.com/feed/",
         "https://www.premiumtimesng.com/feed",
         "https://feeds.reuters.com/reuters/businessNews",
-    ],
-    "global-affairs": [
-        "https://foreignpolicy.com/feed/",
-        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
-        "https://www.theguardian.com/world/rss",
-        "https://www.dw.com/en/world/rss",
-        "https://www.euronews.com/rss?format=mrss&level=theme&name=news",
-        "https://www.themoscowtimes.com/rss",
-        "https://www.scmp.com/rss/91/feed",
-        "https://www.aljazeera.com/xml/rss/all.xml",
-        "https://feeds.reuters.com/Reuters/worldNews",
-        # ── United Nations ────────────────────────────────────────────
-        "https://news.un.org/feed/subscribe/en/news/all/feed/rss.xml",     # UN News — all topics
-        "https://news.un.org/feed/subscribe/en/news/topic/peace-and-security/feed/rss.xml",  # UN Peace & Security
-        "https://peacekeeping.un.org/en/rss.xml",                          # UN Peacekeeping
     ],
     "sports": [
         # ── Premier League ───────────────────────────────────────────
@@ -160,23 +154,17 @@ RSS_FEEDS = {
         "https://www.middleeasteye.net/rss",
     ],
     "law": [
-        # ── Kenya ────────────────────────────────────────────────────
-        "https://kenyalaw.org/kenyalawblog/feed",
-        "https://www.lawsociety.or.ke/feed/",
-        "https://kenyalaw.org/kl/fileadmin/rss/CaseLaw.xml",
-        # ── East & Southern Africa ───────────────────────────────────
-        "https://legalbrief.co.za/feed/",
-        "https://www.saflii.org/rss/zar.xml",
-        "https://www.namibialii.org/rss/namiLII.xml",
+        # ── Kenya — Court DECISIONS only (not legal profession news) ──
+        "https://kenyalaw.org/kenyalawblog/feed",          # Kenya Law — SC/CA/HC summaries
+        "https://kenyalaw.org/kl/fileadmin/rss/CaseLaw.xml", # Kenya Law case law feed
+        # ── East & Southern Africa — Courts ──────────────────────────
+        "https://www.saflii.org/rss/zar.xml",              # South African courts
+        "https://legalbrief.co.za/feed/",                  # Legal Brief Africa — court news
         # ── UK Courts (Commonwealth persuasive authority) ────────────
-        "https://www.judiciary.gov.uk/judgments/feed/",
-        "https://www.judiciary.gov.uk/feed/",
-        "https://www.legalrss.co.uk/journal/feed/",
-        # ── Commonwealth & International ────────────────────────────
-        "https://www.lawbreed.blog/feed",
-        "https://www.lawglobalhub.com/feed",
-        "https://www.ejiltalk.org/feed/",
-        "https://opiniojuris.org/feed/",
+        "https://www.judiciary.gov.uk/judgments/feed/",    # England & Wales judgments
+        # ── International Courts & Law ───────────────────────────────
+        "https://www.ejiltalk.org/feed/",                  # EJIL:Talk — int'l law
+        "https://opiniojuris.org/feed/",                   # Opinio Juris — int'l law
     ],
     "curious": [
         # ── Verified Weird & Bizarre News ────────────────────────────
@@ -215,13 +203,12 @@ RSS_FEEDS = {
 # ─── NICHE METADATA ───────────────────────────────────────────────────────────
 
 NICHE_META = {
-    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "world news", "global politics"]'),
+    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "world news", "global politics", "geopolitics", "diplomacy"]'),
     "business":       ("Business",      '["Business", "News"]',       '["business", "economy", "markets", "trade"]'),
-    "global-affairs": ("Global Affairs",'["Global Affairs", "News"]', '["global affairs", "geopolitics", "diplomacy", "international relations"]'),
     "climate":        ("Climate",       '["Climate", "News"]',        '["climate change", "environment", "sustainability", "global warming"]'),
     "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "african football", "athletics"]'),
     "africa":         ("Africa",        '["Africa", "News"]',         '["africa", "african politics", "african business", "world news"]'),
-    "law":            ("Law",           '["Law", "News"]',            '["kenya law", "court ruling", "supreme court", "high court", "commonwealth law"]'),
+    "law":            ("Law",           '["Law", "News"]',            '["kenya law", "court ruling", "supreme court", "high court", "court of appeal"]'),
     "curious":        ("Curious",       '["Curious", "News"]',        '["bizarre", "unusual", "strange", "odd news", "weird science"]'),
     # "culture": ("Culture", '["Culture", "News"]', '["culture", "music", "film", "african arts", "afrobeats", "cinema"]'),  # ← uncomment to activate
 }
@@ -339,11 +326,62 @@ def fetch_rss_articles(niche, already_posted):
         reverse=True
     )
 
-    # Filter: skip entries with too-short summaries
+    # ── Relevance filter — reject obvious miscategorisations ────────────
+    # Each niche has REQUIRED keywords (at least one must appear in title+summary)
+    # and BANNED keywords (if any appear, article is rejected for this niche)
+    NICHE_REQUIRED = {
+        "sports":  ["football", "soccer", "match", "league", "cup", "goal", "player",
+                    "club", "sport", "game", "tournament", "champion", "coach", "team",
+                    "afcon", "premier league", "caf", "fifa", "rugby", "athletics",
+                    "cricket", "tennis", "basketball", "racing", "olympic"],
+        "climate": ["climate", "environment", "carbon", "emission", "warming", "fossil",
+                    "renewable", "drought", "flood", "weather", "temperature", "glacier",
+                    "deforestation", "pollution", "biodiversity", "ecosystem", "net zero"],
+        "law":     ["court", "ruling", "judgment", "judge", "appeal", "tribunal",
+                    "supreme court", "high court", "verdict", "sentenced", "convicted",
+                    "acquitted", "legal", "constitution", "judicial", "injunction",
+                    "plaintiff", "defendant", "magistrate", "bench"],
+        "business":["economy", "market", "trade", "gdp", "inflation", "investment",
+                    "stock", "bank", "currency", "company", "revenue", "profit",
+                    "startup", "merger", "acquisition", "financial", "debt", "growth"],
+        "curious": ["bizarre", "unusual", "strange", "odd", "weird", "mysterious",
+                    "unexplained", "remarkable", "extraordinary", "surprising",
+                    "unprecedented", "discovery", "phenomenon", "record"],
+    }
+
+    NICHE_BANNED = {
+        # Sports feed should never get climate/law/business articles
+        "sports":  ["climate", "court ruling", "stock market", "inflation", "election",
+                    "parliament", "legislation", "gdp", "treaty", "diplomacy"],
+        # Climate feed should never get sports/political articles
+        "climate": ["football", "premier league", "match result", "goal", "transfer",
+                    "election", "parliament", "stock market", "gdp"],
+        # Law feed: only court decisions — no lawyer appointments, bar news
+        "law":     ["law society", "lsk", "bar association", "lawyer appointed",
+                    "advocate appointed", "elected president of", "bar council",
+                    "legal profession", "attorney general appointed"],
+    }
+
     articles = []
     for entry in raw_entries:
         if len(entry.get("summary", "")) < 80:
             continue
+
+        niche = entry["niche"]
+        text  = (entry["title"] + " " + entry["summary"]).lower()
+
+        # Check banned keywords — hard reject
+        banned = NICHE_BANNED.get(niche, [])
+        if any(kw in text for kw in banned):
+            print(f"  ⛔ Rejected [{niche}] (banned keyword): {entry['title'][:60]}")
+            continue
+
+        # Check required keywords — must match at least one
+        required = NICHE_REQUIRED.get(niche, [])
+        if required and not any(kw in text for kw in required):
+            print(f"  ⛔ Rejected [{niche}] (off-topic): {entry['title'][:60]}")
+            continue
+
         articles.append(entry)
 
     age_info = f"(recency window: {max_age_hours}h)"
@@ -357,13 +395,12 @@ def build_article_prompt(article):
     source_type = article.get("source_type", "rss")
 
     niche_guidance = {
-        "politics":       "Cover political developments with global context. Represent multiple regional perspectives including voices from the Global South, Europe, Russia, China, and Africa.",
+        "politics":       "Cover political developments AND international affairs — domestic politics, geopolitics, diplomacy, international relations, wars, elections, and global governance. Represent multiple regional perspectives including voices from the Global South, Europe, Russia, China, Africa, and the Middle East. This section replaces what was formerly 'global affairs'.",
         "business":       "Cover business and economic developments with global impact. Include emerging market perspectives from Africa, Asia, and Latin America alongside Western economies.",
-        "global-affairs": "Cover geopolitics from a balanced, multi-polar perspective. Give equal weight to European, African, Asian, Russian, and Chinese perspectives — not only Western ones.",
         "sports":         "Cover sport with emphasis on African football (CAF, AFCON, PSL, KPL) and the Premier League. Write match reports with energy and precision. Cover athletics, rugby, and other disciplines too. Do not centre only American sport.",
         "climate":        "Emphasise human and economic impact of climate change, especially on the most vulnerable regions. Ground all claims in science. Avoid alarmism.",
-        "africa":         "Write from an African-centred perspective. Treat African nations and people as full agents of their own story. Avoid patronising or 'Western saviour' framing entirely.",
-        "law":            "Cover court decisions and legal developments with focus on Kenya (Supreme Court, Court of Appeal, High Court) and Commonwealth countries. Explain legal principles clearly for a general educated audience. Contextualise rulings within Kenyan and African constitutional law.",
+        "africa":         "Write from an African-centred perspective. Treat African nations and people as full agents of their own story. Avoid patronising or 'Western saviour' framing entirely. African football and sports stories belong in Sports, not here.",
+        "law":            "STRICT: Cover ONLY formal court decisions — judgments, rulings, and orders from the Kenya Supreme Court, Court of Appeal, High Court, and equivalent courts in Commonwealth countries. Do NOT cover legal profession news, bar association events, lawyer appointments, or general legal commentary. If the story is about a court's actual decision or ruling, cover it. If it is about lawyers or the legal profession generally, skip it.",
         "curious":        "Cover genuinely strange, bizarre, or surprising true stories from around the world. The tone should be engaged and intelligent — curious and amused, not mocking. Every claim must be factual and verifiable. No sensationalism, no fabrication.",
         # "culture":        "Cover culture the way The Guardian does — with intellectual seriousness and genuine passion. Music, film, theatre, art, books. Give priority to African artists, Afrobeats, Nollywood, Kenyan arts. When covering global culture, find the African or Global South angle. Never gossip. Never celebrity trivia. Ask what the work means, what it reveals, why it matters now.",
     }
@@ -467,15 +504,27 @@ FOCUS KEYWORD: {keyword}
 
 Search query:"""
 
-    result = call_gemini(prompt, max_tokens=30)
+    result = call_gemini(prompt, max_tokens=60)
     if not result:
-        result = call_groq(prompt, max_tokens=30)
+        result = call_groq(prompt, max_tokens=60)
     if result:
-        # Clean up — strip quotes and extra whitespace
-        result = re.sub(r'["\'`]', '', result).strip()
-        return result[:80]
-    # Fallback: use focus keyword or title words
-    return keyword or " ".join(title.split()[:4])
+        result = result.replace('"', '').replace("'", '').replace("`", '').strip()
+        result = result.split(".")[0].strip()
+        if len(result) > 5:
+            return result[:80]
+    niche_terms = {
+        "politics": "parliament building",
+        "business": "stock exchange",
+        "sports": "football stadium",
+        "climate": "climate change flooding",
+        "africa": "africa landscape",
+        "law": "supreme court building",
+        "curious": "unusual discovery",
+    }
+    if keyword and len(keyword) > 4:
+        return keyword
+    title_words = [w for w in title.split() if len(w) > 3][:3]
+    return " ".join(title_words) if title_words else niche_terms.get(article["niche"], "world news")
 
 def fetch_wikimedia_image(search_query):
     """
@@ -504,6 +553,7 @@ def fetch_wikimedia_image(search_query):
 
         pages = search_resp.json().get("query", {}).get("pages", {})
         if not pages:
+            print(f"  ⚠️  Wikimedia: no results for '{search_query}'")
             return None
 
         # Step 2: Filter by license and mime type
@@ -546,8 +596,13 @@ def fetch_wikimedia_image(search_query):
                 continue
 
             # Prefer images that have been on Wikimedia longer (more stable)
+            # thumburl is only present if image is larger than iiurlwidth
+            # fall back to full url if thumb not available
+            img_url = info.get("thumburl") or info.get("url", "")
+            if not img_url:
+                continue
             candidates.append({
-                "url":         info.get("thumburl") or info.get("url"),
+                "url":         img_url,
                 "full_url":    info.get("url"),
                 "filename":    page.get("title", "").replace("File:", "").strip(),
                 "mime":        mime,
@@ -581,6 +636,7 @@ def download_wikimedia_image(image_info, dest_dir):
 
         resp = requests.get(image_info["url"], timeout=30, stream=True)
         if not resp.ok:
+            print(f"  ⚠️  Image download failed: HTTP {resp.status_code} — {image_info['url'][:60]}")
             return None
 
         with open(dest, "wb") as f:
@@ -843,7 +899,7 @@ def main():
     posted_ids  = set(load_posted_log())
     total_saved = 0
 
-    all_niches    = ["sports", "africa", "politics", "global-affairs", "business", "climate", "law", "curious"]  # "culture" paused — add back when feature images ready
+    all_niches    = ["sports", "africa", "politics", "business", "climate", "law", "curious"]  # "culture" paused — add back when feature images ready
     active_niches = ["sports"] if sports_only else all_niches
     for niche in active_niches:
         print(f"\n📰 [{niche.upper()}]")
