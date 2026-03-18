@@ -1,0 +1,1 @@
+---\ntitle: "Global Affairs"\n---
