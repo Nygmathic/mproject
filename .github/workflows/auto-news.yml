@@ -78,7 +78,7 @@ jobs:
         run: |
           git config --global user.name "Veridus Auto Poster"
           git config --global user.email "autopost@veridus.space"
-          git add content/news/ .posted_articles.json
+          git add content/ .posted_articles.json
           # Also stage any downloaded images (jpg/png/webp in page bundles)
           git add "*.jpg" "*.png" "*.webp" 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"

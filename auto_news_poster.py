@@ -31,7 +31,7 @@ GEMINI_API_KEYS = [
 
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
-CONTENT_DIR = Path("content/news")
+CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
 
 # How many articles to post per niche per run

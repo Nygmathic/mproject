@@ -8,7 +8,7 @@ show_image_homepage: true
 pin: true
 weight: 1
 tags: ["LSK", "Law Society of Kenya", "Charles Kanjama", "Faith Odhiambo", "Legal", "Kenya"]
-categories: ["News", "Legal Affairs"]
+categories: ["Politics"]
 description: "Senior Counsel Charles Kanjama has been elected the 52nd President of the Law Society of Kenya. We examine his election win, the legacy of Faith Odhiambo, and whether he can rise to the moment."
 ---
 
