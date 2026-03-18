@@ -45,18 +45,24 @@ params:
 
 menu:
   main:
-    - name: "News"
-      url: "/news/"
+    - name: "Africa"
+      url: "/categories/africa/"
       weight: 1
-    - name: "Opinion"
-      url: "/opinion/"
+    - name: "Business"
+      url: "/categories/business/"
       weight: 2
-    - name: "Lifestyle"
-      url: "/lifestyle/"
+    - name: "Climate"
+      url: "/categories/climate/"
       weight: 3
-    - name: "Archive"
-      url: "/archive/"
+    - name: "Law"
+      url: "/categories/law/"
       weight: 4
-    - name: "Search"
-      url: "/search/"
+    - name: "Opinion"
+      url: "/categories/opinion/"
       weight: 5
+    - name: "Politics"
+      url: "/categories/politics/"
+      weight: 6
+    - name: "Sports"
+      url: "/categories/sports/"
+      weight: 7

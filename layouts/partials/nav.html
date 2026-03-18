@@ -74,15 +74,13 @@
     <div class="header-inner">
       <ul class="nav-list">
         <li><a href="/" class="nav-item{{ if .IsHome }} nav-item--active{{ end }}">Home</a></li>
-        <li><a href="/categories/news/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/news" }} nav-item--active{{ end }}">News</a></li>
-        <li><a href="/categories/politics/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/politics" }} nav-item--active{{ end }}">Politics</a></li>
-        <li><a href="/categories/business/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/business" }} nav-item--active{{ end }}">Business</a></li>
-        <li><a href="/categories/global-affairs/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/global-affairs" }} nav-item--active{{ end }}">Global Affairs</a></li>
-        <li><a href="/categories/sports/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/sports" }} nav-item--active{{ end }}">Sports</a></li>
-        <li><a href="/categories/climate/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/climate" }} nav-item--active{{ end }}">Climate</a></li>
         <li><a href="/categories/africa/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/africa" }} nav-item--active{{ end }}">Africa</a></li>
+        <li><a href="/categories/business/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/business" }} nav-item--active{{ end }}">Business</a></li>
+        <li><a href="/categories/climate/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/climate" }} nav-item--active{{ end }}">Climate</a></li>
+        <li><a href="/categories/law/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/law" }} nav-item--active{{ end }}">Law</a></li>
         <li><a href="/categories/opinion/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/opinion" }} nav-item--active{{ end }}">Opinion</a></li>
-        <li><a href="/archive/" class="nav-item{{ if hasPrefix .RelPermalink "/archive" }} nav-item--active{{ end }}">Archive</a></li>
+        <li><a href="/categories/politics/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/politics" }} nav-item--active{{ end }}">Politics</a></li>
+        <li><a href="/categories/sports/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/sports" }} nav-item--active{{ end }}">Sports</a></li>
       </ul>
     </div>
   </nav>
@@ -103,16 +101,14 @@
   <nav class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
     <ul class="mobile-nav-list">
       <li><a href="/" class="mobile-nav-item">Home</a></li>
-      <li><a href="/categories/news/" class="mobile-nav-item">News</a></li>
-      <li><a href="/categories/politics/" class="mobile-nav-item">Politics</a></li>
-      <li><a href="/categories/business/" class="mobile-nav-item">Business</a></li>
-      <li><a href="/categories/global-affairs/" class="mobile-nav-item">Global Affairs</a></li>
-      <li><a href="/categories/sports/" class="mobile-nav-item">Sports</a></li>
-      <li><a href="/categories/climate/" class="mobile-nav-item">Climate</a></li>
       <li><a href="/categories/africa/" class="mobile-nav-item">Africa</a></li>
-      <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
+      <li><a href="/categories/business/" class="mobile-nav-item">Business</a></li>
+      <li><a href="/categories/climate/" class="mobile-nav-item">Climate</a></li>
+      <li><a href="/categories/law/" class="mobile-nav-item">Law</a></li>
       <li><a href="/categories/lifestyle/" class="mobile-nav-item">Lifestyle</a></li>
-      <li><a href="/archive/" class="mobile-nav-item">Archive</a></li>
+      <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
+      <li><a href="/categories/politics/" class="mobile-nav-item">Politics</a></li>
+      <li><a href="/categories/sports/" class="mobile-nav-item">Sports</a></li>
       <li><a href="/about/" class="mobile-nav-item">About</a></li>
       <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
       <li><a href="/search/" class="mobile-nav-item">Search</a></li>
@@ -140,15 +136,13 @@
     <a href="/" class="sticky-logo">{{ .Site.Title }}</a>
     <nav class="sticky-nav" aria-label="Sticky Navigation">
       <ul class="sticky-nav-list">
-        <li><a href="/categories/news/">News</a></li>
-        <li><a href="/categories/politics/">Politics</a></li>
-        <li><a href="/categories/business/">Business</a></li>
-        <li><a href="/categories/global-affairs/">Global Affairs</a></li>
-        <li><a href="/categories/sports/">Sports</a></li>
-        <li><a href="/categories/climate/">Climate</a></li>
         <li><a href="/categories/africa/">Africa</a></li>
+        <li><a href="/categories/business/">Business</a></li>
+        <li><a href="/categories/climate/">Climate</a></li>
+        <li><a href="/categories/law/">Law</a></li>
         <li><a href="/categories/opinion/">Opinion</a></li>
-        <li><a href="/archive/">Archive</a></li>
+        <li><a href="/categories/politics/">Politics</a></li>
+        <li><a href="/categories/sports/">Sports</a></li>
       </ul>
     </nav>
     <a href="/search/" class="sticky-search" aria-label="Search">

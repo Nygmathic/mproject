@@ -2,7 +2,20 @@ name: Auto News Poster
 
 on:
   schedule:
-    - cron: "0 8,20 * * *"  # 8am and 8pm UTC — 20 articles/day
+    # ── General run: every 2 hours for all niches ────────────────────
+    - cron: "0 */2 * * *"
+
+    # ── Sports-only: timed after Premier League matches end ──────────
+    # Saturday slots: after 12:30 kick (14:30), 15:00 kick (17:00), 17:30 kick (19:30)
+    - cron: "30 14 * * 6"
+    - cron: "0 17 * * 6"
+    - cron: "30 19 * * 6"
+    # Sunday slots: after 14:00 kick (16:00), 16:30 kick (18:30)
+    - cron: "0 16 * * 0"
+    - cron: "30 18 * * 0"
+    # Midweek & Friday evenings: after 19:45/20:00 kick (22:00)
+    - cron: "0 22 * * 1,2,3,5"
+
   workflow_dispatch:
 
 jobs:
@@ -44,13 +57,30 @@ jobs:
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
           GROQ_API_KEY:     ${{ secrets.GROQ_API_KEY }}
-        run: python auto_news_poster.py
+          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          # Sports-only crons are identified by their specific minute patterns
+          SCHEDULE="${GITHUB_EVENT_SCHEDULE}"
+          if [[ "$SCHEDULE" == "30 14 * * 6" ]] || \
+             [[ "$SCHEDULE" == "0 17 * * 6"  ]] || \
+             [[ "$SCHEDULE" == "30 19 * * 6" ]] || \
+             [[ "$SCHEDULE" == "0 16 * * 0"  ]] || \
+             [[ "$SCHEDULE" == "30 18 * * 0" ]] || \
+             [[ "$SCHEDULE" == "0 22 * * 1,2,3,5" ]]; then
+            echo "⚽ Post-match run — sports only"
+            python auto_news_poster.py --sports-only
+          else
+            echo "🌍 General run — all niches"
+            python auto_news_poster.py
+          fi
 
       - name: Commit and push new articles
         run: |
           git config --global user.name "Veridus Auto Poster"
           git config --global user.email "autopost@veridus.space"
           git add content/news/ .posted_articles.json
+          # Also stage any downloaded images (jpg/png/webp in page bundles)
+          git add "*.jpg" "*.png" "*.webp" 2>/dev/null || true
           git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
           git push
 
