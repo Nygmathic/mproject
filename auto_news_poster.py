@@ -499,49 +499,52 @@ ACCEPTED_LICENSES = {
 # Preferred image formats
 ACCEPTED_MIMES = {"image/jpeg", "image/png", "image/webp"}
 
+# Stop-words to strip when building image queries from titles
+_IMAGE_STOPWORDS = {
+    "the","a","an","and","or","but","in","on","at","to","for","of","with",
+    "by","from","as","is","was","are","were","be","been","has","have","had",
+    "that","this","these","those","it","its","after","before","over","under",
+    "how","why","what","who","when","where","will","would","could","should",
+    "says","said","after","amid","into","than","about","against","during",
+    "live","update","updates","latest","breaking","new","report","reports",
+}
+
+# Niche-specific fallback queries when title parsing fails
+_NICHE_IMAGE_FALLBACKS = {
+    "politics":       "parliament building",
+    "business":       "stock exchange trading floor",
+    "sports":         "football stadium",
+    "climate":        "climate change flooding",
+    "africa":         "Africa continent map",
+    "law":            "supreme court building",
+    "curious":        "magnifying glass mystery",
+    "global-affairs": "United Nations headquarters",
+}
+
 def build_image_query(article, seo):
-    """Ask the AI for the best Wikimedia search term for this article."""
-    title   = article["title"]
+    """
+    Build a Wikimedia search query from article metadata — NO AI call needed.
+    Priority: focus_keyword → meaningful title words → niche fallback.
+    """
     niche   = article["niche"]
-    keyword = seo.get("focus_keyword", "") if seo else ""
+    title   = article["title"]
+    keyword = (seo.get("focus_keyword", "") if seo else "").strip()
 
-    prompt = f"""You are helping find a relevant, freely licensed image on Wikimedia Commons for a news article.
+    # Use focus keyword if it's specific enough (more than 2 words or 10 chars)
+    if keyword and (len(keyword.split()) >= 2 or len(keyword) >= 10):
+        return keyword[:80]
 
-Given the article details below, return a SHORT search query (3-5 words maximum) that would find a relevant, factual image on Wikimedia Commons. Think: landmark, institution, person, flag, event, stadium, building, map — something specific that is likely to exist on Wikimedia.
+    # Extract meaningful words from title — strip stopwords and short words
+    words = [
+        w for w in re.sub(r"[^a-zA-Z0-9 ]", " ", title).split()
+        if len(w) > 3 and w.lower() not in _IMAGE_STOPWORDS
+    ]
 
-RULES:
-- Return ONLY the search query, nothing else
-- No quotes, no punctuation, no explanation
-- Prefer concrete nouns over abstract concepts
-- Example good queries: "Kenya Supreme Court building", "Premier League trophy", "African Union headquarters"
+    if len(words) >= 2:
+        return " ".join(words[:4])
 
-NICHE: {niche}
-HEADLINE: {title}
-FOCUS KEYWORD: {keyword}
-
-Search query:"""
-
-    result = call_gemini(prompt, max_tokens=60)
-    if not result:
-        result = call_groq(prompt, max_tokens=60)
-    if result:
-        result = result.replace('"', '').replace("'", '').replace("`", '').strip()
-        result = result.split(".")[0].strip()
-        if len(result) > 5:
-            return result[:80]
-    niche_terms = {
-        "politics": "parliament building",
-        "business": "stock exchange",
-        "sports": "football stadium",
-        "climate": "climate change flooding",
-        "africa": "africa landscape",
-        "law": "supreme court building",
-        "curious": "unusual discovery",
-    }
-    if keyword and len(keyword) > 4:
-        return keyword
-    title_words = [w for w in title.split() if len(w) > 3][:3]
-    return " ".join(title_words) if title_words else niche_terms.get(article["niche"], "world news")
+    # Last resort: niche fallback
+    return _NICHE_IMAGE_FALLBACKS.get(niche, "world news")
 
 def fetch_wikimedia_image(search_query):
     """
@@ -719,8 +722,7 @@ def call_gemini_with_key(prompt, api_key, max_tokens=2048):
             timeout=60,
         )
         if resp.status_code == 429:
-            print(f"  ⚠️  Gemini key rate limited (429) — waiting 5s before next key...")
-            time.sleep(5)
+            print(f"  ⚠️  Gemini key rate limited (429) — trying next key...")
             return None, True
         if not resp.ok:
             print(f"  ❌ Gemini error {resp.status_code}: {resp.text[:250]}")
@@ -771,19 +773,22 @@ def call_groq(prompt, max_tokens=2048):
 def rewrite_article(article):
     prompt = build_article_prompt(article)
 
-    text = call_gemini(prompt, max_tokens=2048)
-    if text:
-        words = len(text.split())
-        print(f"  ✅ Gemini: {words} words")
-        if words >= 300:
-            return text
-        print(f"  ⚠️  Too short ({words} words)")
-
-    print(f"  🔄 Trying Groq fallback...")
+    # Groq first — faster and more reliable on free tier
+    print(f"  🤖 Trying Groq (primary)...")
     text = call_groq(prompt, max_tokens=2048)
     if text:
         words = len(text.split())
         print(f"  ✅ Groq: {words} words")
+        if words >= 300:
+            return text
+        print(f"  ⚠️  Too short ({words} words)")
+
+    # Gemini fallback
+    print(f"  🔄 Trying Gemini fallback...")
+    text = call_gemini(prompt, max_tokens=2048)
+    if text:
+        words = len(text.split())
+        print(f"  ✅ Gemini: {words} words")
         if words >= 300:
             return text
         print(f"  ⚠️  Too short ({words} words)")
@@ -796,9 +801,10 @@ def rewrite_article(article):
 def generate_seo(article, body):
     prompt = build_seo_prompt(article, body)
 
-    raw = call_gemini(prompt, max_tokens=400)
+    # Groq first
+    raw = call_groq(prompt, max_tokens=400)
     if not raw:
-        raw = call_groq(prompt, max_tokens=400)
+        raw = call_gemini(prompt, max_tokens=400)
     if not raw:
         return None
 
