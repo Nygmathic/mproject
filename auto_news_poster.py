@@ -14,6 +14,7 @@ import os
 import re
 import json
 import hashlib
+import time
 import feedparser
 import requests
 from datetime import datetime, timezone, timedelta
@@ -26,6 +27,9 @@ GEMINI_API_KEYS = [
         os.environ.get("GEMINI_API_KEY_1", ""),
         os.environ.get("GEMINI_API_KEY_2", ""),
         os.environ.get("GEMINI_API_KEY_3", ""),
+        os.environ.get("GEMINI_API_KEY_4", ""),
+        os.environ.get("GEMINI_API_KEY_5", ""),
+        os.environ.get("GEMINI_API_KEY_6", ""),
     ] if key
 ]
 
@@ -35,10 +39,12 @@ CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
 
 # How many articles to post per niche per run
+# Articles per niche per run (runs every 2 hours = 12 runs/day)
+# Gemini handles most — Groq (8b-instant, 500k TPD) is fallback only
 NICHE_LIMITS = {
-    "politics":       3,  # Increased — absorbs global affairs content
+    "politics":       2,
     "africa":         2,
-    "sports":         3,  # Higher — post-match reports, live events
+    "sports":         3,  # More — post-match reports need quick coverage
     "business":       1,
     "climate":        1,
     "law":            2,
@@ -51,13 +57,13 @@ NICHE_LIMITS = {
 # Law is loose (48 hrs) since court judgments don't break by the minute
 RECENCY_HOURS = {
     "sports":         3,
-    "politics":       6,
-    "africa":         8,
-    "business":       8,
-    "curious":        12,
-    # "culture":        12,  # ← uncomment to activate
-    "climate":        24,
-    "law":            48,
+    "politics":       12,
+    "africa":         12,
+    "business":       12,
+    "curious":        24,
+    # "culture":        24,  # ← uncomment to activate
+    "climate":        48,
+    "law":            72,
 }
 
 # ─── RSS FEEDS ────────────────────────────────────────────────────────────────
@@ -330,23 +336,34 @@ def fetch_rss_articles(niche, already_posted):
     # Each niche has REQUIRED keywords (at least one must appear in title+summary)
     # and BANNED keywords (if any appear, article is rejected for this niche)
     NICHE_REQUIRED = {
+        # Sports: strict — must be about sport
         "sports":  ["football", "soccer", "match", "league", "cup", "goal", "player",
                     "club", "sport", "game", "tournament", "champion", "coach", "team",
                     "afcon", "premier league", "caf", "fifa", "rugby", "athletics",
-                    "cricket", "tennis", "basketball", "racing", "olympic"],
+                    "cricket", "tennis", "basketball", "racing", "olympic", "score",
+                    "fixture", "season", "transfer", "squad", "winger", "striker"],
+        # Climate: must be environment-related
         "climate": ["climate", "environment", "carbon", "emission", "warming", "fossil",
                     "renewable", "drought", "flood", "weather", "temperature", "glacier",
-                    "deforestation", "pollution", "biodiversity", "ecosystem", "net zero"],
+                    "deforestation", "pollution", "biodiversity", "ecosystem", "net zero",
+                    "wildfire", "hurricane", "sea level", "methane", "solar", "wind energy"],
+        # Law: must mention courts or legal proceedings
         "law":     ["court", "ruling", "judgment", "judge", "appeal", "tribunal",
                     "supreme court", "high court", "verdict", "sentenced", "convicted",
-                    "acquitted", "legal", "constitution", "judicial", "injunction",
-                    "plaintiff", "defendant", "magistrate", "bench"],
+                    "acquitted", "constitution", "judicial", "injunction", "magistrate",
+                    "lawsuit", "prosecution", "acquittal", "bench", "hearing", "petition"],
+        # Business: must be economic/financial
         "business":["economy", "market", "trade", "gdp", "inflation", "investment",
                     "stock", "bank", "currency", "company", "revenue", "profit",
-                    "startup", "merger", "acquisition", "financial", "debt", "growth"],
-        "curious": ["bizarre", "unusual", "strange", "odd", "weird", "mysterious",
-                    "unexplained", "remarkable", "extraordinary", "surprising",
-                    "unprecedented", "discovery", "phenomenon", "record"],
+                    "startup", "merger", "acquisition", "financial", "debt", "growth",
+                    "price", "cost", "fund", "budget", "tax", "export", "import",
+                    "supply chain", "oil price", "energy", "billion", "million"],
+        # Curious: very loose — just needs to be factual/interesting non-standard news
+        # No required filter — rely on the curious RSS sources to self-select
+        # "curious": [],  # no filter needed — sources handle relevance
+        # Politics & Africa: no required filter — broad enough categories
+        # "politics": [],
+        # "africa": [],
     }
 
     NICHE_BANNED = {
@@ -702,7 +719,8 @@ def call_gemini_with_key(prompt, api_key, max_tokens=2048):
             timeout=60,
         )
         if resp.status_code == 429:
-            print(f"  ⚠️  Gemini key quota exceeded (429) — trying next key...")
+            print(f"  ⚠️  Gemini key rate limited (429) — waiting 5s before next key...")
+            time.sleep(5)
             return None, True
         if not resp.ok:
             print(f"  ❌ Gemini error {resp.status_code}: {resp.text[:250]}")
@@ -733,7 +751,7 @@ def call_groq(prompt, max_tokens=2048):
             "https://api.groq.com/openai/v1/chat/completions",
             headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model":       "llama-3.3-70b-versatile",
+                "model":       "llama-3.1-8b-instant",  # 500k tokens/day free vs 100k for 70b
                 "messages":    [{"role": "user", "content": prompt}],
                 "temperature": 0.7,
                 "max_tokens":  max_tokens,
@@ -935,6 +953,11 @@ def main():
             posted_ids.add(article["id"])
             saved_count += 1
             total_saved += 1
+
+            # Pause between articles to avoid hitting Gemini RPM limit
+            if saved_count < limit:
+                print(f"  ⏳ Pausing 8s before next article...")
+                time.sleep(8)
 
     save_posted_log(list(posted_ids)[-500:])
     print(f"\n{'=' * 65}")
