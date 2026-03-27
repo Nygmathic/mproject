@@ -1,0 +1,28 @@
+---
+title: "FG graduates FCT health fellows, onboards new cohort"
+seo_title: "FG graduates FCT health fellows, onboards new cohort"
+date: 2026-03-27T08:40:47Z
+lastmod: 2026-03-27T08:40:47Z
+draft: false
+categories: ["Africa", "News"]
+tags: ["africa", "african politics", "african business", "world news"]
+description: "He explained that the programme was designed to equip and prepare selected youths from all 774 LGAs to serve as ambassadors of health sector reforms in the"
+focus_keyword: ""
+keywords: []
+---
+
+## Empowering Health Ambassadors in Nigeria's Capital
+
+In a crowded ceremony at the FCT Health Secretariat, Nigeria's Minister of State for Health, Dr Olorunnimbe Mamora, yesterday unveiled a new cohort of health fellows, fresh out of a rigorous training programme designed to amplify grassroots health advocacy. The Minister's announcement marked a significant milestone in the Federal Government's (FG) ambitious Health Reform Initiative, which seeks to overhaul the country's healthcare infrastructure and promote inclusivity in disease prevention and management. As the first tranche of fellows took their oaths, the audience erupted in cheers, symbolizing a renewed commitment to the FG's vision of a healthier, more resilient Nigeria.
+
+The FCT Health Fellowship Programme, launched in 2020, is a critical component of the Health Reform Initiative, aimed at empowering selected youths from the 774 Local Government Areas (LGAs) across the country to serve as health ambassadors in their respective communities. The programme's objectives are multifaceted: foster a network of young leaders who can drive health awareness and education; bridge the gap between healthcare policymakers and grassroots communities; and promote intergenerational knowledge transfer between healthcare professionals and the younger generation. By onboarding this new cohort, the FG has taken a significant step towards actualizing its commitment to universal healthcare, which was enshrined in the country's National Health Act of 2014.
+
+The programme's design and implementation have been meticulously crafted to address the country's unique health dynamics. Dr Mamora emphasized that the selection process was rigorous, involving a nationwide search for talented and dedicated young Nigerians who possess a deep understanding of community health needs. The fellows, he explained, underwent an intensive training programme that spanned several months, during which they received mentorship from seasoned healthcare professionals, engaged in hands-on training, and developed skills in health policy analysis, advocacy, and community mobilization. This holistic approach ensures that the newly minted health ambassadors are equipped with the knowledge, skills, and confidence to tackle health challenges in their communities.
+
+The FCT Health Fellowship Programme has drawn inspiration from various international best practices in health advocacy and community engagement. For instance, the programme's emphasis on intergenerational knowledge transfer echoes the successful models of health worker training and mentorship in countries such as South Africa and Ghana, where experienced healthcare professionals have been effectively paired with younger colleagues to strengthen the capacity of local health systems. Similarly, the programme's focus on community mobilization and health education resonates with the pioneering work of health advocates in countries like Kenya and Tanzania, who have leveraged community-based approaches to promote health awareness and drive behaviour change.
+
+As the FCT Health Fellowship Programme continues to grow, its impact will be felt across various sectors of Nigerian society. Beyond the immediate benefits of enhanced health services and awareness, the programme has the potential to contribute to a more informed and engaged citizenry. By empowering young Nigerians to take ownership of their health and well-being, the programme is fostering a culture of participatory governance and community-led development. This shift in narrative is a testament to the FG's commitment to decentralizing power and decision-making, rather than relying on top-down approaches that often neglect the needs of grassroots communities.
+
+The reactions to the programme's launch have been overwhelmingly positive, with many stakeholders hailing the initiative as a significant step towards achieving the Sustainable Development Goals (SDGs). Dr Chikwe Ihekweazu, Director-General of the Nigeria Centre for Disease Control (NCDC), commended the programme for its potential to strengthen the country's health security framework and promote community-based approaches to disease prevention. Similarly, the Nigeria Medical Association (NMA) praised the programme for its focus on building the capacity of young healthcare professionals, who will be critical to the country's long-term health development.
+
+As the FCT Health Fellowship Programme enters a new phase, several questions remain unanswered. How will the programme's impact be measured and evaluated? What role will the fellows play in shaping the country's health policy agenda? Will the programme's successes be replicated in other LGAs and states across the country? As Nigeria continues to navigate the complexities of its healthcare system, the FCT Health Fellowship Programme offers a beacon of hope for a more inclusive, equitable, and resilient health system that prioritizes the needs and aspirations of all Nigerians. As the programme's new cohort embarks on this exciting journey, Veridus will be watching closely to track its progress and provide in-depth analysis of its impact on the country's health landscape.
