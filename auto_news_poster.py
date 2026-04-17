@@ -159,19 +159,6 @@ RSS_FEEDS = {
         "https://www.egyptindependent.com/feed/",
         "https://www.middleeasteye.net/rss",
     ],
-    "law": [
-        # ── Kenya — Court DECISIONS only (not legal profession news) ──
-        "https://kenyalaw.org/kenyalawblog/feed",          # Kenya Law — SC/CA/HC summaries
-        "https://kenyalaw.org/kl/fileadmin/rss/CaseLaw.xml", # Kenya Law case law feed
-        # ── East & Southern Africa — Courts ──────────────────────────
-        "https://www.saflii.org/rss/zar.xml",              # South African courts
-        "https://legalbrief.co.za/feed/",                  # Legal Brief Africa — court news
-        # ── UK Courts (Commonwealth persuasive authority) ────────────
-        "https://www.judiciary.gov.uk/judgments/feed/",    # England & Wales judgments
-        # ── International Courts & Law ───────────────────────────────
-        "https://www.ejiltalk.org/feed/",                  # EJIL:Talk — int'l law
-        "https://opiniojuris.org/feed/",                   # Opinio Juris — int'l law
-    ],
     "curious": [
         # ── Verified Weird & Bizarre News ────────────────────────────
         "https://feeds.reuters.com/reuters/oddlyEnoughNews",            # Reuters Oddly Enough

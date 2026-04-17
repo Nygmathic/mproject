@@ -66,3 +66,11 @@ menu:
     - name: "Sports"
       url: "/categories/sports/"
       weight: 7
+
+# Dart Sass — replaces deprecated libsass
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  sass:
+    transpiler: dartsass

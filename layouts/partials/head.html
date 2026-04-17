@@ -302,7 +302,13 @@
   </script>
 
   {{/* ── SCSS Pipeline ── */}}
-  {{ $opts := dict "transpiler" "libsass" "targetPath" "css/style.css" "outputStyle" "compressed" }}
+  {{/* Updated to use dartsass to fix deprecation warning */}}
+  {{ $opts := dict 
+      "transpiler" "dartsass" 
+      "targetPath" "css/style.css" 
+      "outputStyle" "compressed"
+      "silenceDeprecations" (slice "import" "color-functions" "global-builtin")
+  }}
   {{ with resources.Get "scss/main.scss" }}
     {{ $style := . | css.Sass $opts | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
