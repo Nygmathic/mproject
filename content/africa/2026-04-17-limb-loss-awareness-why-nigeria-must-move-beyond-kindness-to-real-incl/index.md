@@ -1,0 +1,30 @@
+---
+title: "Limb Loss Awareness: Why Nigeria must move beyond kindness to real inclusion — Eva Chukwunelo"
+seo_title: "Limb Loss Awareness: Why Nigeria must move beyond kindness to real inclusion — Eva Chukwunelo"
+date: 2026-04-17T10:46:57Z
+lastmod: 2026-04-17T10:46:57Z
+draft: false
+categories: ["Africa", "News"]
+tags: ["africa", "african politics", "african business", "world news"]
+description: "Many Nigerians believe that persons with disabilities are incapable of achieving a fulfilling life, frequently associating disability with penury, cognitiv"
+focus_keyword: ""
+keywords: []
+---
+
+## Beyond Compassion: Nigeria's Imperative to Include Persons with Disabilities
+
+In a quiet street in Lagos, a young woman named Nneoma navigates the narrow passageway with the aid of a wooden crutch, her prosthetic leg a testament to the devastating effects of a childhood accident. Her eyes gleam with determination as she speaks of her dreams to become a teacher, but the weight of societal expectations and lack of support threatens to undermine her aspirations. Nneoma's story is far from unique in Nigeria, where a pervasive culture of ableism perpetuates the notion that persons with disabilities are incapable of achieving a fulfilling life.
+
+This narrative of pity and limitation has far-reaching consequences, as it reinforces the notion that disability is an inherent defect, rather than a natural part of human diversity. The result is a society that treats persons with disabilities as charity cases rather than full-fledged citizens. According to Dr. Chukwuebuka Okoro, a leading advocate for disability rights in Nigeria, "The kindness and sympathy that Nigerians often extend to persons with disabilities are, in reality, a form of paternalism that perpetuates their marginalization." By reducing persons with disabilities to objects of charity, Nigerians inadvertently reinforce the notion that they are incapable of contributing to society in meaningful ways.
+
+Nigeria's failure to adopt a more inclusive approach to disability is particularly stark when contrasted with other African countries that have made significant strides in promoting the rights and dignity of persons with disabilities. In Rwanda, for example, the government has implemented policies aimed at promoting accessibility and inclusion, including the provision of disability-friendly infrastructure and the establishment of disability-focused education programs. Similarly, in South Africa, the government has taken steps to address the historical injustices faced by persons with disabilities, including the establishment of a national disability commission and the provision of disability-focused social services.
+
+Yet, despite these examples, Nigeria remains woefully behind in its efforts to promote inclusion and accessibility. A recent report by the United Nations noted that Nigeria has one of the lowest rates of accessibility in Africa, with fewer than 10% of buildings and public spaces designed to accommodate persons with disabilities. This lack of infrastructure serves to exacerbate the social and economic marginalization of persons with disabilities, who are often forced to rely on the goodwill of others for basic necessities like education, healthcare, and employment.
+
+The implications of this neglect are far-reaching, not only for persons with disabilities but for Nigerian society as a whole. By failing to recognize the inherent value and contribution of persons with disabilities, Nigeria risks missing out on a significant source of talent, creativity, and innovation. According to Dr. Okoro, "Persons with disabilities are some of the most resourceful and resilient individuals in our society, and their contributions to education, healthcare, and other fields are often overlooked or undervalued." By failing to tap into this potential, Nigeria risks perpetuating a cycle of poverty and underdevelopment that threatens to undermine its very foundations.
+
+As the Nigerian government grapples with the complexities of promoting inclusion and accessibility, it is clear that a more fundamental shift in societal attitudes is required. Rather than treating persons with disabilities as objects of charity, Nigerians must begin to recognize their inherent dignity and worth as full-fledged citizens. This requires a fundamental reorientation of societal values, one that prioritizes the rights and needs of persons with disabilities alongside those of the broader population. By doing so, Nigeria can take a crucial step towards building a more just and inclusive society, one that celebrates the diversity and talent of all its citizens.
+
+As the country struggles to meet its development goals, the imperative to include persons with disabilities has never been more pressing. The reactions of various stakeholders to this growing imperative are varied, with some calling for more targeted support and others pushing for systemic change. The National Association of People with Disabilities has announced plans to launch a nationwide campaign aimed at promoting awareness and inclusion, while the Nigerian government has pledged to increase its allocation to disability-focused programs. Meanwhile, advocacy groups are pushing for more concrete action, including the introduction of disability-focused legislation and the establishment of disability-focused education programs.
+
+As Nigeria navigates this complex landscape, one thing is clear: the path forward will require a fundamental shift in societal attitudes and a commitment to inclusion and accessibility that is more than just rhetorical. By recognizing the inherent value and contribution of persons with disabilities, Nigeria can take a crucial step towards building a more just and inclusive society, one that celebrates the diversity and talent of all its citizens. As Nneoma, the young woman with a prosthetic leg, so eloquently puts it, "I want to show the world that persons with disabilities are not limited by our disabilities, but by the limitations that society imposes upon us."
