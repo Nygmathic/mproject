@@ -35,7 +35,7 @@ jobs:
           sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
       - name: Install Dart Sass
-        run: npm install -g sass
+        run: npm install -g sass-embedded
 
       - name: Setup Pages
         id: pages
