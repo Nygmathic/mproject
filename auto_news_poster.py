@@ -38,13 +38,16 @@ GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
 
-# How many articles to post per niche per run
-# Articles per niche per run (runs every 2 hours = 12 runs/day)
-# Gemini handles most — Groq (8b-instant, 500k TPD) is fallback only
+# Hard daily cap — max posts per niche per calendar day (UTC)
+# Opinion is written by humans — never auto-posted
+DAILY_POST_LIMIT = 4
+
+# How many articles to attempt per run (rate-limit AI calls per run)
+# The daily cap above is the primary control; this just throttles per-run usage
 NICHE_LIMITS = {
     "politics":       2,
     "africa":         2,
-    "sports":         3,  # More — post-match reports need quick coverage
+    "sports":         2,  # Daily cap of 4 still applies — post-match runs catch up
     "business":       1,
     "climate":        1,
     "law":            2,
@@ -76,10 +79,6 @@ RSS_FEEDS = {
         "https://www.theguardian.com/politics/rss",
         "https://www.dw.com/en/politics/rss",
         "https://www.euronews.com/rss?format=mrss&level=theme&name=news",
-        "https://meduza.io/en/rss/all",
-        "https://www.themoscowtimes.com/rss",
-        "https://www.scmp.com/rss/91/feed",
-        "https://www.sixthtone.com/feed",
         "https://www.aljazeera.com/xml/rss/all.xml",
         "https://feeds.reuters.com/Reuters/PoliticsNews",
         # ── Global Affairs (merged) ───────────────────────────────────
@@ -90,15 +89,11 @@ RSS_FEEDS = {
         "https://feeds.reuters.com/Reuters/worldNews",
         # ── United Nations ────────────────────────────────────────────
         "https://news.un.org/feed/subscribe/en/news/all/feed/rss.xml",
-        "https://news.un.org/feed/subscribe/en/news/topic/peace-and-security/feed/rss.xml",
-        "https://peacekeeping.un.org/en/rss.xml",
     ],
     "business": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
         "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://www.dw.com/en/economy/rss",
-        "https://www.scmp.com/rss/92/feed",
-        "https://www.caixinglobal.com/rss/",
         "https://www.theafricareport.com/feed/",
         "https://www.premiumtimesng.com/feed",
         "https://feeds.reuters.com/reuters/businessNews",
@@ -113,35 +108,27 @@ RSS_FEEDS = {
         "https://supersport.com/rss",
         "https://www.bbc.co.uk/sport/africa/rss.xml",
         "https://www.goal.com/en-ke/rss",
-        "https://www.soccernet.ng/feed",
-        "https://www.kickoff.com/feeds/rss.xml",
         "https://www.cafonline.com/rss",
-        # ── ESPN ────────────────────────────────────────────────────
-        "https://www.espn.com/espn/rss/soccer/news",                       # ESPN Soccer (global)
-        "https://www.espn.com/espn/rss/news",                              # ESPN Top Headlines
+        # ── ESPN Soccer ─────────────────────────────────────────────
+        "https://www.espn.com/espn/rss/soccer/news",
         # ── Global Sport ────────────────────────────────────────────
         "https://feeds.bbci.co.uk/sport/rss.xml",
         "https://www.theguardian.com/sport/rss",
-        "https://www.scmp.com/rss/95/feed",
     ],
     "climate": [
         "https://www.theguardian.com/environment/climate-crisis/rss",
         "https://www.dw.com/en/environment/rss",
         "https://insideclimatenews.org/feed/",
-        "https://www.climatecentral.org/feed",
         "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",
-        "https://www.aljazeera.com/xml/rss/all.xml",
     ],
     "africa": [
         # ── United Nations Africa & African Union ─────────────────────
-        "https://news.un.org/feed/subscribe/en/news/topic/africa/feed/rss.xml",   # UN News — Africa
-        "https://au.int/en/rss",                                                   # African Union official
-        "https://au.int/en/pressreleases/rss",                                     # AU Press Releases
+        "https://news.un.org/feed/subscribe/en/news/topic/africa/feed/rss.xml",
+        "https://au.int/en/pressreleases/rss",
         # ── Pan-African ──────────────────────────────────────────────
         "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
         "https://www.theafricareport.com/feed/",
         "https://www.africanews.com/feed/",
-        "https://www.africatimes.com/feed/",
         # ── East Africa ──────────────────────────────────────────────
         "https://eastafrican.nation.africa/feed",
         "https://www.monitor.co.ug/rss",
@@ -150,8 +137,6 @@ RSS_FEEDS = {
         "https://nation.africa/kenya/rss.xml",
         # ── West Africa ──────────────────────────────────────────────
         "https://www.premiumtimesng.com/feed",
-        "https://www.ghanaweb.com/GhanaHomePage/NewsArchive/rss.php",
-        "https://www.pulse.ng/rss",
         # ── Southern Africa ──────────────────────────────────────────
         "https://www.dailymaverick.co.za/feed/",
         "https://www.news24.com/rss",
@@ -248,6 +233,51 @@ def slugify(text):
     text = re.sub(r"[\s_]+", "-", text)
     text = re.sub(r"-+", "-", text).strip("-")
     return text[:70]
+
+def count_today_posts(niche):
+    """Count how many auto-posts already exist for this niche today (UTC)."""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    niche_dir = CONTENT_DIR / niche
+    if not niche_dir.exists():
+        return 0
+    return sum(1 for d in niche_dir.iterdir() if d.is_dir() and d.name.startswith(today))
+
+def score_by_virality(articles):
+    """
+    Score each article by cross-feed frequency — stories covered by multiple
+    sources are more widely talked about and score higher.
+    Uses significant title word overlap (3+ shared words) as the signal.
+    Returns the same list sorted by (viral_score DESC, pub_date DESC).
+    """
+    # Build word sets for each article (significant words only, len > 3)
+    stop = {"this","that","with","from","have","will","been","were","they",
+            "their","more","than","over","after","into","about","says","said"}
+    def sig_words(title):
+        return {w.lower() for w in re.findall(r"[a-zA-Z]{4,}", title) if w.lower() not in stop}
+
+    word_sets = [sig_words(a["title"]) for a in articles]
+
+    scores = []
+    for i, ws_i in enumerate(word_sets):
+        if not ws_i:
+            scores.append(0)
+            continue
+        score = sum(
+            1 for j, ws_j in enumerate(word_sets)
+            if i != j and len(ws_i & ws_j) >= 3
+        )
+        scores.append(score)
+
+    # Attach scores and sort: highest virality first, then newest
+    scored = sorted(
+        zip(scores, articles),
+        key=lambda x: (x[0], x[1]["pub_date"] or datetime.min.replace(tzinfo=timezone.utc)),
+        reverse=True,
+    )
+    if any(s > 0 for s, _ in scored):
+        top = [(s, a["title"][:60]) for s, a in scored[:5] if s > 0]
+        print(f"   🔥 Top viral stories: {top}")
+    return [a for _, a in scored]
 
 def parse_entry_date(entry):
     """Parse feed entry publish date. Returns timezone-aware datetime or None."""
@@ -422,7 +452,7 @@ def build_article_prompt(article):
 Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.{source_note}
 
 STRICT REQUIREMENTS:
-- MINIMUM 800 words. MAXIMUM 1,200 words. Non-negotiable.
+- TARGET: 800 words. Write between 750 and 850 words. Non-negotiable — do not pad, do not cut short.
 - 6 to 8 substantial paragraphs — no thin or short paragraphs
 - Opening paragraph: Compelling and immediate — draws the reader in without starting with "In a" or "The"
 - Second paragraph: Expand on the key facts and the stakes of the story
@@ -846,6 +876,7 @@ seo_title: "{seo_title}"
 date: {now}
 lastmod: {now}
 draft: false
+featured: false
 categories: {categories}
 tags: {tags_str}
 description: "{meta_desc}"
@@ -914,9 +945,21 @@ def main():
     active_niches = ["sports"] if sports_only else all_niches
     for niche in active_niches:
         print(f"\n📰 [{niche.upper()}]")
+
+        # ── Daily cap check ────────────────────────────────────────────
+        already_today = count_today_posts(niche)
+        remaining_today = max(0, DAILY_POST_LIMIT - already_today)
+        if remaining_today == 0:
+            print(f"   📊 Daily cap reached ({DAILY_POST_LIMIT}/day) — skipping {niche}")
+            continue
+        print(f"   📊 {already_today}/{DAILY_POST_LIMIT} posts today — {remaining_today} slot(s) remaining")
+
         articles = fetch_rss_articles(niche, posted_ids)
 
-        limit       = NICHE_LIMITS.get(niche, 1)
+        # ── Viral sort — most cross-covered stories first ──────────────
+        articles = score_by_virality(articles)
+
+        limit       = min(NICHE_LIMITS.get(niche, 1), remaining_today)
         saved_count = 0
 
         for article in articles:
