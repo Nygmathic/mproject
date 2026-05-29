@@ -2,109 +2,13 @@
 <html lang="{{ .Site.LanguageCode | default "en-us" }}">
 {{ partial "head.html" . }}
 <body class="site-layout">
-
     {{ if .IsPage }}
     <div id="reading-progress" aria-hidden="true"></div>
     <div id="reading-time-indicator" aria-hidden="true" data-reading-time="{{ .ReadingTime }}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       <span id="reading-time-text">{{ .ReadingTime }} min read</span>
     </div>
     {{ end }}
-    <style>
-      #reading-progress {
-        position: fixed; top: 0; left: 0;
-        width: 0%; height: 3px;
-        background: linear-gradient(90deg, #007ACC, #00b4d8);
-        z-index: 9999; transition: width 0.1s linear; pointer-events: none;
-      }
-
-      #reading-time-indicator {
-        position: fixed;
-        bottom: 5.5rem;
-        right: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-family: var(--font-ui, 'Inter', sans-serif);
-        font-size: 0.68rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        color: #fff;
-        background: rgba(10, 10, 10, 0.82);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        padding: 0.45rem 0.85rem;
-        border-radius: 50px;
-        z-index: 998;
-        opacity: 0;
-        transform: translateY(6px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        pointer-events: none;
-      }
-
-      #reading-time-indicator.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      #reading-time-indicator.done {
-        background: rgba(0, 122, 204, 0.9);
-      }
-
-      #reading-time-indicator svg {
-        width: 11px;
-        height: 11px;
-        flex-shrink: 0;
-      }
-
-      [data-theme="dark"] #reading-time-indicator {
-        background: rgba(255,255,255,0.12);
-        color: #fff;
-      }
-
-      [data-theme="dark"] #reading-time-indicator.done {
-        background: rgba(0, 122, 204, 0.85);
-      }
-
-      @media print {
-        #reading-progress, #reading-time-indicator { display: none !important; }
-      }
-    </style>
-    <script>
-      (function() {
-        var bar  = document.getElementById('reading-progress');
-        var pill = document.getElementById('reading-time-indicator');
-        var txt  = document.getElementById('reading-time-text');
-        var totalMins = pill ? parseInt(pill.getAttribute('data-reading-time'), 10) || 0 : 0;
-        if (!bar) return;
-
-        window.addEventListener('scroll', function() {
-          var scrollTop  = window.scrollY || document.documentElement.scrollTop;
-          var docHeight  = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          var pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-          pct = Math.min(pct, 100);
-
-          bar.style.width = pct + '%';
-
-          if (!pill || !txt) return;
-
-          // Show pill after scrolling 8% into article
-          if (pct > 8 && pct < 98) {
-            pill.classList.add('visible');
-            pill.classList.remove('done');
-            var minsLeft = Math.ceil(totalMins * (1 - pct / 100));
-            txt.textContent = minsLeft <= 1 ? 'Almost done' : minsLeft + ' min left';
-          } else if (pct >= 98) {
-            pill.classList.add('visible', 'done');
-            txt.textContent = 'Finished ✓';
-          } else {
-            pill.classList.remove('visible', 'done');
-          }
-        }, { passive: true });
-      })();
-    </script>
 
     <a class="skip-link" href="#main-content">Skip to content</a>
 
@@ -114,43 +18,48 @@
         {{ block "main" . }}{{ end }}
     </main>
 
-    <button id="back-to-top" aria-label="Back to top" title="Back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="18 15 12 9 6 15"></polyline>
-      </svg>
+    <button id="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
-    <style>
-      #back-to-top {
-        position: fixed; bottom: 2rem; right: 2rem;
-        width: 2.75rem; height: 2.75rem;
-        border-radius: 50%;
-        background: var(--color-primary, #007ACC);
-        color: #fff; border: none; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-        opacity: 0; visibility: hidden; transform: translateY(8px);
-        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, background 0.2s ease;
-        z-index: 999;
-      }
-      #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-      #back-to-top:hover { background: var(--color-primary-dark, #0062a3); transform: translateY(-2px); }
-      #back-to-top svg { width: 1.1rem; height: 1.1rem; }
-    </style>
+    {{ partial "footer.html" . }}
 
     <script>
+      // Reading progress and back-to-top
       (function() {
+        var bar = document.getElementById('reading-progress'),
+            pill = document.getElementById('reading-time-indicator'),
+            txt = document.getElementById('reading-time-text'),
+            totalMins = pill ? parseInt(pill.getAttribute('data-reading-time'),10)||0 : 0;
+        if(!bar) return;
+        window.addEventListener('scroll',function(){
+          var st = window.scrollY||document.documentElement.scrollTop,
+              dh = document.documentElement.scrollHeight-document.documentElement.clientHeight,
+              pct = dh>0 ? (st/dh)*100 : 0;
+          pct = Math.min(pct, 100);
+          bar.style.width = pct+'%';
+          if(!pill||!txt) return;
+          if(pct > 8 && pct < 98) {
+            pill.classList.add('visible'); pill.classList.remove('done');
+            var minsLeft = Math.ceil(totalMins*(1-pct/100));
+            txt.textContent = minsLeft <=1 ? 'Almost done' : minsLeft+' min left';
+          } else if(pct >= 98) {
+            pill.classList.add('visible','done'); txt.textContent = 'Finished ✓';
+          } else {
+            pill.classList.remove('visible','done');
+          }
+        },{passive:true});
+
         var btn = document.getElementById('back-to-top');
-        if (!btn) return;
-        window.addEventListener('scroll', function() {
-          btn.classList.toggle('visible', window.scrollY > 400);
-        }, { passive: true });
-        btn.addEventListener('click', function() {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        if(btn) {
+          window.addEventListener('scroll',function(){
+            btn.classList.toggle('visible', window.scrollY > 400);
+          },{passive:true});
+          btn.addEventListener('click',function(){
+            window.scrollTo({top:0,behavior:'smooth'});
+          });
+        }
       })();
     </script>
-
-    {{ partial "footer.html" . }}
 </body>
 </html>

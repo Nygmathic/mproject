@@ -1,0 +1,45 @@
+{{/* Article Card – icons on cards/lists, category image on single */}}
+{{ $p := .Page }}
+{{ $variant := .variant | default "default" }}
+{{ $hasImage := false }}
+{{ $imageResource := $p.Resources.GetMatch ($p.Params.feature_image | default "cover*") }}
+{{ if $imageResource }}{{ $hasImage = true }}{{ end }}
+
+{{ $cat := index $p.Params.categories 0 | default "Essay" }}
+{{ $catLower := $cat | lower }}
+
+<article class="card card--{{ $variant }}{{ if not $hasImage }} card--no-image{{ end }}" data-cat="{{ $catLower }}">
+
+  {{ if $hasImage }}
+    {{ with $imageResource }}
+      {{ $img := .Fill "600x400" }}
+      <a href="{{ $p.Permalink }}" class="card-img-link" tabindex="-1" aria-hidden="true">
+        <img src="{{ $img.RelPermalink }}" alt="{{ $p.Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+      </a>
+    {{ end }}
+  {{ else }}
+    {{/* Icon placeholder — Option G: top rule + color bar + centered SVG icon */}}
+    <a href="{{ $p.Permalink }}" class="card-img-link card-placeholder-link" tabindex="-1" aria-hidden="true">
+      <div class="card-placeholder card-placeholder--{{ $variant }}" data-cat="{{ $catLower }}">
+        <div class="cp-icon-wrap" aria-hidden="true">
+          {{ partial "cat-icon.html" (dict "cat" $catLower "class" "cp-icon") }}
+        </div>
+        <span class="cp-cat-pill">{{ $cat }}</span>
+      </div>
+    </a>
+  {{ end }}
+
+  <div class="card-body">
+    {{ if .showCategory | default true }}
+      {{ with $cat }}<span class="card-cat">{{ . }}</span>{{ end }}
+    {{ end }}
+    <h3 class="card-title"><a href="{{ $p.Permalink }}">{{ $p.Title }}</a></h3>
+    {{ with $p.Summary | truncate 180 }}<p class="card-summary">{{ . }}</p>{{ end }}
+    <div class="card-meta">
+      {{ with $p.Params.author }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
+      <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "January 2, 2006" }}</time>
+      <span class="card-dot">·</span>
+      <span>{{ $p.ReadingTime }} min read</span>
+    </div>
+  </div>
+</article>

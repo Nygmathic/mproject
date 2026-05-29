@@ -1,103 +1,54 @@
-{{/* News Editorial Header */}}
+{{/* Navigation – top bar + ribbon only on inner pages, homepage uses its own */}}
+{{ if not .IsHome }}
 <header class="site-header">
-  {{/* Top Bar with Date and Search */}}
+  {{/* TOP BAR: wordmark + actions */}}
   <div class="header-top">
     <div class="header-inner">
-      <time class="header-date" id="header-date"></time>
-      <script>
-        (function() {
-          var el = document.getElementById('header-date');
-          var now = new Date();
-          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-          var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-          var dateStr = days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
-          var isoStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
-          el.setAttribute('datetime', isoStr);
-          el.textContent = dateStr;
-        })();
-      </script>
-      
+      <a href="/" class="header-wordmark">{{ .Site.Title }}</a>
       <div class="header-actions">
         <a href="/search/" class="search-trigger" aria-label="Search">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </a>
-
-        {{/* Theme Toggle */}}
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-          <span class="theme-toggle-track">
-            <span class="theme-toggle-thumb">
-              <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1"  x2="12" y2="3"/>
-                <line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"/>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1"  y1="12" x2="3"  y2="12"/>
-                <line x1="21" y1="12" x2="23"  y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-              <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            </span>
-          </span>
-          <span class="theme-toggle-label">Toggle dark mode</span>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        
         <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-          <span class="menu-icon">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-          </span>
+          <span class="menu-icon"><span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span></span>
         </button>
       </div>
     </div>
   </div>
-  
-  {{/* Main Header with Title */}}
-  <div class="header-main">
-    <div class="header-inner">
-      <h1 class="site-title">
-        <a href="/">{{ .Site.Title }}</a>
-      </h1>
-      <p class="site-tagline">{{ .Site.Params.description }}</p>
-    </div>
-  </div>
-  
-  {{/* Desktop Navigation */}}
-  <nav class="main-nav desktop-nav" role="navigation" aria-label="Main Navigation">
-    <div class="header-inner">
-      <ul class="nav-list">
-        <li><a href="/" class="nav-item{{ if .IsHome }} nav-item--active{{ end }}">Home</a></li>
-        <li><a href="/categories/africa/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/africa" }} nav-item--active{{ end }}">Africa</a></li>
-        <li><a href="/categories/business/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/business" }} nav-item--active{{ end }}">Business</a></li>
-        <li><a href="/categories/climate/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/climate" }} nav-item--active{{ end }}">Climate</a></li>
-        <li><a href="/categories/opinion/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/opinion" }} nav-item--active{{ end }}">Opinion</a></li>
-        <li><a href="/categories/politics/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/politics" }} nav-item--active{{ end }}">Politics</a></li>
-        <li><a href="/categories/sports/" class="nav-item{{ if hasPrefix .RelPermalink "/categories/sports" }} nav-item--active{{ end }}">Sports</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
 
-{{/* Mobile Slide-out Menu */}}
+  {{/* RIBBON: date + section links + search (same as homepage) */}}
+  <div class="np-ribbon">
+    <span class="np-ribbon-date">{{ now.Format "Monday, January 2, 2006" }}</span>
+    <span class="np-ribbon-rule"></span>
+    <nav class="np-ribbon-nav" aria-label="Sections">
+      <a href="/categories/africa/">Africa</a>
+      <a href="/categories/business/">Business</a>
+      <a href="/categories/climate/">Climate</a>
+      <a href="/categories/opinion/">Opinion</a>
+      <a href="/categories/politics/">Politics</a>
+      <a href="/categories/sports/">Sports</a>
+    </nav>
+    <span class="np-ribbon-rule"></span>
+    <a href="/search/" class="np-ribbon-search" aria-label="Search">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="6"/><path d="m16 16-3.5-3.5"/></svg>
+    </a>
+  </div>
+</header>
+{{ end }}
+
+{{/* MOBILE MENU (needed on all pages, including homepage) */}}
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-header">
-    <h2 class="mobile-menu-title">Menu</h2>
+    <h2 class="mobile-menu-title">{{ .Site.Title }}</h2>
     <button class="menu-close" aria-label="Close menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
   </div>
-  
-  <nav class="mobile-nav" role="navigation" aria-label="Mobile Navigation">
+  <nav class="mobile-nav" role="navigation">
     <ul class="mobile-nav-list">
       <li><a href="/" class="mobile-nav-item">Home</a></li>
       <li><a href="/categories/africa/" class="mobile-nav-item">Africa</a></li>
@@ -112,33 +63,15 @@
       <li><a href="/donate/" class="mobile-nav-item mobile-nav-donate">Support Us</a></li>
     </ul>
   </nav>
-  
-  <div class="mobile-menu-footer">
-    <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="mobile-email-cta">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-      Get new pieces by email
-    </a>
-  </div>
 </div>
-
-{{/* Menu Overlay */}}
 <div class="menu-overlay" id="menuOverlay"></div>
 
-{{/* Slim Sticky Bar — slides in after scrolling past header */}}
 <div class="sticky-bar" id="stickyBar" aria-hidden="true">
   <div class="sticky-bar-inner">
     <a href="/" class="sticky-logo">{{ .Site.Title }}</a>
-    <nav class="sticky-nav" aria-label="Sticky Navigation">
+    <nav class="sticky-nav">
       <ul class="sticky-nav-list">
-        <li><a href="/categories/africa/">Africa</a></li>
-        <li><a href="/categories/business/">Business</a></li>
-        <li><a href="/categories/climate/">Climate</a></li>
-        <li><a href="/categories/opinion/">Opinion</a></li>
-        <li><a href="/categories/politics/">Politics</a></li>
-        <li><a href="/categories/sports/">Sports</a></li>
+        <li><a href="/categories/africa/">Africa</a></li><li><a href="/categories/business/">Business</a></li><li><a href="/categories/climate/">Climate</a></li><li><a href="/categories/opinion/">Opinion</a></li><li><a href="/categories/politics/">Politics</a></li><li><a href="/categories/sports/">Sports</a></li>
       </ul>
     </nav>
     <a href="/search/" class="sticky-search" aria-label="Search">
@@ -147,241 +80,42 @@
   </div>
 </div>
 
-{{/* Mobile Menu Script */}}
 <script>
 (function() {
-  const menuToggle = document.querySelector('.menu-toggle');
-  const menuClose = document.querySelector('.menu-close');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const menuOverlay = document.getElementById('menuOverlay');
-  const body = document.body;
-  
-  function openMenu() {
-    mobileMenu.classList.add('active');
-    menuOverlay.classList.add('active');
-    body.style.overflow = 'hidden';
-    menuToggle.setAttribute('aria-expanded', 'true');
-  }
-  
-  function closeMenu() {
-    mobileMenu.classList.remove('active');
-    menuOverlay.classList.remove('active');
-    body.style.overflow = '';
-    menuToggle.setAttribute('aria-expanded', 'false');
-  }
-  
-  if (menuToggle) {
-    menuToggle.addEventListener('click', openMenu);
-  }
-  
-  if (menuClose) {
-    menuClose.addEventListener('click', closeMenu);
-  }
-  
-  if (menuOverlay) {
-    menuOverlay.addEventListener('click', closeMenu);
-  }
-  
-  // Close on escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
-      closeMenu();
-    }
-  });
-})();
-</script>
+  var menuToggle = document.querySelector('.menu-toggle');
+  var menuClose = document.querySelector('.menu-close');
+  var mobileMenu = document.getElementById('mobileMenu');
+  var menuOverlay = document.getElementById('menuOverlay');
+  var body = document.body;
+  function openMenu() { mobileMenu.classList.add('active'); menuOverlay.classList.add('active'); body.style.overflow = 'hidden'; if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true'); }
+  function closeMenu() { mobileMenu.classList.remove('active'); menuOverlay.classList.remove('active'); body.style.overflow = ''; if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false'); }
+  if (menuToggle) menuToggle.addEventListener('click', openMenu);
+  if (menuClose) menuClose.addEventListener('click', closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && mobileMenu.classList.contains('active')) closeMenu(); });
 
-<style>
-.mobile-nav-donate {
-  color: var(--color-text-lighter) !important;
-  font-style: italic;
-  transition: color 0.2s ease;
-}
-.mobile-nav-donate:hover {
-  color: var(--color-primary) !important;
-}
-
-/* ── Mobile menu email CTA ── */
-.mobile-email-cta {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  background: #007ACC;
-  padding: 0.95rem 1.4rem;
-  margin: var(--space-lg) 0;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.mobile-email-cta svg {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-}
-
-.mobile-email-cta:hover {
-  background: #0062a3;
-  color: #fff;
-}
-
-/* ── Slim Sticky Bar ── */
-.sticky-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  transform: translateY(-100%);
-  transition: transform 0.3s ease;
-  will-change: transform;
-}
-
-.sticky-bar.visible {
-  transform: translateY(0);
-}
-
-.sticky-bar-inner {
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 var(--space-xl);
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@media (min-width: 769px) {
-  .sticky-bar-inner {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    justify-content: unset;
-  }
-}
-
-.sticky-logo {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--color-text);
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.sticky-logo:hover {
-  color: var(--color-primary);
-}
-
-.sticky-nav {
-  display: flex;
-  justify-content: center;
-}
-
-.sticky-nav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xl);
-}
-
-.sticky-nav-list a {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-light);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.sticky-nav-list a:hover {
-  color: var(--color-primary);
-}
-
-/* ── Main desktop nav — centered ── */
-.nav-list {
-  justify-content: center;
-}
-
-.sticky-search {
-  color: var(--color-text-light);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  transition: color 0.2s ease;
-}
-
-.sticky-search svg {
-  width: 16px;
-  height: 16px;
-}
-
-.sticky-search:hover {
-  color: var(--color-primary);
-}
-
-@media (max-width: 768px) {
-  .sticky-bar { display: none; }
-}
-</style>
-
-{{/* Theme Toggle Script */}}
-<script>
-(function() {
-  const toggle = document.getElementById('theme-toggle');
-  const html   = document.documentElement;
-  const KEY    = 'veridus-theme';
-
-  if (!toggle) return;
-
-  toggle.addEventListener('click', function() {
-    const current = html.getAttribute('data-theme');
-    const next    = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem(KEY, next);
-  });
-
-  /* Keep in sync if user changes OS preference while on the page
-     but only if they haven't made a manual choice               */
-  window.matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', function(e) {
-      if (!localStorage.getItem(KEY)) {
-        html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-      }
+  var toggle = document.getElementById('theme-toggle');
+  var html = document.documentElement;
+  var KEY = 'veridus-theme';
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem(KEY, next);
     });
-})();
-</script>
+  }
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    if (!localStorage.getItem(KEY)) html.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+  });
 
-{{/* Sticky Bar Script */}}
-<script>
-(function() {
   var stickyBar = document.getElementById('stickyBar');
   var header = document.querySelector('.site-header');
-  if (!stickyBar || !header) return;
-
-  function onScroll() {
-    var headerBottom = header.getBoundingClientRect().bottom;
-    if (headerBottom < 0) {
-      stickyBar.classList.add('visible');
-      stickyBar.setAttribute('aria-hidden', 'false');
-    } else {
-      stickyBar.classList.remove('visible');
-      stickyBar.setAttribute('aria-hidden', 'true');
-    }
+  if (stickyBar && header) {
+    window.addEventListener('scroll', function() {
+      var bottom = header.getBoundingClientRect().bottom;
+      stickyBar.classList.toggle('visible', bottom < 0);
+      stickyBar.setAttribute('aria-hidden', bottom < 0 ? 'false' : 'true');
+    }, { passive: true });
   }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 </script>

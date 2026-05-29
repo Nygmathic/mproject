@@ -1,41 +1,72 @@
 {{ define "main" }}
 <div class="about-page">
-  <div class="article-container">
-
-    <header class="about-header">
-      <h1 class="about-title">{{ .Title | default "About" }}</h1>
-      {{ with .Params.subtitle }}
-        <p class="about-subtitle">{{ . }}</p>
-      {{ end }}
-    </header>
-
-    <div class="about-body">
-      {{ if .Content }}
-        {{ .Content }}
-      {{ else }}
-      {{/* Fallback content — replace with about/index.md for full control */}}
-      <p class="about-lead">Veridus is not a newsroom. It is not a media company. It is an independent publication with a point of view, a commitment to honesty, and a belief that Africa's stories deserve better than the frames they are usually given.</p>
-
-      <p>Veridus exists because coverage of African politics, culture, and ideas too often feels wrong — not factually wrong, but tonally wrong. Stories told from the outside looking in. Analysis that explains Africa to the world rather than to Africans. Opinion that dresses itself as neutrality.</p>
-
-      <p>Every piece published here is written with intention. Nothing is filler. Nothing is chasing traffic. The goal is to publish things worth reading — slowly, carefully, and without apology.</p>
-
-      <h2>What you will find here</h2>
-
-      <p>News covered on its merits. Opinion that takes a position. Lifestyle writing that treats ordinary life as worthy of serious attention. All of it filtered through the conviction that how a story is told shapes what people think is possible.</p>
-
-      <h2>What you will not find here</h2>
-
-      <p>Advertisements. Sponsored content. Clickbait. Press releases dressed as reporting. Content produced to satisfy an algorithm. Veridus has no investors, no advertisers, and no editorial board. It answers to readers — and to the truth.</p>
-
-      <h2>Get in touch</h2>
-
-      <p>If something you read here made you think, argue, or change your mind, we would genuinely like to hear about it. Write to us at <a href="mailto:contact@veridus.space">contact@veridus.space</a>. Every message is read.</p>
-
-      <p>To be notified when new pieces are published, send an email with the subject line <em>"Add me to Veridus updates"</em> — we will add you to a simple mailing list. No newsletter platform, no tracking, no noise.</p>
-      {{ end }}
+  <div class="about-container">
+    <div class="about-header">
+      <h1>About</h1>
     </div>
-
+    <div class="about-content">
+      <p class="lead">Veridus is an independent publication exploring the meaning behind viral events.</p>
+      <p>We publish long‑form essays, reported features, and critical analysis. No advertisers. No paywalls. No algorithmic feed. Just writing that respects your time and intelligence.</p>
+      <h2>Why Veridus exists</h2>
+      <p>The dominant media landscape often treats Africa as a single story: crisis, corruption, or safari. Veridus was founded to push back against that. We believe in nuance, in depth, and in the power of good journalism to clarify rather than sensationalise.</p>
+      <h2>Our approach</h2>
+      <ul>
+        <li><strong>Independent</strong> – No corporate sponsors, no state funding, no editorial influence from outside.</li>
+        <li><strong>Slow & deliberate</strong> – We publish when a piece is ready, not to fill a quota.</li>
+        <li><strong>Reader‑supported</strong> – Our only source of revenue is from readers who value what we do.</li>
+      </ul>
+      <h2>Privacy & independence</h2>
+      <p>No tracking, no cookies, no third‑party scripts. Your reading stays yours.</p>
+      <h2>Get in touch</h2>
+      <p>Questions, pitches, or just to say hello: <a href="mailto:contact@veridus.space">contact@veridus.space</a>.</p>
+    </div>
   </div>
 </div>
+<style>
+/* Layout only – no font-family overrides */
+.about-page {
+  background: var(--bg);
+  padding: 3rem 1.5rem;
+}
+.about-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.about-header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+.about-header h1 {
+  font-size: var(--step-3);
+  font-weight: 800;
+  margin: 0.5rem 0 0;
+}
+.about-content {
+  font-size: var(--step-0);
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+.about-content .lead {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.about-content h2 {
+  font-size: var(--step-1);
+  font-weight: 700;
+  margin: 1.8rem 0 0.8rem;
+}
+.about-content p, .about-content li {
+  margin-bottom: 1em;
+}
+.about-content ul {
+  margin: 1rem 0 1.5rem 1.5rem;
+}
+.about-content a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+</style>
 {{ end }}

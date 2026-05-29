@@ -1,27 +1,27 @@
-{{/* Article Card for Grid (Monocle Style) */}}
-{{ define "article-card" }}
-<article class="card">
-  {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+{{/* Article Card – reusable component for all layouts */}}
+{{ $p := .Page }}
+<article class="card{{ with .variant }} card--{{ . }}{{ end }}">
+  {{ with $p.Resources.GetMatch ($p.Params.feature_image | default "cover*") }}
     {{ $img := .Fill "600x400" }}
-    <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+    <a href="{{ $p.Permalink }}" class="card-img-link" tabindex="-1" aria-hidden="true">
+      <img src="{{ $img.RelPermalink }}" alt="{{ $p.Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+    </a>
   {{ end }}
-  <div class="card-content">
-    <span class="card-cat">{{ range .Params.categories }}{{ . }}{{ end }}</span>
-    <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-    <p class="card-summary">{{ .Summary | truncate 120 }}</p>
+  <div class="card-body">
+    {{ if .showCategory | default true }}
+      {{ with index $p.Params.categories 0 }}
+        <span class="card-cat">{{ . }}</span>
+      {{ end }}
+    {{ end }}
+    <h3 class="card-title"><a href="{{ $p.Permalink }}">{{ $p.Title }}</a></h3>
+    {{ with $p.Summary | truncate 180 }}
+      <p class="card-summary">{{ . }}</p>
+    {{ end }}
+    <div class="card-meta">
+      {{ with $p.Params.author }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
+      <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "January 2, 2006" }}</time>
+      <span class="card-dot">·</span>
+      <span>{{ $p.ReadingTime }} min read</span>
+    </div>
   </div>
 </article>
-{{ end }}
-
-{{/* Responsive Image Logic */}}
-{{ define "responsive-img" }}
-  {{ $img := .ctx.Resources.GetMatch .src }}
-  {{ if $img }}
-    {{ $small := $img.Resize "600x" }}
-    {{ $large := $img.Resize "1200x" }}
-    <picture>
-      <source media="(max-width: 600px)" srcset="{{ $small.RelPermalink }}">
-      <img src="{{ $large.RelPermalink }}" alt="{{ .alt }}" loading="lazy">
-    </picture>
-  {{ end }}
-{{ end }}

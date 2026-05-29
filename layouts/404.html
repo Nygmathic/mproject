@@ -1,247 +1,189 @@
 {{ define "main" }}
 <div class="error-page">
   <div class="article-container">
-
     <div class="error-inner">
-
       <div class="error-main">
-        <p class="error-eyebrow">404</p>
-        <h1 class="error-heading">This page doesn't exist.</h1>
-        <p class="error-body">It may have been moved, renamed, or never existed at all. These things happen. What matters is what you do next.</p>
-
+        <span class="error-eyebrow">404</span>
+        <h1 class="error-heading">Page not found</h1>
+        <p class="error-body">The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
         <div class="error-actions">
-          <a href="/" class="error-btn-primary">Take me home</a>
+          <a href="/" class="error-btn-primary">← Go home</a>
           <a href="/search/" class="error-btn-secondary">Search articles</a>
         </div>
       </div>
-
       <aside class="error-sidebar">
-
-        <div class="error-aside-block">
-          <h3 class="error-aside-title">Latest pieces</h3>
-          <ul class="error-aside-list">
+        <div class="error-card">
+          <h3 class="error-card-title">Recent stories</h3>
+          <ul class="error-card-list">
             {{ range first 5 .Site.RegularPages }}
               <li>
                 {{ if .Params.categories }}
-                  <span class="error-aside-cat">{{ index .Params.categories 0 }}</span>
+                  <span class="error-card-cat">{{ index .Params.categories 0 }}</span>
                 {{ end }}
                 <a href="{{ .Permalink }}">{{ .Title }}</a>
               </li>
             {{ end }}
           </ul>
         </div>
-
-        <div class="error-aside-block">
-          <h3 class="error-aside-title">Browse by topic</h3>
-          <div class="error-aside-topics">
-            <a href="/categories/news/" class="error-topic-pill">News</a>
-            <a href="/categories/politics/" class="error-topic-pill">Politics</a>
-            <a href="/categories/business/" class="error-topic-pill">Business</a>
-            <a href="/categories/global-affairs/" class="error-topic-pill">Global Affairs</a>
-            <a href="/categories/sports/" class="error-topic-pill">Sports</a>
-            <a href="/categories/climate/" class="error-topic-pill">Climate</a>
-            <a href="/categories/africa/" class="error-topic-pill">Africa</a>
-            <a href="/categories/opinion/" class="error-topic-pill">Opinion</a>
-            <a href="/archive/" class="error-topic-pill">Archive</a>
+        <div class="error-card">
+          <h3 class="error-card-title">Browse topics</h3>
+          <div class="error-topic-pills">
+            <a href="/categories/news/">News</a>
+            <a href="/categories/politics/">Politics</a>
+            <a href="/categories/business/">Business</a>
+            <a href="/categories/sports/">Sports</a>
+            <a href="/categories/climate/">Climate</a>
+            <a href="/categories/africa/">Africa</a>
+            <a href="/categories/opinion/">Opinion</a>
+            <a href="/archive/">Archive</a>
           </div>
         </div>
-
       </aside>
-
     </div>
-
   </div>
 </div>
 
 <style>
-/* ════════════════════════════════════════════
-   404 PAGE
-   ════════════════════════════════════════════ */
-
+/* Layout only – no font-family, no font-size overrides */
 .error-page {
   padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
 }
-
 .error-inner {
   display: grid;
   grid-template-columns: 1fr 280px;
   gap: var(--space-3xl);
   align-items: start;
 }
-
-/* ── Main ── */
 .error-eyebrow {
-  font-family: var(--font-display);
-  font-size: clamp(5rem, 12vw, 9rem);
-  font-weight: 400;
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 800;
   line-height: 1;
-  color: var(--color-border);
-  margin: 0 0 var(--space-lg);
-  letter-spacing: -0.03em;
-  user-select: none;
+  color: var(--border);
+  margin-bottom: var(--space-lg);
 }
-
 .error-heading {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
-  font-weight: 400;
-  line-height: 1.2;
-  color: var(--color-text);
-  margin: 0 0 var(--space-lg);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
 }
-
 .error-body {
-  font-family: var(--font-reading);
-  font-size: 1rem;
-  font-style: italic;
-  line-height: 1.75;
-  color: var(--color-text-light);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: var(--text-secondary);
   max-width: 420px;
-  margin: 0 0 var(--space-2xl);
+  margin-bottom: var(--space-xl);
 }
-
 .error-actions {
   display: flex;
-  align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
-
+.error-btn-primary, .error-btn-secondary {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  transition: all 0.2s;
+}
 .error-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
+  background: var(--accent);
   color: #fff;
-  background: #007ACC;
-  padding: 0.8rem 1.6rem;
-  border-radius: 50px;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
 }
-
 .error-btn-primary:hover {
-  background: #0062a3;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,122,204,0.3);
+  background: var(--accent-hover);
+  transform: translateY(-1px);
 }
-
 .error-btn-secondary {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-text-light);
-  transition: color 0.2s ease;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
-
 .error-btn-secondary:hover {
-  color: var(--color-primary);
+  border-color: var(--accent);
+  color: var(--accent);
 }
-
-/* ── Sidebar ── */
 .error-sidebar {
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  padding-top: var(--space-sm);
 }
-
-.error-aside-block {
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--color-border-light);
+.error-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  background: var(--bg);
 }
-
-.error-aside-title {
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
+.error-card-title {
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin: 0 0 var(--space-md);
+  color: var(--accent);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--border-light);
 }
-
-.error-aside-list {
+.error-card-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
 }
-
-.error-aside-list li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+.error-card-list li {
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-light);
 }
-
-.error-aside-cat {
-  font-family: var(--font-ui);
-  font-size: 0.58rem;
+.error-card-list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.error-card-cat {
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.2rem;
 }
-
-.error-aside-list a {
-  font-family: var(--font-reading);
-  font-size: 0.88rem;
+.error-card-list a {
+  font-size: 0.95rem;
   line-height: 1.4;
-  color: var(--color-text);
   text-decoration: none;
-  transition: color 0.2s ease;
+  color: var(--text-primary);
 }
-
-.error-aside-list a:hover {
-  color: var(--color-primary);
+.error-card-list a:hover {
+  color: var(--accent);
 }
-
-.error-aside-topics {
+.error-topic-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
-
-.error-topic-pill {
-  display: inline-flex;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
+.error-topic-pills a {
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 30px;
   text-decoration: none;
-  color: var(--color-text-light);
-  border: 1px solid var(--color-border);
-  padding: 0.4rem 0.9rem;
-  border-radius: 50px;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  color: var(--text-secondary);
+  transition: all 0.2s;
 }
-
-.error-topic-pill:hover {
-  background: var(--color-primary);
+.error-topic-pills a:hover {
+  background: var(--accent);
   color: #fff;
-  border-color: var(--color-primary);
+  border-color: var(--accent);
 }
-
-/* ── Responsive ── */
 @media (max-width: 680px) {
   .error-inner {
     grid-template-columns: 1fr;
     gap: var(--space-2xl);
   }
-  .error-eyebrow {
-    font-size: 5rem;
-  }
 }
 </style>
-
 {{ end }}

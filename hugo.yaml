@@ -19,13 +19,13 @@ sitemap:
   priority: 0.5
 
 params:
-  description: "Information with intention."
+  description: "context behind the viral."
   brand_name: "Veridus"
 
   # Author — site-level fallback used in single.html author bio card
   author: "Veridus Editorial"
   author_title: "Editorial Team"
-  author_bio: "Veridus is an independent publication covering Africa's ideas, politics, and future."
+  author_bio: "Veridus is an independent publication exploring the meaning behind viral events."
   author_twitter: ""        # e.g. https://twitter.com/yourhandle
   author_linkedin: ""       # e.g. https://linkedin.com/in/yourprofile
   author_email: "contact@veridus.space"
@@ -74,3 +74,6 @@ markup:
       unsafe: true
   sass:
     transpiler: dartsass
+
+
+    

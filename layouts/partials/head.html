@@ -1,135 +1,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  {{/* ── Title ── */}}
   <title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.description }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-
-  {{/* ── Canonical ── */}}
   <link rel="canonical" href="{{ .Permalink | absURL }}">
-
-  {{/* ── Feed & Sitemap Autodiscovery ── */}}
   <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} RSS Feed" href="{{ "/index.xml" | absURL }}">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="{{ "/sitemap.xml" | absURL }}">
-
-  {{/* ════════════════════════════════════════
-       META: DESCRIPTION, AUTHOR, ROBOTS
-       ════════════════════════════════════════ */}}
   {{ $metaDesc := .Description | default .Summary | default .Site.Params.description }}
   <meta name="description" content="{{ $metaDesc | truncate 160 }}">
+  {{ if .IsPage }}<meta name="author" content="{{ .Params.author | default .Site.Params.author }}">{{ end }}
+  {{ if or .Draft (gt .PublishDate now) }}<meta name="robots" content="noindex, nofollow">{{ else }}<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">{{ end }}
 
-  {{ if .IsPage }}
-    <meta name="author" content="{{ .Params.author | default .Site.Params.author }}">
-  {{ end }}
-
-  {{/* noindex drafts or future-dated pages */}}
-  {{ if or .Draft (gt .PublishDate now) }}
-    <meta name="robots" content="noindex, nofollow">
-  {{ else }}
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  {{ end }}
-
-  {{/* ════════════════════════════════════════
-       OG IMAGE — exact 1200×630 crop for social cards
-       ════════════════════════════════════════ */}}
-  {{ $ogImage    := "" }}
-  {{ $ogImageAlt := .Site.Title }}
-
+  {{ $ogImage := "" }}{{ $ogImageAlt := .Site.Title }}
   {{ if .IsPage }}
     {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-      {{ $filled    := .Fill "1200x630 Center" }}
-      {{ $ogImage    = $filled.RelPermalink | absURL }}
-      {{ $ogImageAlt = $.Title }}
+      {{ $filled := .Fill "1200x630 Center" }}
+      {{ $ogImage = $filled.RelPermalink | absURL }}{{ $ogImageAlt = $.Title }}
     {{ end }}
   {{ end }}
+  {{ if not $ogImage }}{{ if fileExists "static/images/og-default.jpg" }}{{ $ogImage = absURL "/images/og-default.jpg" }}{{ end }}{{ end }}
 
-  {{/* Site-wide fallback */}}
-  {{ if not $ogImage }}
-    {{ if fileExists "static/images/og-default.jpg" }}
-      {{ $ogImage = absURL "/images/og-default.jpg" }}
-    {{ end }}
-  {{ end }}
-
-  {{/* ════════════════════════════════════════
-       OPEN GRAPH
-       ════════════════════════════════════════ */}}
-  <meta property="og:site_name" content="{{ .Site.Title }}">
-  <meta property="og:locale"    content="en_US">
-
+  <meta property="og:site_name" content="{{ .Site.Title }}"><meta property="og:locale" content="en_US">
   {{ if .IsPage }}
-    <meta property="og:type"        content="article">
-    <meta property="og:title"       content="{{ .Title }}">
-    <meta property="og:description" content="{{ $metaDesc | truncate 200 }}">
-    <meta property="og:url"         content="{{ .Permalink | absURL }}">
-
-    {{ if $ogImage }}
-      <meta property="og:image"        content="{{ $ogImage }}">
-      <meta property="og:image:width"  content="1200">
-      <meta property="og:image:height" content="630">
-      <meta property="og:image:alt"    content="{{ $ogImageAlt }}">
-      <meta property="og:image:type"   content="image/jpeg">
-    {{ end }}
-
-    {{/* Article-specific OG */}}
-    <meta property="article:published_time"  content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">
-    {{ if .Lastmod }}
-      <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
-    {{ end }}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ .Title }}"><meta property="og:description" content="{{ $metaDesc | truncate 200 }}">
+    <meta property="og:url" content="{{ .Permalink | absURL }}">
+    {{ if $ogImage }}<meta property="og:image" content="{{ $ogImage }}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{{ $ogImageAlt }}"><meta property="og:image:type" content="image/jpeg">{{ end }}
+    <meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">
+    {{ if .Lastmod }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
     <meta property="article:author" content="{{ .Params.author | default .Site.Params.author }}">
-    {{ with index .Params.categories 0 }}
-      <meta property="article:section" content="{{ . | title }}">
-    {{ end }}
-    {{ range .Params.tags }}
-      <meta property="article:tag" content="{{ . }}">
-    {{ end }}
-
+    {{ with index .Params.categories 0 }}<meta property="article:section" content="{{ . | title }}">{{ end }}
+    {{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">{{ end }}
   {{ else }}
-    <meta property="og:type"        content="website">
-    <meta property="og:title"       content="{{ .Site.Title }}">
-    <meta property="og:description" content="{{ .Site.Params.description }}">
-    <meta property="og:url"         content="{{ .Permalink | absURL }}">
-    {{ if $ogImage }}
-      <meta property="og:image"        content="{{ $ogImage }}">
-      <meta property="og:image:width"  content="1200">
-      <meta property="og:image:height" content="630">
-      <meta property="og:image:alt"    content="{{ .Site.Title }}">
-    {{ end }}
+    <meta property="og:type" content="website"><meta property="og:title" content="{{ .Site.Title }}">
+    <meta property="og:description" content="{{ .Site.Params.description }}"><meta property="og:url" content="{{ .Permalink | absURL }}">
+    {{ if $ogImage }}<meta property="og:image" content="{{ $ogImage }}">{{ end }}
   {{ end }}
 
-  {{/* ════════════════════════════════════════
-       TWITTER / X CARDS
-       ════════════════════════════════════════ */}}
-  <meta name="twitter:card"        content="{{ if $ogImage }}summary_large_image{{ else }}summary{{ end }}">
-  <meta name="twitter:title"       content="{{ if .IsPage }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+  <meta name="twitter:card" content="{{ if $ogImage }}summary_large_image{{ else }}summary{{ end }}">
+  <meta name="twitter:title" content="{{ if .IsPage }}{{ .Title }}{{ else }}{{ .Site.Title }}{{ end }}">
   <meta name="twitter:description" content="{{ if .IsPage }}{{ $metaDesc | truncate 200 }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  {{ if $ogImage }}
-    <meta name="twitter:image"     content="{{ $ogImage }}">
-    <meta name="twitter:image:alt" content="{{ $ogImageAlt }}">
-  {{ end }}
-  {{/* Add twitter:site when you have a handle: twitter:site = @yourhandle */}}
-  {{ with .Site.Params.social.twitter }}
-    <meta name="twitter:site" content="@{{ . | replaceRE "^https?://(www\\.)?twitter\\.com/" "" | replaceRE "^@" "" }}">
-  {{ end }}
+  {{ if $ogImage }}<meta name="twitter:image" content="{{ $ogImage }}"><meta name="twitter:image:alt" content="{{ $ogImageAlt }}">{{ end }}
+  {{ with .Site.Params.social.twitter }}<meta name="twitter:site" content="@{{ . | replaceRE "^https?://(www\\.)?twitter\\.com/" "" | replaceRE "^@" "" }}">{{ end }}
 
-  {{/* ════════════════════════════════════════
-       JSON-LD STRUCTURED DATA
-       ════════════════════════════════════════ */}}
-
-  {{/* ── Article pages ── */}}
   {{ if .IsPage }}
-
-    {{/* Resolve all article fields */}}
-    {{ $authorName  := .Params.author    | default .Site.Params.author }}
-    {{ $category    := index .Params.categories 0 | default "" }}
+    {{ $authorName := .Params.author | default .Site.Params.author }}
+    {{ $category := index .Params.categories 0 | default "" }}
     {{ $datePublish := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}
-    {{ $dateModify  := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}
-    {{ if .Lastmod }}{{ $dateModify = .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}{{ end }}
-
-    {{/* Tags as JSON array */}}
-    {{ $keywords := slice }}
-    {{ range .Params.tags }}{{ $keywords = $keywords | append . }}{{ end }}
-    {{ range .Params.categories }}{{ $keywords = $keywords | append . }}{{ end }}
-
+    {{ $dateModify := .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}{{ if .Lastmod }}{{ $dateModify = .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}{{ end }}
+    {{ $keywords := slice }}{{ range .Params.tags }}{{ $keywords = $keywords | append . }}{{ end }}{{ range .Params.categories }}{{ $keywords = $keywords | append . }}{{ end }}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -141,21 +59,11 @@
       "wordCount": {{ .WordCount }},
       {{ if $keywords }}"keywords": {{ $keywords | jsonify }},{{ end }}
       {{ if $category }}"articleSection": {{ $category | title | jsonify }},{{ end }}
-      {{ if $ogImage }}
-      "image": {
-        "@type": "ImageObject",
-        "url": {{ $ogImage | jsonify }},
-        "width": 1200,
-        "height": 630
-      },
-      {{ end }}
+      {{ if $ogImage }} "image": { "@type": "ImageObject", "url": {{ $ogImage | jsonify }}, "width": 1200, "height": 630 },{{ end }}
       "datePublished": "{{ $datePublish }}",
       "dateModified": "{{ $dateModify }}",
       "timeRequired": "PT{{ .ReadingTime }}M",
-      "author": {
-        "@type": "Person",
-        "name": {{ $authorName | jsonify }}
-      },
+      "author": { "@type": "Person", "name": {{ $authorName | jsonify }} },
       "publisher": {
         "@type": "Organization",
         "name": {{ .Site.Title | jsonify }},
@@ -173,47 +81,22 @@
       }
     }
     </script>
-
-    {{/* BreadcrumbList — gives Google the breadcrumb trail in SERPs */}}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": {{ .Site.BaseURL | jsonify }}
-        }
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ .Site.BaseURL | jsonify }} }
         {{ if $category }},
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": {{ $category | title | jsonify }},
-          "item": {{ (printf "/categories/%s/" ($category | urlize)) | absURL | jsonify }}
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": {{ .Title | jsonify }},
-          "item": {{ .Permalink | absURL | jsonify }}
-        }
+        { "@type": "ListItem", "position": 2, "name": {{ $category | title | jsonify }}, "item": {{ (printf "/categories/%s/" ($category | urlize)) | absURL | jsonify }} },
+        { "@type": "ListItem", "position": 3, "name": {{ .Title | jsonify }}, "item": {{ .Permalink | absURL | jsonify }} }
         {{ else }},
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": {{ .Title | jsonify }},
-          "item": {{ .Permalink | absURL | jsonify }}
-        }
+        { "@type": "ListItem", "position": 2, "name": {{ .Title | jsonify }}, "item": {{ .Permalink | absURL | jsonify }} }
         {{ end }}
       ]
     }
     </script>
-
   {{ else if .IsHome }}
-
-    {{/* WebSite — enables Google Sitelinks Search Box */}}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -232,8 +115,12 @@
       }
     }
     </script>
-
-    {{/* Organization — social profiles, contact, logo */}}
+    {{ $sameAs := slice }}
+    {{ with .Site.Params.social.twitter }}{{ $sameAs = $sameAs | append . }}{{ end }}
+    {{ with .Site.Params.social.facebook }}{{ $sameAs = $sameAs | append . }}{{ end }}
+    {{ with .Site.Params.social.linkedin }}{{ $sameAs = $sameAs | append . }}{{ end }}
+    {{ with .Site.Params.social.instagram }}{{ $sameAs = $sameAs | append . }}{{ end }}
+    {{ with .Site.Params.social.youtube }}{{ $sameAs = $sameAs | append . }}{{ end }}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -252,21 +139,10 @@
         "email": {{ .Site.Params.author_email | default "contact@veridus.space" | jsonify }},
         "contactType": "editorial"
       },
-      "sameAs": [
-        {{ $sameAs := slice }}
-        {{ with .Site.Params.social.twitter }}{{ $sameAs = $sameAs | append . }}{{ end }}
-        {{ with .Site.Params.social.facebook }}{{ $sameAs = $sameAs | append . }}{{ end }}
-        {{ with .Site.Params.social.linkedin }}{{ $sameAs = $sameAs | append . }}{{ end }}
-        {{ with .Site.Params.social.instagram }}{{ $sameAs = $sameAs | append . }}{{ end }}
-        {{ with .Site.Params.social.youtube }}{{ $sameAs = $sameAs | append . }}{{ end }}
-        {{ range $i, $url := $sameAs }}{{ if $i }},{{ end }}{{ $url | jsonify }}{{ end }}
-      ]
+      "sameAs": [{{ range $i, $url := $sameAs }}{{ if $i }},{{ end }}{{ $url | jsonify }}{{ end }}]
     }
     </script>
-
   {{ else if .IsSection }}
-
-    {{/* Section pages (News, Opinion, Lifestyle) */}}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -282,97 +158,40 @@
       }
     }
     </script>
-
   {{ end }}
 
-  {{/* ════════════════════════════════════════
-       BLOCKING THEME SCRIPT
-       Prevents white flash on page load
-       ════════════════════════════════════════ */}}
   <script>
     (function() {
-      var k = 'veridus-theme';
-      var t = localStorage.getItem(k);
-      if (t) {
-        document.documentElement.setAttribute('data-theme', t);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
+      var k='veridus-theme', t=localStorage.getItem(k);
+      if(t) document.documentElement.setAttribute('data-theme', t);
+      else if(window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
     })();
   </script>
 
-  {{/* ── SCSS Pipeline ── */}}
-  {{/* Updated to use dartsass to fix deprecation warning */}}
-  {{ $opts := dict 
-      "transpiler" "dartsass" 
-      "targetPath" "css/style.css" 
-      "outputStyle" "compressed"
-      "silenceDeprecations" (slice "import" "color-functions" "global-builtin")
-  }}
+  {{ $opts := dict "transpiler" "dartsass" "targetPath" "css/style.css" "outputStyle" "compressed" "silenceDeprecations" (slice "import" "color-functions" "global-builtin") }}
   {{ with resources.Get "scss/main.scss" }}
     {{ $style := . | css.Sass $opts | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
   {{ end }}
 
-  {{/* ── Google Fonts ── */}}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Self-hosted fonts only – no Google Fonts -->
 
-  {{/* ── Favicons ── */}}
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  {{/* ── Google Analytics — production only ── */}}
   {{ if and (not hugo.IsServer) .Site.Params.analytics_id }}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.analytics_id }}"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '{{ .Site.Params.analytics_id }}');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ .Site.Params.analytics_id }}');</script>
   {{ end }}
 
-  {{/* ── Print Stylesheet ── */}}
   <style media="print">
-    .site-header, .site-footer, .footer-newsletter-banner,
-    #reading-progress, #reading-time-indicator, #back-to-top,
-    .sticky-bar, .mobile-menu, .menu-overlay,
-    .article-share, .article-newsletter, .article-nav,
-    .related-articles, .author-bio-card-socials,
-    .skip-link, nav, .breadcrumb { display: none !important; }
-
-    body { background: #fff; color: #000; font-size: 12pt; }
-    .article-container { max-width: 100%; padding: 0; margin: 0; }
-    .single-article { padding: 0; }
-
-    .article-title { font-size: 22pt; line-height: 1.2; margin-bottom: 0.5rem; }
-    .article-meta { font-size: 9pt; color: #555; margin-bottom: 1.5rem; border-bottom: 1pt solid #ccc; padding-bottom: 0.5rem; }
-    .article-content { font-size: 11pt; line-height: 1.8; }
-    .article-content h2 { font-size: 15pt; margin-top: 1.5rem; }
-    .article-content h3 { font-size: 13pt; }
-    .article-content p { orphans: 3; widows: 3; }
-    .article-content img { max-width: 100%; page-break-inside: avoid; }
-    .article-content a::after { content: " (" attr(href) ")"; font-size: 9pt; color: #555; }
-    .article-content a[href^="#"]::after,
-    .article-content a[href^="mailto"]::after { content: ""; }
-
-    .author-bio-card { border-top: 1pt solid #ccc; margin-top: 1.5rem; padding-top: 1rem; }
-    .author-bio-card-photo { display: none; }
-
-    .article-container::after {
-      content: "Veridus — veridus.space — Printed " attr(data-date);
-      display: block;
-      margin-top: 2rem;
-      font-size: 8pt;
-      color: #888;
-      border-top: 1pt solid #eee;
-      padding-top: 0.5rem;
-    }
+    .site-header,.site-footer,.footer-newsletter-banner,#reading-progress,#reading-time-indicator,#back-to-top,.sticky-bar,.mobile-menu,.menu-overlay,.article-share,.article-newsletter,.article-nav,.related-articles,.author-bio-card-socials,.skip-link,nav,.breadcrumb{display:none!important}
+    body{background:#fff;color:#000;font-size:12pt}.article-container{max-width:100%;padding:0;margin:0}.single-article{padding:0}
+    .article-title{font-size:22pt;line-height:1.2;margin-bottom:.5rem}.article-meta{font-size:9pt;color:#555;margin-bottom:1.5rem;border-bottom:1pt solid #ccc;padding-bottom:.5rem}
+    .article-content{font-size:11pt;line-height:1.8}.article-content h2{font-size:15pt;margin-top:1.5rem}.article-content h3{font-size:13pt}
+    .article-content p{orphans:3;widows:3}.article-content img{max-width:100%;page-break-inside:avoid}
+    .article-content a::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+    .article-content a[href^="#"]::after,.article-content a[href^="mailto"]::after{content:""}
+    .author-bio-card{border-top:1pt solid #ccc;margin-top:1.5rem;padding-top:1rem}.author-bio-card-photo{display:none}
+    .article-container::after{content:"Veridus — veridus.space — Printed " attr(data-date);display:block;margin-top:2rem;font-size:8pt;color:#888;border-top:1pt solid #eee;padding-top:.5pt}
   </style>
-
 </head>

@@ -1,380 +1,60 @@
 {{ define "main" }}
 <div class="search-page">
-  <div class="search-page-inner">
-
-    {{/* ── Page Header ── */}}
-    <header class="search-header">
-      <p class="search-eyebrow">Veridus</p>
-      <h1 class="search-title">Search</h1>
+  <div class="search-container">
+    <div class="search-header">
+      <h1>Search</h1>
       <p class="search-subtitle">Find articles across news, opinion, and lifestyle.</p>
-    </header>
+    </div>
 
-    {{/* ── Search Form ── */}}
-    <div class="search-form-wrap">
-      <form id="search-form" role="search" autocomplete="off">
-        <div class="search-field">
-          <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input
-            type="search"
-            id="search-input"
-            class="search-field-input"
-            placeholder="Search articles…"
-            aria-label="Search articles"
-            autocomplete="off"
-            spellcheck="false">
-          <button type="button" id="search-clear" class="search-field-clear" aria-label="Clear search" hidden>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
+    <div class="search-card">
+      <div class="search-form-wrap">
+        <form id="search-form" role="search" autocomplete="off">
+          <div class="search-field">
+            <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
             </svg>
-          </button>
-        </div>
-      </form>
+            <input
+              type="search"
+              id="search-input"
+              class="search-field-input"
+              placeholder="Search articles…"
+              aria-label="Search articles"
+              autocomplete="off"
+            >
+            <button type="button" id="search-clear" class="search-field-clear" aria-label="Clear search" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="search-status" class="search-status" aria-live="polite"></div>
+      <div id="search-placeholder" class="search-placeholder">
+        <p class="search-placeholder-hint">Start typing to search all articles.</p>
+      </div>
+      <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results"></div>
     </div>
-
-    {{/* ── Status / Results ── */}}
-    <div id="search-status" class="search-status" aria-live="polite"></div>
-
-    {{/* ── Placeholder ── */}}
-    <div id="search-placeholder" class="search-placeholder">
-      <p class="search-placeholder-hint">Start typing to search all articles.</p>
-    </div>
-
-    {{/* ── Results list ── */}}
-    <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results"></div>
-
   </div>
 </div>
 
-<style>
-/* ════════════════════════════════════════════
-   SEARCH PAGE
-   ════════════════════════════════════════════ */
-
-.search-page {
-  padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
-}
-
-.search-page-inner {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 0 var(--space-xl);
-}
-
-/* ── Header ── */
-.search-header {
-  padding-bottom: var(--space-xl);
-  margin-bottom: var(--space-2xl);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.search-eyebrow {
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin: 0 0 0.5rem;
-}
-
-.search-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 400;
-  color: var(--color-text);
-  margin: 0 0 0.5rem;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-
-.search-subtitle {
-  font-family: var(--font-reading);
-  font-size: 1rem;
-  font-style: italic;
-  color: var(--color-text-light);
-  margin: 0;
-  line-height: 1.65;
-}
-
-/* ── Search Field ── */
-.search-form-wrap {
-  margin-bottom: var(--space-2xl);
-  position: relative;
-}
-
-/* Animated underline bar */
-.search-form-wrap::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--color-primary);
-  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.search-form-wrap:focus-within::after {
-  width: 100%;
-}
-
-.search-field {
-  position: relative;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0;
-}
-
-.search-field-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  color: var(--color-text-lighter);
-  pointer-events: none;
-  transition: color 0.25s ease;
-  margin-right: 0.9rem;
-}
-
-.search-field:focus-within .search-field-icon {
-  color: var(--color-primary);
-}
-
-.search-field-input {
-  flex: 1;
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 3vw, 2rem);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 0.65rem 2.5rem 0.65rem 0;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  caret-color: var(--color-primary);
-}
-
-.search-field-input::placeholder {
-  color: var(--color-border);
-  font-style: italic;
-}
-
-.search-field-input:focus {
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Remove browser search clear button */
-.search-field-input::-webkit-search-cancel-button,
-.search-field-input::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-.search-field-clear {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text-lighter);
-  border-radius: 50%;
-  transition: color 0.2s ease, background 0.2s ease;
-  padding: 0;
-  margin-left: 0.5rem;
-}
-
-.search-field-clear:hover {
-  color: var(--color-text);
-  background: var(--color-border-light);
-}
-
-.search-field-clear svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* ── Status line ── */
-.search-status {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: var(--space-lg);
-  min-height: 1.2em;
-}
-
-.search-status strong {
-  color: var(--color-text);
-  font-weight: 700;
-}
-
-/* ── Placeholder ── */
-.search-placeholder {
-  padding: var(--space-3xl) 0;
-  text-align: center;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.search-placeholder-hint {
-  font-family: var(--font-reading);
-  font-size: 0.95rem;
-  font-style: italic;
-  color: var(--color-text-lighter);
-  margin: 0;
-}
-
-/* ── Results ── */
-.search-results {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Single result ── */
-.search-result {
-  padding: var(--space-xl) 0;
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.search-result:first-child {
-  border-top: 1px solid var(--color-border-light);
-}
-
-.search-result-cat {
-  font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  display: block;
-  margin-bottom: 0.35rem;
-}
-
-.search-result-title {
-  font-family: var(--font-card);
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  font-weight: 700;
-  line-height: 1.25;
-  margin: 0 0 0.5rem;
-  letter-spacing: -0.01em;
-}
-
-.search-result-title a {
-  color: var(--color-text);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.search-result-title a:hover {
-  color: var(--color-primary);
-}
-
-.search-result-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: 0.55rem;
-}
-
-.search-result-dot {
-  opacity: 0.3;
-  font-size: 0.5rem;
-}
-
-.search-result-summary {
-  font-family: var(--font-reading);
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--color-text-light);
-  margin: 0;
-}
-
-/* Highlight matched text */
-.search-result-title mark,
-.search-result-summary mark {
-  background: rgba(0, 122, 204, 0.15);
-  color: var(--color-text);
-  border-radius: 2px;
-  padding: 0 0.1em;
-}
-
-[data-theme="dark"] .search-result-title mark,
-[data-theme="dark"] .search-result-summary mark {
-  background: rgba(125, 211, 252, 0.18);
-  color: var(--color-text);
-}
-
-/* ── No results ── */
-.search-no-results {
-  padding: var(--space-3xl) 0;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.search-no-results p {
-  font-family: var(--font-reading);
-  font-size: 0.95rem;
-  color: var(--color-text-light);
-  margin: 0 0 var(--space-sm);
-}
-
-.search-no-results p:first-child {
-  font-size: 1rem;
-  color: var(--color-text);
-}
-
-.search-no-results a {
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 600px) {
-  .search-page-inner {
-    padding: 0 var(--space-lg);
-  }
-  .search-result-meta {
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-}
-</style>
-
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
 <script>
-(function () {
-  const input       = document.getElementById('search-input');
-  const clearBtn    = document.getElementById('search-clear');
-  const statusEl    = document.getElementById('search-status');
+(function() {
+  const input = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const statusEl = document.getElementById('search-status');
   const placeholder = document.getElementById('search-placeholder');
-  const resultsEl   = document.getElementById('search-results');
-
+  const resultsEl = document.getElementById('search-results');
   let fuse = null;
 
-  /* ── Initialise ── */
   async function init() {
     try {
       const res = await fetch('/index.json');
-      if (!res.ok) throw new Error('index not found');
+      if (!res.ok) throw new Error('Index not found');
       const data = await res.json();
       fuse = new Fuse(data, {
         keys: ['title', 'summary', 'content', 'categories'],
@@ -382,88 +62,85 @@
         ignoreLocation: true,
         minMatchCharLength: 2
       });
-    } catch (e) {
-      console.error('Search init failed:', e);
+    } catch (err) {
+      console.error('Search init failed:', err);
+      statusEl.textContent = 'Search index not available. Please try again later.';
     }
   }
 
-  /* ── Escape HTML ── */
-  function esc(str) {
-    const d = document.createElement('div');
-    d.textContent = str || '';
-    return d.innerHTML;
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
   }
 
-  /* ── Highlight matches ── */
   function highlight(text, query) {
     if (!text) return '';
-    const safe = text.length > 160 ? text.slice(0, 160) + '…' : text;
+    const safe = text.length > 240 ? text.slice(0, 240) + '…' : text;
     const words = query.trim().split(/\s+/).filter(Boolean);
-    if (!words.length) return esc(safe);
-    const rx = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
-    return esc(safe).replace(rx, '<mark>$1</mark>');
+    if (!words.length) return escapeHtml(safe);
+    const regex = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+    return escapeHtml(safe).replace(regex, '<mark>$1</mark>');
   }
 
-  /* ── Format date ── */
-  function fmt(dateStr) {
-    if (!dateStr) return '';
-    return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
   }
 
-  /* ── Render ── */
   function render(query) {
     const q = query.trim();
 
     if (q.length < 2) {
       resultsEl.innerHTML = '';
-      statusEl.innerHTML  = '';
-      placeholder.hidden  = false;
-      clearBtn.hidden     = q.length === 0;
+      statusEl.innerHTML = '';
+      placeholder.hidden = false;
+      clearBtn.hidden = (q.length === 0);
       return;
     }
 
     placeholder.hidden = true;
-    clearBtn.hidden    = false;
+    clearBtn.hidden = false;
 
     if (!fuse) {
-      statusEl.textContent = 'Search unavailable — please try again shortly.';
+      statusEl.textContent = 'Loading search…';
       return;
     }
 
     const results = fuse.search(q).slice(0, 20);
 
-    /* Status */
     statusEl.innerHTML = results.length
-      ? `<strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for &ldquo;${esc(q)}&rdquo;`
-      : '';
+      ? `<strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "${escapeHtml(q)}"`
+      : 'No results.';
 
     if (!results.length) {
       resultsEl.innerHTML = `
         <div class="search-no-results">
-          <p>No articles found for &ldquo;<strong>${esc(q)}</strong>&rdquo;</p>
+          <p>No articles found for "<strong>${escapeHtml(q)}</strong>".</p>
           <p>Try different keywords, or browse the <a href="/archive/">archive</a>.</p>
         </div>`;
       return;
     }
 
     resultsEl.innerHTML = results.map(({ item }) => {
-      const cat = item.categories && item.categories[0] ? item.categories[0] : (item.section || '');
+      const cat = (item.categories && item.categories[0]) ? item.categories[0] : '';
       return `
         <article class="search-result">
-          ${cat ? `<span class="search-result-cat">${esc(cat)}</span>` : ''}
+          ${cat ? `<span class="search-result-cat">${escapeHtml(cat)}</span>` : ''}
           <h2 class="search-result-title">
-            <a href="${esc(item.url)}">${highlight(item.title, q)}</a>
+            <a href="${escapeHtml(item.url)}">${highlight(item.title, q)}</a>
           </h2>
           <div class="search-result-meta">
-            ${item.date ? `<time datetime="${esc(item.date)}">${fmt(item.date)}</time>` : ''}
-            ${item.readingTime ? `<span class="search-result-dot">·</span><span>${item.readingTime} min read</span>` : ''}
+            ${item.date ? `<time datetime="${escapeHtml(item.date)}">${formatDate(item.date)}</time>` : ''}
+            ${item.readingTime ? `<span>· ${item.readingTime} min read</span>` : ''}
           </div>
           ${item.summary ? `<p class="search-result-summary">${highlight(item.summary, q)}</p>` : ''}
-        </article>`;
+        </article>
+      `;
     }).join('');
   }
 
-  /* ── Events ── */
   input.addEventListener('input', () => render(input.value));
 
   clearBtn.addEventListener('click', () => {
@@ -478,11 +155,10 @@
     if (first) first.focus();
   });
 
-  /* ── URL query support: /search/?q=something ── */
   window.addEventListener('DOMContentLoaded', () => {
     init().then(() => {
       const params = new URLSearchParams(window.location.search);
-      const q = params.get('q') || '';
+      const q = params.get('q');
       if (q) {
         input.value = q;
         render(q);
@@ -492,4 +168,188 @@
 })();
 </script>
 
+<style>
+/* Unified design – matches contact/donate pages (eyebrow removed) */
+.search-page {
+  background: var(--bg);
+  padding: 3rem 1.5rem;
+}
+.search-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.search-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.search-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 800;
+  margin: 0.5rem 0 0.25rem;
+}
+.search-subtitle {
+  font-family: var(--font-reading);
+  font-size: var(--step-0);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.search-card {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid var(--border-light);
+}
+.search-form-wrap {
+  margin-bottom: 1.5rem;
+}
+.search-field {
+  display: flex;
+  align-items: baseline;
+  border-bottom: 2px solid var(--border);
+  transition: border-color 0.2s;
+}
+.search-field:focus-within {
+  border-bottom-color: var(--accent);
+}
+.search-field-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--text-muted);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+.search-field-input {
+  flex: 1;
+  font-family: var(--font-ui);
+  font-size: 1.2rem;
+  background: transparent;
+  border: none;
+  padding: 0.6rem 0.5rem 0.6rem 0;
+  outline: none;
+  color: var(--text-primary);
+}
+.search-field-input::placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+}
+.search-field-clear {
+  background: none;
+  border: none;
+  padding: 0 0.3rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+.search-field-clear svg {
+  width: 18px;
+  height: 18px;
+}
+.search-field-clear:hover {
+  color: var(--text-primary);
+}
+.search-status {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  min-height: 1.2em;
+}
+.search-placeholder {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border-light);
+}
+.search-placeholder-hint {
+  font-family: var(--font-reading);
+  font-size: var(--step-0);
+  font-style: italic;
+  color: var(--text-muted);
+}
+.search-results {
+  margin-top: 1rem;
+}
+.search-result {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.search-result:last-child {
+  border-bottom: none;
+}
+.search-result-cat {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.search-result-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0.3rem;
+}
+.search-result-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.search-result-title a:hover {
+  color: var(--accent);
+}
+.search-result-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.search-result-summary {
+  font-family: var(--font-reading);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.search-result-title mark,
+.search-result-summary mark {
+  background: rgba(var(--accent-rgb), 0.13);
+  border-radius: 2px;
+  padding: 0 2px;
+  color: var(--text-primary);
+}
+[data-theme="dark"] .search-result-title mark,
+[data-theme="dark"] .search-result-summary mark {
+  background: rgba(var(--accent-rgb), 0.28);
+}
+.search-no-results {
+  text-align: center;
+  padding: 2rem 0;
+  font-family: var(--font-reading);
+  font-size: var(--step-0);
+  color: var(--text-secondary);
+}
+.search-no-results a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+@media (max-width: 600px) {
+  .search-card {
+    padding: 1.5rem;
+  }
+  .search-result-title {
+    font-size: 1.2rem;
+  }
+}
+</style>
 {{ end }}

@@ -1,312 +1,238 @@
 {{ define "main" }}
-
-{{/* ── Category metadata ── */}}
 {{ $categoryMeta := dict
-  "news"       "What is happening, reported clearly and without noise."
-  "opinion"    "Ideas worth arguing about. Perspectives that take a position."
-  "lifestyle"  "Ordinary life, taken seriously."
-  "politics"   "Power, governance, and the forces that shape our world."
-  "business"   "Markets, economies, and the people driving global commerce."
+  "news"      "What is happening, reported clearly and without noise."
+  "opinion"   "Ideas worth arguing about. Perspectives that take a position."
+  "lifestyle" "Ordinary life, taken seriously."
+  "politics"  "Power, governance, and the forces that shape our world."
+  "business"  "Markets, economies, and the people driving global commerce."
   "global-affairs" "International relations, diplomacy, and the forces shaping our world order."
-  "sports"         "Football, athletics, and the games that move the world."
-  "climate"        "The defining challenge of our time — what is happening, and what comes next."
-  "africa"     "Stories from the continent, told on Africa's own terms."
+  "sports"    "Football, athletics, and the games that move the world."
+  "climate"   "The defining challenge of our time — what is happening, and what comes next."
+  "africa"    "Stories from the continent, told on Africa's own terms."
 }}
-
 {{ $slug := .Title | urlize }}
 {{ $desc := index $categoryMeta $slug }}
 
-<div class="list-page">
-
-  {{/* ── Category Header ── */}}
-  <div class="list-header">
-    <div class="list-header-inner article-container">
-      <div class="list-header-left">
-        <p class="list-eyebrow">Category</p>
-        <h1 class="list-title">{{ .Title }}</h1>
-        {{ if $desc }}
-          <p class="list-desc">{{ $desc }}</p>
-        {{ else if .Content }}
-          <div class="list-desc">{{ .Content }}</div>
-        {{ end }}
-      </div>
-
-    </div>
-  </div>
-
-  {{/* ── Article List ── */}}
-  <div class="article-container">
-    <div class="list-items">
-      {{ range .Paginator.Pages }}
-
-        {{ $hasImage := and .Params.feature_image .Params.show_image_homepage }}
-        {{ $img := "" }}
-        {{ if $hasImage }}
-          {{ with .Resources.GetMatch .Params.feature_image }}
-            {{ $img = (.Resize "800x").RelPermalink }}
-          {{ else }}
-          {{ end }}
-        {{ end }}
-
-        <article class="list-item{{ if $img }} has-image{{ end }}">
-
-          <div class="list-item-body">
-            {{ if .Params.categories }}
-              <span class="list-item-cat">{{ index .Params.categories 0 }}</span>
-            {{ end }}
-
-            <h2 class="list-item-title">
-              <a href="{{ .Permalink }}">{{ .Title }}</a>
-            </h2>
-
-            <p class="list-item-excerpt">{{ .Summary | truncate 180 }}</p>
-
-            <div class="list-item-meta">
-              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-              <span class="list-item-dot">·</span>
-              <span>{{ .ReadingTime }} min read</span>
-            </div>
-          </div>
-
-          {{ if $img }}
-            <a href="{{ .Permalink }}" class="list-item-image-wrap" tabindex="-1" aria-hidden="true">
-              <img src="{{ $img }}" alt="{{ .Title }}" loading="lazy">
-            </a>
-          {{ end }}
-
-        </article>
-
+<div class="category-list-page">
+  <header class="category-header">
+    <div class="category-header-inner">
+      <div class="category-eyebrow">{{ now.Format "Monday, January 2, 2006" }}</div>
+      <h1 class="category-title">{{ .Title }}</h1>
+      {{ if $desc }}
+        <p class="category-desc">{{ $desc }}</p>
+      {{ else if .Content }}
+        <div class="category-desc">{{ .Content }}</div>
       {{ end }}
     </div>
+  </header>
 
-    {{ if gt .Paginator.TotalPages 1 }}
-      <nav class="list-pagination" aria-label="Page navigation">
-        {{ if .Paginator.HasPrev }}
-          <a href="{{ .Paginator.Prev.URL }}" class="page-link">← Newer</a>
+  <div class="category-articles-grid">
+    {{ range .Paginator.Pages }}
+      <article class="category-item-simple">
+        {{ with index .Params.categories 0 }}
+          <span class="category-item-cat">{{ . }}</span>
         {{ end }}
-        <span class="page-info">{{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}</span>
-        {{ if .Paginator.HasNext }}
-          <a href="{{ .Paginator.Next.URL }}" class="page-link">Older →</a>
-        {{ end }}
-      </nav>
+        <h2 class="category-item-title">
+          <a href="{{ .Permalink }}">{{ .Title }}</a>
+        </h2>
+        <div class="category-item-meta">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+          <span class="category-item-dot">·</span>
+          <span>{{ .ReadingTime }} min read</span>
+          {{ with .Params.author }}<span class="category-item-author">· {{ . }}</span>{{ end }}
+        </div>
+      </article>
     {{ end }}
   </div>
 
+  {{ if gt .Paginator.TotalPages 1 }}
+  <nav class="category-pagination" aria-label="Page navigation">
+    <div class="pagination-inner">
+      {{ if .Paginator.HasPrev }}
+        <a href="{{ .Paginator.Prev.URL }}" class="page-link page-prev">← Newer</a>
+      {{ end }}
+      <span class="page-info">Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}</span>
+      {{ if .Paginator.HasNext }}
+        <a href="{{ .Paginator.Next.URL }}" class="page-link page-next">Older →</a>
+      {{ end }}
+    </div>
+  </nav>
+  {{ end }}
 </div>
 
 <style>
-/* ════════════════════════════════════════════
-   CATEGORY LIST PAGE — Editorial
-   ════════════════════════════════════════════ */
-
-.list-page {
-  padding-bottom: var(--space-3xl);
+/* Simplified category grid – only headings, no images/summaries */
+.category-list-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
 }
-
-/* ── Header ── */
-.list-header {
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-2xl) 0 var(--space-xl);
-  margin-bottom: var(--space-2xl);
+.category-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  border-bottom: 2px double var(--border);
+  padding-bottom: 1.5rem;
 }
-
-.list-header-inner {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-xl);
-}
-
-.list-eyebrow {
+.category-eyebrow {
   font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-primary);
-  margin: 0 0 0.5rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
 }
-
-.list-title {
+.category-title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 400;
-  color: var(--color-text);
-  margin: 0 0 0.65rem;
-  line-height: 1.05;
-  text-transform: capitalize;
-  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
 }
-
-.list-desc {
+.category-desc {
   font-family: var(--font-reading);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  color: var(--text-muted);
   font-style: italic;
-  color: var(--color-text-light);
-  margin: 0;
-  line-height: 1.65;
-  max-width: 480px;
+  max-width: 600px;
+  margin: 0 auto;
 }
-
-/* ── Items ── */
-.list-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.list-item {
+.category-articles-grid {
   display: grid;
   grid-template-columns: 1fr;
-  padding: var(--space-lg) 0;
-  border-bottom: 1px solid var(--color-border-light);
-  gap: var(--space-lg);
-  transition: background 0.15s ease;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
-
-.list-item.has-image {
-  grid-template-columns: 1fr 160px;
-  gap: var(--space-xl);
-  align-items: start;
+@media (min-width: 600px) {
+  .category-articles-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .category-articles-grid > *:nth-child(odd) {
+    border-right: 1px solid var(--border);
+    padding-right: 1.5rem;
+  }
+  .category-articles-grid > *:nth-child(even) {
+    padding-left: 1.5rem;
+  }
 }
-
-/* Image — right-side thumbnail, fixed square crop like ProPublica */
-.list-item-image-wrap {
-  display: block;
-  overflow: hidden;
-  background: var(--color-bg-alt);
-  aspect-ratio: 1 / 1;
+@media (min-width: 900px) {
+  .category-articles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .category-articles-grid > * {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .category-articles-grid > *:not(:nth-child(3n)) {
+    border-right: 1px solid var(--border);
+    padding-right: 1.5rem;
+  }
+  .category-articles-grid > *:nth-child(3n+1) {
+    padding-left: 0;
+  }
+  .category-articles-grid > *:nth-child(3n+2),
+  .category-articles-grid > *:nth-child(3n+3) {
+    padding-left: 1.5rem;
+  }
 }
-
-.list-item-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform 0.4s ease;
+@media (min-width: 1200px) {
+  .category-articles-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .category-articles-grid > *:not(:nth-child(4n)) {
+    border-right: 1px solid var(--border);
+    padding-right: 1.5rem;
+  }
+  .category-articles-grid > *:nth-child(4n+1) {
+    padding-left: 0;
+  }
+  .category-articles-grid > *:nth-child(4n+2),
+  .category-articles-grid > *:nth-child(4n+3),
+  .category-articles-grid > *:nth-child(4n+4) {
+    padding-left: 1.5rem;
+  }
 }
-
-.list-item:hover .list-item-image-wrap img {
-  transform: scale(1.04);
+.category-item-simple {
+  padding: 0.5rem 0;
 }
-
-.list-item-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.list-item-cat {
+.category-item-cat {
   font-family: var(--font-ui);
   font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--accent);
+  display: inline-block;
+  margin-bottom: 0.35rem;
 }
-
-.list-item-title {
-  font-family: var(--font-card);
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
+.category-item-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
   font-weight: 700;
-  line-height: 1.25;
-  margin: 0;
-  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 0 0 0.3rem;
 }
-
-.list-item-title a {
-  color: var(--color-text);
+.category-item-title a {
+  color: var(--text-primary);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s;
 }
-
-.list-item-title a:hover {
-  color: var(--color-primary);
+.category-item-title a:hover {
+  color: var(--accent);
 }
-
-.list-item-excerpt {
-  font-family: var(--font-reading);
-  font-size: 0.88rem;
-  line-height: 1.65;
-  color: var(--color-text-light);
-  margin: 0;
-}
-
-.list-item-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+.category-item-meta {
   font-family: var(--font-ui);
   font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-top: 0.1rem;
-}
-
-.list-item-dot {
-  opacity: 0.3;
-  font-size: 0.5rem;
-}
-
-/* ── Pagination ── */
-.list-pagination {
+  color: var(--text-muted);
   display: flex;
-  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.category-item-dot {
+  opacity: 0.5;
+}
+.category-pagination {
+  margin-top: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.pagination-inner {
+  display: flex;
   justify-content: center;
-  gap: var(--space-xl);
-  padding: var(--space-2xl) 0;
-  border-top: 1px solid var(--color-border-light);
-  margin-top: var(--space-xl);
-}
-
-.page-link {
+  align-items: center;
+  gap: 1.5rem;
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.page-link {
   text-decoration: none;
-  color: var(--color-text-light);
-  border: 1px solid var(--color-border);
-  padding: 0.6rem 1.3rem;
-  border-radius: 50px;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  transition: all 0.2s;
 }
-
 .page-link:hover {
-  background: var(--color-primary);
+  background: var(--accent);
   color: #fff;
-  border-color: var(--color-primary);
 }
-
 .page-info {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  color: var(--color-text-lighter);
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-pill);
 }
-
-/* ── Responsive ── */
-@media (max-width: 700px) {
-  .list-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
+@media (max-width: 600px) {
+  .category-list-page {
+    padding: 1.5rem;
   }
-  .list-header-right { text-align: left; }
-  .list-item.has-image {
-    grid-template-columns: 1fr;
-  }
-  .list-item-image-wrap {
-    aspect-ratio: 16 / 9;
-    order: -1;
-  }
-  .list-item-image-wrap img {
-    width: 100%;
-    height: 100%;
+  .category-item-title {
+    font-size: 1.1rem;
   }
 }
 </style>
-
 {{ end }}

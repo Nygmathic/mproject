@@ -1,19 +1,10 @@
 {{ define "main" }}
-
-{{/* ── TOC: only render sidebar if article has actual headings ── */}}
-{{ $hasTOC := and .TableOfContents (gt (len .TableOfContents) 100) }}
-
 <article class="single-article">
   <div class="article-container">
-
-    {{/* ── Breadcrumb ── */}}
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <ol class="breadcrumb-list">
         <li><a href="/">Home</a></li>
-        {{ if .Params.categories }}
-          {{ $cat := index .Params.categories 0 }}
-          <li><a href="/categories/{{ $cat | urlize }}/">{{ $cat | title }}</a></li>
-        {{ end }}
+        {{ if .Params.categories }}{{ $cat := index .Params.categories 0 }}<li><a href="/categories/{{ $cat | urlize }}/">{{ $cat | title }}</a></li>{{ end }}
         <li class="breadcrumb-current" aria-current="page">{{ .Title | truncate 60 }}</li>
       </ol>
     </nav>
@@ -22,1777 +13,276 @@
       <div class="article-meta-top">
         {{ if .Params.categories }}
           <div class="article-categories">
-            {{ range .Params.categories }}
-              <a href="/categories/{{ . | urlize }}/" class="category-badge">{{ . }}</a>
-            {{ end }}
+            {{ range .Params.categories }}<a href="/categories/{{ . | urlize }}/" class="category-badge">{{ . }}</a>{{ end }}
           </div>
         {{ end }}
       </div>
-
       <h1 class="article-title">{{ .Title }}</h1>
-
-      {{/* Optional subtitle from front matter: subtitle: "..." */}}
-      {{ with .Params.subtitle }}
-        <p class="article-subtitle">{{ . }}</p>
-      {{ end }}
-
+      {{ with .Params.subtitle }}<p class="article-subtitle">{{ . }}</p>{{ end }}
       <div class="article-meta">
         <span class="article-date">{{ .Date.Format "January 2, 2006" }}</span>
         <span class="article-reading-time">{{ .ReadingTime }} min read</span>
+        {{ with .Params.author }}<span class="article-author">· {{ . }}</span>{{ end }}
       </div>
     </header>
-
   </div>
 
-  {{/* ── Featured Image with optional caption ── */}}
+  {{/* Feature image - only shown if exists */}}
+  {{ $hasFeatureImage := false }}
   {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+    {{ $hasFeatureImage = true }}
     {{ $resized := .Resize "1200x" }}
     <figure class="article-featured-image">
-      <img src="{{ $resized.RelPermalink }}"
-           alt="{{ $.Title }}"
-           loading="eager"
-           fetchpriority="high"
-           decoding="sync"
-           width="{{ $resized.Width }}"
-           height="{{ $resized.Height }}">
-      {{ with $.Params.feature_caption }}
-        <figcaption class="article-featured-caption">{{ . }}</figcaption>
-      {{ end }}
+      <img src="{{ $resized.RelPermalink }}" alt="{{ $.Title }}" loading="eager" fetchpriority="high" width="{{ $resized.Width }}" height="{{ $resized.Height }}">
+      {{ with $.Params.feature_caption }}<figcaption class="article-featured-caption">{{ . }}</figcaption>{{ end }}
     </figure>
   {{ end }}
 
+  {{/* No feature image — use per-category image or fallback icon */}}
+  {{ if not $hasFeatureImage }}
+    {{ $cat := index .Params.categories 0 | default "essay" }}
+    {{ $catLower := $cat | lower }}
+    {{ $catImagePath := printf "images/categories/%s.jpg" $catLower }}
+    {{ $catImageRes := resources.Get $catImagePath }}
+    {{ if $catImageRes }}
+      {{ $catImg := $catImageRes.Resize "1200x630 Center" }}
+      <figure class="article-featured-image article-category-image">
+        <img src="{{ $catImg.RelPermalink }}" alt="{{ $cat }}" loading="eager" fetchpriority="high" width="{{ $catImg.Width }}" height="{{ $catImg.Height }}">
+        <figcaption class="article-category-caption"><span class="acc-cat">{{ $cat }}</span></figcaption>
+      </figure>
+    {{ else }}
+      <div class="article-no-image-banner" data-cat="{{ $catLower }}">
+        <div class="anib-inner">
+          <div class="anib-icon-wrap" aria-hidden="true">{{ partial "cat-icon.html" (dict "cat" $catLower "class" "anib-icon") }}</div>
+          <span class="anib-cat-label">{{ $cat }}</span>
+        </div>
+      </div>
+    {{ end }}
+  {{ end }}
+
   <div class="article-container">
-
-    {{/* ── Mobile TOC (collapsible) ── */}}
-    {{ if $hasTOC }}
-    <div class="article-toc-mobile" id="toc-mobile">
-      <button class="toc-mobile-toggle" id="toc-mobile-toggle" aria-expanded="false" aria-controls="toc-mobile-body">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="15" y2="12"/>
-          <line x1="3" y1="18" x2="18" y2="18"/>
-        </svg>
-        <span class="toc-mobile-label">In this article</span>
-        <svg class="toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </button>
-      <div class="toc-mobile-body" id="toc-mobile-body" hidden>
-        {{ .TableOfContents }}
-      </div>
-    </div>
-    {{ end }}
-
-    {{/* ── Desktop TOC — floats in the right margin, never touches article width ── */}}
-    {{ if $hasTOC }}
-    <aside class="article-toc-sidebar" id="article-toc" aria-label="Table of contents">
-      <div class="toc-sticky">
-        <p class="toc-label">In this article</p>
-        {{ .TableOfContents }}
-        <div class="toc-progress-bar" id="toc-progress-bar"></div>
-      </div>
-    </aside>
-    {{ end }}
-
     <div class="article-content drop-cap">
       {{ .Content }}
     </div>
 
     <footer class="article-footer">
-
       <div class="article-tags">
         {{ if .Params.tags }}
           <div class="tags-list">
-            {{ range .Params.tags }}
-              <a href="/tags/{{ . | urlize }}/" class="tag-pill">#{{ . }}</a>
-            {{ end }}
+            {{ range .Params.tags }}<a href="/tags/{{ . | urlize }}/" class="tag-pill">#{{ . }}</a>{{ end }}
           </div>
         {{ end }}
       </div>
 
-      {{/* ── Share Buttons ── */}}
       <div class="article-share">
         <span class="article-share-label">Share this article</span>
         <div class="share-container">
-
-          <button class="share-trigger" id="share-trigger" aria-expanded="false" aria-label="Share this article"
-                  data-url="{{ .Permalink | absURL }}" data-title="{{ .Title }}">
+          <button class="share-trigger" id="share-trigger" aria-expanded="false" data-url="{{ .Permalink | absURL }}" data-title="{{ .Title }}">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
             <span class="share-trigger-label">Share</span>
           </button>
-
           <div class="share-icons" id="share-icons" aria-hidden="true">
-            <a class="share-icon share-icon-x"
-               href="https://twitter.com/intent/tweet?url={{ .Permalink | absURL }}&text={{ .Title | urlquery }}"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on X" title="Share on X">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <a class="share-icon share-icon-x" href="https://twitter.com/intent/tweet?url={{ .Permalink | absURL }}&text={{ .Title | urlquery }}" target="_blank" rel="noopener" aria-label="Share on X">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg>
             </a>
-            <a class="share-icon share-icon-whatsapp"
-               href="https://wa.me/?text={{ .Title | urlquery }}%20{{ .Permalink | absURL }}"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp" title="Share on WhatsApp">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <a class="share-icon share-icon-whatsapp" href="https://wa.me/?text={{ .Title | urlquery }}%20{{ .Permalink | absURL }}" target="_blank" rel="noopener" aria-label="Share on WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
             </a>
-            <a class="share-icon share-icon-facebook"
-               href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" title="Share on Facebook">
+            <a class="share-icon share-icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | absURL }}" target="_blank" rel="noopener" aria-label="Share on Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
-            <a class="share-icon share-icon-linkedin"
-               href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}"
-               target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" title="Share on LinkedIn">
+            <a class="share-icon share-icon-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | absURL }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <button class="share-icon share-icon-copy" id="copy-link-btn"
-                    data-url="{{ .Permalink | absURL }}" aria-label="Copy link" title="Copy link">
+            <button class="share-icon share-icon-copy" id="copy-link-btn" data-url="{{ .Permalink | absURL }}" aria-label="Copy link">
               <svg class="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
               <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
           </div>
         </div>
       </div>
-
     </footer>
-
   </div>
 
-  {{/* ── Newsletter Toast — appears at 70% scroll ── */}}
-  <div id="nl-toast" class="nl-toast" aria-live="polite" aria-atomic="true" hidden>
-
-    {{/* Decorative glow orb */}}
+  {{/* Newsletter Toast */}}
+  <div id="nl-toast" class="nl-toast" aria-live="polite" hidden>
     <div class="nl-toast-glow" aria-hidden="true"></div>
-
     <button class="nl-toast-close" id="nl-toast-close" aria-label="Dismiss">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-
     <div class="nl-toast-icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </div>
-
     <p class="nl-toast-eyebrow">Independent journalism</p>
     <p class="nl-toast-heading">If this made you think,<br>more is coming.</p>
     <p class="nl-toast-body">New pieces on Africa's ideas, politics, and future — delivered quietly, without noise.</p>
-
-    <div class="nl-toast-divider" aria-hidden="true"></div>
-
-    <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Veridus%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you."
-       class="nl-toast-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
+    <div class="nl-toast-divider"></div>
+    <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="nl-toast-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       Get new pieces by email
     </a>
-
     <p class="nl-toast-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       No platform. No tracking. Just email.
     </p>
-
   </div>
 
-  {{/* ── Author Bio Card ── */}}
-  {{ $authorName     := .Params.author          | default .Site.Params.author }}
-  {{ $authorTitle    := .Params.author_title     | default .Site.Params.author_title }}
-  {{ $authorBio      := .Params.author_bio       | default .Site.Params.author_bio }}
-  {{ $authorPhoto    := .Params.author_photo     | default .Site.Params.author_photo }}
-  {{ $authorTwitter  := .Params.author_twitter   | default .Site.Params.author_twitter }}
-  {{ $authorLinkedin := .Params.author_linkedin  | default .Site.Params.author_linkedin }}
-  {{ $authorEmail    := .Params.author_email     | default .Site.Params.author_email }}
-
+  {{/* Author Bio */}}
+  {{ $authorName := .Params.author | default .Site.Params.author }}
   {{ if $authorName }}
   <div class="author-bio-card">
-    <div class="article-container">
-      <div class="author-bio-card-inner">
-        {{ if $authorPhoto }}
-          <div class="author-bio-card-photo-wrap">
-            {{ with $.Resources.GetMatch $authorPhoto }}
-              {{ $photo := .Fill "160x160" }}
-              <img src="{{ $photo.RelPermalink }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
-            {{ else }}
-              <img src="{{ $authorPhoto }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
-            {{ end }}
-          </div>
+    <div class="author-bio-card-inner">
+      {{ with .Params.author_photo | default .Site.Params.author_photo }}
+        {{ with $.Resources.GetMatch . }}
+          {{ $photo := .Fill "160x160" }}
+          <img src="{{ $photo.RelPermalink }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
+        {{ else }}
+          <img src="{{ . }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
         {{ end }}
-        <div class="author-bio-card-body">
-          <span class="author-bio-card-label">Written by</span>
-          <h3 class="author-bio-card-name">{{ $authorName }}</h3>
-          {{ if $authorTitle }}
-            <p class="author-bio-card-title">{{ $authorTitle }}</p>
-          {{ end }}
-          {{ if $authorBio }}
-            <p class="author-bio-card-text">{{ $authorBio }}</p>
-          {{ end }}
-          {{ if or $authorTwitter $authorLinkedin $authorEmail }}
-          <div class="author-bio-card-socials">
-            {{ if $authorTwitter }}
-              <a href="{{ $authorTwitter }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              </a>
-            {{ end }}
-            {{ if $authorLinkedin }}
-              <a href="{{ $authorLinkedin }}" class="author-social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-              </a>
-            {{ end }}
-            {{ if $authorEmail }}
-              <a href="mailto:{{ $authorEmail }}" class="author-social-icon" aria-label="Email" title="Email">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </a>
-            {{ end }}
-          </div>
-          {{ end }}
+      {{ end }}
+      <div class="author-bio-card-body">
+        <span class="author-bio-card-label">Written by</span>
+        <h3 class="author-bio-card-name">{{ $authorName }}</h3>
+        {{ with .Params.author_title | default .Site.Params.author_title }}<p class="author-bio-card-title">{{ . }}</p>{{ end }}
+        {{ with .Params.author_bio | default .Site.Params.author_bio }}<p class="author-bio-card-text">{{ . }}</p>{{ end }}
+        <div class="author-bio-card-socials">
+          {{ with .Params.author_twitter }}<a href="{{ . }}" class="author-social-icon" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231z"/></svg></a>{{ end }}
+          {{ with .Params.author_linkedin }}<a href="{{ . }}" class="author-social-icon" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>{{ end }}
+          {{ with .Params.author_email }}<a href="mailto:{{ . }}" class="author-social-icon" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>{{ end }}
         </div>
       </div>
     </div>
   </div>
   {{ end }}
 
-  {{/* ── Prev / Next Navigation ── */}}
-  {{ $prev := .PrevInSection }}
+  {{/* Article Navigation (prev/next) */}}
   {{ $next := .NextInSection }}
-
-  {{ if or $prev $next }}
-  <nav class="article-nav" aria-label="Article navigation">
-    <div class="article-container">
-      <div class="article-nav-inner">
-
-        {{ if $prev }}
-        <a href="{{ $prev.Permalink }}" class="article-nav-item article-nav-prev">
-          <span class="article-nav-label">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-            Previous
-          </span>
-          {{ if $prev.Params.categories }}
-            <span class="article-nav-category">{{ index $prev.Params.categories 0 }}</span>
-          {{ end }}
-          <span class="article-nav-title">{{ $prev.Title }}</span>
-          <span class="article-nav-meta">{{ $prev.Date.Format "Jan 2, 2006" }} · {{ $prev.ReadingTime }} min read</span>
+  {{ $prev := .PrevInSection }}
+  <div class="article-continue">
+    <div class="continue-row">
+      {{ if $prev }}
+        <a href="{{ $prev.Permalink }}" class="continue-link prev-link">
+          <span class="continue-arrow">←</span>
+          <span class="continue-label-text">Previous</span>
+          <span class="continue-title-text">{{ $prev.Title }}</span>
         </a>
-        {{ else }}
-        <div></div>
-        {{ end }}
-
-        {{ if $next }}
-        <a href="{{ $next.Permalink }}" class="article-nav-item article-nav-next">
-          <span class="article-nav-label">
-            Next
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-          </span>
-          {{ if $next.Params.categories }}
-            <span class="article-nav-category">{{ index $next.Params.categories 0 }}</span>
-          {{ end }}
-          <span class="article-nav-title">{{ $next.Title }}</span>
-          <span class="article-nav-meta">{{ $next.Date.Format "Jan 2, 2006" }} · {{ $next.ReadingTime }} min read</span>
+      {{ end }}
+      {{ if $next }}
+        <a href="{{ $next.Permalink }}" class="continue-link next-link">
+          <span class="continue-label-text">Next</span>
+          <span class="continue-title-text">{{ $next.Title }}</span>
+          <span class="continue-arrow">→</span>
         </a>
-        {{ end }}
-
-      </div>
+      {{ end }}
     </div>
-  </nav>
-  {{ end }}
+  </div>
 
-  {{/* ── Related Articles (with thumbnails) ── */}}
+  {{/* Related Articles */}}
   {{ $related := site.RegularPages.Related . | first 3 }}
-  {{ if not $related }}
-    {{ $currentCategory := index .Params.categories 0 }}
-    {{ if $currentCategory }}
-      {{ $sameCategory := where site.RegularPages "Params.categories" "intersect" (slice $currentCategory) }}
-      {{ $related = where $sameCategory "Permalink" "ne" .Permalink | first 3 }}
-    {{ end }}
-  {{ end }}
-  {{ if not $related }}
-    {{ $related = where site.RegularPages "Permalink" "ne" .Permalink | first 3 }}
-  {{ end }}
-
+  {{ if not $related }}{{ $currentCat := index .Params.categories 0 }}{{ if $currentCat }}{{ $sameCat := where site.RegularPages "Params.categories" "intersect" (slice $currentCat) }}{{ $related = where $sameCat "Permalink" "ne" .Permalink | first 3 }}{{ end }}{{ end }}
+  {{ if not $related }}{{ $related = where site.RegularPages "Permalink" "ne" .Permalink | first 3 }}{{ end }}
   {{ if $related }}
   <aside class="related-articles">
     <div class="article-container">
       <h2 class="related-title">More to Read</h2>
       <div class="related-grid">
         {{ range $related }}
-          {{ $p := .Permalink }}{{ $t := .Title }}
           <article class="related-card">
+            {{ $hasRelImage := false }}
             {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-              <a href="{{ $p }}" class="related-card-img-wrap" tabindex="-1" aria-hidden="true">
+              {{ $hasRelImage = true }}
+              <a href="{{ .Permalink }}" class="related-card-img-wrap" tabindex="-1">
                 {{ $img := .Resize "480x" }}
-                <img src="{{ $img.RelPermalink }}"
-                     alt="{{ $t }}"
-                     loading="lazy"
-                     decoding="async"
-                     width="{{ $img.Width }}"
-                     height="{{ $img.Height }}">
+                <img src="{{ $img.RelPermalink }}" alt="{{ .Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
               </a>
             {{ end }}
-            {{ if .Params.categories }}
-              <span class="related-card-category">{{ index .Params.categories 0 }}</span>
+            {{ if not $hasRelImage }}
+              {{ $relCat := index .Params.categories 0 | default "Essay" }}
+              <a href="{{ .Permalink }}" class="related-card-img-wrap related-placeholder-link" tabindex="-1">
+                <div class="card-placeholder card-placeholder--secondary related-card-img-placeholder" data-cat="{{ $relCat | lower }}">
+                  <div class="cp-icon-wrap">{{ partial "cat-icon.html" (dict "cat" ($relCat | lower) "class" "cp-icon") }}</div>
+                  <span class="cp-cat-pill">{{ $relCat }}</span>
+                </div>
+              </a>
             {{ end }}
-            <h3 class="related-card-title">
-              <a href="{{ $p }}">{{ $t }}</a>
-            </h3>
-            <div class="related-card-meta">
-              <span>{{ .Date.Format "Jan 2, 2006" }}</span>
-              <span class="hp-dot">·</span>
-              <span>{{ .ReadingTime }} min read</span>
-            </div>
-            <p class="related-card-excerpt">{{ .Summary | truncate 120 }}</p>
+            <span class="related-card-category">{{ index .Params.categories 0 }}</span>
+            <h3 class="related-card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="related-card-meta"><span>{{ .Date.Format "Jan 2, 2006" }}</span> · <span>{{ .ReadingTime }} min read</span></div>
           </article>
         {{ end }}
       </div>
     </div>
   </aside>
   {{ end }}
-
 </article>
 
-<style>
-/* ════════════════════════════════════════════
-   FEATURED IMAGE — contained, never full-bleed
-   ════════════════════════════════════════════ */
-
-.article-featured-image {
-  width: 100% !important;
-  max-width: var(--container-max) !important;
-  position: relative !important;
-  left: auto !important;
-  transform: none !important;
-  margin: var(--space-xl) auto var(--space-2xl) !important;
-  padding: 0 var(--space-xl);
-  background: transparent !important;
-  box-sizing: border-box;
-}
-
-.article-featured-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 6px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .article-featured-image img {
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
-}
-
-.article-featured-caption {
-  text-align: center;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  color: var(--color-text-lighter);
-  font-style: italic;
-  margin-top: var(--space-sm);
-  padding: 0 var(--space-xl);
-}
-
-@media (max-width: 768px) {
-  .article-featured-image {
-    padding: 0 var(--space-lg) !important;
-  }
-}
-
-/* ════════════════════════════════════════════
-   BREADCRUMB
-   ════════════════════════════════════════════ */
-
-.breadcrumb {
-  padding: var(--space-lg) 0 0;
-}
-
-.breadcrumb-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 var(--space-xl);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
-
-.breadcrumb-list li {
-  display: flex;
-  align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--color-text-lighter);
-}
-
-.breadcrumb-list li + li::before {
-  content: '/';
-  margin-right: 0.3rem;
-  opacity: 0.4;
-}
-
-.breadcrumb-list a {
-  color: var(--color-text-lighter);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.breadcrumb-list a:hover {
-  color: var(--color-primary);
-}
-
-.breadcrumb-current {
-  color: var(--color-text-light);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 280px;
-}
-
-/* ════════════════════════════════════════════
-   ARTICLE SUBTITLE
-   ════════════════════════════════════════════ */
-
-.article-subtitle {
-  font-family: var(--font-reading);
-  font-size: 1.1rem;
-  font-style: italic;
-  line-height: 1.6;
-  color: var(--color-text-light);
-  margin: var(--space-sm) 0 0;
-}
-
-/* ════════════════════════════════════════════
-   ARTICLE META
-   ════════════════════════════════════════════ */
-
-.article-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-top: 0.75rem;
-}
-
-.article-date,
-.article-reading-time {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  letter-spacing: inherit;
-  text-transform: inherit;
-  color: inherit;
-}
-
-.article-meta .article-date::after {
-  content: '·';
-  margin-left: 0.5rem;
-  opacity: 0.3;
-  font-size: 0.5rem;
-  vertical-align: middle;
-}
-
-/* ════════════════════════════════════════════
-   FEATURED IMAGE CAPTION
-   ════════════════════════════════════════════ */
-
-.article-featured-image {
-  margin: var(--space-xl) 0 0;
-}
-
-.article-featured-caption {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  color: var(--color-text-lighter);
-  text-align: center;
-  padding: 0.6rem var(--space-xl);
-  font-style: italic;
-  line-height: 1.5;
-  background: var(--color-bg-alt);
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-/* ════════════════════════════════════════════
-   DROP CAP
-   ════════════════════════════════════════════ */
-
-.drop-cap .article-content > p:first-of-type::first-letter {
-  font-family: var(--font-display);
-  font-size: 4.2rem;
-  font-weight: 400;
-  line-height: 0.78;
-  float: left;
-  margin: 0.08em 0.12em 0 0;
-  color: var(--color-text);
-  padding-top: 0.05em;
-}
-
-/* ════════════════════════════════════════════
-   TABLE OF CONTENTS — fixed sidebar
-   Completely outside document flow.
-   Article width is never affected.
-   ════════════════════════════════════════════ */
-
-/* ════════════════════════════════════════════
-   TABLE OF CONTENTS — Desktop Sidebar
-   ════════════════════════════════════════════ */
-
-.article-toc-sidebar {
-  display: none;
-}
-
-@media (min-width: 1160px) {
-  .article-toc-sidebar {
-    display: block;
-    position: fixed;
-    top: 130px;
-    left: calc(50vw + 365px);
-    width: 230px;
-    max-height: calc(100vh - 160px);
-    overflow-y: auto;
-    scrollbar-width: none;
-    z-index: 100;
-  }
-  .article-toc-sidebar::-webkit-scrollbar { display: none; }
-}
-
-/* ── Card shell ── */
-.toc-sticky {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-primary);
-  border-radius: 12px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-  position: relative;
-}
-
-[data-theme="dark"] .toc-sticky {
-  background: var(--color-bg-alt);
-  border-color: var(--color-border);
-  border-top-color: var(--color-primary);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
-}
-
-/* ── Header ── */
-.toc-label {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  background: transparent;
-  margin: 0;
-  padding: 0.9rem 1rem 0.65rem;
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.toc-label::before {
-  content: '';
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23007ACC' stroke-width='2.5' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='15' y2='12'/%3E%3Cline x1='3' y1='18' x2='18' y2='18'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-[data-theme="dark"] .toc-label {
-  color: var(--color-text-lighter);
-}
-
-[data-theme="dark"] .toc-label::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237dd3fc' stroke-width='2.5' stroke-linecap='round'%3E%3Cline x1='3' y1='6' x2='21' y2='6'/%3E%3Cline x1='3' y1='12' x2='15' y2='12'/%3E%3Cline x1='3' y1='18' x2='18' y2='18'/%3E%3C/svg%3E");
-}
-
-/* ── Nav container ── */
-.article-toc-sidebar nav#TableOfContents {
-  padding: 0.5rem 0 0.75rem;
-}
-
-.article-toc-sidebar nav#TableOfContents ul,
-.article-toc-sidebar nav#TableOfContents ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* ── h2 links ── */
-.article-toc-sidebar nav#TableOfContents > ul {
-  counter-reset: toc-section;
-}
-
-.article-toc-sidebar nav#TableOfContents > ul > li > a {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--color-text);
-  text-decoration: none;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  border-left: 2px solid transparent;
-  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, padding-left 0.15s ease;
-}
-
-.article-toc-sidebar nav#TableOfContents > ul > li > a::before {
-  counter-increment: toc-section;
-  content: counter(toc-section, decimal-leading-zero);
-  font-family: var(--font-ui);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--color-primary);
-  flex-shrink: 0;
-  opacity: 0.6;
-  transition: opacity 0.15s ease;
-  margin-top: 0.1em;
-}
-
-.article-toc-sidebar nav#TableOfContents > ul > li > a:hover {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
-  padding-left: 1.2rem;
-}
-
-.article-toc-sidebar nav#TableOfContents > ul > li > a:hover::before {
-  opacity: 1;
-}
-
-/* ── Active state — strong, unmissable ── */
-.article-toc-sidebar nav#TableOfContents a.toc-active {
-  color: var(--color-primary);
-  border-left-color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
-  font-weight: 700;
-  padding-left: 1.2rem;
-}
-
-[data-theme="dark"] .article-toc-sidebar nav#TableOfContents a.toc-active {
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  border-left-color: var(--color-primary);
-}
-
-.article-toc-sidebar nav#TableOfContents a.toc-active::before {
-  opacity: 1;
-  color: var(--color-primary);
-}
-
-/* ── Divider between h2 items ── */
-.article-toc-sidebar nav#TableOfContents > ul > li + li {
-  border-top: 1px solid var(--color-border-light);
-}
-
-/* ── h3 nested items ── */
-.article-toc-sidebar nav#TableOfContents li li {
-  border-top: none;
-}
-
-.article-toc-sidebar nav#TableOfContents li li a {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 400;
-  line-height: 1.45;
-  color: var(--color-text-light);
-  text-decoration: none;
-  padding: 0.35rem 1rem 0.35rem 2.1rem;
-  border-left: 2px solid transparent;
-  transition: color 0.15s ease, background 0.15s ease, padding-left 0.15s ease;
-  position: relative;
-}
-
-.article-toc-sidebar nav#TableOfContents li li a::before {
-  content: none;
-}
-
-/* Subtle indent marker for h3 */
-.article-toc-sidebar nav#TableOfContents li li a::after {
-  content: '';
-  position: absolute;
-  left: 1.3rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--color-border);
-  transition: background 0.15s ease;
-}
-
-.article-toc-sidebar nav#TableOfContents li li a:hover {
-  color: var(--color-primary);
-  padding-left: 2.3rem;
-}
-
-.article-toc-sidebar nav#TableOfContents li li a:hover::after {
-  background: var(--color-primary);
-}
-
-.article-toc-sidebar nav#TableOfContents li li a.toc-active {
-  color: var(--color-primary);
-  border-left-color: var(--color-primary);
-  font-weight: 600;
-}
-
-.article-toc-sidebar nav#TableOfContents li li a.toc-active::after {
-  background: var(--color-primary);
-}
-
-/* ── Reading progress bar ── */
-.toc-sticky::after {
-  content: '';
-  display: block;
-  height: 2px;
-  background: var(--color-border-light);
-}
-
-.toc-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0%;
-  background: linear-gradient(90deg, #007ACC, #00b4d8);
-  transition: width 0.1s linear;
-  pointer-events: none;
-}
-
-/* ════════════════════════════════════════════
-   TABLE OF CONTENTS — Mobile Collapsible
-   ════════════════════════════════════════════ */
-
-.article-toc-mobile {
-  margin: var(--space-xl) 0;
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-primary);
-  border-radius: 12px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-}
-
-@media (min-width: 1160px) {
-  .article-toc-mobile {
-    display: none;
-  }
-}
-
-.toc-mobile-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  width: 100%;
-  padding: 0.75rem var(--space-lg);
-  background: var(--color-bg-alt);
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  text-align: left;
-  transition: background 0.2s ease;
-}
-
-.toc-mobile-toggle:hover {
-  background: var(--color-border-light);
-}
-
-[data-theme="dark"] .toc-mobile-toggle {
-  background: var(--color-bg-alt);
-  color: var(--color-text-lighter);
-}
-
-.toc-mobile-toggle svg:first-child {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  stroke: var(--color-primary);
-}
-
-.toc-mobile-label { flex: 1; }
-
-.toc-chevron {
-  width: 14px !important;
-  height: 14px !important;
-  transition: transform 0.25s ease;
-  stroke: var(--color-text-lighter) !important;
-}
-
-.toc-mobile-toggle[aria-expanded="true"] .toc-chevron {
-  transform: rotate(180deg);
-}
-
-.toc-mobile-body {
-  padding: 0.5rem 0 0.75rem;
-  background: var(--color-bg);
-  counter-reset: toc-mob-section;
-  border-top: 1px solid var(--color-border-light);
-}
-
-[data-theme="dark"] .toc-mobile-body {
-  background: var(--color-bg-alt);
-}
-
-.toc-mobile-body nav#TableOfContents ul,
-.toc-mobile-body nav#TableOfContents ol {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.toc-mobile-body nav#TableOfContents > ul > li + li {
-  border-top: 1px solid var(--color-border-light);
-}
-
-.toc-mobile-body nav#TableOfContents > ul > li > a {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--color-text);
-  text-decoration: none;
-  padding: 0.55rem 1rem;
-  border-left: 2px solid transparent;
-  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-}
-
-.toc-mobile-body nav#TableOfContents > ul > li > a::before {
-  counter-increment: toc-mob-section;
-  content: counter(toc-mob-section, decimal-leading-zero);
-  font-size: 0.58rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-.toc-mobile-body nav#TableOfContents > ul > li > a:hover {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
-  border-left-color: var(--color-primary);
-}
-
-.toc-mobile-body nav#TableOfContents li li a {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--color-text-light);
-  text-decoration: none;
-  padding: 0.38rem 1rem 0.38rem 2.2rem;
-  transition: color 0.15s ease;
-}
-
-.toc-mobile-body nav#TableOfContents li li a:hover {
-  color: var(--color-primary);
-}
-
-
-/* ════════════════════════════════════════════
-   NEWSLETTER
-   ════════════════════════════════════════════ */
-
-/* ════════════════════════════════════════════
-   NEWSLETTER TOAST — scroll-triggered
-   ════════════════════════════════════════════ */
-
-/* ════════════════════════════════════════════
-   NEWSLETTER TOAST — premium scroll-triggered
-   ════════════════════════════════════════════ */
-
-.nl-toast {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  width: 340px;
-  background: linear-gradient(145deg, #0d1f35 0%, #091628 60%, #0a1e30 100%);
-  border: 1px solid rgba(0, 122, 204, 0.25);
-  border-radius: 16px;
-  padding: 1.75rem 1.75rem 1.5rem;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04) inset,
-    0 20px 60px rgba(0,0,0,0.45),
-    0 4px 16px rgba(0,0,0,0.3),
-    0 0 40px rgba(0,122,204,0.08);
-  z-index: 995;
-  transform: translateY(calc(100% + 3rem));
-  opacity: 0;
-  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.4s ease;
-  will-change: transform, opacity;
-  overflow: hidden;
-}
-
-.nl-toast.nl-visible {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.nl-toast.nl-dismissed {
-  transform: translateY(calc(100% + 3rem));
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.35s ease, opacity 0.3s ease;
-}
-
-/* Decorative background glow orb */
-.nl-toast-glow {
-  position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, rgba(0,122,204,0.18) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-/* ── Close button ── */
-.nl-toast-close {
-  position: absolute;
-  top: 0.9rem;
-  right: 0.9rem;
-  width: 26px;
-  height: 26px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50%;
-  cursor: pointer;
-  color: rgba(255,255,255,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-  z-index: 1;
-}
-
-.nl-toast-close:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.2);
-}
-
-.nl-toast-close svg {
-  width: 11px;
-  height: 11px;
-}
-
-/* ── Icon ── */
-.nl-toast-icon {
-  width: 38px;
-  height: 38px;
-  background: rgba(0,122,204,0.15);
-  border: 1px solid rgba(0,122,204,0.3);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.nl-toast-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: #7dd3fc;
-}
-
-/* ── Eyebrow ── */
-.nl-toast-eyebrow {
-  font-family: var(--font-ui);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #7dd3fc;
-  margin: 0 0 0.55rem;
-}
-
-/* ── Heading ── */
-.nl-toast-heading {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 400;
-  line-height: 1.2;
-  color: #fff;
-  margin: 0 0 0.7rem;
-  letter-spacing: -0.02em;
-}
-
-/* ── Body ── */
-.nl-toast-body {
-  font-family: var(--font-reading);
-  font-size: 0.8rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.45);
-  margin: 0;
-  font-style: italic;
-}
-
-/* ── Divider ── */
-.nl-toast-divider {
-  height: 1px;
-  background: linear-gradient(90deg, rgba(0,122,204,0.4) 0%, rgba(255,255,255,0.06) 100%);
-  margin: 1.25rem 0;
-}
-
-/* ── CTA button ── */
-.nl-toast-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  width: 100%;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  background: linear-gradient(135deg, #007ACC 0%, #0099e6 100%);
-  padding: 0.85rem 1.2rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 4px 16px rgba(0,122,204,0.35), 0 1px 0 rgba(255,255,255,0.1) inset;
-  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
-}
-
-.nl-toast-btn svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.nl-toast-btn:hover {
-  background: linear-gradient(135deg, #0088dd 0%, #00aaff 100%);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,122,204,0.55), 0 1px 0 rgba(255,255,255,0.15) inset;
-}
-
-.nl-toast-btn:hover svg {
-  transform: translateX(2px);
-}
-
-/* ── Note ── */
-.nl-toast-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  color: rgba(255,255,255,0.22);
-  margin: 0.85rem 0 0;
-  letter-spacing: 0.04em;
-}
-
-.nl-toast-note svg {
-  width: 10px;
-  height: 10px;
-  flex-shrink: 0;
-  stroke: rgba(255,255,255,0.3);
-}
-
-/* ── Mobile ── */
-@media (max-width: 600px) {
-  .nl-toast {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    bottom: 5rem; /* above back-to-top button */
-    border-radius: 14px;
-    padding: 1.5rem;
-  }
-}
-
-/* ════════════════════════════════════════════
-   AUTHOR BIO CARD
-   ════════════════════════════════════════════ */
-
-.author-bio-card {
-  background: var(--color-bg-alt);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-2xl) 0;
-  margin-top: var(--space-2xl);
-}
-
-.author-bio-card-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2xl);
-}
-
-.author-bio-card-photo {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 3px solid var(--color-border);
-}
-
-.author-bio-card-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.author-bio-card-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: 0.3rem;
-}
-
-.author-bio-card-name {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--color-text);
-  margin: 0 0 0.2rem;
-  line-height: 1.2;
-}
-
-.author-bio-card-title {
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  margin: 0 0 var(--space-md);
-  letter-spacing: 0.02em;
-}
-
-.author-bio-card-text {
-  font-family: var(--font-ui);
-  font-size: 0.88rem;
-  color: var(--color-text-light);
-  line-height: 1.7;
-  margin: 0 0 var(--space-lg);
-  max-width: 560px;
-}
-
-.author-bio-card-socials {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.author-social-icon {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #007ACC;
-  color: #fff;
-  text-decoration: none;
-  transition: background 0.18s ease, transform 0.18s ease;
-}
-
-.author-social-icon svg {
-  width: 12px;
-  height: 12px;
-}
-
-.author-social-icon:hover {
-  background: #0062a3;
-  transform: scale(1.1);
-}
-
-@media (max-width: 600px) {
-  .author-bio-card-inner {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .author-bio-card-text { max-width: 100%; }
-  .author-bio-card-socials { justify-content: center; }
-}
-
-/* ════════════════════════════════════════════
-   TAGS
-   ════════════════════════════════════════════ */
-
-.article-tags { margin-bottom: var(--space-xl); }
-
-.tags-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag-pill {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  color: var(--color-text-light);
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  padding: 0.3rem 0.85rem;
-  border-radius: 50px;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-
-.tag-pill:hover {
-  background: var(--color-primary);
-  color: #fff;
-  border-color: var(--color-primary);
-}
-
-/* ════════════════════════════════════════════
-   SHARE BUTTONS
-   ════════════════════════════════════════════ */
-
-.article-share {
-  margin-top: var(--space-2xl);
-  padding-top: var(--space-xl);
-  border-top: 1px solid var(--color-border-light);
-}
-
-.article-share-label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: var(--space-lg);
-}
-
-.share-container {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.share-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.6rem 1.2rem;
-  border-radius: 50px;
-  border: none;
-  background: #007ACC;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.18s ease;
-  flex-shrink: 0;
-}
-
-.share-trigger svg {
-  width: 13px;
-  height: 13px;
-  transition: transform 0.3s ease;
-}
-
-.share-trigger:hover {
-  background: #0062a3;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-.share-trigger[aria-expanded="true"] svg {
-  transform: rotate(180deg);
-}
-
-.share-icons {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.share-icon {
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-  text-decoration: none;
-  flex-shrink: 0;
-  opacity: 0;
-  transform: scale(0.6) translateX(-8px);
-  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  pointer-events: none;
-  background: #007ACC;
-}
-
-.share-icon svg { width: 13px; height: 13px; }
-
-.share-icon:hover {
-  background: #0062a3 !important;
-  color: #fff !important;
-  transform: scale(1.1) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.share-icons.open .share-icon {
-  opacity: 1;
-  transform: scale(1) translateX(0);
-  pointer-events: auto;
-}
-
-.share-icons.open .share-icon:nth-child(1) { transition-delay: 0.03s; }
-.share-icons.open .share-icon:nth-child(2) { transition-delay: 0.07s; }
-.share-icons.open .share-icon:nth-child(3) { transition-delay: 0.11s; }
-.share-icons.open .share-icon:nth-child(4) { transition-delay: 0.15s; }
-.share-icons.open .share-icon:nth-child(5) { transition-delay: 0.19s; }
-
-.share-icon-copy .icon-check { display: none; }
-.share-icon-copy.copied .icon-link  { display: none; }
-.share-icon-copy.copied .icon-check { display: block; }
-.share-icon-copy.copied { background: #2e7d32 !important; }
-
-/* ════════════════════════════════════════════
-   PREV / NEXT NAV
-   ════════════════════════════════════════════ */
-
-.article-nav {
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  margin: 0;
-}
-
-.article-nav-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-}
-
-.article-nav-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: var(--space-xl) 0;
-  text-decoration: none;
-  transition: background 0.2s ease;
-}
-
-.article-nav-item:hover { background: var(--color-bg-alt); }
-
-.article-nav-prev {
-  padding-right: var(--space-xl);
-  border-right: 1px solid var(--color-border);
-}
-
-.article-nav-next {
-  padding-left: var(--space-xl);
-  align-items: flex-end;
-  text-align: right;
-}
-
-.article-nav-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-}
-
-.article-nav-label svg { width: 14px; height: 14px; }
-
-.article-nav-category {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
-.article-nav-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: var(--color-text);
-  line-height: 1.35;
-}
-
-.article-nav-item:hover .article-nav-title { color: var(--color-primary); }
-
-.article-nav-meta {
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-}
-
-@media (max-width: 640px) {
-  .article-nav-inner { grid-template-columns: 1fr; }
-  .article-nav-prev {
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
-    padding-right: 0;
-  }
-  .article-nav-next {
-    padding-left: 0;
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
-/* ════════════════════════════════════════════
-   RELATED ARTICLES (with thumbnails)
-   ════════════════════════════════════════════ */
-
-.related-articles {
-  padding: var(--space-3xl) 0;
-}
-
-.related-title {
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin: 0 0 var(--space-2xl);
-  padding-bottom: var(--space-sm);
-  border-bottom: 2px solid var(--color-border);
-}
-
-.related-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2xl);
-}
-
-.related-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.related-card-img-wrap {
-  display: block;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--color-bg-alt);
-  margin-bottom: var(--space-sm);
-}
-
-.related-card-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.related-card:hover .related-card-img-wrap img {
-  transform: scale(1.04);
-}
-
-.related-card-category {
-  font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
-.related-card-title {
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 400;
-  line-height: 1.3;
-  margin: 0;
-}
-
-.related-card-title a {
-  color: var(--color-text);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.related-card-title a:hover { color: var(--color-primary); }
-
-.related-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-}
-
-.related-card-excerpt {
-  font-family: var(--font-reading);
-  font-size: 0.85rem;
-  line-height: 1.65;
-  color: var(--color-text-light);
-  margin: 0.2rem 0 0;
-}
-
-@media (max-width: 720px) {
-  .related-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
-  .related-card-img-wrap { aspect-ratio: 16/9; }
-}
-
-/* ════════════════════════════════════════════
-   ABOUT THIS ARTICLE
-   ════════════════════════════════════════════ */
-
-.about-article-wrap {
-  padding: var(--space-2xl) 0;
-  border-top: 1px solid var(--color-border-light);
-  margin-top: var(--space-xl);
-}
-
-.about-article {
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border-light);
-  border-left: 3px solid var(--color-primary);
-  padding: var(--space-xl) var(--space-2xl);
-}
-
-.about-article-label {
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin: 0 0 var(--space-lg);
-}
-
-.about-article-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-lg) var(--space-2xl);
-  margin: 0 0 var(--space-lg);
-}
-
-.about-article-item--url {
-  grid-column: 1 / -1;
-}
-
-.about-article-item dt {
-  font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: 0.2rem;
-}
-
-</style>
-
 <script>
-/* ════════════════════════════════════════════
-   SHARE BUTTONS — native share on mobile
-   ════════════════════════════════════════════ */
 (function() {
-  var trigger = document.getElementById('share-trigger');
-  var icons   = document.getElementById('share-icons');
-  if (!trigger || !icons) return;
-
-  function openIcons() {
-    icons.classList.add('open');
-    icons.setAttribute('aria-hidden', 'false');
-    trigger.setAttribute('aria-expanded', 'true');
-  }
-  function closeIcons() {
-    icons.classList.remove('open');
-    icons.setAttribute('aria-hidden', 'true');
-    trigger.setAttribute('aria-expanded', 'false');
-  }
-
-  trigger.addEventListener('click', function() {
-    /* Use native Web Share API on mobile if available */
-    if (navigator.share && window.innerWidth < 768) {
-      navigator.share({
-        title: trigger.getAttribute('data-title'),
-        url:   trigger.getAttribute('data-url')
-      }).catch(function() {});
-      return;
-    }
-    icons.classList.contains('open') ? closeIcons() : openIcons();
-  });
-
-  document.addEventListener('click', function(e) {
-    if (!trigger.contains(e.target) && !icons.contains(e.target)) closeIcons();
-  });
-
-  var copyBtn = document.getElementById('copy-link-btn');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', function() {
-      navigator.clipboard.writeText(copyBtn.getAttribute('data-url')).then(function() {
-        copyBtn.classList.add('copied');
-        setTimeout(function() { copyBtn.classList.remove('copied'); }, 2000);
-      });
-    });
-  }
-})();
-
-/* ════════════════════════════════════════════
-   MOBILE TOC TOGGLE
-   ════════════════════════════════════════════ */
-(function() {
-  var toggle = document.getElementById('toc-mobile-toggle');
-  var body   = document.getElementById('toc-mobile-body');
-  if (!toggle || !body) return;
-
-  toggle.addEventListener('click', function() {
-    var expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    if (expanded) {
-      body.setAttribute('hidden', '');
-    } else {
-      body.removeAttribute('hidden');
-    }
-  });
-})();
-
-/* ════════════════════════════════════════════
-   TOC SCROLL SPY + PROGRESS BAR
-   Highlights the active section in the desktop TOC
-   and fills a reading-progress bar at the card bottom
-   ════════════════════════════════════════════ */
-(function() {
-  var toc = document.getElementById('article-toc');
-  var progressBar = document.getElementById('toc-progress-bar');
-  if (!toc) return;
-
-  var tocLinks  = toc.querySelectorAll('a');
-  var headings  = Array.from(document.querySelectorAll('.article-content h2[id], .article-content h3[id]'));
-  if (!tocLinks.length || !headings.length) return;
-
-  /* ── Scroll spy via IntersectionObserver ── */
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var id = entry.target.getAttribute('id');
-        tocLinks.forEach(function(link) {
-          link.classList.toggle('toc-active', link.getAttribute('href') === '#' + id);
-        });
+  // Share functionality
+  var trigger = document.getElementById('share-trigger'), icons = document.getElementById('share-icons');
+  if(trigger && icons) {
+    function open(){icons.classList.add('open');icons.setAttribute('aria-hidden','false');trigger.setAttribute('aria-expanded','true');}
+    function close(){icons.classList.remove('open');icons.setAttribute('aria-hidden','true');trigger.setAttribute('aria-expanded','false');}
+    trigger.addEventListener('click',function(){
+      if(navigator.share && window.innerWidth < 768){
+        navigator.share({title:trigger.getAttribute('data-title'),url:trigger.getAttribute('data-url')}).catch(function(){});
+        return;
       }
+      icons.classList.contains('open') ? close() : open();
     });
-  }, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+    document.addEventListener('click',function(e){if(!trigger.contains(e.target) && !icons.contains(e.target)) close();});
+    var copyBtn = document.getElementById('copy-link-btn');
+    if(copyBtn) {
+      copyBtn.addEventListener('click',function(){
+        navigator.clipboard.writeText(copyBtn.getAttribute('data-url')).then(function(){
+          copyBtn.classList.add('copied');
+          setTimeout(function(){copyBtn.classList.remove('copied');},2000);
+        });
+      });
+    }
+  }
 
-  headings.forEach(function(h) { observer.observe(h); });
-
-  /* ── Progress bar driven by page scroll ── */
-  if (progressBar) {
+  // Newsletter toast
+  var toast = document.getElementById('nl-toast'), closeBtn = document.getElementById('nl-toast-close');
+  var STORAGE_KEY = 'veridus-nl-dismissed', shown = false;
+  if(toast) {
+    function wasDismissed() {
+      try {
+        var ts = localStorage.getItem(STORAGE_KEY);
+        if(!ts) return false;
+        return (Date.now() - parseInt(ts,10)) < 7 * 24 * 60 * 60 * 1000;
+      } catch(e) { return false; }
+    }
+    function showToast() {
+      if(shown || wasDismissed()) return;
+      shown = true;
+      toast.hidden = false;
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          toast.classList.add('nl-visible');
+        });
+      });
+    }
+    function dismissToast() {
+      toast.classList.remove('nl-visible');
+      toast.classList.add('nl-dismissed');
+      try {
+        localStorage.setItem(STORAGE_KEY, Date.now().toString());
+      } catch(e) {}
+      setTimeout(function() {
+        toast.hidden = true;
+      }, 300);
+    }
+    if(closeBtn) closeBtn.addEventListener('click', dismissToast);
+    var emailLink = toast.querySelector('.nl-toast-btn');
+    if(emailLink) emailLink.addEventListener('click', function() { setTimeout(dismissToast, 400); });
     window.addEventListener('scroll', function() {
-      var scrollTop = window.scrollY || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      var pct = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
-      progressBar.style.width = pct + '%';
+      var st = window.scrollY || document.documentElement.scrollTop;
+      var dh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var pct = dh > 0 ? (st / dh) * 100 : 0;
+      if(pct >= 70) showToast();
     }, { passive: true });
   }
 })();
-
-/* ════════════════════════════════════════════
-   NEWSLETTER TOAST — fires once at 70% scroll
-   ════════════════════════════════════════════ */
-(function() {
-  var toast     = document.getElementById('nl-toast');
-  var closeBtn  = document.getElementById('nl-toast-close');
-  if (!toast) return;
-
-  var STORAGE_KEY = 'veridus-nl-dismissed';
-  var shown       = false;
-
-  /* Don't show if dismissed within the last 7 days */
-  function wasDismissed() {
-    try {
-      var ts = localStorage.getItem(STORAGE_KEY);
-      if (!ts) return false;
-      return (Date.now() - parseInt(ts, 10)) < 7 * 24 * 60 * 60 * 1000;
-    } catch(e) { return false; }
-  }
-
-  function showToast() {
-    if (shown || wasDismissed()) return;
-    shown = true;
-    toast.hidden = false;
-    /* Slight delay so the browser registers hidden→visible before animating */
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        toast.classList.add('nl-visible');
-      });
-    });
-  }
-
-  function dismissToast() {
-    toast.classList.remove('nl-visible');
-    toast.classList.add('nl-dismissed');
-    try { localStorage.setItem(STORAGE_KEY, Date.now().toString()); } catch(e) {}
-  }
-
-  if (closeBtn) {
-    closeBtn.addEventListener('click', dismissToast);
-  }
-
-  /* Also dismiss if they click the email link — they signed up */
-  var emailLink = toast.querySelector('.nl-toast-btn');
-  if (emailLink) {
-    emailLink.addEventListener('click', function() {
-      setTimeout(dismissToast, 400);
-    });
-  }
-
-  window.addEventListener('scroll', function() {
-    var scrollTop = window.scrollY || document.documentElement.scrollTop;
-    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    if (pct >= 70) showToast();
-  }, { passive: true });
-})();
 </script>
-
 {{ end }}

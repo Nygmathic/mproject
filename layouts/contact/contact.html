@@ -1,467 +1,170 @@
 {{ define "main" }}
-
-<div class="contact-page">
-  <div class="article-container">
-
-    {{/* ── Header ── */}}
-    <header class="contact-header">
-      <span class="contact-eyebrow">Get in Touch</span>
-      <h1 class="contact-title">We read every message.</h1>
-      <p class="contact-subtitle">
-        Questions, tips, responses to something we published, or just a note —
-        all of it is welcome. Every message reaches a real person.
-      </p>
-    </header>
-
-    {{/* ── Two-column layout ── */}}
-    <div class="contact-body">
-
-      {{/* ── Left: form ── */}}
-      <div class="contact-form-col">
-
-        <div class="contact-form-card">
-          <p class="contact-form-note">
-            Fill in your details below and your email client will open with everything pre-filled.
-            Hit send and we will get back to you within 2–3 business days.
-          </p>
-
-          {{/* Fields — JS builds the mailto on submit */}}
-          <div class="contact-field">
-            <label class="contact-label" for="contact-name">Your name</label>
-            <input class="contact-input" type="text" id="contact-name" placeholder="e.g. Amara Osei" autocomplete="name">
-          </div>
-
-          <div class="contact-field">
-            <label class="contact-label" for="contact-email">Your email address</label>
-            <input class="contact-input" type="email" id="contact-email" placeholder="you@example.com" autocomplete="email">
-          </div>
-
-          <div class="contact-field">
-            <label class="contact-label" for="contact-subject">Subject</label>
-            <div class="contact-select-wrap">
-              <select class="contact-input contact-select" id="contact-subject">
-                <option value="General enquiry">General enquiry</option>
-                <option value="Story tip or pitch">Story tip or pitch</option>
-                <option value="Response to an article">Response to an article</option>
-                <option value="Press or media enquiry">Press or media enquiry</option>
-                <option value="Technical issue">Technical issue</option>
-                <option value="Other">Other</option>
-              </select>
-              <svg class="contact-select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="contact-field">
-            <label class="contact-label" for="contact-message">Your message</label>
-            <textarea class="contact-input contact-textarea" id="contact-message" rows="6" placeholder="Write your message here…"></textarea>
-          </div>
-
-          <button class="contact-submit" id="contact-submit" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Open in Email
-          </button>
-
-          <p class="contact-form-fallback">
-            Or write directly to
-            <a href="mailto:contact@veridus.space">contact@veridus.space</a>
-          </p>
-        </div>
-
+<div class="page-container">
+  <div class="page-header">
+    <h1>Contact</h1>
+    <p class="page-subtitle">We read every message. Expect a reply within 2–3 business days.</p>
+  </div>
+  <div class="contact-card">
+    <form action="/thanks/" method="post" class="contact-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required placeholder="e.g., Adebayo Ogunlesi">
       </div>
-
-      {{/* ── Right: info panels ── */}}
-      <aside class="contact-info-col">
-
-        <div class="contact-info-block">
-          <h3 class="contact-info-heading">Editorial</h3>
-          <p class="contact-info-body">
-            For story tips, pitches, or responses to published pieces.
-            We cannot promise to publish everything but we do read everything.
-          </p>
-          <a href="mailto:contact@veridus.space?subject=Editorial%20enquiry" class="contact-info-link">
-            contact@veridus.space
-          </a>
-        </div>
-
-        <div class="contact-info-block">
-          <h3 class="contact-info-heading">Response &amp; Corrections</h3>
-          <p class="contact-info-body">
-            If you believe something we published is factually incorrect,
-            please write to us with the specific detail and a source.
-            We take corrections seriously.
-          </p>
-          <a href="mailto:contact@veridus.space?subject=Correction%20request" class="contact-info-link">
-            Request a correction →
-          </a>
-        </div>
-
-        <div class="contact-info-block">
-          <h3 class="contact-info-heading">Stay Updated</h3>
-          <p class="contact-info-body">
-            To receive new pieces by email, send a note with the subject
-            line <em>"Add me to Veridus updates"</em>. No platform,
-            no tracking. Just the work.
-          </p>
-          <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Veridus%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you." class="contact-info-link">
-            Subscribe by email →
-          </a>
-        </div>
-
-        <div class="contact-info-block contact-info-block--response">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-          <p>We aim to respond within <strong>2–3 business days</strong>.</p>
-        </div>
-
-      </aside>
-
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required placeholder="hello@example.com">
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required placeholder="What would you like to say?"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">
+        Send message
+        <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+    <div class="contact-alternate">
+      <p>Or write directly:</p>
+      <a href="mailto:contact@veridus.space">contact@veridus.space</a>
     </div>
-
   </div>
 </div>
 
 <style>
-/* ════════════════════════════════════════════
-   CONTACT PAGE
-   ════════════════════════════════════════════ */
-
-.contact-page {
-  padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
+/* Layout only – no font-family overrides (handled globally) */
+.page-container {
+  max-width: 760px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  background: var(--bg);
 }
-
-/* ── Header ── */
-.contact-header {
-  padding-bottom: var(--space-2xl);
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-3xl);
-  max-width: 600px;
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
-
-.contact-eyebrow {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: var(--space-md);
-}
-
-.contact-title {
+.page-header h1 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--color-text);
-  margin: 0 0 var(--space-md);
-  letter-spacing: -0.02em;
+  font-size: var(--step-3);
+  font-weight: 800;
+  margin: 0.5rem 0 0.25rem;
 }
-
-.contact-subtitle {
+.page-subtitle {
   font-family: var(--font-reading);
-  font-size: 1rem;
-  font-style: italic;
-  line-height: 1.75;
-  color: var(--color-text-light);
-  margin: 0;
+  font-size: var(--step-0);
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
-
-/* ── Two-column layout ── */
-.contact-body {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: var(--space-3xl);
-  align-items: start;
+.contact-card {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid var(--border-light);
 }
-
-/* ════════════════════════════════════════════
-   FORM CARD
-   ════════════════════════════════════════════ */
-
-.contact-form-card {
-  border: 1px solid var(--color-border-light);
-  padding: var(--space-2xl);
-  background: var(--color-bg);
+.contact-form {
+  margin-bottom: 1.5rem;
 }
-
-[data-theme="dark"] .contact-form-card {
-  background: var(--color-bg-alt);
-  border-color: var(--color-border);
+.form-group {
+  margin-bottom: 1.5rem;
 }
-
-.contact-form-note {
-  font-family: var(--font-reading);
-  font-size: 0.88rem;
-  font-style: italic;
-  line-height: 1.7;
-  color: var(--color-text-light);
-  margin: 0 0 var(--space-2xl);
-  padding-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-/* ── Fields ── */
-.contact-field {
-  margin-bottom: var(--space-xl);
-}
-
-.contact-label {
+.form-group label {
   display: block;
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin-bottom: var(--space-sm);
-}
-
-.contact-input {
-  width: 100%;
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  color: var(--color-text);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  padding: 0.7rem 0.9rem;
-  border-radius: 2px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-[data-theme="dark"] .contact-input {
-  background: var(--color-bg);
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
-
-.contact-input::placeholder {
-  color: var(--color-text-lighter);
-  font-style: italic;
-}
-
-.contact-input:focus {
-  border-color: #007ACC;
-  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.12);
-}
-
-.contact-textarea {
-  resize: vertical;
-  min-height: 140px;
-  line-height: 1.65;
-}
-
-/* ── Select wrapper ── */
-.contact-select-wrap {
-  position: relative;
-}
-
-.contact-select {
-  cursor: pointer;
-  padding-right: 2.5rem;
-}
-
-.contact-select-chevron {
-  position: absolute;
-  right: 0.9rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  color: var(--color-text-lighter);
-  pointer-events: none;
-}
-
-/* ── Submit button ── */
-.contact-submit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #fff;
-  background: #007ACC;
-  border: none;
-  padding: 0.9rem 1.8rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
-  margin-top: var(--space-sm);
-}
-
-.contact-submit svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.contact-submit:hover {
-  background: #0062a3;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 122, 204, 0.3);
-}
-
-.contact-form-fallback {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  color: var(--color-text-lighter);
-  margin-top: var(--space-lg);
-}
-
-.contact-form-fallback a {
-  color: var(--color-primary);
-  text-decoration: none;
-}
-
-.contact-form-fallback a:hover {
-  text-decoration: underline;
-}
-
-/* ════════════════════════════════════════════
-   INFO SIDEBAR
-   ════════════════════════════════════════════ */
-
-.contact-info-col {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.contact-info-block {
-  padding: var(--space-xl) 0;
-  border-top: 1px solid var(--color-border-light);
-}
-
-.contact-info-block:last-child {
-  border-bottom: 1px solid var(--color-border-light);
-}
-
-.contact-info-heading {
-  font-family: var(--font-ui);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-text-lighter);
-  margin: 0 0 var(--space-sm);
-}
-
-.contact-info-body {
-  font-family: var(--font-reading);
-  font-size: 0.85rem;
-  line-height: 1.75;
-  color: var(--color-text-light);
-  margin: 0 0 var(--space-md);
-}
-
-.contact-info-link {
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.18s ease;
-}
-
-.contact-info-link:hover {
-  color: var(--color-primary-dark);
-}
-
-/* ── Response time block ── */
-.contact-info-block--response {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border-light) !important;
-  padding: var(--space-lg) !important;
-  margin-top: var(--space-lg);
-}
-
-.contact-info-block--response svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-  color: var(--color-primary);
-  margin-top: 1px;
-}
-
-.contact-info-block--response p {
   font-family: var(--font-ui);
   font-size: 0.8rem;
-  line-height: 1.6;
-  color: var(--color-text-light);
-  margin: 0;
-}
-
-.contact-info-block--response strong {
-  color: var(--color-text);
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
 }
-
-/* ════════════════════════════════════════════
-   RESPONSIVE
-   ════════════════════════════════════════════ */
-
-@media (max-width: 760px) {
-  .contact-body {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+  opacity: 0.7;
+}
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.8rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  width: 100%;
+}
+.submit-btn:hover {
+  background: var(--hover-dark);
+  transform: translateY(-2px);
+}
+.btn-icon {
+  transition: transform 0.2s;
+}
+.submit-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+.contact-alternate {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+  text-align: center;
+  font-family: var(--font-ui);
+}
+.contact-alternate p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.contact-alternate a {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}
+.contact-alternate a:hover {
+  border-bottom-style: solid;
+}
+@media (min-width: 640px) {
+  .submit-btn {
+    width: auto;
   }
-
-  .contact-info-col {
-    order: -1; /* info above form on mobile */
-  }
-
-  .contact-form-card {
-    padding: var(--space-xl) var(--space-lg);
+  .contact-card {
+    padding: 2.5rem;
   }
 }
 </style>
-
-<script>
-(function() {
-  var btn = document.getElementById('contact-submit');
-  if (!btn) return;
-
-  btn.addEventListener('click', function() {
-    var name    = (document.getElementById('contact-name').value    || '').trim();
-    var email   = (document.getElementById('contact-email').value   || '').trim();
-    var subject = (document.getElementById('contact-subject').value || 'General enquiry').trim();
-    var message = (document.getElementById('contact-message').value || '').trim();
-
-    if (!message) {
-      document.getElementById('contact-message').focus();
-      return;
-    }
-
-    var body = '';
-    if (name)    body += 'Name: ' + name + '\n';
-    if (email)   body += 'Reply-to: ' + email + '\n';
-    if (name || email) body += '\n';
-    body += message;
-
-    var mailto = 'mailto:contact@veridus.space'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body='    + encodeURIComponent(body);
-
-    window.location.href = mailto;
-  });
-})();
-</script>
-
 {{ end }}

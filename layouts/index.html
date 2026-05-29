@@ -1,384 +1,332 @@
 {{ define "main" }}
-<div class="home-page">
+{{ $allPages := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "africa" "global-affairs") }}
+{{ $allArticles := sort $allPages "Date" "desc" }}
 
-  {{ $allArticles := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle") }}
-
-  {{/* ── Resolve pinned ── */}}
-  {{ $pinned := slice }}
-  {{ range where $allArticles "Params.pin" true }}
-    {{ $expired := false }}
-    {{ with .Params.pin_expiry }}
-      {{ if lt (time .) now }}{{ $expired = true }}{{ end }}
-    {{ end }}
-    {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
+{{ $pinned := slice }}
+{{ range where $allArticles "Params.pin" true }}
+  {{ $expired := false }}
+  {{ with .Params.pin_expiry }}
+    {{ if lt (time .) now }}{{ $expired = true }}{{ end }}
   {{ end }}
+  {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
+{{ end }}
 
-  {{ $pinnedPermalinks := slice }}
-  {{ range $pinned }}{{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}{{ end }}
+{{ $pinnedPermalinks := slice }}
+{{ range $pinned }}{{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}{{ end }}
 
-  {{ $unpinned := slice }}
-  {{ range $allArticles }}
-    {{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}
-  {{ end }}
+{{ $unpinned := slice }}
+{{ range $allArticles }}
+  {{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}
+{{ end }}
 
-  {{ $paginator := .Paginate $unpinned }}
+{{ $paginator := .Paginate $unpinned }}
 
-  {{ if eq $paginator.PageNumber 1 }}
+{{ if eq $paginator.PageNumber 1 }}
+  {{/* ── FIRST PAGE: full broadsheet layout ── */}}
+  {{ $pool := $paginator.Pages }}
+  {{ if $pinned }}{{ $pool = $pinned | append $paginator.Pages }}{{ end }}
 
-    {{/* ══════════════════════════════════════
-         HERO — first pinned or first paginator page
-         ══════════════════════════════════════ */}}
-    {{ $hero := "" }}
-    {{ if $pinned }}
-      {{ $hero = index $pinned 0 }}
-    {{ else if $paginator.Pages }}
-      {{ $hero = index $paginator.Pages 0 }}
-    {{ end }}
+  <div class="np-page">
 
-    {{ with $hero }}
-      <section class="hp-hero">
-        {{ $heroPermalink := .Permalink }}
-        {{ $heroTitle := .Title }}
-        {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-          <a href="{{ $heroPermalink }}" class="hp-hero-img" tabindex="-1" aria-hidden="true">
-            {{ $img := .Resize "1400x" }}
-            <img src="{{ $img.RelPermalink }}"
-                 alt="{{ $heroTitle }}"
-                 loading="eager"
-                 fetchpriority="high"
-                 decoding="sync"
-                 width="{{ $img.Width }}"
-                 height="{{ $img.Height }}">
-          </a>
+    {{/* ── DATE RIBBON ── */}}
+    <div class="np-ribbon">
+      <span class="np-ribbon-date">{{ now.Format "Monday, January 2, 2006" }}</span>
+      <span class="np-ribbon-rule"></span>
+      <nav class="np-ribbon-nav" aria-label="Sections">
+        <a href="/categories/africa/">Africa</a>
+        <a href="/categories/business/">Business</a>
+        <a href="/categories/climate/">Climate</a>
+        <a href="/categories/opinion/">Opinion</a>
+        <a href="/categories/politics/">Politics</a>
+        <a href="/categories/sports/">Sports</a>
+      </nav>
+      <span class="np-ribbon-rule"></span>
+      <a href="/search/" class="np-ribbon-search" aria-label="Search">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="6"/><path d="m16 16-3.5-3.5"/></svg>
+      </a>
+    </div>
+
+    {{/* ── NAMEPLATE ── */}}
+    <header class="np-nameplate">
+      <div class="np-nameplate-inner">
+        <a href="/" class="np-nameplate-wordmark">{{ .Site.Title }}</a>
+        <p class="np-nameplate-tagline">{{ .Site.Params.description }}</p>
+      </div>
+    </header>
+
+    <div class="np-thick-rule" aria-hidden="true"></div>
+
+    {{/* FRONT PAGE GRID */}}
+    <section class="np-front" aria-label="Front page">
+      <div class="np-front-inner">
+
+        {{/* LEAD STORY */}}
+        {{ with index $pool 0 }}
+          {{ $hasImg := false }}
+          {{ $imageRes := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+          {{ if $imageRes }}{{ $hasImg = true }}{{ end }}
+          {{ $cat := index .Params.categories 0 | default "" }}
+          {{ $catSlot := 0 }}
+          {{ $catL := $cat | lower }}
+          {{ if eq $catL "opinion" }}{{ $catSlot = 1 }}{{ else if eq $catL "politics" }}{{ $catSlot = 2 }}{{ else if eq $catL "business" }}{{ $catSlot = 3 }}{{ else if eq $catL "climate" }}{{ $catSlot = 4 }}{{ else if eq $catL "sports" }}{{ $catSlot = 5 }}{{ else if eq $catL "africa" }}{{ $catSlot = 1 }}{{ end }}
+
+          <article class="np-lead" data-slot="{{ $catSlot }}">
+            {{ if $hasImg }}
+              {{ with $imageRes }}
+                {{ $img := .Resize "900x" }}
+                <a href="{{ $.Permalink }}" class="np-lead-img-wrap">
+                  <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="eager" fetchpriority="high" width="{{ $img.Width }}" height="{{ $img.Height }}">
+                </a>
+              {{ end }}
+            {{ else }}
+              {{ $words := split .Title " " }}
+              {{ $ini := "" }}{{ range first 3 $words }}{{ $ini = print $ini (. | upper | truncate 1 "") }}{{ end }}
+              <a href="{{ .Permalink }}" class="np-lead-img-wrap np-lead-placeholder">
+                <div class="card-placeholder card-placeholder--hero" data-cat="{{ $catL }}">
+                  <div class="cp-icon-wrap" aria-hidden="true">
+                    {{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon cp-icon--lg") }}
+                  </div>
+                  <span class="cp-cat-pill">{{ $cat }}</span>
+                </div>
+              </a>
+            {{ end }}
+            {{ with $cat }}<span class="np-kicker np-kicker--lead">{{ . }}</span>{{ end }}
+            <h2 class="np-lead-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+            {{ with .Summary | truncate 220 }}<p class="np-lead-deck">{{ . }}</p>{{ end }}
+            <div class="np-byline">
+              {{ with .Params.author }}<span class="np-byline-name">By {{ . }}</span>{{ end }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+              <span class="np-dot">·</span><span>{{ .ReadingTime }} min read</span>
+            </div>
+          </article>
         {{ end }}
-        <div class="hp-hero-text">
-          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-          <h2 class="hp-hero-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <p class="hp-hero-standfirst">{{ .Summary | truncate 200 }}</p>
-          <div class="hp-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-            <span class="hp-dot">·</span>
-            <span>{{ .ReadingTime }} min read</span>
-          </div>
+
+        {{/* CENTRE COLUMN */}}
+        <div class="np-col-centre">
+          {{ range first 2 (after 1 $pool) }}
+            {{ $hasImg2 := false }}
+            {{ $imgRes2 := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+            {{ if $imgRes2 }}{{ $hasImg2 = true }}{{ end }}
+            {{ $cat2 := index .Params.categories 0 | default "" }}
+            {{ $cat2L := $cat2 | lower }}
+            <article class="np-second" data-cat="{{ $cat2L }}">
+              {{ if $hasImg2 }}
+                {{ with $imgRes2 }}
+                  {{ $img2 := .Fill "480x320" }}
+                  <a href="{{ $.Permalink }}" class="np-second-img-wrap">
+                    <img src="{{ $img2.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $img2.Width }}" height="{{ $img2.Height }}">
+                  </a>
+                {{ end }}
+              {{ else }}
+                <a href="{{ .Permalink }}" class="np-second-img-wrap">
+                  <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $cat2L }}">
+                    <div class="cp-icon-wrap" aria-hidden="true">
+                      {{ partial "cat-icon.html" (dict "cat" $cat2L "class" "cp-icon") }}
+                    </div>
+                    <span class="cp-cat-pill">{{ $cat2 }}</span>
+                  </div>
+                </a>
+              {{ end }}
+              {{ with $cat2 }}<span class="np-kicker">{{ . }}</span>{{ end }}
+              <h3 class="np-second-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+              {{ with .Summary | truncate 140 }}<p class="np-second-deck">{{ . }}</p>{{ end }}
+              <div class="np-byline np-byline--sm">
+                {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              </div>
+            </article>
+          {{ end }}
         </div>
-      </section>
-    {{ end }}
 
-    {{/* ══════════════════════════════════════
-         Determine grid source from paginator pages
-         (fixes bug where page 1 rendered all articles)
-         ══════════════════════════════════════ */}}
-    {{ $gridPages := $paginator.Pages }}
-    {{ if not $pinned }}
-      {{/* Hero came from paginator slot 0 — skip it in the grid */}}
-      {{ $gridPages = after 1 $paginator.Pages }}
-    {{ end }}
-
-    {{/* ══════════════════════════════════════
-         MAIN GRID — Lead | Secondary | Stack
-         ══════════════════════════════════════ */}}
-    {{ if $gridPages }}
-    <section class="hp-grid">
-
-      {{/* Lead — col 1+2 */}}
-      {{ with index $gridPages 0 }}
-        {{ $p := .Permalink }}{{ $t := .Title }}
-        <article class="hp-lead">
-          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
-              {{ $img := .Resize "900x" }}
-              <img src="{{ $img.RelPermalink }}"
-                   alt="{{ $t }}"
-                   loading="lazy"
-                   decoding="async"
-                   width="{{ $img.Width }}"
-                   height="{{ $img.Height }}">
-            </a>
+        {{/* RIGHT COLUMN */}}
+        <aside class="np-col-digest">
+          <div class="np-digest-head"><span class="np-section-label">Latest</span></div>
+          {{ range after 3 (first 13 $pool) }}
+            <article class="np-digest-row">
+              {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+              <h4 class="np-digest-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+              <div class="np-byline np-byline--xs">
+                {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              </div>
+            </article>
           {{ end }}
-          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-          <h2 class="hp-lead-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <p class="hp-standfirst">{{ .Summary | truncate 180 }}</p>
-          <div class="hp-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-            <span class="hp-dot">·</span>
-            <span>{{ .ReadingTime }} min read</span>
-          </div>
-        </article>
-      {{ end }}
+          <a href="/archive/" class="np-digest-more">More stories →</a>
+        </aside>
 
-      {{/* Secondary — col 3 */}}
-      {{ with index $gridPages 1 }}
-        {{ $p := .Permalink }}{{ $t := .Title }}
-        <article class="hp-secondary">
-          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
-              {{ $img := .Resize "600x" }}
-              <img src="{{ $img.RelPermalink }}"
-                   alt="{{ $t }}"
-                   loading="lazy"
-                   decoding="async"
-                   width="{{ $img.Width }}"
-                   height="{{ $img.Height }}">
-            </a>
-          {{ end }}
-          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-          <h2 class="hp-secondary-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <p class="hp-standfirst">{{ .Summary | truncate 130 }}</p>
-          <div class="hp-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-            <span class="hp-dot">·</span>
-            <span>{{ .ReadingTime }} min read</span>
-          </div>
-        </article>
-      {{ end }}
+      </div>
+    </section>
 
-      {{/* Stack — col 4, text-only */}}
-      <div class="hp-stack">
-        {{ range after 2 (first 4 $gridPages) }}
-          <article class="hp-stack-item">
-            {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-            <h2 class="hp-stack-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            <div class="hp-meta">
+    <div class="np-rule" aria-hidden="true"></div>
+
+    {{/* SECTIONS ROW (Opinion + Africa) */}}
+    {{ $opinionPages := where .Site.RegularPages "Params.categories" "intersect" (slice "opinion") | first 3 }}
+    {{ $africaPages  := where .Site.RegularPages "Params.categories" "intersect" (slice "africa")  | first 3 }}
+    {{ if or $opinionPages $africaPages }}
+    <section class="np-sections-row" aria-label="Opinion and Africa">
+      {{ if $opinionPages }}
+      <div class="np-section-col">
+        <header class="np-section-col-head">
+          <span class="np-section-label np-section-label--opinion">Opinion</span>
+          <a href="/categories/opinion/" class="np-section-more">All Opinion →</a>
+        </header>
+        {{ range $opinionPages }}
+          <article class="np-section-item">
+            {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs" style="color:var(--accent)">Opinion</span>{{ end }}
+            <h3 class="np-section-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Params.author }}<p class="np-section-byline">By {{ . }}</p>{{ end }}
+          </article>
+        {{ end }}
+      </div>
+      {{ end }}
+      {{ if $africaPages }}
+      <div class="np-section-col">
+        <header class="np-section-col-head">
+          <span class="np-section-label np-section-label--africa">Africa</span>
+          <a href="/categories/africa/" class="np-section-more">All Africa →</a>
+        </header>
+        {{ range $africaPages }}
+          <article class="np-section-item">
+            <h3 class="np-section-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary | truncate 100 }}<p class="np-section-deck">{{ . }}</p>{{ end }}
+            <div class="np-byline np-byline--xs">
               <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-              <span class="hp-dot">·</span>
-              <span>{{ .ReadingTime }} min read</span>
             </div>
           </article>
         {{ end }}
       </div>
-
+      {{ end }}
     </section>
     {{ end }}
 
-    {{/* ══════════════════════════════════════
-         MORE STORIES — all remaining articles,
-         3-col grid, no section labels
-         ══════════════════════════════════════ */}}
-    {{ $moreArticles := after 4 $gridPages }}
+    <div class="np-rule" aria-hidden="true"></div>
 
-    {{/* ══════════════════════════════════════
-         NEWSLETTER STRIP — between grid and more
-         ══════════════════════════════════════ */}}
-    <div class="hp-newsletter">
-      <div class="hp-newsletter-inner">
-        <div class="hp-newsletter-text">
-          <p class="hp-newsletter-eyebrow">Stay informed</p>
-          <p class="hp-newsletter-heading">Information with intention — straight to your inbox.</p>
-          <p class="hp-newsletter-sub">New pieces on Africa's ideas, politics, and future. No algorithm, no noise.</p>
+    {{/* NEWSLETTER STRIP */}}
+    <div class="np-newsletter">
+      <div class="np-newsletter-inner">
+        <svg class="np-newsletter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="np-newsletter-text">
+          <p class="np-newsletter-hed">Independent journalism, delivered quietly.</p>
+          <p class="np-newsletter-sub">New pieces on Africa's ideas, politics, and future. No algorithm, no noise.</p>
         </div>
-        <div class="hp-newsletter-action">
-          <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates&body=Hi%20Veridus%2C%0A%0APlease%20add%20me%20to%20your%20mailing%20list.%0A%0AThank%20you."
-             class="hp-newsletter-btn">
-            Get new pieces by email
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
-          <p class="hp-newsletter-note">No platform. No tracking. Just email.</p>
-        </div>
+        <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="np-newsletter-btn">Subscribe by email</a>
       </div>
     </div>
 
-    {{ if $moreArticles }}
-    <section class="hp-more">
-      {{ range $moreArticles }}
-        {{ $p := .Permalink }}{{ $t := .Title }}
-        <article class="hp-trio-item">
-          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
-              {{ $img := .Resize "600x" }}
-              <img src="{{ $img.RelPermalink }}" alt="{{ $t }}" loading="lazy" decoding="async" width="{{ $img.Width }}" height="{{ $img.Height }}">
-            </a>
-          {{ end }}
-          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-          <h2 class="hp-trio-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <p class="hp-standfirst hp-standfirst--sm">{{ .Summary | truncate 120 }}</p>
-          <div class="hp-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-            <span class="hp-dot">·</span>
-            <span>{{ .ReadingTime }} min read</span>
-          </div>
-        </article>
-      {{ end }}
+    {{/* MORE STORIES (4‑col grid) */}}
+    {{ $more := after 13 $pool }}
+    {{ if $more }}
+    <section class="np-more" aria-label="More stories">
+      <div class="np-rule" aria-hidden="true"></div>
+      <header class="np-more-head">
+        <span class="np-section-label">More Stories</span>
+        <div class="np-more-head-rule"></div>
+      </header>
+      <div class="np-more-grid">
+        {{ range $more }}
+          {{ $hasImgM := false }}
+          {{ $imgResM := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+          {{ if $imgResM }}{{ $hasImgM = true }}{{ end }}
+          {{ $catM := index .Params.categories 0 | default "" }}
+          {{ $catML := $catM | lower }}
+          <article class="np-more-card" data-cat="{{ $catML }}">
+            {{ if $hasImgM }}
+              {{ with $imgResM }}
+                {{ $imgM := .Fill "420x280" }}
+                <a href="{{ $.Permalink }}" class="np-more-img-wrap">
+                  <img src="{{ $imgM.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $imgM.Width }}" height="{{ $imgM.Height }}">
+                </a>
+              {{ end }}
+            {{ else }}
+              <a href="{{ .Permalink }}" class="np-more-img-wrap">
+                <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $catML }}">
+                  <div class="cp-icon-wrap" aria-hidden="true">
+                    {{ partial "cat-icon.html" (dict "cat" $catML "class" "cp-icon") }}
+                  </div>
+                  <span class="cp-cat-pill">{{ $catM }}</span>
+                </div>
+              </a>
+            {{ end }}
+            {{ with $catM }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+            <h3 class="np-more-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="np-byline np-byline--xs">
+              {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+            </div>
+          </article>
+        {{ end }}
+      </div>
     </section>
     {{ end }}
 
-  {{ else }}
+  </div>{{/* /np-page */}}
 
-    {{/* ══════════════════════════════════════
-         PAGE 2+: 3-column grid
-         ══════════════════════════════════════ */}}
-    <section class="hp-trio hp-trio--page2">
-      {{ range $paginator.Pages }}
-        {{ $p := .Permalink }}{{ $t := .Title }}
-        <article class="hp-trio-item">
-          {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            <a href="{{ $p }}" class="hp-img-wrap" tabindex="-1" aria-hidden="true">
-              {{ $img := .Resize "600x" }}
-              <img src="{{ $img.RelPermalink }}" alt="{{ $t }}" loading="lazy" decoding="async" width="{{ $img.Width }}" height="{{ $img.Height }}">
-            </a>
-          {{ end }}
-          {{ if .Params.categories }}<span class="hp-cat">{{ index .Params.categories 0 }}</span>{{ end }}
-          <h2 class="hp-trio-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-          <p class="hp-standfirst hp-standfirst--sm">{{ .Summary | truncate 120 }}</p>
-          <div class="hp-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-            <span class="hp-dot">·</span>
-            <span>{{ .ReadingTime }} min read</span>
-          </div>
-        </article>
-      {{ end }}
-    </section>
-
-  {{ end }}
-
+  {{/* PAGINATION for page 1 */}}
   {{ if gt $paginator.TotalPages 1 }}
-  <nav class="home-pagination" aria-label="Page navigation">
-    {{ if $paginator.HasPrev }}
-      <a href="{{ $paginator.Prev.URL }}" class="page-btn">← Newer</a>
-    {{ end }}
-    <span class="page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-    {{ if $paginator.HasNext }}
-      <a href="{{ $paginator.Next.URL }}" class="page-btn">Older →</a>
-    {{ end }}
+  <nav class="paginated-nav" aria-label="Page navigation">
+    <div class="paginated-nav-inner">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+      {{ else }}
+        <span class="paginated-prev disabled">← Newer</span>
+      {{ end }}
+      <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+      {{ else }}
+        <span class="paginated-next disabled">Older →</span>
+      {{ end }}
+    </div>
   </nav>
   {{ end }}
 
-</div>
+{{ else }}
+  {{/* ============================================================
+       PAGES 2+ – SIMPLIFIED GRID (no images, no summaries, only headings)
+       ============================================================ */}}
+  <div class="archive-grid-page">
+    <header class="archive-grid-header">
+      <div class="archive-grid-eyebrow">{{ now.Format "Monday, January 2, 2006" }}</div>
+      <h1 class="archive-grid-title">More from {{ .Site.Title }}</h1>
+      <p class="archive-grid-subtitle">Older articles, essays, and investigations – in full.</p>
+    </header>
 
-<style>
-/* ════════════════════════════════════════════
-   HOMEPAGE NEWSLETTER STRIP
-   ════════════════════════════════════════════ */
+    <div class="archive-articles-grid">
+      {{ range $paginator.Pages }}
+        <article class="archive-item-simple">
+          {{ with index .Params.categories 0 }}
+            <span class="archive-item-cat">{{ . }}</span>
+          {{ end }}
+          <h2 class="archive-item-title">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h2>
+          <div class="archive-item-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            <span class="archive-item-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
+            {{ with .Params.author }}<span class="archive-item-author">· {{ . }}</span>{{ end }}
+          </div>
+        </article>
+      {{ end }}
+    </div>
 
-.hp-newsletter {
-  margin: var(--space-2xl) 0;
-  padding: var(--space-2xl) var(--space-2xl);
-  background: var(--color-bg-alt);
-  border-top: 3px solid var(--color-primary);
-  border-radius: 0 0 12px 12px;
-}
-
-[data-theme="dark"] .hp-newsletter {
-  background: var(--color-bg-alt);
-}
-
-.hp-newsletter-inner {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--space-2xl);
-  align-items: center;
-}
-
-.hp-newsletter-eyebrow {
-  font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin: 0 0 0.4rem;
-}
-
-.hp-newsletter-heading {
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
-  font-weight: 400;
-  color: var(--color-text);
-  margin: 0 0 0.35rem;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-.hp-newsletter-sub {
-  font-family: var(--font-reading);
-  font-size: 0.875rem;
-  font-style: italic;
-  color: var(--color-text-light);
-  margin: 0;
-  line-height: 1.6;
-}
-
-.hp-newsletter-action {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.6rem;
-  flex-shrink: 0;
-}
-
-.hp-newsletter-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  background: #007ACC;
-  padding: 0.75rem 1.4rem;
-  border-radius: 50px;
-  white-space: nowrap;
-  transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
-}
-
-.hp-newsletter-btn svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.hp-newsletter-btn:hover {
-  background: #0062a3;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,122,204,0.35);
-}
-
-.hp-newsletter-btn:hover svg {
-  transform: translateX(2px);
-}
-
-.hp-newsletter-note {
-  font-family: var(--font-ui);
-  font-size: 0.65rem;
-  color: var(--color-text-lighter);
-  margin: 0;
-  letter-spacing: 0.03em;
-}
-
-@media (max-width: 680px) {
-  .hp-newsletter-inner {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
-}
-
-/* ════════════════════════════════════════════
-   MORE STORIES — 3-col grid, flows directly
-   beneath the main grid with a single top rule
-   ════════════════════════════════════════════ */
-
-.hp-more {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2xl);
-  padding-top: var(--space-2xl);
-  margin-top: var(--space-xl);
-  border-top: 1px solid var(--color-border-light);
-}
-
-@media (max-width: 900px) {
-  .hp-more { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 560px) {
-  .hp-more { grid-template-columns: 1fr; }
-}
-</style>
-
+    {{ if gt $paginator.TotalPages 1 }}
+    <nav class="paginated-nav" aria-label="Page navigation">
+      <div class="paginated-nav-inner">
+        {{ if $paginator.HasPrev }}
+          <a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+        {{ else }}
+          <span class="paginated-prev disabled">← Newer</span>
+        {{ end }}
+        <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+        {{ if $paginator.HasNext }}
+          <a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+        {{ else }}
+          <span class="paginated-next disabled">Older →</span>
+        {{ end }}
+      </div>
+    </nav>
+    {{ end }}
+  </div>
+{{ end }}
 {{ end }}
