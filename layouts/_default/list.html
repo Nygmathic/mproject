@@ -16,7 +16,6 @@
 <div class="category-list-page">
   <header class="category-header">
     <div class="category-header-inner">
-      <div class="category-eyebrow">{{ now.Format "Monday, January 2, 2006" }}</div>
       <h1 class="category-title">{{ .Title }}</h1>
       {{ if $desc }}
         <p class="category-desc">{{ $desc }}</p>
@@ -61,7 +60,7 @@
 </div>
 
 <style>
-/* Simplified category grid – only headings, no images/summaries */
+/* Simplified category grid – only headings, no images/summaries (date removed) */
 .category-list-page {
   max-width: 1280px;
   margin: 0 auto;
@@ -72,14 +71,6 @@
   margin-bottom: 2.5rem;
   border-bottom: 2px double var(--border);
   padding-bottom: 1.5rem;
-}
-.category-eyebrow {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
 }
 .category-title {
   font-family: var(--font-display);
@@ -179,7 +170,7 @@
   transition: color 0.2s;
 }
 .category-item-title a:hover {
-  color: var(--accent);
+  color: var(--hover);
 }
 .category-item-meta {
   font-family: var(--font-ui);

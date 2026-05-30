@@ -104,7 +104,7 @@
     </footer>
   </div>
 
-  {{/* Newsletter Toast */}}
+  {{/* ELEGANT NEWSLETTER TOAST – button icon reduced to 14px */}}
   <div id="nl-toast" class="nl-toast" aria-live="polite" hidden>
     <div class="nl-toast-glow" aria-hidden="true"></div>
     <button class="nl-toast-close" id="nl-toast-close" aria-label="Dismiss">
@@ -118,11 +118,11 @@
     <p class="nl-toast-body">New pieces on Africa's ideas, politics, and future — delivered quietly, without noise.</p>
     <div class="nl-toast-divider"></div>
     <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="nl-toast-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       Get new pieces by email
     </a>
     <p class="nl-toast-note">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       No platform. No tracking. Just email.
     </p>
   </div>
@@ -216,6 +216,176 @@
   {{ end }}
 </article>
 
+<style>
+/* ============================================================
+   REFINED NEWSLETTER TOAST – 24px top icon, 14px button icon
+   ============================================================ */
+.nl-toast {
+  --nl-toast-width: min(90vw, 340px);
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: var(--nl-toast-width);
+  background: var(--bg);
+  border-radius: 20px;
+  box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+  padding: 20px;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+              transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+              visibility 0.3s;
+  backdrop-filter: blur(16px);
+  background: rgba(var(--bg-rgb), 0.94);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+}
+.nl-toast.nl-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.nl-toast.nl-dismissed {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  visibility: hidden;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+}
+.nl-toast-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at 30% 20%, rgba(var(--accent-rgb), 0.05), transparent 70%);
+  pointer-events: none;
+}
+.nl-toast-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.04);
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+.nl-toast-close:hover {
+  background: rgba(0,0,0,0.08);
+  color: var(--text-primary);
+}
+.nl-toast-close svg {
+  width: 14px;
+  height: 14px;
+}
+.nl-toast-icon {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+.nl-toast-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.4;
+  color: var(--accent);
+}
+.nl-toast-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.nl-toast-heading {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.nl-toast-body {
+  font-family: var(--font-reading);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+.nl-toast-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 14px 0;
+}
+.nl-toast-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 10px 16px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.nl-toast-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+}
+.nl-toast-btn:hover {
+  background: var(--hover-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.25);
+}
+.nl-toast-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+.nl-toast-note svg {
+  width: 11px;
+  height: 11px;
+}
+@media (max-width: 600px) {
+  .nl-toast {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    padding: 18px;
+  }
+  .nl-toast-heading {
+    font-size: 1.2rem;
+  }
+}
+[data-theme="dark"] .nl-toast {
+  background: rgba(18, 18, 18, 0.96);
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
+</style>
+
 <script>
 (function() {
   // Share functionality
@@ -242,46 +412,41 @@
     }
   }
 
-  // Newsletter toast
-  var toast = document.getElementById('nl-toast'), closeBtn = document.getElementById('nl-toast-close');
-  var STORAGE_KEY = 'veridus-nl-dismissed', shown = false;
-  if(toast) {
-    function wasDismissed() {
-      try {
-        var ts = localStorage.getItem(STORAGE_KEY);
-        if(!ts) return false;
-        return (Date.now() - parseInt(ts,10)) < 7 * 24 * 60 * 60 * 1000;
-      } catch(e) { return false; }
-    }
+  // Newsletter toast – appears at 70% scroll
+  var toast = document.getElementById('nl-toast');
+  if (toast) {
+    var closeBtn = document.getElementById('nl-toast-close');
+    var shown = false;
+
     function showToast() {
-      if(shown || wasDismissed()) return;
+      if (shown) return;
       shown = true;
       toast.hidden = false;
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          toast.classList.add('nl-visible');
-        });
-      });
+      setTimeout(function() {
+        toast.classList.add('nl-visible');
+      }, 20);
     }
+
     function dismissToast() {
       toast.classList.remove('nl-visible');
       toast.classList.add('nl-dismissed');
-      try {
-        localStorage.setItem(STORAGE_KEY, Date.now().toString());
-      } catch(e) {}
       setTimeout(function() {
         toast.hidden = true;
       }, 300);
     }
-    if(closeBtn) closeBtn.addEventListener('click', dismissToast);
+
+    if (closeBtn) closeBtn.addEventListener('click', dismissToast);
     var emailLink = toast.querySelector('.nl-toast-btn');
-    if(emailLink) emailLink.addEventListener('click', function() { setTimeout(dismissToast, 400); });
-    window.addEventListener('scroll', function() {
+    if (emailLink) emailLink.addEventListener('click', function() { setTimeout(dismissToast, 400); });
+
+    function checkScroll() {
       var st = window.scrollY || document.documentElement.scrollTop;
       var dh = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       var pct = dh > 0 ? (st / dh) * 100 : 0;
-      if(pct >= 70) showToast();
-    }, { passive: true });
+      if (pct >= 70) showToast();
+    }
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
   }
 })();
 </script>
