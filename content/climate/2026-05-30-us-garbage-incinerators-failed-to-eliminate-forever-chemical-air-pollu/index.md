@@ -1,0 +1,29 @@
+---
+title: "US garbage incinerators are failing to eliminate ‘forever chemical’ air pollution, experts warn"
+seo_title: "US Garbage Incinerators Failed to Eliminate Forever Chemical Air Pollution"
+date: 2026-05-30T13:00:59Z
+lastmod: 2026-05-30T13:00:59Z
+draft: false
+featured: false
+categories: ["Climate", "News"]
+tags: ["climate change", "environment", "sustainability", "global warming", "garbage incinerators", "forever chemicals", "air pollution", "public health"]
+description: "Experts warn that US garbage incinerators are failing to eliminate 'forever chemical' air pollution, posing a significant threat to public health, particularly in low-income neighborhoods."
+focus_keyword: "US garbage incinerators forever chemicals air pollution"
+keywords: ["garbage incinerators", "forever chemicals", "air pollution", "public health", "environmental justice"]
+---
+
+## Toxic Legacy: US Garbage Incinerators Fail to Eliminate 'Forever Chemical' Air Pollution
+
+A noxious plume of toxic fumes wafts over the modest homes of East St. Louis, Illinois, a city long plagued by environmental neglect. In the shadow of a sprawling garbage incinerator, residents struggle with respiratory problems, and pregnant women are advised to avoid the area altogether. Yet, the facility's operators claim that their incinerator is a success story, reducing emissions of "forever chemicals" by 99.6%. But experts warn that the figures are misleading, and the true impact on public health is far more sinister.
+
+The Pfas "forever chemicals" – per- and polyfluoroalkyl substances – have been linked to a range of serious health problems, including cancer, reproductive issues, and impaired cognitive development. Despite their name, these chemicals are not forever, but they persist in the environment for centuries, contaminating soil, water, and air. The waste management industry has long touted incineration as a solution to the Pfas crisis, but a closer look reveals a more complicated picture. Incinerators are designed to burn waste at extremely high temperatures, supposedly breaking down the Pfas into harmless byproducts. However, the process is far from foolproof, and many incinerators are failing to eliminate the "forever chemicals" from the air.
+
+The nation's garbage incinerators are concentrated in low-income neighborhoods, where residents are already vulnerable to environmental injustices. In these communities, the air is often thick with pollutants from nearby factories, highways, and waste facilities, further exacerbating existing health problems. Public health advocates warn that the Pfas emissions from incinerators are a ticking time bomb, threatening to unleash a new wave of environmental disasters in the years to come. "The science is clear: Pfas are a public health menace, and incinerators are not a solution," says Dr. Julia Brody, executive director of the Silent Spring Institute, a leading research organization on environmental health issues.
+
+The industry's push for incineration as a solution to the Pfas crisis is not new, but it has gained momentum in recent years as the waste management industry seeks to profit from the growing demand for disposal services. The latest report from the industry trade group, the National Waste and Recycling Association, claims that Minnesota's incinerators have reduced their Pfas emissions by an impressive 99.6%. While the figure may seem impressive, experts note that the data is incomplete and does not account for other types of Pfas emissions, such as those generated during the incinerator's startup and shutdown phases. "The industry is cherry-picking the data to make themselves look good," says Dr. David Carpenter, director of the Institute for Health and the Environment at the University at Albany. "We need a more comprehensive approach to addressing Pfas pollution, one that includes strict regulations and community-led initiatives."
+
+The legacy of Pfas pollution in the United States is a long and contentious one. In the 1960s, the chemical industry began using Pfas in a range of applications, from non-stick cookware to firefighting foam. The chemicals were hailed as a miracle solution, but their environmental and health impacts were soon revealed. Today, Pfas are found in the blood of nearly every American, and contamination has been detected in countless waterways, parks, and residential areas. The situation is particularly dire in communities like East St. Louis, where the legacy of industrial pollution has taken a devastating toll on public health.
+
+As the debate over Pfas incineration rages on, community leaders are demanding more action from policymakers and industry leaders. In cities like Chicago and Los Angeles, residents are pushing for stricter regulations on incinerator emissions and greater transparency in waste management practices. Meanwhile, public health advocates are calling for a shift towards more sustainable waste management strategies, such as recycling and composting, which can significantly reduce the need for incineration. "We need to rethink our approach to waste management and prioritize the health and well-being of our communities," says Dr. Brody. "The science is clear: incineration is not the solution to the Pfas crisis."
+
+As the nation struggles to come to terms with the human and economic impact of climate change, the Pfas crisis serves as a stark reminder of the need for more sustainable and equitable waste management practices. In the coming months, policymakers and industry leaders will face mounting pressure to address the crisis head-on. What happens next will depend on the choices we make about the future of our environment and our public health. Will we continue to prioritize profits over people, or will we take bold action to protect the most vulnerable among us? The stakes are high, and the outcome is far from certain.
