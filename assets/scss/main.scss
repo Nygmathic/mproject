@@ -1783,3 +1783,26 @@ html body .main-nav .header-inner {
     padding-left: 1rem !important;
   }
 }
+
+/* ============================================================
+   FIX BUTTON HOVER – keep text readable (white)
+   ============================================================ */
+.donate-btn:hover,
+.submit-btn:hover,
+.share-trigger:hover,
+.np-newsletter-btn:hover,
+.nyt-prev:hover,
+.nyt-next:hover,
+.paginated-prev:hover,
+.paginated-next:hover,
+.page-btn:hover,
+.error-btn-primary:hover,
+.contact-form .submit-btn:hover,
+.follow-btn:hover,
+.nl-toast-btn:hover,
+.share-icon:hover {
+  color: #fff !important;           /* keep text white */
+  background: var(--hover-dark) !important; /* dark blue background */
+  border-color: var(--hover-dark) !important;
+  text-decoration: none !important;
+}
