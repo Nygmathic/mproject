@@ -30,6 +30,9 @@ params:
   author_linkedin: ""       # e.g. https://linkedin.com/in/yourprofile
   author_email: "contact@veridus.space"
 
+  # Substack
+  substack_url: "https://veridusnetwork.substack.com"
+
   # Google Analytics — set your Measurement ID here, used in head.html
   analytics_id: "G-RTN42NN743"
 
@@ -74,6 +77,3 @@ markup:
       unsafe: true
   sass:
     transpiler: dartsass
-
-
-    

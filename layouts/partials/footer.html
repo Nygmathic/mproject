@@ -1,4 +1,4 @@
-{{/* Footer – consistent with design tokens */}}
+{{/* Footer – with Substack link (envelope icon) */}}
 <footer class="site-footer">
   <div class="footer-wordmark-bar">
     <div class="footer-container">
@@ -15,24 +15,50 @@
         <p class="footer-col-body">Veridus is an independent publication exploring the meaning behind viral events. No advertisers. No sponsors. No editorial pressure from above.</p>
         <a href="/about/" class="footer-col-more">About {{ .Site.Title }} →</a>
       </div>
+
       <div class="footer-col">
         <h4 class="footer-col-heading">Explore</h4>
         <nav aria-label="Footer explore links">
-          <a href="/">Home</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/search/">Search</a><a href="/privacy/">Privacy Policy</a><a href="/donate/">Support Us</a>
+          <a href="/">Home</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/search/">Search</a>
+          <a href="/privacy/">Privacy Policy</a>
+          <a href="/donate/">Support Us</a>
         </nav>
       </div>
+
       <div class="footer-col">
         <h4 class="footer-col-heading">Topics</h4>
         <nav aria-label="Footer topic links">
-          <a href="/categories/news/">News</a><a href="/categories/politics/">Politics</a><a href="/categories/business/">Business</a><a href="/categories/sports/">Sports</a><a href="/categories/climate/">Climate</a><a href="/categories/africa/">Africa</a><a href="/categories/opinion/">Opinion</a><a href="/archive/">Archive</a>
+          <a href="/categories/africa/">Africa</a>
+          <a href="/categories/business/">Business</a>
+          <a href="/categories/climate/">Climate</a>
+          <a href="/categories/opinion/">Opinion</a>
+          <a href="/categories/politics/">Politics</a>
+          <a href="/categories/sports/">Sports</a>
+          <a href="/categories/law/">Law</a>
+          <a href="/archive/">Archive</a>
         </nav>
       </div>
+
       <div class="footer-col">
         <h4 class="footer-col-heading">Connect</h4>
         <nav aria-label="Footer connect links">
-          <a href="mailto:contact@veridus.space">contact@veridus.space</a>
+          <a href="mailto:{{ .Site.Params.author_email }}">contact@veridus.space</a>
           <a href="/index.xml">RSS Feed</a>
-          {{ with .Site.Params.social.facebook }}<a href="{{ . }}" target="_blank" rel="noopener">Facebook</a>{{ end }}
+          {{ with .Site.Params.substack_url }}
+            <a href="{{ . }}" target="_blank" rel="noopener" class="substack-link">
+              <svg class="substack-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Substack
+            </a>
+          {{ end }}
+          {{ with .Site.Params.social.facebook }}
+            <a href="{{ . }}" target="_blank" rel="noopener">Facebook</a>
+          {{ end }}
         </nav>
       </div>
     </div>
@@ -42,7 +68,9 @@
     <div class="footer-container footer-bottom-inner">
       <p class="footer-copyright">&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
       <div class="footer-bottom-links">
-        <a href="/privacy/">Privacy</a><a href="/index.xml">RSS</a><a href="/donate/">Support</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/index.xml">RSS</a>
+        <a href="/donate/">Support</a>
       </div>
     </div>
   </div>

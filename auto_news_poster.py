@@ -451,8 +451,17 @@ def build_article_prompt(article):
 
 Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.{source_note}
 
+ACCURACY — NON-NEGOTIABLE (violations mean the article must not be published):
+- Every fact, figure, date, name, statistic, and quote you write must come directly and explicitly from the headline or summary provided below. If the source material does not state it, do not write it.
+- Do NOT invent, infer, or extrapolate any fact. If you do not have enough source material to confirm a detail, omit it entirely.
+- Do NOT fabricate or paraphrase quotes. If a quote is not present word-for-word in the source material, do not include it. Use attributed paraphrase only when the source material clearly supports it.
+- Do NOT speculate about causes, outcomes, or motivations unless the source explicitly states them — and if you include speculation present it clearly as speculation ("analysts suggest…", "officials have indicated…") only if those exact words appear in the source.
+- Do NOT fill gaps with background knowledge that contradicts, embellishes, or goes beyond what the source says. General context (e.g. established historical facts) is permitted only when it is unambiguously true and does not misrepresent the specific story.
+- If the headline and summary provide limited facts, write a shorter, accurate article rather than a long, padded, inaccurate one. Accuracy comes before word count.
+- Numbers matter: do not round, inflate, or alter any figures. If the source says "at least 12", write "at least 12" — not "dozens".
+
 STRICT REQUIREMENTS:
-- TARGET: 800 words. Write between 750 and 850 words. Non-negotiable — do not pad, do not cut short.
+- TARGET: 800 words. Write between 750 and 850 words where the source material supports it; if source material is thin, write as many accurate words as the facts allow and do not pad.
 - 6 to 8 substantial paragraphs — no thin or short paragraphs
 - Opening paragraph: Compelling and immediate — draws the reader in without starting with "In a" or "The"
 - Second paragraph: Expand on the key facts and the stakes of the story
@@ -462,7 +471,6 @@ STRICT REQUIREMENTS:
 - Use two or three descriptive H2 subheadings (## Heading) to break the article into sections
 - Tone: Authoritative, measured, internationally minded
 - Vocabulary: Precise journalistic English. No clichés. No sensationalism.
-- Do NOT fabricate quotes, statistics, or facts
 - Do NOT mention or reference any news outlet, wire service, or publication
 - Do NOT include the main headline — body text and subheadings only
 - Do NOT use bullet points or numbered lists — flowing prose only

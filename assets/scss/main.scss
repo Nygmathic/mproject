@@ -1806,3 +1806,35 @@ html body .main-nav .header-inner {
   border-color: var(--hover-dark) !important;
   text-decoration: none !important;
 }
+
+/* Substack social icon */
+.substack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.substack-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.substack-link:hover .substack-icon {
+  opacity: 1;
+}
+
+/* Substack link in footer */
+.substack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.substack-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.substack-link:hover .substack-icon {
+  opacity: 1;
+}
