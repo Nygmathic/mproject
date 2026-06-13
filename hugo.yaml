@@ -23,26 +23,21 @@ params:
   brand_name: "Veridus"
 
   # Author — site-level fallback used in single.html author bio card
-  author: "Veridus Editorial"
-  author_title: "Editorial Team"
-  author_bio: "Veridus is an independent publication exploring the meaning behind viral events."
-  author_twitter: ""        # e.g. https://twitter.com/yourhandle
-  author_linkedin: ""       # e.g. https://linkedin.com/in/yourprofile
+  author: "Collins Obura"
+  author_title: "Information Activist"
+  author_bio: "Collins is an information activist who believes that information serves the public best when it is open, accessible, and responsibly shared. He advocates for transparency and public access to information that affects society, while recognizing that personal information deserves privacy and protection. Through research, analysis, and clear communication, he works to help people better understand the issues, decisions, and events that shape their lives."
+  author_twitter: ""
+  author_linkedin: ""
   author_email: "contact@veridus.space"
 
   # Substack
   substack_url: "https://veridusnetwork.substack.com"
 
-  # Google Analytics — set your Measurement ID here, used in head.html
+  # Google Analytics
   analytics_id: "G-RTN42NN743"
 
-  # Social Media Links — comment out any that are not yet active
+  # Social Media Links
   social:
-    # twitter: "https://twitter.com/yourusername"     # uncomment when active
-   #facebook: "https://facebook.com/profile.php?id=61587502772266"
-    # linkedin: "https://linkedin.com/in/yourprofile" # uncomment when active
-    # instagram: "https://instagram.com/yourusername" # uncomment when active
-    # youtube: "https://youtube.com/@yourchannel"     # uncomment when active
     email: "contact@veridus.space"
     rss: "/index.xml"
 
@@ -70,7 +65,6 @@ menu:
       url: "/categories/sports/"
       weight: 7
 
-# Dart Sass — replaces deprecated libsass
 markup:
   goldmark:
     renderer:

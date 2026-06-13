@@ -1838,3 +1838,43 @@ html body .main-nav .header-inner {
 .substack-link:hover .substack-icon {
   opacity: 1;
 }
+
+
+/* Substack link in footer */
+.substack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.substack-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.substack-link:hover .substack-icon {
+  opacity: 1;
+}
+
+/* Substack link in footer – visible hover effect */
+.substack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.substack-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.substack-link:hover {
+  color: var(--accent) !important;
+}
+
+.substack-link:hover .substack-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
