@@ -2,6 +2,7 @@
 title: "Nairobi Floods Again. When Does 'Again' Become Enough?"
 date: 2026-03-08
 author: Collins Obura
+author_bio: "Collins is an information activist who believes that information serves the public best when it is open, accessible, and responsibly shared. He advocates for transparency and public access to information that affects society, while recognizing that personal information deserves privacy and protection. Through research, analysis, and clear communication, he works to help people better understand the issues, decisions, and events that shape their lives."
 pin: true
 weight: 1
 description: "Every rainy season, Nairobi floods. Every time, officials act surprised. The problem has never been the rain."

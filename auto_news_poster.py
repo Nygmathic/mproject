@@ -2,6 +2,7 @@
 """
 Veridus.space Auto News Poster
 - Fetches global news from RSS + YouTube channels
+- Fetches full article body from source URL for rich, accurate rewrites
 - Prioritises LATEST content — each niche has a recency window
 - YouTube: pulls transcripts for rich rewrites (falls back to description)
 - Rewrites entirely in Veridus voice — original, owned content
@@ -19,6 +20,7 @@ import feedparser
 import requests
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+from html.parser import HTMLParser
 
 # ─── CONFIG ───────────────────────────────────────────────────────────────────
 
@@ -55,18 +57,18 @@ NICHE_LIMITS = {
     # "culture":        2,  # ← uncomment to activate
 }
 
-# Maximum age of an article to be considered — oldest allowed per niche
-# Sports is tight (3 hrs) so post-match content goes up immediately
-# Law is loose (48 hrs) since court judgments don't break by the minute
+# Maximum age of an article to be considered — oldest allowed per niche.
+# Kept tight so the poster never re-surfaces yesterday's news.
+# The 2-hour cron means a 6h window gives 3 chances to pick up a story.
 RECENCY_HOURS = {
-    "sports":         3,
-    "politics":       12,
-    "africa":         12,
-    "business":       12,
-    "curious":        24,
-    # "culture":        24,  # ← uncomment to activate
-    "climate":        48,
-    "law":            72,
+    "sports":         3,   # match reports must be same-day
+    "politics":       6,   # tight — political news moves fast
+    "africa":         6,   # tight — same reason
+    "business":       6,   # markets move daily
+    "curious":        12,  # weird news is slow-burn; slight slack
+    # "culture":        12,  # ← uncomment to activate
+    "climate":        24,  # climate stories don't break by the hour
+    "law":            48,  # judgments publish on court schedules
 }
 
 # ─── RSS FEEDS ────────────────────────────────────────────────────────────────
@@ -214,14 +216,33 @@ def is_english(text):
 # ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 def load_posted_log():
+    """
+    Load the posted-articles log.
+    Format: dict of {article_id: iso_timestamp} — entries older than
+    MAX_LOG_AGE_DAYS are pruned on load so the log never grows unbounded
+    and IDs never silently age out before an article is old enough to repost.
+    """
+    MAX_LOG_AGE_DAYS = 14  # keep IDs for 2 weeks — far longer than any recency window
+    cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_LOG_AGE_DAYS)
+
     if POSTED_LOG.exists():
         try:
-            return json.loads(POSTED_LOG.read_text())
+            raw = json.loads(POSTED_LOG.read_text())
+            # Legacy format: plain list of IDs — migrate to dict with sentinel timestamp
+            if isinstance(raw, list):
+                raw = {aid: "2000-01-01T00:00:00Z" for aid in raw}
+            # Prune entries older than MAX_LOG_AGE_DAYS
+            pruned = {
+                aid: ts for aid, ts in raw.items()
+                if datetime.fromisoformat(ts.replace("Z", "+00:00")) >= cutoff
+            }
+            return pruned
         except Exception:
-            return []
-    return []
+            return {}
+    return {}
 
 def save_posted_log(posted):
+    """Save posted log dict {id: timestamp}. No arbitrary size cap."""
     POSTED_LOG.write_text(json.dumps(posted, indent=2))
 
 def article_id(url):
@@ -246,9 +267,14 @@ def score_by_virality(articles):
     """
     Score each article by cross-feed frequency — stories covered by multiple
     sources are more widely talked about and score higher.
-    Uses significant title word overlap (3+ shared words) as the signal.
-    Returns the same list sorted by (viral_score DESC, pub_date DESC).
+
+    Sorting key: (recency_bucket, viral_score) — both descending.
+    Recency bucket divides age into 2-hour slots so a very fresh story always
+    beats an equally-viral older one, and a story more than 4h old can only
+    win if its viral score is significantly higher.
     """
+    now = datetime.now(timezone.utc)
+
     # Build word sets for each article (significant words only, len > 3)
     stop = {"this","that","with","from","have","will","been","were","they",
             "their","more","than","over","after","into","about","says","said"}
@@ -268,10 +294,19 @@ def score_by_virality(articles):
         )
         scores.append(score)
 
-    # Attach scores and sort: highest virality first, then newest
+    def recency_bucket(article):
+        """Lower bucket = older. Each bucket = 2 hours. Fresh articles get higher bucket."""
+        pub = article.get("pub_date")
+        if not pub:
+            return 0
+        age_hours = max(0, (now - pub).total_seconds() / 3600)
+        # Invert: 0h old → bucket 12, 2h old → bucket 11, … 24h+ → bucket 0
+        return max(0, 12 - int(age_hours / 2))
+
+    # Sort: recency_bucket first (DESC), viral score second (DESC)
     scored = sorted(
         zip(scores, articles),
-        key=lambda x: (x[0], x[1]["pub_date"] or datetime.min.replace(tzinfo=timezone.utc)),
+        key=lambda x: (recency_bucket(x[1]), x[0]),
         reverse=True,
     )
     if any(s > 0 for s, _ in scored):
@@ -422,6 +457,94 @@ def fetch_rss_articles(niche, already_posted):
     print(f"   {len(articles)} fresh articles found {age_info}")
     return articles
 
+# ─── FULL ARTICLE FETCHER ─────────────────────────────────────────────────────
+
+class _TextExtractor(HTMLParser):
+    """Minimal HTML-to-text extractor using only the stdlib."""
+    SKIP_TAGS = {"script", "style", "nav", "header", "footer", "aside",
+                 "noscript", "form", "button", "iframe", "figure", "figcaption"}
+
+    def __init__(self):
+        super().__init__()
+        self._skip_depth = 0
+        self._chunks = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.SKIP_TAGS:
+            self._skip_depth += 1
+
+    def handle_endtag(self, tag):
+        if tag in self.SKIP_TAGS and self._skip_depth > 0:
+            self._skip_depth -= 1
+        if tag in ("p", "h1", "h2", "h3", "h4", "li", "br", "div"):
+            self._chunks.append("\n")
+
+    def handle_data(self, data):
+        if self._skip_depth == 0:
+            self._chunks.append(data)
+
+    def get_text(self):
+        raw = "".join(self._chunks)
+        # Collapse whitespace runs but keep paragraph breaks
+        lines = [" ".join(ln.split()) for ln in raw.splitlines()]
+        return "\n".join(ln for ln in lines if ln)
+
+
+def fetch_full_article(url, min_chars=400, max_chars=6000):
+    """
+    Fetch the full body text of a news article from its source URL.
+
+    Strategy:
+      1. Download raw HTML with a browser-like User-Agent (avoids most 403s).
+      2. Strip boilerplate (nav, scripts, ads) with _TextExtractor.
+      3. Keep only paragraphs that look like prose (≥40 chars, not navigation).
+      4. Return up to max_chars of clean text, or None if fetching fails /
+         the extracted text is shorter than min_chars (page was paywalled,
+         JS-rendered, or returned noise).
+
+    Returns str or None.
+    """
+    try:
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+        resp = requests.get(url, headers=headers, timeout=15, allow_redirects=True)
+        if not resp.ok:
+            print(f"  ⚠️  Full-fetch HTTP {resp.status_code} — falling back to RSS summary")
+            return None
+
+        # Decode safely
+        content = resp.content.decode(resp.apparent_encoding or "utf-8", errors="replace")
+
+        extractor = _TextExtractor()
+        extractor.feed(content)
+        raw_text = extractor.get_text()
+
+        # Keep only paragraphs that look like real prose
+        paragraphs = [
+            ln for ln in raw_text.splitlines()
+            if len(ln) >= 40 and not ln.strip().startswith(("©", "Cookie", "Subscribe", "Sign in", "Log in"))
+        ]
+        body = "\n\n".join(paragraphs)
+
+        if len(body) < min_chars:
+            print(f"  ⚠️  Full-fetch yielded too little text ({len(body)} chars) — likely paywalled or JS-rendered")
+            return None
+
+        truncated = body[:max_chars]
+        print(f"  📄 Full article fetched: {len(truncated)} chars from source")
+        return truncated
+
+    except Exception as e:
+        print(f"  ⚠️  Full-fetch failed: {e}")
+        return None
+
+
 # ─── PROMPT: ARTICLE BODY ─────────────────────────────────────────────────────
 
 def build_article_prompt(article):
@@ -446,6 +569,13 @@ def build_article_prompt(article):
         source_note = "\nSOURCE NOTE: The summary below is a spoken transcript from a video report. Rewrite it entirely as a polished written article — remove all spoken-word patterns, filler phrases, and repetition."
     elif source_type == "youtube_description":
         source_note = "\nSOURCE NOTE: The summary is from a video description. Expand it significantly using your knowledge of the topic."
+
+    # Use the full fetched article body when available; fall back to RSS summary
+    full_text = article.get("full_text", "")
+    if full_text:
+        source_block = f"SOURCE TEXT (full article body — use all facts contained here):\n{full_text}"
+    else:
+        source_block = f"SUMMARY (RSS excerpt only — base the article strictly on these facts):\n{article['summary']}"
 
     return f"""You are a senior international correspondent writing for Veridus — an independent African publication with the precision of The Guardian and the voice of a publication that thinks for itself.
 
@@ -480,8 +610,7 @@ EDITORIAL FOCUS: {guidance}
 
 NICHE: {niche.upper()}
 HEADLINE: {article['title']}
-SUMMARY: {article['summary']}
-
+{source_block}
 Write the full article now:"""
 
 # ─── PROMPT: SEO METADATA ─────────────────────────────────────────────────────
@@ -796,6 +925,15 @@ def call_groq(prompt, max_tokens=2048):
 # ─── ARTICLE REWRITE ──────────────────────────────────────────────────────────
 
 def rewrite_article(article):
+    # Attempt to fetch the full article body from source URL so the AI has
+    # enough real facts to write a complete 800-word piece without inventing.
+    # Falls back gracefully to the RSS summary if the page is paywalled/fails.
+    if not article.get("full_text") and article.get("url"):
+        print(f"  🌐 Fetching full article from source...")
+        full_text = fetch_full_article(article["url"])
+        if full_text:
+            article = {**article, "full_text": full_text}
+
     prompt = build_article_prompt(article)
 
     # Groq first — faster and more reliable on free tier
@@ -804,9 +942,9 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Groq: {words} words")
-        if words >= 300:
+        if words >= 600:
             return text
-        print(f"  ⚠️  Too short ({words} words)")
+        print(f"  ⚠️  Too short ({words} words) — trying Gemini for a fuller rewrite")
 
     # Gemini fallback
     print(f"  🔄 Trying Gemini fallback...")
@@ -814,7 +952,7 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Gemini: {words} words")
-        if words >= 300:
+        if words >= 600:
             return text
         print(f"  ⚠️  Too short ({words} words)")
 
@@ -946,7 +1084,8 @@ def main():
     if GROQ_API_KEY:
         print(f"✅ Groq key loaded (length: {len(GROQ_API_KEY)})")
 
-    posted_ids  = set(load_posted_log())
+    posted_log  = load_posted_log()          # dict: {article_id: iso_timestamp}
+    posted_ids  = set(posted_log.keys())     # set used for fast membership checks
     total_saved = 0
 
     all_niches    = ["sports", "africa", "politics", "business", "climate", "law", "curious"]  # "culture" paused — add back when feature images ready
@@ -994,6 +1133,7 @@ def main():
 
             save_hugo_post(article, body, seo)
 
+            posted_log[article["id"]] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             posted_ids.add(article["id"])
             saved_count += 1
             total_saved += 1
@@ -1003,7 +1143,7 @@ def main():
                 print(f"  ⏳ Pausing 8s before next article...")
                 time.sleep(8)
 
-    save_posted_log(list(posted_ids)[-500:])
+    save_posted_log(posted_log)   # auto-pruned to 14 days on next load
     print(f"\n{'=' * 65}")
     print(f"✨ Done — {total_saved} articles posted.")
     print(f"{'=' * 65}\n")

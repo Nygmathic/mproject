@@ -2,6 +2,7 @@
 title: "The Drum Major Is Gone: A Tribute to Reverend Jesse Louis Jackson"
 date: 2026-02-17
 author: "Collins Obura"
+author_bio: "Collins is an information activist who believes that information serves the public best when it is open, accessible, and responsibly shared. He advocates for transparency and public access to information that affects society, while recognizing that personal information deserves privacy and protection. Through research, analysis, and clear communication, he works to help people better understand the issues, decisions, and events that shape their lives."
 categories: ["opinion"]
 tags: ["jesse jackson", "civil rights", "tribute", "africa", "black history", "barack obama", "nelson mandela"]
 feature_image: "Reverend_Jesse_Jackson.webp"

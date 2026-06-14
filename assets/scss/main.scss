@@ -1878,3 +1878,136 @@ html body .main-nav .header-inner {
   opacity: 1;
   transform: scale(1.1);
 }
+
+/* Newsletter section with button (no iframe) */
+.footer-newsletter-section {
+  margin-top: 2rem;
+  padding: 2.5rem 0;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-newsletter-inner {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-newsletter-heading {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.footer-newsletter-text {
+  font-family: var(--font-reading);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.newsletter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.newsletter-btn:hover {
+  background: var(--hover-dark);
+  transform: translateY(-2px);
+}
+
+.newsletter-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.footer-newsletter-note {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.substack-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.substack-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.substack-link:hover .substack-icon {
+  opacity: 1;
+}
+
+/* Substack newsletter button - fixed hover */
+.newsletter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: #fff !important;
+  border: none;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.newsletter-btn:hover {
+  background: var(--hover-dark);
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+.newsletter-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: #fff;
+  transition: stroke 0.2s;
+}
+
+.newsletter-btn:hover svg {
+  stroke: #fff;
+}
+
+
+/* Social links (Substack, Patreon, Buy me a soda, etc.) */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.social-icon {
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.social-link:hover .social-icon {
+  opacity: 1;
+}

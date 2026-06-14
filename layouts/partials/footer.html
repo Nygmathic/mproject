@@ -1,4 +1,4 @@
-{{/* Footer – with Substack link (envelope icon) */}}
+{{/* Footer – with Substack, Patreon, and Buy me a soda links */}}
 <footer class="site-footer">
   <div class="footer-wordmark-bar">
     <div class="footer-container">
@@ -48,18 +48,50 @@
           <a href="mailto:{{ .Site.Params.author_email }}">contact@veridus.space</a>
           <a href="/index.xml">RSS Feed</a>
           {{ with .Site.Params.substack_url }}
-            <a href="{{ . }}" target="_blank" rel="noopener" class="substack-link">
-              <svg class="substack-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <a href="{{ . }}" target="_blank" rel="noopener" class="social-link">
+              <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
                 <polyline points="22,6 12,13 2,6"/>
               </svg>
               Substack
             </a>
           {{ end }}
-          {{ with .Site.Params.social.facebook }}
-            <a href="{{ . }}" target="_blank" rel="noopener">Facebook</a>
+          {{ with .Site.Params.patreon_url }}
+            <a href="{{ . }}" target="_blank" rel="noopener" class="social-link">
+              <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/>
+              </svg>
+              Patreon
+            </a>
           {{ end }}
+          <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2" target="_blank" rel="noopener" class="social-link">
+            <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2l1 3h10l1-3"/>
+              <rect x="7" y="5" width="10" height="14" rx="2" ry="2"/>
+              <circle cx="12" cy="16" r="1.5"/>
+              <path d="M9 8h6"/>
+            </svg>
+            Buy me a soda
+          </a>
         </nav>
+      </div>
+    </div>
+  </div>
+
+  {{/* NEWSLETTER SECTION - button linking to Substack */}}
+  <div class="footer-newsletter-section">
+    <div class="footer-container">
+      <div class="footer-newsletter-inner">
+        <h4 class="footer-newsletter-heading">Newsletter</h4>
+        <p class="footer-newsletter-text">Get new pieces delivered to your inbox. No spam, no tracking.</p>
+        <a href="https://veridusnetwork.substack.com/subscribe" class="newsletter-btn" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Subscribe on Substack
+        </a>
+        <p class="footer-newsletter-note">Powered by Substack. Unsubscribe anytime.</p>
       </div>
     </div>
   </div>

@@ -22,16 +22,19 @@ params:
   description: "context behind the viral."
   brand_name: "Veridus"
 
-  # Author — site-level fallback used in single.html author bio card
-  author: "Collins Obura"
-  author_title: "Information Activist"
-  author_bio: "Collins is an information activist who believes that information serves the public best when it is open, accessible, and responsibly shared. He advocates for transparency and public access to information that affects society, while recognizing that personal information deserves privacy and protection. Through research, analysis, and clear communication, he works to help people better understand the issues, decisions, and events that shape their lives."
+  # Author defaults
+  author: "Veridus Editorial"
+  author_title: "Editorial Team"
+  author_bio: ""
   author_twitter: ""
   author_linkedin: ""
   author_email: "contact@veridus.space"
 
   # Substack
   substack_url: "https://veridusnetwork.substack.com"
+
+  # Patreon
+  patreon_url: "https://patreon.com/veridusmedia"
 
   # Google Analytics
   analytics_id: "G-RTN42NN743"
