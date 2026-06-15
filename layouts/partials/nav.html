@@ -1,17 +1,15 @@
 {{/* Navigation – top bar on all pages; ribbon only on inner pages (homepage has its own) */}}
 <header class="site-header">
-  {{/* TOP BAR: wordmark + actions (always visible) */}}
+  {{/* TOP BAR: wordmark + actions (no search) */}}
   <div class="header-top">
     <div class="header-inner">
       <a href="/" class="header-wordmark">{{ .Site.Title }}</a>
       <div class="header-actions">
-        <a href="/search/" class="search-trigger" aria-label="Search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
+        <a href="/donate/" class="support-btn">Support</a>
         <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
           <span class="menu-icon"><span class="menu-line"></span><span class="menu-line"></span><span class="menu-line"></span></span>
         </button>
@@ -74,11 +72,70 @@
         <li><a href="/categories/africa/">Africa</a></li><li><a href="/categories/business/">Business</a></li><li><a href="/categories/climate/">Climate</a></li><li><a href="/categories/opinion/">Opinion</a></li><li><a href="/categories/politics/">Politics</a></li><li><a href="/categories/sports/">Sports</a></li>
       </ul>
     </nav>
-    <a href="/search/" class="sticky-search" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    </a>
+    <a href="/donate/" class="sticky-support">Support</a>
   </div>
 </div>
+
+<style>
+/* Support button styling – visible, matches accent */
+.support-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.9rem;
+  background: var(--accent);
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+.support-btn:hover {
+  background: var(--hover-dark);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+@media (max-width: 480px) {
+  .support-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.65rem;
+  }
+}
+
+/* Sticky bar support button */
+.sticky-support {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.8rem;
+  background: var(--accent);
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+  margin-left: 0.5rem;
+}
+.sticky-support:hover {
+  background: var(--hover-dark);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+@media (max-width: 768px) {
+  .sticky-support {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.6rem;
+  }
+}
+</style>
 
 <script>
 (function() {

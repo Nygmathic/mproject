@@ -215,31 +215,176 @@
   {{ end }}
 </article>
 
+{{/* DONATION CALL-TO-ACTION (70% scroll, dismissible) */}}
+<div id="donation-cta" class="donation-cta" aria-hidden="true">
+  <div class="donation-cta-inner">
+    <button class="donation-cta-close" aria-label="Close">✕</button>
+    <div class="donation-cta-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </div>
+    <p class="donation-cta-title">Help keep Veridus independent.</p>
+    <p class="donation-cta-text">No ads. No paywalls. Reader‑supported journalism on Africa’s terms.</p>
+    <div class="donation-cta-buttons">
+      <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}" class="donation-cta-btn patreon" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/></svg>
+        Patreon
+      </a>
+      <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2" class="donation-cta-btn soda" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1 3h10l1-3"/><rect x="7" y="5" width="10" height="14" rx="2"/><circle cx="12" cy="16" r="1.5"/><path d="M9 8h6"/></svg>
+        Buy me a soda
+      </a>
+    </div>
+    <p class="donation-cta-note">Every contribution funds the work — not a platform or algorithm.</p>
+  </div>
+</div>
+
+<style>
+.donation-cta {
+  position: fixed;
+  bottom: 2rem;
+  left: 1rem;
+  right: 1rem;
+  max-width: 420px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+  pointer-events: none;
+}
+.donation-cta.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.donation-cta-inner {
+  position: relative;
+  padding: 1.25rem 1rem 1rem 1rem;
+}
+.donation-cta-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.25rem;
+}
+.donation-cta-close:hover {
+  color: var(--text-primary);
+  background: transparent;
+}
+.donation-cta-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+.donation-cta-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+}
+.donation-cta-text {
+  font-family: var(--font-reading);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.donation-cta-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.donation-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+  color: #fff !important;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+}
+.donation-cta-btn:hover {
+  background: var(--hover-dark) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+.donation-cta-note {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .donation-cta {
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
+</style>
+
 <script>
 (function() {
-  // Share functionality
-  var trigger = document.getElementById('share-trigger'), icons = document.getElementById('share-icons');
-  if(trigger && icons) {
-    function open(){icons.classList.add('open');icons.setAttribute('aria-hidden','false');trigger.setAttribute('aria-expanded','true');}
-    function close(){icons.classList.remove('open');icons.setAttribute('aria-hidden','true');trigger.setAttribute('aria-expanded','false');}
-    trigger.addEventListener('click',function(){
-      if(navigator.share && window.innerWidth < 768){
-        navigator.share({title:trigger.getAttribute('data-title'),url:trigger.getAttribute('data-url')}).catch(function(){});
-        return;
-      }
-      icons.classList.contains('open') ? close() : open();
-    });
-    document.addEventListener('click',function(e){if(!trigger.contains(e.target) && !icons.contains(e.target)) close();});
-    var copyBtn = document.getElementById('copy-link-btn');
-    if(copyBtn) {
-      copyBtn.addEventListener('click',function(){
-        navigator.clipboard.writeText(copyBtn.getAttribute('data-url')).then(function(){
-          copyBtn.classList.add('copied');
-          setTimeout(function(){copyBtn.classList.remove('copied');},2000);
-        });
-      });
+  var cta = document.getElementById('donation-cta');
+  if (!cta) return;
+  var closed = localStorage.getItem('donationCtaClosed');
+  if (closed === 'true') return;
+
+  var shown = false;
+  var scrollThreshold = 0.7;
+  var winH = window.innerHeight;
+  var docH = document.documentElement.scrollHeight;
+
+  function checkScroll() {
+    if (shown) return;
+    var scrollPercent = (window.scrollY + winH) / docH;
+    if (scrollPercent >= scrollThreshold) {
+      shown = true;
+      cta.classList.add('visible');
     }
+  }
+
+  window.addEventListener('scroll', checkScroll, { passive: true });
+  window.addEventListener('resize', function() {
+    winH = window.innerHeight;
+    docH = document.documentElement.scrollHeight;
+  });
+
+  var closeBtn = cta.querySelector('.donation-cta-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      cta.classList.remove('visible');
+      localStorage.setItem('donationCtaClosed', 'true');
+    });
   }
 })();
 </script>
+
 {{ end }}

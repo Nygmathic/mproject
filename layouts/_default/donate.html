@@ -7,21 +7,20 @@
   </div>
 
   <div class="contact-card">
-    <!-- Two action blocks styled like form groups -->
     <div class="donate-action-group">
+      <!-- Patreon -->
       <div class="action-item">
         <div class="action-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/>
           </svg>
         </div>
         <div class="action-text">
-          <span class="action-label">Pledge Support</span>
-          <p class="action-desc">Send a note to express your intent to contribute.</p>
+          <span class="action-label">Patreon</span>
+          <p class="action-desc">Become a monthly patron and help sustain independent journalism.</p>
         </div>
-        <a href="mailto:contact@veridus.space?subject=Support" class="submit-btn donate-btn">
-          Email Intent
+        <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}" class="submit-btn donate-btn" target="_blank" rel="noopener">
+          Support on Patreon
           <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -29,19 +28,22 @@
         </a>
       </div>
 
+      <!-- Buy Me a Soda -->
       <div class="action-item">
         <div class="action-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2l1 3h10l1-3"/>
+            <rect x="7" y="5" width="10" height="14" rx="2" ry="2"/>
+            <circle cx="12" cy="16" r="1.5"/>
+            <path d="M9 8h6"/>
           </svg>
         </div>
         <div class="action-text">
-          <span class="action-label">Get Notified</span>
-          <p class="action-desc">Receive an update when the payment system is live.</p>
+          <span class="action-label">Buy Me a Soda</span>
+          <p class="action-desc">One‑time contribution to show your support. Every soda helps keep us going.</p>
         </div>
-        <a href="mailto:contact@veridus.space?subject=Notify" class="submit-btn donate-btn">
-          Notify Me
+        <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2" class="submit-btn donate-btn" target="_blank" rel="noopener">
+          Buy a soda
           <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -58,7 +60,7 @@
 </div>
 
 <style>
-/* EXACT SAME STYLES AS contact.html – only class names differ for action items */
+/* EXACT SAME STYLES AS original donate.html – only class names differ for action items */
 .page-container {
   max-width: 760px;
   margin: 3rem auto;
