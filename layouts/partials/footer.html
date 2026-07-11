@@ -47,15 +47,13 @@
         <nav aria-label="Footer connect links">
           <a href="mailto:{{ .Site.Params.author_email }}">contact@veridus.space</a>
           <a href="/index.xml">RSS Feed</a>
-          {{ with .Site.Params.substack_url }}
-            <a href="{{ . }}" target="_blank" rel="noopener" class="social-link">
-              <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              Substack
-            </a>
-          {{ end }}
+          <a href="https://veridusmedia.substack.com" target="_blank" rel="noopener" class="social-link">
+            <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Substack
+          </a>
           {{ with .Site.Params.patreon_url }}
             <a href="{{ . }}" target="_blank" rel="noopener" class="social-link">
               <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -84,7 +82,7 @@
       <div class="footer-newsletter-inner">
         <h4 class="footer-newsletter-heading">Newsletter</h4>
         <p class="footer-newsletter-text">Get new pieces delivered to your inbox. No spam, no tracking.</p>
-        <a href="https://substack.com/@veridusmedia/subscribe" class="newsletter-btn" target="_blank" rel="noopener">
+        <a href="https://veridusmedia.substack.com" class="newsletter-btn" target="_blank" rel="noopener">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
             <polyline points="22,6 12,13 2,6"/>

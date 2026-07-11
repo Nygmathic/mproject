@@ -31,7 +31,7 @@ params:
   author_email: "contact@veridus.space"
 
   # Substack
-  substack_url: "https://substack.com/@veridusmedia"
+  substack_url: "https://veridusmedia.substack.com"
 
   # Patreon
   patreon_url: "https://patreon.com/veridusmedia"

@@ -24,7 +24,7 @@
       </div>
 
       <button type="submit" class="submit-btn">
-        <span>Send message</span>
+        Send message
         <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"></line>
           <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -40,32 +40,137 @@
 </div>
 
 <style>
-.page-header,
-.page-header .page-subtitle {
+/* Layout only – no font-family overrides (handled globally) */
+.page-container {
+  max-width: 760px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+  background: var(--bg);
+}
+.page-header {
   text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 800;
+  margin: 0.5rem 0 0.25rem;
+}
+.page-subtitle {
+  font-family: var(--font-reading);
+  font-size: var(--step-0);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.contact-card {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  border: 1px solid var(--border-light);
 }
 .contact-form {
-  max-width: 480px;
-  margin: 0 auto;
-  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.form-group {
+  margin-bottom: 1.5rem;
 }
 .form-group label {
-  text-align: center;
   display: block;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
 }
 .form-group input,
 .form-group textarea {
-  text-align: center;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-faint);
+  font-style: italic;
+  opacity: 0.7;
 }
 .submit-btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.8rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  width: 100%;
+}
+.submit-btn:hover {
+  background: var(--hover-dark);
+  transform: translateY(-2px);
+}
+.btn-icon {
+  transition: transform 0.2s;
+}
+.submit-btn:hover .btn-icon {
+  transform: translateX(4px);
 }
 .contact-alternate {
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
   text-align: center;
+  font-family: var(--font-ui);
+}
+.contact-alternate p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.contact-alternate a {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}
+.contact-alternate a:hover {
+  border-bottom-style: solid;
+}
+@media (min-width: 640px) {
+  .submit-btn {
+    width: auto;
+  }
+  .contact-card {
+    padding: 2.5rem;
+  }
 }
 </style>
 {{ end }}
