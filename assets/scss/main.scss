@@ -40,6 +40,15 @@
   src: url('/fonts/Newsreader_24pt-ExtraBold.woff2') format('woff2');
 }
 
+// Inter Display – article headings (bold only)
+@font-face {
+  font-family: 'Inter Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/InterDisplay-Bold.woff2') format('woff2');
+}
+
 // Source Serif 4 – main reading font (body, cards, articles)
 @font-face {
   font-family: 'Source Serif 4';
@@ -170,8 +179,8 @@
 
   --font-masthead: 'Splentinex', serif;
   --font-display: 'Newsreader 24pt', serif;
-  --font-reading: 'Source Serif 4', serif;          // no Georgia
-  --font-article: 'Source Serif 4', serif;          // no Georgia
+  --font-reading: 'Source Serif 4', serif;
+  --font-article: 'Source Serif 4', serif;
   --font-headline-sans: 'Inter', system-ui, sans-serif;
   --font-ui: 'Roboto Mono', 'Courier New', monospace;
   --font-mono: 'Roboto Mono', monospace;
@@ -298,7 +307,7 @@ a:active,
   color: var(--hover) !important;
 }
 
-// Headings
+// ----- HEADINGS (general) -----
 h1, .h1 {
   font-family: var(--font-display);
   font-size: var(--step-5);
@@ -906,14 +915,17 @@ p, li, .text-body {
   text-decoration: none;
   &:hover { text-decoration: underline; color: var(--hover); }
 }
+
+// ----- ARTICLE TITLE (h1) — Inter Display -----
 .article-title {
-  font-family: var(--font-display);
+  font-family: 'Inter Display', var(--font-display), serif;
   font-size: clamp(2.5rem, 6vw, 4.2rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
   margin: 0.75rem 0;
 }
+
 .article-subtitle {
   font-family: var(--font-reading);
   font-size: 1.3rem;
@@ -937,7 +949,7 @@ p, li, .text-body {
 .article-featured-image {
   max-width: 1200px;
   margin: 0 auto 2.5rem;
-  img { width: 100%; border-radius: var(--radius-sm); }
+  img { width: 100%; }
   &-caption {
     font-family: var(--font-ui);
     font-size: 0.8rem;
@@ -947,28 +959,36 @@ p, li, .text-body {
     font-style: italic;
   }
 }
+
+// ----- ARTICLE CONTENT (body + headings h2, h3) -----
 .article-content {
   font-family: var(--font-article);
-  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.35rem);   /* comfortable: 18–22px */
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.35rem);
   line-height: 1.5;
   letter-spacing: -0.002em;
   color: var(--text-primary);
 
   p { margin-bottom: 1em; }
+
+  // h2 — Inter Display
   h2 {
-    font-family: var(--font-display);
+    font-family: 'Inter Display', var(--font-display), serif;
     font-size: var(--step-3);
+    font-weight: 700;
     margin-top: 1.25em;
     margin-bottom: 0.5em;
     letter-spacing: -0.01em;
   }
+
+  // h3 — Inter Display
   h3 {
-    font-family: var(--font-display);
+    font-family: 'Inter Display', var(--font-display), serif;
     font-size: var(--step-2);
     font-weight: 700;
     margin-top: 1.25em;
     margin-bottom: 0.4em;
   }
+
   blockquote {
     font-family: var(--font-reading);
     font-style: italic;
@@ -1765,7 +1785,7 @@ html body .main-nav .header-inner {
     padding-right: 1rem !important;
   }
   .article-content {
-    font-size: 1.125rem !important;      /* 18px – comfortable */
+    font-size: 1.125rem !important;
     line-height: 1.55 !important;
   }
   .article-content p {
@@ -1801,8 +1821,8 @@ html body .main-nav .header-inner {
 .follow-btn:hover,
 .nl-toast-btn:hover,
 .share-icon:hover {
-  color: #fff !important;           /* keep text white */
-  background: var(--hover-dark) !important; /* dark blue background */
+  color: #fff !important;
+  background: var(--hover-dark) !important;
   border-color: var(--hover-dark) !important;
   text-decoration: none !important;
 }
@@ -1838,7 +1858,6 @@ html body .main-nav .header-inner {
 .substack-link:hover .substack-icon {
   opacity: 1;
 }
-
 
 /* Substack link in footer */
 .substack-link {
@@ -1994,7 +2013,6 @@ html body .main-nav .header-inner {
 .newsletter-btn:hover svg {
   stroke: #fff;
 }
-
 
 /* Social links (Substack, Patreon, Buy me a soda, etc.) */
 .social-link {
