@@ -226,7 +226,7 @@
       </svg>
     </div>
     <p class="donation-cta-title">Help keep Veridus independent.</p>
-    <p class="donation-cta-text">No ads. No paywalls. Reader‑supported journalism on Africa’s terms.</p>
+    <p class="donation-cta-text">No ads. No paywalls. Reader‑supported journalism on Africa's terms.</p>
     <div class="donation-cta-buttons">
       <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}" class="donation-cta-btn patreon" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/></svg>
@@ -300,7 +300,8 @@
   color: var(--text-primary);
 }
 .donation-cta-text {
-  font-family: var(--font-reading);
+  font-family: var(--font-headline-sans);
+  font-weight: 400;
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--text-secondary);
@@ -336,7 +337,8 @@
   transform: translateY(-1px);
 }
 .donation-cta-note {
-  font-family: var(--font-ui);
+  font-family: var(--font-headline-sans);
+  font-weight: 400;
   font-size: 0.65rem;
   color: var(--text-muted);
   margin: 0;
