@@ -48,11 +48,9 @@ DAILY_POST_LIMIT = 4
 # The daily cap above is the primary control; this just throttles per-run usage
 NICHE_LIMITS = {
     "politics":       2,
-    "africa":         2,
     "sports":         2,  # Daily cap of 4 still applies — post-match runs catch up
     "business":       1,
     "climate":        1,
-    "law":            2,
     "curious":        2,
     # "culture":        2,  # ← uncomment to activate
 }
@@ -63,12 +61,10 @@ NICHE_LIMITS = {
 RECENCY_HOURS = {
     "sports":         3,   # match reports must be same-day
     "politics":       6,   # tight — political news moves fast
-    "africa":         6,   # tight — same reason
     "business":       6,   # markets move daily
     "curious":        12,  # weird news is slow-burn; slight slack
     # "culture":        12,  # ← uncomment to activate
     "climate":        24,  # climate stories don't break by the hour
-    "law":            48,  # judgments publish on court schedules
 }
 
 # ─── RSS FEEDS ────────────────────────────────────────────────────────────────
@@ -123,29 +119,6 @@ RSS_FEEDS = {
         "https://insideclimatenews.org/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",
     ],
-    "africa": [
-        # ── United Nations Africa & African Union ─────────────────────
-        "https://news.un.org/feed/subscribe/en/news/topic/africa/feed/rss.xml",
-        "https://au.int/en/pressreleases/rss",
-        # ── Pan-African ──────────────────────────────────────────────
-        "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
-        "https://www.theafricareport.com/feed/",
-        "https://www.africanews.com/feed/",
-        # ── East Africa ──────────────────────────────────────────────
-        "https://eastafrican.nation.africa/feed",
-        "https://www.monitor.co.ug/rss",
-        "https://www.theeastafrican.co.ke/rss",
-        "https://www.standardmedia.co.ke/rss",
-        "https://nation.africa/kenya/rss.xml",
-        # ── West Africa ──────────────────────────────────────────────
-        "https://www.premiumtimesng.com/feed",
-        # ── Southern Africa ──────────────────────────────────────────
-        "https://www.dailymaverick.co.za/feed/",
-        "https://www.news24.com/rss",
-        # ── North Africa ─────────────────────────────────────────────
-        "https://www.egyptindependent.com/feed/",
-        "https://www.middleeasteye.net/rss",
-    ],
     "curious": [
         # ── Verified Weird & Bizarre News ────────────────────────────
         "https://feeds.reuters.com/reuters/oddlyEnoughNews",            # Reuters Oddly Enough
@@ -187,8 +160,6 @@ NICHE_META = {
     "business":       ("Business",      '["Business", "News"]',       '["business", "economy", "markets", "trade"]'),
     "climate":        ("Climate",       '["Climate", "News"]',        '["climate change", "environment", "sustainability", "global warming"]'),
     "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "african football", "athletics"]'),
-    "africa":         ("Africa",        '["Africa", "News"]',         '["africa", "african politics", "african business", "world news"]'),
-    "law":            ("Law",           '["Law", "News"]',            '["kenya law", "court ruling", "supreme court", "high court", "court of appeal"]'),
     "curious":        ("Curious",       '["Curious", "News"]',        '["bizarre", "unusual", "strange", "odd news", "weird science"]'),
     # "culture": ("Culture", '["Culture", "News"]', '["culture", "music", "film", "african arts", "afrobeats", "cinema"]'),  # ← uncomment to activate
 }
@@ -399,11 +370,6 @@ def fetch_rss_articles(niche, already_posted):
                     "renewable", "drought", "flood", "weather", "temperature", "glacier",
                     "deforestation", "pollution", "biodiversity", "ecosystem", "net zero",
                     "wildfire", "hurricane", "sea level", "methane", "solar", "wind energy"],
-        # Law: must mention courts or legal proceedings
-        "law":     ["court", "ruling", "judgment", "judge", "appeal", "tribunal",
-                    "supreme court", "high court", "verdict", "sentenced", "convicted",
-                    "acquitted", "constitution", "judicial", "injunction", "magistrate",
-                    "lawsuit", "prosecution", "acquittal", "bench", "hearing", "petition"],
         # Business: must be economic/financial
         "business":["economy", "market", "trade", "gdp", "inflation", "investment",
                     "stock", "bank", "currency", "company", "revenue", "profit",
@@ -413,22 +379,17 @@ def fetch_rss_articles(niche, already_posted):
         # Curious: very loose — just needs to be factual/interesting non-standard news
         # No required filter — rely on the curious RSS sources to self-select
         # "curious": [],  # no filter needed — sources handle relevance
-        # Politics & Africa: no required filter — broad enough categories
+        # Politics: no required filter — broad enough category
         # "politics": [],
-        # "africa": [],
     }
 
     NICHE_BANNED = {
-        # Sports feed should never get climate/law/business articles
+        # Sports feed should never get climate/political/business articles
         "sports":  ["climate", "court ruling", "stock market", "inflation", "election",
                     "parliament", "legislation", "gdp", "treaty", "diplomacy"],
         # Climate feed should never get sports/political articles
         "climate": ["football", "premier league", "match result", "goal", "transfer",
                     "election", "parliament", "stock market", "gdp"],
-        # Law feed: only court decisions — no lawyer appointments, bar news
-        "law":     ["law society", "lsk", "bar association", "lawyer appointed",
-                    "advocate appointed", "elected president of", "bar council",
-                    "legal profession", "attorney general appointed"],
     }
 
     articles = []
@@ -556,8 +517,6 @@ def build_article_prompt(article):
         "business":       "Cover business and economic developments with global impact. Include emerging market perspectives from Africa, Asia, and Latin America alongside Western economies.",
         "sports":         "Cover sport with emphasis on African football (CAF, AFCON, PSL, KPL) and the Premier League. Write match reports with energy and precision. Cover athletics, rugby, and other disciplines too. Do not centre only American sport.",
         "climate":        "Emphasise human and economic impact of climate change, especially on the most vulnerable regions. Ground all claims in science. Avoid alarmism.",
-        "africa":         "Write from an African-centred perspective. Treat African nations and people as full agents of their own story. Avoid patronising or 'Western saviour' framing entirely. African football and sports stories belong in Sports, not here.",
-        "law":            "STRICT: Cover ONLY formal court decisions — judgments, rulings, and orders from the Kenya Supreme Court, Court of Appeal, High Court, and equivalent courts in Commonwealth countries. Do NOT cover legal profession news, bar association events, lawyer appointments, or general legal commentary. If the story is about a court's actual decision or ruling, cover it. If it is about lawyers or the legal profession generally, skip it.",
         "curious":        "Cover genuinely strange, bizarre, or surprising true stories from around the world. The tone should be engaged and intelligent — curious and amused, not mocking. Every claim must be factual and verifiable. No sensationalism, no fabrication.",
         # "culture":        "Cover culture the way The Guardian does — with intellectual seriousness and genuine passion. Music, film, theatre, art, books. Give priority to African artists, Afrobeats, Nollywood, Kenyan arts. When covering global culture, find the African or Global South angle. Never gossip. Never celebrity trivia. Ask what the work means, what it reveals, why it matters now.",
     }
@@ -577,7 +536,7 @@ def build_article_prompt(article):
     else:
         source_block = f"SUMMARY (RSS excerpt only — base the article strictly on these facts):\n{article['summary']}"
 
-    return f"""You are a senior international correspondent writing for Veridus — an independent African publication with the precision of The Guardian and the voice of a publication that thinks for itself.
+    return f"""You are a senior international correspondent writing for Veridus — an independent global publication with the precision of The Guardian and the voice of a publication that thinks for itself.
 
 Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.{source_note}
 
@@ -669,8 +628,6 @@ _NICHE_IMAGE_FALLBACKS = {
     "business":       "stock exchange trading floor",
     "sports":         "football stadium",
     "climate":        "climate change flooding",
-    "africa":         "Africa continent map",
-    "law":            "supreme court building",
     "curious":        "magnifying glass mystery",
     "global-affairs": "United Nations headquarters",
 }
@@ -841,11 +798,9 @@ def get_feature_image(article, seo, dest_dir):
         fallback_queries = {
             "politics":       "parliament building",
             "global-affairs": "United Nations headquarters",
-            "africa":         "Africa map",
             "sports":         "football stadium",
             "business":       "stock exchange trading floor",
             "climate":        "climate change flooding",
-            "law":            "courtroom gavel",
             "curious":        "question mark abstract",
         }
         fallback = fallback_queries.get(article["niche"])
@@ -1088,7 +1043,7 @@ def main():
     posted_ids  = set(posted_log.keys())     # set used for fast membership checks
     total_saved = 0
 
-    all_niches    = ["sports", "africa", "politics", "business", "climate", "law", "curious"]  # "culture" paused — add back when feature images ready
+    all_niches    = ["sports", "politics", "business", "climate", "curious"]  # "culture" paused — add back when feature images ready
     active_niches = ["sports"] if sports_only else all_niches
     for niche in active_niches:
         print(f"\n📰 [{niche.upper()}]")

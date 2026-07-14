@@ -23,12 +23,7 @@
     <span class="np-ribbon-date">{{ now.Format "Monday, January 2, 2006" }}</span>
     <span class="np-ribbon-rule"></span>
     <nav class="np-ribbon-nav" aria-label="Sections">
-      <a href="/categories/africa/">Africa</a>
-      <a href="/categories/business/">Business</a>
-      <a href="/categories/climate/">Climate</a>
-      <a href="/categories/opinion/">Opinion</a>
-      <a href="/categories/politics/">Politics</a>
-      <a href="/categories/sports/">Sports</a>
+      {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
     </nav>
     <span class="np-ribbon-rule"></span>
     <a href="/search/" class="np-ribbon-search" aria-label="Search">
@@ -49,12 +44,7 @@
   <nav class="mobile-nav" role="navigation">
     <ul class="mobile-nav-list">
       <li><a href="/" class="mobile-nav-item">Home</a></li>
-      <li><a href="/categories/africa/" class="mobile-nav-item">Africa</a></li>
-      <li><a href="/categories/business/" class="mobile-nav-item">Business</a></li>
-      <li><a href="/categories/climate/" class="mobile-nav-item">Climate</a></li>
-      <li><a href="/categories/opinion/" class="mobile-nav-item">Opinion</a></li>
-      <li><a href="/categories/politics/" class="mobile-nav-item">Politics</a></li>
-      <li><a href="/categories/sports/" class="mobile-nav-item">Sports</a></li>
+      {{ range .Site.Menus.main }}<li><a href="{{ .URL }}" class="mobile-nav-item">{{ .Name }}</a></li>{{ end }}
       <li><a href="/about/" class="mobile-nav-item">About</a></li>
       <li><a href="/contact/" class="mobile-nav-item">Contact</a></li>
       <li><a href="/search/" class="mobile-nav-item">Search</a></li>
@@ -69,7 +59,7 @@
     <a href="/" class="sticky-logo">{{ .Site.Title }}</a>
     <nav class="sticky-nav">
       <ul class="sticky-nav-list">
-        <li><a href="/categories/africa/">Africa</a></li><li><a href="/categories/business/">Business</a></li><li><a href="/categories/climate/">Climate</a></li><li><a href="/categories/opinion/">Opinion</a></li><li><a href="/categories/politics/">Politics</a></li><li><a href="/categories/sports/">Sports</a></li>
+        {{ range .Site.Menus.main }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}
       </ul>
     </nav>
     <a href="/donate/" class="sticky-support">Support</a>

@@ -46,8 +46,8 @@ params:
 
 menu:
   main:
-    - name: "Africa"
-      url: "/categories/africa/"
+    - name: "Global Affairs"
+      url: "/categories/global-affairs/"
       weight: 1
     - name: "Business"
       url: "/categories/business/"
@@ -55,18 +55,15 @@ menu:
     - name: "Climate"
       url: "/categories/climate/"
       weight: 3
-    - name: "Law"
-      url: "/categories/law/"
-      weight: 4
     - name: "Opinion"
       url: "/categories/opinion/"
-      weight: 5
+      weight: 4
     - name: "Politics"
       url: "/categories/politics/"
-      weight: 6
+      weight: 5
     - name: "Sports"
       url: "/categories/sports/"
-      weight: 7
+      weight: 6
 
 markup:
   goldmark:

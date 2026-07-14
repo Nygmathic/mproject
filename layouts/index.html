@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ $allPages := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "africa" "global-affairs") }}
+{{ $allPages := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "global-affairs") }}
 {{ $allArticles := sort $allPages "Date" "desc" }}
 
 {{ $pinned := slice }}
@@ -33,12 +33,7 @@
       <span class="np-ribbon-date">{{ now.Format "Monday, January 2, 2006" }}</span>
       <span class="np-ribbon-rule"></span>
       <nav class="np-ribbon-nav" aria-label="Sections">
-        <a href="/categories/africa/">Africa</a>
-        <a href="/categories/business/">Business</a>
-        <a href="/categories/climate/">Climate</a>
-        <a href="/categories/opinion/">Opinion</a>
-        <a href="/categories/politics/">Politics</a>
-        <a href="/categories/sports/">Sports</a>
+        {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
       </nav>
       <span class="np-ribbon-rule"></span>
       <a href="/search/" class="np-ribbon-search" aria-label="Search">
@@ -68,7 +63,7 @@
           {{ $cat := index .Params.categories 0 | default "" }}
           {{ $catSlot := 0 }}
           {{ $catL := $cat | lower }}
-          {{ if eq $catL "opinion" }}{{ $catSlot = 1 }}{{ else if eq $catL "politics" }}{{ $catSlot = 2 }}{{ else if eq $catL "business" }}{{ $catSlot = 3 }}{{ else if eq $catL "climate" }}{{ $catSlot = 4 }}{{ else if eq $catL "sports" }}{{ $catSlot = 5 }}{{ else if eq $catL "africa" }}{{ $catSlot = 1 }}{{ end }}
+          {{ if eq $catL "opinion" }}{{ $catSlot = 1 }}{{ else if eq $catL "politics" }}{{ $catSlot = 2 }}{{ else if eq $catL "business" }}{{ $catSlot = 3 }}{{ else if eq $catL "climate" }}{{ $catSlot = 4 }}{{ else if eq $catL "sports" }}{{ $catSlot = 5 }}{{ else if eq $catL "global-affairs" }}{{ $catSlot = 1 }}{{ end }}
 
           <article class="np-lead" data-slot="{{ $catSlot }}">
             {{ if $hasImg }}
@@ -159,11 +154,11 @@
 
     <div class="np-rule" aria-hidden="true"></div>
 
-    {{/* SECTIONS ROW (Opinion + Africa) */}}
+    {{/* SECTIONS ROW (Opinion + Global Affairs) */}}
     {{ $opinionPages := where .Site.RegularPages "Params.categories" "intersect" (slice "opinion") | first 3 }}
-    {{ $africaPages  := where .Site.RegularPages "Params.categories" "intersect" (slice "africa")  | first 3 }}
-    {{ if or $opinionPages $africaPages }}
-    <section class="np-sections-row" aria-label="Opinion and Africa">
+    {{ $globalPages  := where .Site.RegularPages "Params.categories" "intersect" (slice "global-affairs")  | first 3 }}
+    {{ if or $opinionPages $globalPages }}
+    <section class="np-sections-row" aria-label="Opinion and Global Affairs">
       {{ if $opinionPages }}
       <div class="np-section-col">
         <header class="np-section-col-head">
@@ -179,13 +174,13 @@
         {{ end }}
       </div>
       {{ end }}
-      {{ if $africaPages }}
+      {{ if $globalPages }}
       <div class="np-section-col">
         <header class="np-section-col-head">
-          <span class="np-section-label np-section-label--africa">Africa</span>
-          <a href="/categories/africa/" class="np-section-more">All Africa →</a>
+          <span class="np-section-label np-section-label--global-affairs">Global Affairs</span>
+          <a href="/categories/global-affairs/" class="np-section-more">All Global Affairs →</a>
         </header>
-        {{ range $africaPages }}
+        {{ range $globalPages }}
           <article class="np-section-item">
             <h3 class="np-section-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
             {{ with .Summary | truncate 100 }}<p class="np-section-deck">{{ . }}</p>{{ end }}
@@ -201,15 +196,15 @@
 
     <div class="np-rule" aria-hidden="true"></div>
 
-    {{/* NEWSLETTER STRIP */}}
+    {{/* SUPPORT STRIP */}}
     <div class="np-newsletter">
       <div class="np-newsletter-inner">
-        <svg class="np-newsletter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <svg class="np-newsletter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
         <div class="np-newsletter-text">
-          <p class="np-newsletter-hed">Independent journalism, delivered quietly.</p>
-          <p class="np-newsletter-sub">New pieces on Africa's ideas, politics, and future. No algorithm, no noise.</p>
+          <p class="np-newsletter-hed">Independent journalism, rooted in truth.</p>
+          <p class="np-newsletter-sub">No advertisers dictating our coverage, no algorithm deciding what you see. Just readers keeping this going.</p>
         </div>
-        <a href="mailto:contact@veridus.space?subject=Add%20me%20to%20Veridus%20updates" class="np-newsletter-btn">Subscribe by email</a>
+        <a href="/donate/" class="np-newsletter-btn">Support Veridus</a>
       </div>
     </div>
 
