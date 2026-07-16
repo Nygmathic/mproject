@@ -48,11 +48,11 @@ DAILY_POST_LIMIT = 4
 # The daily cap above is the primary control; this just throttles per-run usage
 NICHE_LIMITS = {
     "politics":       2,
+    "global-affairs": 2,
     "sports":         2,  # Daily cap of 4 still applies — post-match runs catch up
     "business":       1,
     "climate":        1,
     "curious":        2,
-    # "culture":        2,  # ← uncomment to activate
 }
 
 # Maximum age of an article to be considered — oldest allowed per niche.
@@ -61,9 +61,9 @@ NICHE_LIMITS = {
 RECENCY_HOURS = {
     "sports":         3,   # match reports must be same-day
     "politics":       6,   # tight — political news moves fast
+    "global-affairs": 6,   # tight — same reason
     "business":       6,   # markets move daily
     "curious":        12,  # weird news is slow-burn; slight slack
-    # "culture":        12,  # ← uncomment to activate
     "climate":        24,  # climate stories don't break by the hour
 }
 
@@ -79,7 +79,9 @@ RSS_FEEDS = {
         "https://www.euronews.com/rss?format=mrss&level=theme&name=news",
         "https://www.aljazeera.com/xml/rss/all.xml",
         "https://feeds.reuters.com/Reuters/PoliticsNews",
-        # ── Global Affairs (merged) ───────────────────────────────────
+    ],
+    "global-affairs": [
+        # ── World News, Diplomacy & International Relations ──────────
         "https://foreignpolicy.com/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
@@ -92,8 +94,6 @@ RSS_FEEDS = {
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
         "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://www.dw.com/en/economy/rss",
-        "https://www.theafricareport.com/feed/",
-        "https://www.premiumtimesng.com/feed",
         "https://feeds.reuters.com/reuters/businessNews",
     ],
     "sports": [
@@ -102,11 +102,6 @@ RSS_FEEDS = {
         "https://feeds.bbci.co.uk/sport/football/premier-league/rss.xml",
         "https://www.skysports.com/rss/12040",
         "https://www.fourfourtwo.com/rss",
-        # ── African Football & Sport ─────────────────────────────────
-        "https://supersport.com/rss",
-        "https://www.bbc.co.uk/sport/africa/rss.xml",
-        "https://www.goal.com/en-ke/rss",
-        "https://www.cafonline.com/rss",
         # ── ESPN Soccer ─────────────────────────────────────────────
         "https://www.espn.com/espn/rss/soccer/news",
         # ── Global Sport ────────────────────────────────────────────
@@ -132,36 +127,17 @@ RSS_FEEDS = {
         "https://www.livescience.com/feeds/all",                        # Live Science (weird science)
         "https://www.iflscience.com/rss.xml",                           # IFLScience
     ],
-    # ── CULTURE — paused until feature images are ready ─────────────
-    # Uncomment this entire block to activate:
-    # "culture": [
-    #     "https://www.okayafrica.com/feed/",
-    #     "https://www.pulse.co.ke/rss",
-    #     "https://www.bellanaija.com/feed/",
-    #     "https://www.notjustok.com/feed/",
-    #     "https://www.theguardian.com/film/rss",
-    #     "https://variety.com/feed/",
-    #     "https://deadline.com/feed/",
-    #     "https://www.indiewire.com/feed/",
-    #     "https://pitchfork.com/rss/news/",
-    #     "https://www.rollingstone.com/music/feed/",
-    #     "https://www.nme.com/feed",
-    #     "https://www.billboard.com/feed/",
-    #     "https://www.theguardian.com/culture/rss",
-    #     "https://www.theguardian.com/music/rss",
-    #     "https://www.theatlantic.com/feed/channel/entertainment/",
-    # ],
 }
 
 # ─── NICHE METADATA ───────────────────────────────────────────────────────────
 
 NICHE_META = {
-    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "world news", "global politics", "geopolitics", "diplomacy"]'),
+    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "domestic politics", "elections", "governance"]'),
+    "global-affairs": ("Global Affairs", '["Global Affairs", "News"]', '["world news", "diplomacy", "geopolitics", "international relations", "united nations"]'),
     "business":       ("Business",      '["Business", "News"]',       '["business", "economy", "markets", "trade"]'),
     "climate":        ("Climate",       '["Climate", "News"]',        '["climate change", "environment", "sustainability", "global warming"]'),
-    "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "african football", "athletics"]'),
+    "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "athletics"]'),
     "curious":        ("Curious",       '["Curious", "News"]',        '["bizarre", "unusual", "strange", "odd news", "weird science"]'),
-    # "culture": ("Culture", '["Culture", "News"]', '["culture", "music", "film", "african arts", "afrobeats", "cinema"]'),  # ← uncomment to activate
 }
 
 # ─── ENGLISH DETECTION ────────────────────────────────────────────────────────
@@ -513,12 +489,12 @@ def build_article_prompt(article):
     source_type = article.get("source_type", "rss")
 
     niche_guidance = {
-        "politics":       "Cover political developments AND international affairs — domestic politics, geopolitics, diplomacy, international relations, wars, elections, and global governance. Represent multiple regional perspectives including voices from the Global South, Europe, Russia, China, Africa, and the Middle East. This section replaces what was formerly 'global affairs'.",
-        "business":       "Cover business and economic developments with global impact. Include emerging market perspectives from Africa, Asia, and Latin America alongside Western economies.",
-        "sports":         "Cover sport with emphasis on African football (CAF, AFCON, PSL, KPL) and the Premier League. Write match reports with energy and precision. Cover athletics, rugby, and other disciplines too. Do not centre only American sport.",
+        "politics":       "Cover domestic and national politics — elections, legislation, governance, political parties, and domestic policy debates. Keep the lens on a single country's internal politics rather than international relations.",
+        "global-affairs": "Cover international relations, diplomacy, geopolitics, wars, treaties, and global governance — the United Nations, multilateral institutions, and cross-border developments. Represent multiple regional perspectives evenly rather than centring any single region.",
+        "business":       "Cover business and economic developments with global impact. Represent perspectives from multiple emerging and established economies alongside one another, rather than centring any single region.",
+        "sports":         "Cover sport across major leagues and competitions — football (including the Premier League and major international tournaments), athletics, rugby, and other disciplines. Write match reports with energy and precision. Do not centre only one country's or region's sport.",
         "climate":        "Emphasise human and economic impact of climate change, especially on the most vulnerable regions. Ground all claims in science. Avoid alarmism.",
         "curious":        "Cover genuinely strange, bizarre, or surprising true stories from around the world. The tone should be engaged and intelligent — curious and amused, not mocking. Every claim must be factual and verifiable. No sensationalism, no fabrication.",
-        # "culture":        "Cover culture the way The Guardian does — with intellectual seriousness and genuine passion. Music, film, theatre, art, books. Give priority to African artists, Afrobeats, Nollywood, Kenyan arts. When covering global culture, find the African or Global South angle. Never gossip. Never celebrity trivia. Ask what the work means, what it reveals, why it matters now.",
     }
 
     guidance = niche_guidance.get(niche, "Cover this story with global context and balance.")
@@ -564,6 +540,8 @@ STRICT REQUIREMENTS:
 - Do NOT include the main headline — body text and subheadings only
 - Do NOT use bullet points or numbered lists — flowing prose only
 - Write in English only
+- NO BYLINE OR CORRESPONDENT NAME, EVER: Veridus articles carry no personal byline within the body text. Do NOT write phrases like "our correspondent," "our reporter," "Veridus's [name]," or any variation naming a writer. Write in an unattributed third-person reporting voice throughout.
+- If the source material names the journalist(s) who originally reported the story, that name belongs to them and their outlet — do NOT carry it into this article, do NOT present them as a Veridus staff member, and do NOT reference them at all unless they are themselves a subject of the news event (e.g. being quoted as an official or expert in their own right, not as the story's author).
 
 EDITORIAL FOCUS: {guidance}
 
@@ -598,14 +576,16 @@ Return only the JSON object:"""
 # ─── WIKIMEDIA COMMONS IMAGE FETCHER ─────────────────────────────────────────
 #
 # Fetches a free, correctly-licensed image from Wikimedia Commons.
-# Accepted licenses: CC0, CC BY, CC BY-SA, Public Domain.
+# Accepted licenses: CC0, Public Domain only — no attribution requirement,
+# so nothing needs to be credited anywhere on the site.
 # Saves image locally into the Hugo page bundle so it is permanently owned.
 # If no suitable image is found the article posts without one — graceful fallback.
 
-# Licenses we trust — reject anything else (e.g. CC BY-NC, fair use, unknown)
+# Licenses we trust — reject anything else (e.g. CC BY, CC BY-SA, CC BY-NC, fair use, unknown).
+# Deliberately excludes CC BY / CC BY-SA: those require visible attribution,
+# which this site does not display.
 ACCEPTED_LICENSES = {
-    "cc0", "cc-by", "cc-by-sa", "cc-by-2.0", "cc-by-3.0", "cc-by-4.0",
-    "cc-by-sa-2.0", "cc-by-sa-3.0", "cc-by-sa-4.0",
+    "cc0",
     "public domain", "pd", "cc-pd",
 }
 
@@ -718,9 +698,8 @@ def fetch_wikimedia_image(search_query):
             accepted = (
                 lic_normalised in ACCEPTED_LICENSES
                 or any(a in lic_normalised for a in ACCEPTED_LICENSES)
-                or "creative commons" in license_short
                 or "public domain" in license_short
-            ) and "nc" not in lic_normalised and "nd" not in lic_normalised
+            ) and "nc" not in lic_normalised and "nd" not in lic_normalised and "by" not in lic_normalised
 
             if not accepted:
                 print(f"  ⛔ Rejected license: {license_short}")
@@ -897,9 +876,12 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Groq: {words} words")
-        if words >= 600:
+        if words >= 700 and not has_fabricated_byline(text):
             return text
-        print(f"  ⚠️  Too short ({words} words) — trying Gemini for a fuller rewrite")
+        if words >= 700:
+            print(f"  ⚠️  Fabricated byline/correspondent detected — trying Gemini for a clean rewrite")
+        else:
+            print(f"  ⚠️  Too short ({words} words) — trying Gemini for a fuller rewrite")
 
     # Gemini fallback
     print(f"  🔄 Trying Gemini fallback...")
@@ -907,12 +889,29 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Gemini: {words} words")
-        if words >= 600:
+        if words >= 700 and not has_fabricated_byline(text):
             return text
-        print(f"  ⚠️  Too short ({words} words)")
+        if words >= 700:
+            print(f"  ⚠️  Fabricated byline/correspondent detected in Gemini output too — skipping article")
+        else:
+            print(f"  ⚠️  Too short ({words} words)")
 
     print("  ❌ All AIs failed — skipping article")
     return None
+
+# Safety net beyond the prompt instruction: catches cases where the model
+# names a "correspondent"/"reporter" anyway — e.g. carrying over a real
+# journalist's name from the source material. Any match means the article
+# is rejected outright rather than published with a fabricated byline.
+_BYLINE_PATTERN = re.compile(
+    r"\b(our|veridus'?s?)\s+(senior\s+)?(correspondent|reporter|journalist)\b"
+    r"|\bcorrespondent\s+[A-Z][a-z]+\s+[A-Z][a-z]+\b"
+    r"|\breporting\s+for\s+veridus\b",
+    re.IGNORECASE,
+)
+
+def has_fabricated_byline(text):
+    return bool(_BYLINE_PATTERN.search(text))
 
 # ─── SEO METADATA GENERATION ──────────────────────────────────────────────────
 
@@ -1043,7 +1042,7 @@ def main():
     posted_ids  = set(posted_log.keys())     # set used for fast membership checks
     total_saved = 0
 
-    all_niches    = ["sports", "politics", "business", "climate", "curious"]  # "culture" paused — add back when feature images ready
+    all_niches    = ["sports", "politics", "global-affairs", "business", "climate", "curious"]
     active_niches = ["sports"] if sports_only else all_niches
     for niche in active_niches:
         print(f"\n📰 [{niche.upper()}]")
