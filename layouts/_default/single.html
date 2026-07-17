@@ -389,4 +389,149 @@
 })();
 </script>
 
+<style>
+/* Internal link hover-preview popup (Gwern.net-style) */
+#link-preview-popup {
+  position: fixed;
+  z-index: 500;
+  max-width: 340px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  padding: 1rem 1.1rem;
+  font-family: var(--font-ui);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+#link-preview-popup.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+#link-preview-popup .lp-cat {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+#link-preview-popup .lp-title {
+  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.35;
+  color: var(--text-primary);
+  margin: 0 0 0.4rem;
+}
+#link-preview-popup .lp-summary {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem;
+}
+#link-preview-popup .lp-meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+@media (max-width: 600px) {
+  #link-preview-popup { display: none; } /* no hover on touch devices — link just navigates normally */
+}
+</style>
+
+<script>
+(function() {
+  var container = document.querySelector('.article-content');
+  if (!container) return;
+
+  var popup = document.createElement('div');
+  popup.id = 'link-preview-popup';
+  document.body.appendChild(popup);
+
+  var indexData = null;
+  var indexPromise = null;
+  var showTimer = null;
+  var hideTimer = null;
+
+  function loadIndex() {
+    if (indexPromise) return indexPromise;
+    indexPromise = fetch('/index.json')
+      .then(function(res) { return res.ok ? res.json() : []; })
+      .then(function(data) { indexData = data; return data; })
+      .catch(function() { indexData = []; return []; });
+    return indexPromise;
+  }
+
+  function normalizePath(url) {
+    try {
+      return new URL(url, window.location.origin).pathname;
+    } catch (e) {
+      return url;
+    }
+  }
+
+  function findEntry(path, data) {
+    if (!data) return null;
+    var target = normalizePath(path);
+    for (var i = 0; i < data.length; i++) {
+      if (normalizePath(data[i].url) === target) return data[i];
+    }
+    return null;
+  }
+
+  function positionPopup(link) {
+    var rect = link.getBoundingClientRect();
+    var popupWidth = 340;
+    var left = rect.left;
+    if (left + popupWidth > window.innerWidth - 16) {
+      left = window.innerWidth - popupWidth - 16;
+    }
+    var top = rect.bottom + 8;
+    popup.style.left = Math.max(16, left) + 'px';
+    popup.style.top = top + 'px';
+  }
+
+  function showPopup(link, entry) {
+    var cat = (entry.categories && entry.categories[0]) ? entry.categories[0] : '';
+    popup.innerHTML =
+      (cat ? '<span class="lp-cat">' + cat + '</span>' : '') +
+      '<p class="lp-title">' + entry.title + '</p>' +
+      (entry.summary ? '<p class="lp-summary">' + entry.summary.slice(0, 160) + (entry.summary.length > 160 ? '…' : '') + '</p>' : '') +
+      (entry.readingTime ? '<span class="lp-meta">' + entry.readingTime + ' min read</span>' : '');
+    positionPopup(link);
+    popup.classList.add('visible');
+  }
+
+  function hidePopup() {
+    popup.classList.remove('visible');
+  }
+
+  container.querySelectorAll('a[href^="/"]').forEach(function(link) {
+    var path = link.getAttribute('href');
+
+    link.addEventListener('mouseenter', function() {
+      clearTimeout(hideTimer);
+      showTimer = setTimeout(function() {
+        loadIndex().then(function(data) {
+          var entry = findEntry(path, data);
+          if (entry) showPopup(link, entry);
+        });
+      }, 250); // small delay avoids flashing on quick cursor pass-throughs
+    });
+
+    link.addEventListener('mouseleave', function() {
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(hidePopup, 200);
+    });
+  });
+
+  popup.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
+  popup.addEventListener('mouseleave', function() { hideTimer = setTimeout(hidePopup, 200); });
+})();
+</script>
+
 {{ end }}

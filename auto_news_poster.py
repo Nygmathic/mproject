@@ -987,6 +987,53 @@ keywords: {sec_kws}
 {body}
 """
 
+# ─── INTERNAL LINKING ─────────────────────────────────────────────────────────
+# Links a few mentions of this article's own tags to that tag's taxonomy
+# archive page (/tags/{tag}/) instead of one specific past article. Hugo
+# automatically populates that page with every article sharing the tag, so
+# clicking a linked term shows a reader every relevant piece, not just one —
+# and the list grows on its own as more articles get published, with no
+# separate index to build or maintain here.
+
+def insert_internal_links(body, tags, max_links=3):
+    """
+    Replaces the first mention of each candidate tag with a link to that
+    tag's archive page. Skips headings, skips lines that already contain a
+    link, requires a real word (4+ characters) to avoid linking on noise,
+    and caps the total links inserted so articles don't end up over-linked.
+    """
+    if not tags:
+        return body
+
+    candidates = [(t.strip(), f"/tags/{slugify(t)}/") for t in tags if len(t.strip()) >= 4]
+
+    lines = body.split("\n")
+    links_added = 0
+
+    for i, line in enumerate(lines):
+        if links_added >= max_links:
+            break
+        if not line.strip() or line.strip().startswith("#"):
+            continue
+        if "](" in line:
+            continue  # a markdown link already lives on this line — leave it alone
+
+        for phrase, permalink in candidates:
+            if links_added >= max_links:
+                break
+            pattern = re.compile(r'\b' + re.escape(phrase) + r'\b', re.IGNORECASE)
+            match = pattern.search(line)
+            if match:
+                matched_text = match.group(0)
+                new_line = line[:match.start()] + f"[{matched_text}]({permalink})" + line[match.end():]
+                lines[i] = new_line
+                line = new_line
+                links_added += 1
+
+    if links_added:
+        print(f"  🔗 Inserted {links_added} tag-archive link(s)")
+    return "\n".join(lines)
+
 def save_hugo_post(article, body, seo):
     """
     Saves article as a Hugo page bundle (directory with index.md + cover image).
@@ -1008,6 +1055,10 @@ def save_hugo_post(article, body, seo):
 
     # Fetch feature image from Wikimedia into the bundle directory
     image_file, image_info = get_feature_image(article, seo, bundle_dir)
+
+    # Link a few mentions of this article's own tags to their tag-archive pages
+    tag_candidates = seo.get("secondary_keywords", []) if seo else []
+    body = insert_internal_links(body, tag_candidates)
 
     # Build and write markdown with image front matter
     md_content = build_hugo_markdown(article, body, seo, image_file, image_info)
