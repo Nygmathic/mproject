@@ -2,7 +2,9 @@
    VERIDUS – Complete Newspaper Typography & Layout System
    ============================================================ */
 
-// ----- FONT FACES -----
+// ----- FONT FACES (self-hosted) -----
+
+// Splentinex – masthead / nameplate
 @font-face {
   font-family: 'Splentinex';
   font-style: normal;
@@ -18,6 +20,7 @@
   src: url('/fonts/Splentinex-Bold.woff2') format('woff2');
 }
 
+// Inter Display – all headlines (modern, clean)
 @font-face {
   font-family: 'Inter Display';
   font-style: normal;
@@ -33,6 +36,7 @@
   src: url('/fonts/InterDisplay-Bold.woff2') format('woff2');
 }
 
+// Libre Franklin – card titles (premium, editorial)
 @font-face {
   font-family: 'Libre Franklin';
   font-style: normal;
@@ -55,6 +59,7 @@
   src: url('/fonts/LibreFranklin-Bold.woff2') format('woff2');
 }
 
+// Source Serif 4 – main reading font (body, articles only)
 @font-face {
   font-family: 'Source Serif 4';
   font-style: normal;
@@ -84,6 +89,7 @@
   src: url('/fonts/SourceSerif4_18pt-Bold.woff2') format('woff2');
 }
 
+// Inter – clean sans for UI, descriptions, summaries, taglines
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -97,21 +103,6 @@
   font-weight: 600;
   font-display: swap;
   src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/RobotoMono-Regular.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/RobotoMono-Bold.woff2') format('woff2');
 }
 
 // ----- CSS VARIABLES -----
@@ -138,9 +129,7 @@
   --font-display: 'Inter Display', sans-serif;
   --font-reading: 'Source Serif 4', serif;
   --font-article: 'Source Serif 4', serif;
-  --font-headline-sans: 'Inter', system-ui, sans-serif;
-  --font-ui: 'Roboto Mono', 'Courier New', monospace;
-  --font-mono: 'Roboto Mono', monospace;
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --bg: #FFFFFF;
   --bg-rgb: 255, 255, 255;
@@ -345,7 +334,7 @@ p, li, .text-body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
@@ -587,7 +576,7 @@ p, li, .text-body {
   color: var(--hover);
 }
 .site-tagline {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -891,7 +880,7 @@ p, li, .text-body {
   opacity: 0.8;
 }
 .np-nameplate-tagline {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: clamp(0.8rem, 1.5vw, 1rem);
   color: var(--accent);
@@ -918,20 +907,6 @@ p, li, .text-body {
   }
 }
 
-.np-lead {
-}
-@media (min-width: 768px) {
-  .np-lead {
-    padding-right: clamp(1rem, 2vw, 1.75rem);
-    border-right: 1px solid var(--border);
-  }
-}
-@media (max-width: 767px) {
-  .np-lead {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-}
 .np-lead-img-wrap {
   display: block;
   overflow: hidden;
@@ -973,7 +948,7 @@ p, li, .text-body {
 }
 
 .np-lead-deck {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   line-height: 1.55;
@@ -1043,7 +1018,7 @@ p, li, .text-body {
 }
 
 .np-second-deck {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.9rem;
   line-height: 1.55;
@@ -1128,8 +1103,6 @@ p, li, .text-body {
     gap: 0;
   }
 }
-.np-section-col {
-}
 @media (min-width: 640px) {
   .np-section-col {
     padding-right: clamp(1rem, 2vw, 1.5rem);
@@ -1192,7 +1165,7 @@ p, li, .text-body {
   color: var(--text-primary);
 }
 .np-section-deck {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.85rem;
   line-height: 1.5;
@@ -1241,7 +1214,7 @@ p, li, .text-body {
   margin: 0 0 0.2rem;
 }
 .np-newsletter-sub {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.88rem;
   color: var(--text-secondary);
@@ -1441,7 +1414,7 @@ p, li, .text-body {
 }
 
 .article-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.3rem;
   color: var(--text-secondary);
@@ -1704,7 +1677,7 @@ p, li, .text-body {
   font-weight: 700;
 }
 .author-bio-card-text {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.9rem;
   color: var(--text-secondary);
@@ -1827,7 +1800,7 @@ p, li, .text-body {
 
 // ----- CARD TITLE (article cards) – Libre Franklin -----
 .card-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.3;
@@ -1845,7 +1818,7 @@ p, li, .text-body {
 
 // ----- CARD SUMMARY – Inter -----
 .card-summary {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -1855,7 +1828,7 @@ p, li, .text-body {
 
 // ----- CATEGORY ITEM TITLE -----
 .category-item-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.3;
@@ -1882,7 +1855,7 @@ p, li, .text-body {
 
 // ----- CATEGORY DESCRIPTION – Inter -----
 .category-desc {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -1892,7 +1865,7 @@ p, li, .text-body {
 
 // ----- ARCHIVE ITEM TITLE -----
 .archive-item-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.3;
@@ -1910,7 +1883,7 @@ p, li, .text-body {
 
 // ----- ARCHIVE SUBTITLE – Inter -----
 .archive-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: var(--step-0);
   color: var(--text-muted);
@@ -1928,7 +1901,7 @@ p, li, .text-body {
 
 // ----- ARCHIVE GRID SUBTITLE – Inter -----
 .archive-grid-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -1936,7 +1909,7 @@ p, li, .text-body {
 
 // ----- SEARCH RESULT TITLE – Libre Franklin -----
 .search-result-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
   font-size: 1.3rem;
   margin: 0.25rem 0 0.3rem;
@@ -1952,7 +1925,7 @@ p, li, .text-body {
 
 // ----- SEARCH RESULT SUMMARY – Inter -----
 .search-result-summary {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -1961,7 +1934,7 @@ p, li, .text-body {
 
 // ----- SEARCH SUBTITLE – Inter -----
 .search-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: var(--step-0);
   color: var(--text-secondary);
@@ -1970,7 +1943,7 @@ p, li, .text-body {
 
 // ----- OVERLAY CARD TITLE – Libre Franklin -----
 .overlay-card-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-size: clamp(1rem, 3vw, 1.25rem);
   font-weight: 700;
   line-height: 1.2;
@@ -2008,7 +1981,7 @@ p, li, .text-body {
   text-decoration: none;
 }
 .footer-wordmark-tagline {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--accent);
@@ -2035,7 +2008,7 @@ p, li, .text-body {
   text-transform: uppercase;
 }
 .footer-col-body {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -2087,7 +2060,7 @@ p, li, .text-body {
 }
 .footer-copyright {
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -2132,7 +2105,7 @@ p, li, .text-body {
   margin-bottom: 0.5rem;
 }
 .footer-newsletter-text {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -2475,7 +2448,7 @@ html body .main-nav .header-inner {
 }
 .np-newsletter-sub,
 .ny-newsletter-sub {
-  font-family: var(--font-headline-sans) !important;
+  font-family: var(--font-ui) !important;
   font-weight: 400 !important;
   font-size: clamp(1.1rem, 2.5vw, 1.3rem) !important;
 }
@@ -2540,7 +2513,7 @@ html body .main-nav .header-inner {
 }
 
 .archive-grid-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: var(--font-ui);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -2618,7 +2591,7 @@ html body .main-nav .header-inner {
 }
 
 .archive-item-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.3;
@@ -2814,7 +2787,7 @@ html body .main-nav .header-inner {
 }
 
 .overlay-card-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif !important;
+  font-family: 'Libre Franklin', var(--font-ui), sans-serif !important;
   font-size: clamp(1rem, 3vw, 1.25rem) !important;
   font-weight: 700 !important;
   line-height: 1.2 !important;

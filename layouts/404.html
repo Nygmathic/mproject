@@ -51,46 +51,48 @@
 
 <style>
 .error-page {
-  padding: var(--space-3xl, 2.5rem) 0 calc(var(--space-3xl, 2.5rem) * 2);
+  padding: 3rem 1.5rem 6rem;
   min-height: 60vh;
   background: var(--bg, #FFFFFF);
 }
 .error-inner {
   display: grid;
   grid-template-columns: 1fr 280px;
-  gap: var(--space-3xl, 2.5rem);
+  gap: 2.5rem;
   align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .error-eyebrow {
-  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-display, 'Inter Display'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: clamp(5rem, 12vw, 8rem);
   font-weight: 800;
   line-height: 1;
   color: var(--border, #E5E5E5);
-  margin-bottom: var(--space-lg, 1.5rem);
+  margin-bottom: 1.5rem;
 }
 .error-heading {
-  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-display, 'Inter Display'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: clamp(2rem, 5vw, 2.8rem);
   font-weight: 700;
-  margin-bottom: var(--space-md, 1rem);
+  margin-bottom: 1rem;
   color: var(--text-primary, #1A1A1A);
 }
 .error-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: var(--step-0, 1.125rem);
   line-height: 1.6;
   color: var(--text-secondary, #3D3D3D);
   max-width: 420px;
-  margin-bottom: var(--space-xl, 2rem);
+  margin-bottom: 2rem;
 }
 .error-actions {
   display: flex;
-  gap: var(--space-md, 1rem);
+  gap: 1rem;
   flex-wrap: wrap;
 }
-.error-btn-primary, .error-btn-secondary {
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+.error-btn-primary {
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -99,8 +101,6 @@
   padding: 0.6rem 1.2rem;
   border-radius: 40px;
   transition: all 0.2s;
-}
-.error-btn-primary {
   background: var(--accent, #D94838);
   color: #fff;
 }
@@ -109,6 +109,15 @@
   transform: translateY(-1px);
 }
 .error-btn-secondary {
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  transition: all 0.2s;
   background: transparent;
   color: var(--text-primary, #1A1A1A);
   border: 1px solid var(--border, #E5E5E5);
@@ -120,23 +129,23 @@
 .error-sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl, 2rem);
+  gap: 2rem;
 }
 .error-card {
   border: 1px solid var(--border-light, #EFEFEF);
   border-radius: var(--radius-md, 10px);
-  padding: var(--space-lg, 1.5rem);
+  padding: 1.5rem;
   background: var(--bg, #FFFFFF);
 }
 .error-card-title {
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent, #D94838);
-  margin-bottom: var(--space-md, 1rem);
-  padding-bottom: var(--space-xs, 0.5rem);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-light, #EFEFEF);
 }
 .error-card-list {
@@ -145,14 +154,14 @@
   margin: 0;
 }
 .error-card-list li {
-  padding: var(--space-sm, 0.75rem) 0;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-light, #EFEFEF);
 }
 .error-card-list li:last-child {
   border-bottom: none;
 }
 .error-card-cat {
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -162,7 +171,7 @@
   margin-bottom: 0.2rem;
 }
 .error-card-title-link {
-  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-display, 'Inter Display'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   font-weight: 700;
   line-height: 1.25;
@@ -176,7 +185,7 @@
   text-decoration: underline;
 }
 .error-card-meta {
-  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.58rem;
   color: var(--text-muted, #6E6E6E);
   display: flex;
@@ -196,10 +205,10 @@
 .error-topic-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm, 0.75rem);
+  gap: 0.75rem;
 }
 .error-topic-pills a {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.35rem 0.8rem;
@@ -217,7 +226,7 @@
 @media (max-width: 680px) {
   .error-inner {
     grid-template-columns: 1fr;
-    gap: var(--space-2xl, 2.5rem);
+    gap: 2.5rem;
   }
 }
 </style>
