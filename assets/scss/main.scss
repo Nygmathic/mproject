@@ -1,15 +1,8 @@
 /* ============================================================
    VERIDUS – Complete Newspaper Typography & Layout System
-   Body & Article font: Source Serif 4 (comfortable size)
-   UI font: Roboto Mono (terminal)
-   Headlines: Inter Display (modern)
-   Card titles: Libre Franklin (premium)
-   All descriptions, taglines, summaries: Inter (clean, unified)
    ============================================================ */
 
-// ----- FONT FACES (self-hosted) -----
-
-// Splentinex – masthead / nameplate
+// ----- FONT FACES -----
 @font-face {
   font-family: 'Splentinex';
   font-style: normal;
@@ -25,7 +18,6 @@
   src: url('/fonts/Splentinex-Bold.woff2') format('woff2');
 }
 
-// Inter Display – all headlines (modern, clean)
 @font-face {
   font-family: 'Inter Display';
   font-style: normal;
@@ -41,7 +33,6 @@
   src: url('/fonts/InterDisplay-Bold.woff2') format('woff2');
 }
 
-// Libre Franklin – card titles (premium, editorial)
 @font-face {
   font-family: 'Libre Franklin';
   font-style: normal;
@@ -64,7 +55,6 @@
   src: url('/fonts/LibreFranklin-Bold.woff2') format('woff2');
 }
 
-// Source Serif 4 – main reading font (body, articles only)
 @font-face {
   font-family: 'Source Serif 4';
   font-style: normal;
@@ -94,7 +84,6 @@
   src: url('/fonts/SourceSerif4_18pt-Bold.woff2') format('woff2');
 }
 
-// Inter – clean sans for all descriptions, summaries, taglines
 @font-face {
   font-family: 'Inter';
   font-style: normal;
@@ -110,7 +99,6 @@
   src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
 }
 
-// Roboto Mono – terminal / UI font
 @font-face {
   font-family: 'Roboto Mono';
   font-style: normal;
@@ -130,13 +118,13 @@
 :root {
   --step--2: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
   --step--1: clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
-  --step-0:  clamp(1.125rem, 1rem + 0.6vw, 1.35rem);
-  --step-1:  clamp(1.35rem, 1.2rem + 0.8vw, 1.6rem);
-  --step-2:  clamp(1.6rem, 1.4rem + 1vw, 1.9rem);
-  --step-3:  clamp(1.9rem, 1.7rem + 1.3vw, 2.4rem);
-  --step-4:  clamp(2.3rem, 2rem + 1.6vw, 3rem);
-  --step-5:  clamp(3rem, 2.5rem + 2vw, 4rem);
-  --step-6:  clamp(3.5rem, 3rem + 2.5vw, 5rem);
+  --step-0: clamp(1.125rem, 1rem + 0.6vw, 1.35rem);
+  --step-1: clamp(1.35rem, 1.2rem + 0.8vw, 1.6rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 1.9rem);
+  --step-3: clamp(1.9rem, 1.7rem + 1.3vw, 2.4rem);
+  --step-4: clamp(2.3rem, 2rem + 1.6vw, 3rem);
+  --step-5: clamp(3rem, 2.5rem + 2vw, 4rem);
+  --step-6: clamp(3.5rem, 3rem + 2.5vw, 5rem);
 
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
@@ -227,7 +215,7 @@ img {
   display: block;
 }
 
-// ----- GLOBAL LINK STYLES (hover + active) -----
+// ----- GLOBAL LINK STYLES -----
 a {
   color: var(--accent);
   text-decoration: underline;
@@ -235,7 +223,6 @@ a {
   transition: color var(--transition);
 }
 
-// Desktop hover
 @media (hover: hover) {
   a:hover,
   .nav-item:hover,
@@ -262,7 +249,6 @@ a {
   }
 }
 
-// Mobile tap feedback (active)
 a:active,
 .nav-item:active,
 .footer-col nav a:active,
@@ -287,7 +273,7 @@ a:active,
   color: var(--hover) !important;
 }
 
-// ----- HEADINGS (general) -----
+// ----- HEADINGS -----
 h1, .h1 {
   font-family: var(--font-display);
   font-size: var(--step-5);
@@ -314,7 +300,7 @@ p, li, .text-body {
   margin-bottom: 1.25em;
 }
 
-// Containers
+// ----- CONTAINERS -----
 .container,
 .article-container {
   width: 100%;
@@ -341,7 +327,7 @@ p, li, .text-body {
   top: 0;
 }
 
-// Reading progress & timer
+// ----- READING PROGRESS -----
 #reading-progress {
   position: fixed;
   top: 0;
@@ -363,7 +349,7 @@ p, li, .text-body {
   font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   padding: 0.45rem 0.85rem;
   border-radius: var(--radius-pill);
@@ -569,7 +555,7 @@ p, li, .text-body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
 .menu-overlay.active {
@@ -667,7 +653,7 @@ p, li, .text-body {
     z-index: 1000;
     background: var(--bg);
     border-bottom: 2px solid var(--accent);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transform: translateY(-100%);
     transition: transform 0.35s ease;
   }
@@ -731,7 +717,7 @@ p, li, .text-body {
   }
   .sticky-bar .sticky-search:hover {
     color: var(--hover);
-    background: rgba(var(--hover-rgb),0.1);
+    background: rgba(var(--hover-rgb), 0.1);
   }
   .sticky-bar .sticky-search svg {
     width: 20px;
@@ -740,9 +726,8 @@ p, li, .text-body {
 }
 
 // ================================================================
-// NEWSPAPER HOMEPAGE SYSTEM (np-*) – full layout
+// NEWSPAPER HOMEPAGE
 // ================================================================
-
 .np-page {
   padding-bottom: 4rem;
 }
@@ -1389,7 +1374,7 @@ p, li, .text-body {
   color: var(--text-muted);
 }
 
-// ----- SINGLE ARTICLE (Source Serif 4, comfortable size) -----
+// ----- SINGLE ARTICLE -----
 .breadcrumb {
   padding: 1.5rem 0 0;
 }
@@ -1669,7 +1654,7 @@ p, li, .text-body {
 }
 
 .author-bio-card {
-  background: rgba(var(--accent-rgb),0.06);
+  background: rgba(var(--accent-rgb), 0.06);
   border-top: 3px solid var(--accent);
   padding: 2.5rem 1.5rem;
   margin-top: 3rem;
@@ -1729,9 +1714,6 @@ p, li, .text-body {
   display: flex;
   gap: 0.5rem;
   margin-top: 1rem;
-}
-.author-bio-card-socials a {
-  transition: background 0.2s;
 }
 .author-bio-card-socials a:hover {
   background: var(--hover-dark);
@@ -1871,7 +1853,7 @@ p, li, .text-body {
   margin-bottom: 0.75rem;
 }
 
-// ----- CATEGORY ITEM TITLE (category pages) – Libre Franklin -----
+// ----- CATEGORY ITEM TITLE -----
 .category-item-title {
   font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-weight: 700;
@@ -1889,7 +1871,7 @@ p, li, .text-body {
   text-decoration: underline;
 }
 
-// ----- CATEGORY TITLE (page title) – Inter Display -----
+// ----- CATEGORY TITLE – Inter Display -----
 .category-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3rem);
@@ -1908,7 +1890,7 @@ p, li, .text-body {
   margin: 0 auto;
 }
 
-// ----- ARCHIVE ITEM TITLE (archive pages) – Libre Franklin -----
+// ----- ARCHIVE ITEM TITLE -----
 .archive-item-title {
   font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-weight: 700;
@@ -2130,7 +2112,7 @@ p, li, .text-body {
   text-decoration: underline;
 }
 
-// ----- FOOTER NEWSLETTER SECTION -----
+// ----- FOOTER NEWSLETTER -----
 .footer-newsletter-section {
   margin-top: 2rem;
   padding: 2.5rem 0;
@@ -2205,7 +2187,7 @@ p, li, .text-body {
   justify-content: center;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   opacity: 0;
   visibility: hidden;
   transform: translateY(15px);
@@ -2226,9 +2208,7 @@ p, li, .text-body {
   transform: scale(1.1);
 }
 
-// ============================================================
-// PLACEHOLDER SYSTEM (Option G – icons)
-// ============================================================
+// ----- PLACEHOLDER SYSTEM -----
 .card-placeholder-link {
   text-decoration: none !important;
   display: block;
@@ -2373,7 +2353,7 @@ p, li, .text-body {
   color: var(--text-muted);
 }
 
-// Print styles
+// ----- PRINT STYLES -----
 @media print {
   .site-header,
   .site-footer,
@@ -2412,7 +2392,7 @@ p, li, .text-body {
     font-size: 9pt;
     color: #555;
     border-bottom: 1pt solid #ccc;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
   }
   .article-content {
@@ -2446,9 +2426,7 @@ p, li, .text-body {
   }
 }
 
-// ============================================================
-// FORCE CENTERED NAVIGATION (final override)
-// ============================================================
+// ----- FORCE CENTERED NAVIGATION -----
 html body .desktop-nav .nav-list,
 html body .main-nav .nav-list,
 html body .desktop-nav ul,
@@ -2476,7 +2454,7 @@ html body .main-nav .header-inner {
   text-align: center !important;
 }
 
-// Uppercase bylines
+// ----- UPPERCASE BYLINES -----
 .np-byline-name,
 .article-author,
 .card-byline,
@@ -2484,7 +2462,7 @@ html body .main-nav .header-inner {
   text-transform: uppercase !important;
 }
 
-// Newsletter improvements
+// ----- NEWSLETTER IMPROVEMENTS -----
 .np-newsletter,
 .ny-newsletter {
   padding: 2rem clamp(1rem, 4vw, 2.5rem) !important;
@@ -2532,9 +2510,7 @@ html body .main-nav .header-inner {
   }
 }
 
-// ------------------------------------------------------------------
-// SIMPLIFIED ARCHIVE GRID (pages 2+) – only headings, vertical lines
-// ------------------------------------------------------------------
+// ----- SIMPLIFIED ARCHIVE GRID -----
 .archive-grid-page {
   max-width: 1280px;
   margin: 0 auto;
@@ -2670,7 +2646,7 @@ html body .main-nav .header-inner {
   opacity: 0.5;
 }
 
-// Simple pagination (used on both page 1 and archive pages)
+// ----- PAGINATION -----
 .paginated-nav {
   margin: 2rem 0 1rem;
   text-align: center;
@@ -2726,7 +2702,7 @@ html body .main-nav .header-inner {
   }
 }
 
-// Form styles (contact, search, etc.)
+// ----- FORM STYLES -----
 .contact-form input,
 .contact-form textarea,
 .search-field-input {
@@ -2785,9 +2761,7 @@ html body .main-nav .header-inner {
   border-radius: 0;
 }
 
-/* ============================================================
-   FORCE CARD IMAGE OVERLAY (title on image) – magazine style
-   ============================================================ */
+// ----- OVERLAY CARD -----
 .overlay-card {
   position: relative !important;
   overflow: hidden !important;
@@ -2819,9 +2793,9 @@ html body .main-nav .header-inner {
   left: 0 !important;
   right: 0 !important;
   padding: 1rem !important;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2)) !important;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.2)) !important;
   color: #fff !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
   z-index: 2 !important;
 }
 
@@ -2832,7 +2806,7 @@ html body .main-nav .header-inner {
   letter-spacing: 0.1em !important;
   text-transform: uppercase !important;
   color: var(--accent) !important;
-  background: rgba(0,0,0,0.5) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
   display: inline-block !important;
   padding: 0.2rem 0.5rem !important;
   border-radius: 20px !important;
@@ -2859,7 +2833,7 @@ html body .main-nav .header-inner {
 .overlay-card-meta {
   font-family: var(--font-ui) !important;
   font-size: 0.65rem !important;
-  color: rgba(255,255,255,0.85) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 0.3rem !important;
@@ -2870,9 +2844,7 @@ html body .main-nav .header-inner {
   opacity: 0.6 !important;
 }
 
-/* ============================================================
-   MOBILE ARTICLE TYPOGRAPHY (comfortable, not tiny)
-   ============================================================ */
+// ----- MOBILE ARTICLE TYPOGRAPHY -----
 @media (max-width: 640px) {
   .article-container {
     padding-left: 1rem !important;
@@ -2898,9 +2870,7 @@ html body .main-nav .header-inner {
   }
 }
 
-/* ============================================================
-   FIX BUTTON HOVER – keep text readable (white)
-   ============================================================ */
+// ----- BUTTON HOVER FIXES -----
 .donate-btn:hover,
 .submit-btn:hover,
 .share-trigger:hover,
@@ -2921,64 +2891,16 @@ html body .main-nav .header-inner {
   text-decoration: none !important;
 }
 
-/* Tag pill hover - keep text readable */
-.tag-pill:hover {
-  background: var(--bg-muted);
-  color: var(--text-primary);
-  border-color: var(--accent);
-  text-decoration: none;
-}
-
-/* Substack social icon */
-.substack-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.substack-icon {
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.substack-link:hover .substack-icon {
-  opacity: 1;
-}
-
-.substack-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: all 0.2s ease;
-}
-
-.substack-icon {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.substack-link:hover {
-  color: var(--accent) !important;
-}
-
-.substack-link:hover .substack-icon {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-/* Social links (Substack, Patreon, Buy me a soda, etc.) */
+// ----- SOCIAL LINKS -----
 .social-link {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
 }
-
 .social-icon {
   opacity: 0.8;
   transition: opacity 0.2s;
 }
-
 .social-link:hover .social-icon {
   opacity: 1;
 }
