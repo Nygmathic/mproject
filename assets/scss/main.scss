@@ -1277,6 +1277,7 @@ p, li, .text-body {
 }
 .np-newsletter-btn:hover {
   background: var(--hover-dark);
+  color: #fff !important;
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -1584,9 +1585,9 @@ p, li, .text-body {
   transition: all 0.2s;
 }
 .tag-pill:hover {
-  background: var(--hover-dark);
-  color: #fff;
-  border-color: var(--hover-dark);
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--accent);
   text-decoration: none;
 }
 .article-share-label {
@@ -2175,7 +2176,9 @@ p, li, .text-body {
 }
 .newsletter-btn:hover {
   background: var(--hover-dark);
+  color: #fff !important;
   transform: translateY(-2px);
+  text-decoration: none;
 }
 .newsletter-btn svg {
   width: 14px;
@@ -2901,7 +2904,7 @@ html body .main-nav .header-inner {
 .donate-btn:hover,
 .submit-btn:hover,
 .share-trigger:hover,
-.np-newsletter-btn:hover,
+.newsletter-btn:hover,
 .nyt-prev:hover,
 .nyt-next:hover,
 .paginated-prev:hover,
@@ -2916,6 +2919,14 @@ html body .main-nav .header-inner {
   background: var(--hover-dark) !important;
   border-color: var(--hover-dark) !important;
   text-decoration: none !important;
+}
+
+/* Tag pill hover - keep text readable */
+.tag-pill:hover {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  border-color: var(--accent);
+  text-decoration: none;
 }
 
 /* Substack social icon */

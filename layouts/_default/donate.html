@@ -60,45 +60,45 @@
 </div>
 
 <style>
-/* EXACT SAME STYLES AS original donate.html – only class names differ for action items */
 .page-container {
   max-width: 760px;
   margin: 3rem auto;
   padding: 0 1.5rem;
-  background: var(--bg);
+  background: var(--bg, #FFFFFF);
 }
 .page-header {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border, #E5E5E5);
 }
 .page-eyebrow {
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent, #D94838);
 }
 .page-header h1 {
-  font-family: var(--font-display);
-  font-size: var(--step-3);
+  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--step-3, 2rem);
   font-weight: 800;
   margin: 0.5rem 0 0.25rem;
+  color: var(--text-primary, #1A1A1A);
 }
 .page-subtitle {
-  font-family: var(--font-headline-sans);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-weight: 400;
-  font-size: var(--step-0);
-  color: var(--text-secondary);
+  font-size: var(--step-0, 1.125rem);
+  color: var(--text-secondary, #3D3D3D);
   line-height: 1.6;
 }
 .contact-card {
-  background: var(--bg-alt);
-  border-radius: var(--radius-md);
+  background: var(--bg-alt, #FBFBFB);
+  border-radius: var(--radius-md, 10px);
   padding: 2rem 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-light, #EFEFEF);
 }
 .donate-action-group {
   display: flex;
@@ -109,26 +109,26 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: var(--bg);
+  background: var(--bg, #FFFFFF);
   padding: 1.25rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--border-light, #EFEFEF);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .action-item:hover {
-  border-color: var(--accent);
-  box-shadow: 0 2px 6px rgba(var(--accent-rgb), 0.08);
+  border-color: var(--accent, #D94838);
+  box-shadow: 0 2px 6px rgba(var(--accent-rgb, 217, 72, 56), 0.08);
 }
 .action-icon {
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  background: rgba(var(--accent-rgb), 0.1);
+  background: rgba(var(--accent-rgb, 217, 72, 56), 0.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
+  color: var(--accent, #D94838);
 }
 .action-icon svg {
   width: 22px;
@@ -139,20 +139,20 @@
   flex: 1;
 }
 .action-label {
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent, #D94838);
   display: block;
   margin-bottom: 0.2rem;
 }
 .action-desc {
-  font-family: var(--font-headline-sans);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 0.95rem;
-  color: var(--text-secondary);
+  color: var(--text-secondary, #3D3D3D);
   line-height: 1.5;
   margin: 0;
 }
@@ -160,23 +160,23 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.6rem 1.2rem;
-  background: var(--accent);
+  background: var(--accent, #D94838);
   color: #fff;
   border: none;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-pill, 50px);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
   transition: background 0.2s, transform 0.15s;
 }
 .donate-btn:hover {
-  background: var(--hover-dark);
+  background: var(--hover-dark, #1a5490);
   transform: translateY(-1px);
 }
 .btn-icon {
@@ -188,24 +188,23 @@
 .contact-alternate {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-light, #EFEFEF);
   text-align: center;
-  font-family: var(--font-ui);
 }
 .contact-alternate p {
-  font-family: var(--font-headline-sans);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: var(--text-muted, #6E6E6E);
   margin-bottom: 0.5rem;
 }
 .contact-alternate a {
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent, #D94838);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent);
+  border-bottom: 1px dotted var(--accent, #D94838);
 }
 .contact-alternate a:hover {
   border-bottom-style: solid;

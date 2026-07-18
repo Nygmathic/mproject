@@ -1,176 +1,171 @@
 {{ define "main" }}
-<div class="page-container">
-  <div class="page-header">
-    <h1>Contact</h1>
-    <p class="page-subtitle">We read every message. Expect a reply within 2–3 business days.</p>
-  </div>
-  <div class="contact-card">
-    <form class="contact-form" action="https://formsubmit.co/contact@veridus.space" method="POST">
-      <input type="hidden" name="_subject" value="New message from Veridus contact form">
-      <input type="hidden" name="_next" value="https://veridus.space/thanks/">
-      <input type="text" name="_honey" style="display:none">
-
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required placeholder="e.g., Adebayo Ogunlesi">
+<div class="contact-page">
+  <div class="contact-container">
+    <div class="contact-header">
+      <h1>Contact</h1>
+      <p class="contact-subtitle">Get in touch with the Veridus team.</p>
+    </div>
+    <div class="contact-card">
+      <form class="contact-form" action="https://formsubmit.co/contact@veridus.space" method="POST">
+        <!-- FormSubmit.co required fields -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="Veridus Contact Form Submission">
+        <input type="hidden" name="_next" value="{{ .Site.BaseURL }}thanks/">
+        
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send message</button>
+      </form>
+      <div class="contact-alternate">
+        <p>Or email us directly:</p>
+        <a href="mailto:contact@veridus.space">contact@veridus.space</a>
       </div>
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" required placeholder="hello@example.com">
-      </div>
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" required placeholder="What would you like to say?"></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn">
-        Send message
-        <svg class="btn-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
-      </button>
-    </form>
-
-    <div class="contact-alternate">
-      <p>Or write directly:</p>
-      <a href="mailto:contact@veridus.space">contact@veridus.space</a>
     </div>
   </div>
 </div>
 
 <style>
-/* Layout only – no font-family overrides (handled globally) */
-.page-container {
-  max-width: 760px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
-  background: var(--bg);
+.contact-page {
+  background: var(--bg, #FFFFFF);
+  padding: 3rem 1.5rem;
+  min-height: 60vh;
 }
-.page-header {
+.contact-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.contact-header {
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border, #E5E5E5);
 }
-.page-header h1 {
-  font-family: var(--font-display);
-  font-size: var(--step-3);
+.contact-header h1 {
+  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--step-3, 2rem);
   font-weight: 800;
   margin: 0.5rem 0 0.25rem;
+  color: var(--text-primary, #1A1A1A);
 }
-.page-subtitle {
-  font-family: var(--font-reading);
-  font-size: var(--step-0);
-  color: var(--text-secondary);
+.contact-subtitle {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: var(--step-0, 1.125rem);
+  color: var(--text-secondary, #3D3D3D);
   line-height: 1.6;
 }
 .contact-card {
-  background: var(--bg-alt);
-  border-radius: var(--radius-md);
+  background: var(--bg-alt, #FBFBFB);
+  border-radius: var(--radius-md, 10px);
   padding: 2rem 1.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid var(--border-light);
+  border: 1px solid var(--border-light, #EFEFEF);
 }
-.contact-form {
+.contact-form .form-group {
   margin-bottom: 1.5rem;
 }
-.form-group {
-  margin-bottom: 1.5rem;
-}
-.form-group label {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
+.contact-form label {
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--text-primary);
-  margin-bottom: 0.4rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #1A1A1A);
 }
-.form-group input,
-.form-group textarea {
+.contact-form input,
+.contact-form textarea {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  padding: 0.75rem 1rem;
+  line-height: 1.5;
   width: 100%;
-  padding: 0.85rem 1rem;
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  border: 1px solid var(--border, #E5E5E5);
+  border-radius: var(--radius-sm, 6px);
+  background: var(--bg, #FFFFFF);
+  color: var(--text-primary, #1A1A1A);
+  transition: border-color 0.2s;
 }
-.form-group input:focus,
-.form-group textarea:focus {
+.contact-form input:focus,
+.contact-form textarea:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
-}
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: var(--text-faint);
-  font-style: italic;
-  opacity: 0.7;
+  border-color: var(--accent, #D94838);
 }
 .submit-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 0.85rem 1.8rem;
-  background: var(--accent);
+  background: var(--accent, #D94838);
   color: #fff;
   border: none;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-pill, 50px);
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
-  width: 100%;
+  width: auto;
 }
 .submit-btn:hover {
-  background: var(--hover-dark);
-  transform: translateY(-2px);
-}
-.btn-icon {
-  transition: transform 0.2s;
-}
-.submit-btn:hover .btn-icon {
-  transform: translateX(4px);
+  background: var(--hover-dark, #1a5490);
+  transform: translateY(-1px);
 }
 .contact-alternate {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--border-light, #EFEFEF);
   text-align: center;
-  font-family: var(--font-ui);
 }
 .contact-alternate p {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--text-muted, #6E6E6E);
   margin-bottom: 0.5rem;
 }
 .contact-alternate a {
-  font-family: var(--font-ui);
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent, #D94838);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent);
+  border-bottom: 1px dotted var(--accent, #D94838);
 }
 .contact-alternate a:hover {
   border-bottom-style: solid;
 }
-@media (min-width: 640px) {
-  .submit-btn {
-    width: auto;
-  }
-  .contact-card {
-    padding: 2.5rem;
-  }
-}
 </style>
+
+<script>
+// Form handling for FormSubmit.co
+(function() {
+  const form = document.querySelector('.contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    
+    // Re-enable after 5 seconds in case of slow submission
+    setTimeout(function() {
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+    }, 5000);
+  });
+})();
+</script>
 {{ end }}

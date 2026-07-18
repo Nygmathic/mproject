@@ -20,7 +20,13 @@
                 {{ if .Params.categories }}
                   <span class="error-card-cat">{{ index .Params.categories 0 }}</span>
                 {{ end }}
-                <a href="{{ .Permalink }}">{{ .Title }}</a>
+                <a href="{{ .Permalink }}" class="error-card-title-link">{{ .Title }}</a>
+                <div class="error-card-meta">
+                  {{ with .Params.author }}<span class="error-card-author">{{ . }}</span><span class="error-card-dot">·</span>{{ end }}
+                  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                  <span class="error-card-dot">·</span>
+                  <span>{{ .ReadingTime }} min read</span>
+                </div>
               </li>
             {{ end }}
           </ul>
@@ -44,41 +50,47 @@
 </div>
 
 <style>
-/* Layout only – no font-family, no font-size overrides */
 .error-page {
-  padding: var(--space-3xl) 0 calc(var(--space-3xl) * 2);
+  padding: var(--space-3xl, 2.5rem) 0 calc(var(--space-3xl, 2.5rem) * 2);
+  min-height: 60vh;
+  background: var(--bg, #FFFFFF);
 }
 .error-inner {
   display: grid;
   grid-template-columns: 1fr 280px;
-  gap: var(--space-3xl);
+  gap: var(--space-3xl, 2.5rem);
   align-items: start;
 }
 .error-eyebrow {
+  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: clamp(5rem, 12vw, 8rem);
   font-weight: 800;
   line-height: 1;
-  color: var(--border);
-  margin-bottom: var(--space-lg);
+  color: var(--border, #E5E5E5);
+  margin-bottom: var(--space-lg, 1.5rem);
 }
 .error-heading {
+  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: clamp(2rem, 5vw, 2.8rem);
   font-weight: 700;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-md, 1rem);
+  color: var(--text-primary, #1A1A1A);
 }
 .error-body {
-  font-size: var(--step-0);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: var(--step-0, 1.125rem);
   line-height: 1.6;
-  color: var(--text-secondary);
+  color: var(--text-secondary, #3D3D3D);
   max-width: 420px;
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-xl, 2rem);
 }
 .error-actions {
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-md, 1rem);
   flex-wrap: wrap;
 }
 .error-btn-primary, .error-btn-secondary {
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -89,42 +101,43 @@
   transition: all 0.2s;
 }
 .error-btn-primary {
-  background: var(--accent);
+  background: var(--accent, #D94838);
   color: #fff;
 }
 .error-btn-primary:hover {
-  background: var(--accent-hover);
+  background: var(--accent-hover, #b83526);
   transform: translateY(-1px);
 }
 .error-btn-secondary {
   background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
+  color: var(--text-primary, #1A1A1A);
+  border: 1px solid var(--border, #E5E5E5);
 }
 .error-btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent, #D94838);
+  color: var(--accent, #D94838);
 }
 .error-sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: var(--space-xl, 2rem);
 }
 .error-card {
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  background: var(--bg);
+  border: 1px solid var(--border-light, #EFEFEF);
+  border-radius: var(--radius-md, 10px);
+  padding: var(--space-lg, 1.5rem);
+  background: var(--bg, #FFFFFF);
 }
 .error-card-title {
+  font-family: 'Roboto Mono', 'Courier New', monospace;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--space-md);
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--border-light);
+  color: var(--accent, #D94838);
+  margin-bottom: var(--space-md, 1rem);
+  padding-bottom: var(--space-xs, 0.5rem);
+  border-bottom: 1px solid var(--border-light, #EFEFEF);
 }
 .error-card-list {
   list-style: none;
@@ -132,57 +145,79 @@
   margin: 0;
 }
 .error-card-list li {
-  margin-bottom: var(--space-sm);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--border-light);
+  padding: var(--space-sm, 0.75rem) 0;
+  border-bottom: 1px solid var(--border-light, #EFEFEF);
 }
 .error-card-list li:last-child {
   border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
 }
 .error-card-cat {
-  font-size: 0.6rem;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent, #D94838);
   display: block;
   margin-bottom: 0.2rem;
 }
-.error-card-list a {
-  font-size: 0.95rem;
-  line-height: 1.4;
+.error-card-title-link {
+  font-family: 'Inter Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.25;
   text-decoration: none;
-  color: var(--text-primary);
+  color: var(--text-primary, #1A1A1A);
+  display: block;
+  margin-bottom: 0.2rem;
 }
-.error-card-list a:hover {
-  color: var(--accent);
+.error-card-title-link:hover {
+  color: var(--hover, #2C6EAB);
+  text-decoration: underline;
+}
+.error-card-meta {
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.58rem;
+  color: var(--text-muted, #6E6E6E);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+.error-card-author {
+  font-weight: 700;
+  color: var(--text-primary, #1A1A1A);
+  text-transform: uppercase;
+}
+.error-card-dot {
+  opacity: 0.4;
 }
 .error-topic-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
+  gap: var(--space-sm, 0.75rem);
 }
 .error-topic-pills a {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.35rem 0.8rem;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border, #E5E5E5);
   border-radius: 30px;
   text-decoration: none;
-  color: var(--text-secondary);
+  color: var(--text-secondary, #3D3D3D);
   transition: all 0.2s;
 }
 .error-topic-pills a:hover {
-  background: var(--accent);
+  background: var(--accent, #D94838);
   color: #fff;
-  border-color: var(--accent);
+  border-color: var(--accent, #D94838);
 }
 @media (max-width: 680px) {
   .error-inner {
     grid-template-columns: 1fr;
-    gap: var(--space-2xl);
+    gap: var(--space-2xl, 2.5rem);
   }
 }
 </style>
