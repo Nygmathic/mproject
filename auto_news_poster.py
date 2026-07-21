@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 Veridus.space Auto News Poster
-- Fetches global news from RSS + YouTube channels
+- Fetches global news exclusively from RSS feeds of established news organizations
 - Fetches full article body from source URL for rich, accurate rewrites
 - Prioritises LATEST content — each niche has a recency window
-- YouTube: pulls transcripts for rich rewrites (falls back to description)
 - Rewrites entirely in Veridus voice — original, owned content
+- Verifies factual accuracy against source material before publishing
 - Primary AI: Google Gemini 2.0 Flash (free) — rotates across 3 keys
 - Fallback AI: Groq / Llama 3.3 70B (free)
 - Runs every 2 hours via GitHub Actions for near-live event coverage
@@ -78,7 +78,8 @@ RSS_FEEDS = {
         "https://www.dw.com/en/politics/rss",
         "https://www.euronews.com/rss?format=mrss&level=theme&name=news",
         "https://www.aljazeera.com/xml/rss/all.xml",
-        "https://feeds.reuters.com/Reuters/PoliticsNews",
+        "https://feeds.bbci.co.uk/news/politics/rss.xml",  # replaces dead Reuters feed (Reuters killed public RSS in 2020)
+        "https://rss.politico.com/politicopicks.xml",     # Politico
     ],
     "global-affairs": [
         # ── World News, Diplomacy & International Relations ──────────
@@ -86,15 +87,29 @@ RSS_FEEDS = {
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
         "https://www.dw.com/en/world/rss",
-        "https://feeds.reuters.com/Reuters/worldNews",
+        "https://feeds.bbci.co.uk/news/world/rss.xml",  # replaces dead Reuters feed (Reuters killed public RSS in 2020)
         # ── United Nations ────────────────────────────────────────────
         "https://news.un.org/feed/subscribe/en/news/all/feed/rss.xml",
+        # ── Regional perspectives, English-language ───────────────────
+        "https://www.themoscowtimes.com/rss/news",       # Russia — independent, operates in exile (Russia effectively outlawed it)
+        "https://www.scmp.com/rss/91/feed",               # China — South China Morning Post, Hong Kong-based (Alibaba-owned; editorially separate but worth knowing)
+        "https://www.abc.net.au/news/feed/2942460/rss.xml",  # Australia — ABC News
+        "https://rss.cbc.ca/lineup/topstories.xml",       # Canada — CBC News
+        "https://www.france24.com/en/rss",                # Western Europe — France 24 English
+        "https://en.mercopress.com/rss",                  # South America — MercoPress (English-language)
+        "https://punchng.com/feed/",                      # West Africa — The Punch (Nigeria)
+        "https://www.news24.com/rss",                     # South Africa — News24
+        "https://www.politico.eu/feed",                   # Politico Europe
+        "https://monocle.com/feed/",                       # Monocle — global affairs, business, culture briefing
     ],
     "business": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
         "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://www.dw.com/en/economy/rss",
-        "https://feeds.reuters.com/reuters/businessNews",
+        "https://www.forbes.com/business/feed/",          # Forbes
+        # ── Regional business perspectives ─────────────────────────
+        "https://www.premiumtimesng.com/feed",            # West Africa (Nigeria)
+        "https://www.fin24.com/rss",                      # South Africa — News24's business vertical
     ],
     "sports": [
         # ── Premier League ───────────────────────────────────────────
@@ -116,7 +131,6 @@ RSS_FEEDS = {
     ],
     "curious": [
         # ── Verified Weird & Bizarre News ────────────────────────────
-        "https://feeds.reuters.com/reuters/oddlyEnoughNews",            # Reuters Oddly Enough
         "https://www.theguardian.com/news/series/weird/rss",            # Guardian Weird
         "https://feeds.bbci.co.uk/news/have_your_say/rss.xml",          # BBC HYS / Odd
         "https://www.upi.com/RSS/Odd_News/",                            # UPI Odd News
@@ -281,7 +295,6 @@ def fetch_rss_articles(niche, already_posted):
     Fetch articles from all RSS feeds for a niche.
     - Sorts ALL entries newest-first across all feeds
     - Filters out anything older than RECENCY_HOURS[niche]
-    - For YouTube entries, attempts to fetch transcript
     """
     max_age_hours = RECENCY_HOURS.get(niche, 24)
     cutoff        = datetime.now(timezone.utc) - timedelta(hours=max_age_hours)
@@ -486,7 +499,6 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
 
 def build_article_prompt(article):
     niche = article["niche"]
-    source_type = article.get("source_type", "rss")
 
     niche_guidance = {
         "politics":       "Cover domestic and national politics — elections, legislation, governance, political parties, and domestic policy debates. Keep the lens on a single country's internal politics rather than international relations.",
@@ -499,12 +511,6 @@ def build_article_prompt(article):
 
     guidance = niche_guidance.get(niche, "Cover this story with global context and balance.")
 
-    source_note = ""
-    if source_type == "youtube_transcript":
-        source_note = "\nSOURCE NOTE: The summary below is a spoken transcript from a video report. Rewrite it entirely as a polished written article — remove all spoken-word patterns, filler phrases, and repetition."
-    elif source_type == "youtube_description":
-        source_note = "\nSOURCE NOTE: The summary is from a video description. Expand it significantly using your knowledge of the topic."
-
     # Use the full fetched article body when available; fall back to RSS summary
     full_text = article.get("full_text", "")
     if full_text:
@@ -514,7 +520,7 @@ def build_article_prompt(article):
 
     return f"""You are a senior international correspondent writing for Veridus — an independent global publication with the precision of The Guardian and the voice of a publication that thinks for itself.
 
-Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.{source_note}
+Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.
 
 ACCURACY — NON-NEGOTIABLE (violations mean the article must not be published):
 - Every fact, figure, date, name, statistic, and quote you write must come directly and explicitly from the headline or summary provided below. If the source material does not state it, do not write it.
@@ -533,15 +539,17 @@ STRICT REQUIREMENTS:
 - Middle paragraphs: Context, background, analysis, multiple perspectives, historical parallels where relevant
 - Penultimate paragraph: Reactions, implications, what different stakeholders are doing or saying
 - Final paragraph: Forward-looking — what happens next and what readers should watch
-- Use two or three descriptive H2 subheadings (## Heading) to break the article into sections
+- Use two or three descriptive H2 subheadings (## Heading) to break the article into sections. Each subheading must be distinct from the others and from the article's own topic sentence — do not reuse the same words or phrasing across subheadings, and do not simply restate the headline as a subheading.
+- Vary your language throughout: do not repeat the same distinctive word, phrase, or sentence construction more than once in the article (ordinary connective words like "the," "said," "also" are fine — this is about avoidable repetition of distinctive phrasing, e.g. don't use "significant development" or "stakeholders are closely watching" more than once). If you need to refer to the same person, place, or concept repeatedly, vary how you refer to it (name, title, role, pronoun) rather than repeating the identical phrase each time.
 - Tone: Authoritative, measured, internationally minded
-- Vocabulary: Precise journalistic English. No clichés. No sensationalism.
+- Vocabulary and register: Write in advanced, sophisticated English — the level of The Economist or The Atlantic. Use precise, elevated diction over simple synonyms where it sharpens meaning (e.g. "exacerbate" rather than "make worse," "untenable" rather than "not workable"), and vary sentence structure and length rather than defaulting to short, simple sentences throughout. This is about precision and command of language, not obscurity — every word should still be immediately clear to an educated general reader. Do not reach for a fancier word if it makes the meaning less exact. Do not lean on any single elevated word or phrase repeatedly as a crutch — draw from a genuinely varied vocabulary rather than favoring one or two "impressive" words throughout the piece. No clichés. No sensationalism.
 - Do NOT mention or reference any news outlet, wire service, or publication
 - Do NOT include the main headline — body text and subheadings only
 - Do NOT use bullet points or numbered lists — flowing prose only
 - Write in English only
 - NO BYLINE OR CORRESPONDENT NAME, EVER: Veridus articles carry no personal byline within the body text. Do NOT write phrases like "our correspondent," "our reporter," "Veridus's [name]," or any variation naming a writer. Write in an unattributed third-person reporting voice throughout.
 - If the source material names the journalist(s) who originally reported the story, that name belongs to them and their outlet — do NOT carry it into this article, do NOT present them as a Veridus staff member, and do NOT reference them at all unless they are themselves a subject of the news event (e.g. being quoted as an official or expert in their own right, not as the story's author).
+- NO IMPLIED FIELD PRESENCE, EVER: Veridus has no reporters on the ground and does not conduct original interviews — this article is a desk rewrite of published reporting. Do NOT write or imply otherwise. Banned phrasing includes (but is not limited to): "our team on the ground," "when this reporter visited," "sources told Veridus," "speaking to Veridus," "in an interview with Veridus," "Veridus witnessed," "Veridus can confirm," or any construction that implies Veridus itself gathered information firsthand. Attribute reporting neutrally to what happened or what was said/reported, without naming who is doing the reporting at all (e.g. "Officials said..." or "According to reports..." rather than "Veridus spoke to officials" or "our sources say").
 
 EDITORIAL FOCUS: {guidance}
 
@@ -858,6 +866,56 @@ def call_groq(prompt, max_tokens=2048):
 
 # ─── ARTICLE REWRITE ──────────────────────────────────────────────────────────
 
+# ─── ACCURACY VERIFICATION ─────────────────────────────────────────────────────
+# A second, independent AI call that cross-checks the generated article
+# against its actual source material, and flags anything invented — names,
+# numbers, quotes, dates, claims — that isn't actually supported by the
+# source. This runs after generation but before the article is saved, so a
+# flagged article is skipped entirely rather than published with fabricated
+# details. It costs one extra API call per article, but catches a category
+# of error the word-count/byline checks can't: the model getting a fact
+# wrong or inventing a detail while still writing fluently and at length.
+
+def build_verification_prompt(article, body):
+    full_text = article.get("full_text", "")
+    if full_text:
+        source_block = f"SOURCE TEXT:\n{full_text}"
+    else:
+        source_block = f"SOURCE SUMMARY (RSS excerpt):\n{article['summary']}"
+
+    return f"""You are a rigorous, skeptical fact-checker reviewing a news article before publication.
+
+{source_block}
+
+ARTICLE TO CHECK:
+{body}
+
+Your only job: compare the ARTICLE against the SOURCE. Identify any specific factual claim in the ARTICLE — a name, number, statistic, date, quote, title, location, or event detail — that is NOT directly stated in or reasonably inferable from the SOURCE. Ignore paraphrasing, rewording, reordering, and stylistic differences — those are expected and fine. Only flag genuine invented or unsupported facts.
+
+Respond with EXACTLY one of these two formats, nothing else:
+- If the article stays fully grounded in the source: CLEAN
+- If you find unsupported claims: FLAGGED: <comma-separated list of the specific unsupported claims, each under 15 words>"""
+
+def verify_accuracy(article, body):
+    prompt = build_verification_prompt(article, body)
+    result = call_groq(prompt, max_tokens=300)
+    if not result:
+        result = call_gemini(prompt, max_tokens=300)
+
+    if not result:
+        # Verification itself failed (both AIs down) — don't block publishing
+        # on an infrastructure failure; log it and let the article through.
+        print("  ⚠️  Accuracy check unavailable (both AIs failed) — publishing without verification")
+        return True
+
+    result = result.strip()
+    if result.upper().startswith("CLEAN"):
+        print("  ✅ Accuracy check passed")
+        return True
+
+    print(f"  🚫 Accuracy check FLAGGED unsupported claims: {result[:300]}")
+    return False
+
 def rewrite_article(article):
     # Attempt to fetch the full article body from source URL so the AI has
     # enough real facts to write a complete 800-word piece without inventing.
@@ -901,12 +959,18 @@ def rewrite_article(article):
 
 # Safety net beyond the prompt instruction: catches cases where the model
 # names a "correspondent"/"reporter" anyway — e.g. carrying over a real
-# journalist's name from the source material. Any match means the article
-# is rejected outright rather than published with a fabricated byline.
+# journalist's name from the source material — or implies Veridus has a
+# field presence / conducted original interviews, which it does not (this
+# is a desk rewrite of published reporting, no reporters on the ground).
+# Any match means the article is rejected outright rather than published
+# with a fabricated byline or implied firsthand reporting.
 _BYLINE_PATTERN = re.compile(
-    r"\b(our|veridus'?s?)\s+(senior\s+)?(correspondent|reporter|journalist)\b"
+    r"\b(our|veridus'?s?)\s+(senior\s+)?(correspondent|reporter|journalist|team)\b"
     r"|\bcorrespondent\s+[A-Z][a-z]+\s+[A-Z][a-z]+\b"
-    r"|\breporting\s+for\s+veridus\b",
+    r"|\breporting\s+for\s+veridus\b"
+    r"|\b(told|speaking\s+to|in\s+an?\s+interview\s+with|spoke\s+to)\s+veridus\b"
+    r"|\bveridus\s+(witnessed|can\s+confirm|visited|travell?ed\s+to)\b"
+    r"|\bwhen\s+this\s+reporter\s+visited\b",
     re.IGNORECASE,
 )
 
@@ -1127,6 +1191,11 @@ def main():
 
             body = rewrite_article(article)
             if not body:
+                continue
+
+            print(f"  🔎 Verifying accuracy against source...")
+            if not verify_accuracy(article, body):
+                print(f"  ❌ Skipping article — failed accuracy check")
                 continue
 
             print(f"  🔍 Generating SEO metadata...")
