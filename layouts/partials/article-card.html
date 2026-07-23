@@ -8,6 +8,10 @@
 {{ $cat := index $p.Params.categories 0 | default "Essay" }}
 {{ $catLower := $cat | lower }}
 
+{{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
+{{ $byline := $p.Params.author }}
+{{ if ne $catLower "opinion" }}{{ $byline = $p.Params.author | default $p.Site.Params.author }}{{ end }}
+
 <article class="card card--{{ $variant }}{{ if not $hasImage }} card--no-image{{ end }}" data-cat="{{ $catLower }}">
 
   {{ if $hasImage }}
@@ -36,7 +40,7 @@
     <h3 class="card-title"><a href="{{ $p.Permalink }}">{{ $p.Title }}</a></h3>
     {{ with $p.Summary | truncate 180 }}<p class="card-summary">{{ . }}</p>{{ end }}
     <div class="card-meta">
-      {{ with $p.Params.author }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
+      {{ with $byline }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
       <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "January 2, 2006" }}</time>
       <span class="card-dot">·</span>
       <span>{{ $p.ReadingTime }} min read</span>

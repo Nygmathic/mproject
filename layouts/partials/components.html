@@ -1,5 +1,9 @@
 {{/* Article Card – reusable component for all layouts */}}
 {{ $p := .Page }}
+{{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
+{{ $cardCat := index $p.Params.categories 0 | default "" }}
+{{ $byline := $p.Params.author }}
+{{ if ne (lower $cardCat) "opinion" }}{{ $byline = $p.Params.author | default $p.Site.Params.author }}{{ end }}
 <article class="card{{ with .variant }} card--{{ . }}{{ end }}">
   {{ with $p.Resources.GetMatch ($p.Params.feature_image | default "cover*") }}
     {{ $img := .Fill "600x400" }}
@@ -18,7 +22,7 @@
       <p class="card-summary">{{ . }}</p>
     {{ end }}
     <div class="card-meta">
-      {{ with $p.Params.author }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
+      {{ with $byline }}<span class="card-byline">{{ . }}</span><span class="card-dot">·</span>{{ end }}
       <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "January 2, 2006" }}</time>
       <span class="card-dot">·</span>
       <span>{{ $p.ReadingTime }} min read</span>

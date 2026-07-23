@@ -26,6 +26,10 @@
 
   <div class="category-articles-grid">
     {{ range .Paginator.Pages }}
+      {{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
+      {{ $itemCat := index .Params.categories 0 | default "" }}
+      {{ $byline := .Params.author }}
+      {{ if ne (lower $itemCat) "opinion" }}{{ $byline = .Params.author | default .Site.Params.author }}{{ end }}
       <article class="category-item-simple">
         {{ with index .Params.categories 0 }}
           <span class="category-item-cat">{{ . }}</span>
@@ -37,7 +41,7 @@
           <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
           <span class="category-item-dot">·</span>
           <span>{{ .ReadingTime }} min read</span>
-          {{ with .Params.author }}<span class="category-item-author">· {{ . }}</span>{{ end }}
+          {{ with $byline }}<span class="category-item-author">· {{ . }}</span>{{ end }}
         </div>
       </article>
     {{ end }}

@@ -19,10 +19,19 @@
       </div>
       <h1 class="article-title">{{ .Title }}</h1>
       {{ with .Params.subtitle }}<p class="article-subtitle">{{ . }}</p>{{ end }}
+      {{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
+      {{ $catIsOpinion := false }}
+      {{ if .Params.categories }}
+        {{ range .Params.categories }}
+          {{ if eq (lower .) "opinion" }}{{ $catIsOpinion = true }}{{ end }}
+        {{ end }}
+      {{ end }}
+      {{ $byline := .Params.author }}
+      {{ if not $catIsOpinion }}{{ $byline = .Params.author | default .Site.Params.author }}{{ end }}
       <div class="article-meta">
         <span class="article-date">{{ .Date.Format "January 2, 2006" }}</span>
         <span class="article-reading-time">{{ .ReadingTime }} min read</span>
-        {{ with .Params.author }}<span class="article-author">· {{ . }}</span>{{ end }}
+        {{ with $byline }}<span class="article-author">· {{ . }}</span>{{ end }}
       </div>
     </header>
   </div>
@@ -104,32 +113,24 @@
     </footer>
   </div>
 
-  {{/* AUTHOR BIO CARD - ONLY for Collins Obura in Opinion category */}}
-  {{ $authorName := .Params.author | default .Site.Params.author }}
-  {{ $authorBio := .Params.author_bio | default .Site.Params.author_bio }}
-  {{ $isOpinion := false }}
-  {{ if .Params.categories }}
-    {{ range .Params.categories }}
-      {{ if eq (lower .) "opinion" }}
-        {{ $isOpinion = true }}
-      {{ end }}
-    {{ end }}
-  {{ end }}
-  
-  {{ if and $authorName (eq $authorName "Collins Obura") $authorBio $isOpinion }}
+  {{/* AUTHOR BIO CARD - shown on every article; defaults to the Veridus Editorial team bio except in Opinion, where individual author details take over */}}
+  {{ $authorBio := .Params.author_bio }}
+  {{ if not $catIsOpinion }}{{ $authorBio = .Params.author_bio | default .Site.Params.author_bio }}{{ end }}
+
+  {{ if and $byline $authorBio }}
   <div class="author-bio-card">
     <div class="author-bio-card-inner">
       {{ with .Params.author_photo | default .Site.Params.author_photo }}
         {{ with $.Resources.GetMatch . }}
           {{ $photo := .Fill "160x160" }}
-          <img src="{{ $photo.RelPermalink }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
+          <img src="{{ $photo.RelPermalink }}" alt="{{ $byline }}" class="author-bio-card-photo" loading="lazy">
         {{ else }}
-          <img src="{{ . }}" alt="{{ $authorName }}" class="author-bio-card-photo" loading="lazy">
+          <img src="{{ . }}" alt="{{ $byline }}" class="author-bio-card-photo" loading="lazy">
         {{ end }}
       {{ end }}
       <div class="author-bio-card-body">
         <span class="author-bio-card-label">Written by</span>
-        <h3 class="author-bio-card-name">{{ $authorName }}</h3>
+        <h3 class="author-bio-card-name">{{ $byline }}</h3>
         {{ with .Params.author_title | default .Site.Params.author_title }}<p class="author-bio-card-title">{{ . }}</p>{{ end }}
         <p class="author-bio-card-text">{{ $authorBio }}</p>
         <div class="author-bio-card-socials">
