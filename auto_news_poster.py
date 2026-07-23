@@ -313,8 +313,14 @@ def fetch_rss_articles(niche, already_posted):
 
                 pub_date = parse_entry_date(entry)
 
-                # Skip articles older than the recency window
-                if pub_date and pub_date < cutoff:
+                # Recency is mandatory, not best-effort: an entry with no
+                # parseable publish date is rejected outright rather than
+                # silently passing the recency filter. Previously a missing
+                # date bypassed the check entirely — a real gap, since a
+                # feed entry with no timestamp could be any age.
+                if not pub_date:
+                    continue
+                if pub_date < cutoff:
                     continue
 
                 title   = entry.get("title", "").strip()
@@ -866,15 +872,20 @@ def call_groq(prompt, max_tokens=2048):
 
 # ─── ARTICLE REWRITE ──────────────────────────────────────────────────────────
 
-# ─── ACCURACY VERIFICATION ─────────────────────────────────────────────────────
+# ─── ACCURACY & RECENCY VERIFICATION ───────────────────────────────────────────
 # A second, independent AI call that cross-checks the generated article
-# against its actual source material, and flags anything invented — names,
-# numbers, quotes, dates, claims — that isn't actually supported by the
-# source. This runs after generation but before the article is saved, so a
-# flagged article is skipped entirely rather than published with fabricated
-# details. It costs one extra API call per article, but catches a category
-# of error the word-count/byline checks can't: the model getting a fact
-# wrong or inventing a detail while still writing fluently and at length.
+# against its actual source material on two fronts:
+#   1. Accuracy — flags anything invented (names, numbers, quotes, dates,
+#      claims) that isn't actually supported by the source.
+#   2. Recency — flags cases where the article presents an old or already-
+#      rehashed event as if it just happened, or contains a timing claim
+#      ("today," "this week," "just announced") that the source doesn't
+#      actually support.
+# This runs after generation but before the article is saved, so a flagged
+# article is skipped entirely rather than published. It costs one extra API
+# call per article, but catches errors the word-count/byline checks and the
+# mechanical RECENCY_HOURS filter can't: the model getting a fact wrong, or
+# writing about a stale event as if it were breaking news.
 
 def build_verification_prompt(article, body):
     full_text = article.get("full_text", "")
@@ -883,18 +894,29 @@ def build_verification_prompt(article, body):
     else:
         source_block = f"SOURCE SUMMARY (RSS excerpt):\n{article['summary']}"
 
+    pub_date = article.get("pub_date")
+    recency_note = ""
+    if pub_date:
+        now = datetime.now(timezone.utc)
+        age_hours = (now - pub_date).total_seconds() / 3600
+        recency_note = f"\nThis source was published approximately {age_hours:.1f} hours ago (current time: {now.strftime('%Y-%m-%d %H:%M UTC')})."
+
     return f"""You are a rigorous, skeptical fact-checker reviewing a news article before publication.
 
-{source_block}
+{source_block}{recency_note}
 
 ARTICLE TO CHECK:
 {body}
 
-Your only job: compare the ARTICLE against the SOURCE. Identify any specific factual claim in the ARTICLE — a name, number, statistic, date, quote, title, location, or event detail — that is NOT directly stated in or reasonably inferable from the SOURCE. Ignore paraphrasing, rewording, reordering, and stylistic differences — those are expected and fine. Only flag genuine invented or unsupported facts.
+Check the ARTICLE against the SOURCE on two fronts:
+
+1. ACCURACY: Identify any specific factual claim in the ARTICLE — a name, number, statistic, date, quote, title, location, or event detail — that is NOT directly stated in or reasonably inferable from the SOURCE. Ignore paraphrasing, rewording, reordering, and stylistic differences — those are expected and fine. Only flag genuine invented or unsupported facts.
+
+2. RECENCY: Check whether the ARTICLE misrepresents the timing of the event. Flag it if the ARTICLE implies something is breaking news, just happened, or is more current than the SOURCE actually supports — for example, using words like "today," "this week," or "just announced" when the SOURCE describes something that already happened earlier, or reads as a rehash of an older, previously-reported event presented as new.
 
 Respond with EXACTLY one of these two formats, nothing else:
-- If the article stays fully grounded in the source: CLEAN
-- If you find unsupported claims: FLAGGED: <comma-separated list of the specific unsupported claims, each under 15 words>"""
+- If the article is both accurate and honestly timed: CLEAN
+- If you find unsupported claims OR a recency/timing problem: FLAGGED: <comma-separated list of the specific issues, each under 15 words>"""
 
 def verify_accuracy(article, body):
     prompt = build_verification_prompt(article, body)
@@ -905,15 +927,15 @@ def verify_accuracy(article, body):
     if not result:
         # Verification itself failed (both AIs down) — don't block publishing
         # on an infrastructure failure; log it and let the article through.
-        print("  ⚠️  Accuracy check unavailable (both AIs failed) — publishing without verification")
+        print("  ⚠️  Accuracy/recency check unavailable (both AIs failed) — publishing without verification")
         return True
 
     result = result.strip()
     if result.upper().startswith("CLEAN"):
-        print("  ✅ Accuracy check passed")
+        print("  ✅ Accuracy & recency check passed")
         return True
 
-    print(f"  🚫 Accuracy check FLAGGED unsupported claims: {result[:300]}")
+    print(f"  🚫 Accuracy/recency check FLAGGED: {result[:300]}")
     return False
 
 def rewrite_article(article):
@@ -1193,7 +1215,7 @@ def main():
             if not body:
                 continue
 
-            print(f"  🔎 Verifying accuracy against source...")
+            print(f"  🔎 Verifying accuracy and recency against source...")
             if not verify_accuracy(article, body):
                 print(f"  ❌ Skipping article — failed accuracy check")
                 continue

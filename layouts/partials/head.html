@@ -19,6 +19,17 @@
   {{ end }}
   {{ if not $ogImage }}{{ if fileExists "static/images/og-default.jpg" }}{{ $ogImage = absURL "/images/og-default.jpg" }}{{ end }}{{ end }}
 
+  {{/* Square logo for schema.org publisher/logo fields — Google's structured
+       data guidelines want a roughly-square mark here (recommend 600x600),
+       NOT the 1200x630 social-share banner used for og:image above.
+       Add a square logo file at static/images/logo-square.jpg (or .png)
+       and this will pick it up automatically; falls back to the og image
+       if the square version doesn't exist yet so nothing breaks. */}}
+  {{ $logoSquare := "" }}
+  {{ if fileExists "static/images/logo-square.png" }}{{ $logoSquare = absURL "/images/logo-square.png" }}
+  {{ else if fileExists "static/images/logo-square.jpg" }}{{ $logoSquare = absURL "/images/logo-square.jpg" }}
+  {{ else }}{{ $logoSquare = $ogImage }}{{ end }}
+
   <meta property="og:site_name" content="{{ .Site.Title }}"><meta property="og:locale" content="en_US">
   {{ if .IsPage }}
     <meta property="og:type" content="article">
@@ -70,9 +81,9 @@
         "url": {{ .Site.BaseURL | jsonify }},
         "logo": {
           "@type": "ImageObject",
-          "url": {{ absURL "/images/og-default.jpg" | jsonify }},
-          "width": 1200,
-          "height": 630
+          "url": {{ $logoSquare | jsonify }},
+          "width": 600,
+          "height": 600
         }
       },
       "mainEntityOfPage": {
@@ -130,9 +141,9 @@
       "description": {{ .Site.Params.description | jsonify }},
       "logo": {
         "@type": "ImageObject",
-        "url": {{ absURL "/images/og-default.jpg" | jsonify }},
-        "width": 1200,
-        "height": 630
+        "url": {{ $logoSquare | jsonify }},
+        "width": 600,
+        "height": 600
       },
       "contactPoint": {
         "@type": "ContactPoint",

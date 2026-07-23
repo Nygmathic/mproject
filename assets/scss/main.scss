@@ -130,6 +130,7 @@
   --font-reading: 'Source Serif 4', serif;
   --font-article: 'Source Serif 4', serif;
   --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-headline-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --bg: #FFFFFF;
   --bg-rgb: 255, 255, 255;
@@ -1405,7 +1406,7 @@ p, li, .text-body {
 }
 
 .article-title {
-  font-family: var(--font-display);
+  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-size: clamp(2.5rem, 6vw, 4.2rem);
   font-weight: 700;
   line-height: 1.05;
@@ -1816,6 +1817,27 @@ p, li, .text-body {
   text-decoration: underline;
 }
 
+// ----- CARD META – Inter (harmonized) -----
+.card-meta {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.card-byline {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.card-dot {
+  opacity: 0.4;
+}
+
 // ----- CARD SUMMARY – Inter -----
 .card-summary {
   font-family: var(--font-ui);
@@ -1826,7 +1848,7 @@ p, li, .text-body {
   margin-bottom: 0.75rem;
 }
 
-// ----- CATEGORY ITEM TITLE -----
+// ----- CATEGORY ITEM TITLE – Libre Franklin -----
 .category-item-title {
   font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
@@ -1844,26 +1866,48 @@ p, li, .text-body {
   text-decoration: underline;
 }
 
-// ----- CATEGORY TITLE – Inter Display -----
+// ----- CATEGORY ITEM META – Inter (harmonized) -----
+.category-item-meta {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.category-item-author {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.category-item-dot {
+  opacity: 0.4;
+}
+
+// ----- CATEGORY TITLE – Libre Franklin (consistent with card titles) -----
 .category-title {
-  font-family: var(--font-display);
+  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.5rem;
 }
 
-// ----- CATEGORY DESCRIPTION – Inter -----
+// ----- CATEGORY DESCRIPTION – Libre Franklin (italic) -----
 .category-desc {
-  font-family: var(--font-ui);
+  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-weight: 400;
+  font-style: italic;
   font-size: 1.1rem;
   color: var(--text-muted);
   max-width: 600px;
   margin: 0 auto;
 }
 
-// ----- ARCHIVE ITEM TITLE -----
+// ----- ARCHIVE ITEM TITLE – Libre Franklin -----
 .archive-item-title {
   font-family: 'Libre Franklin', var(--font-ui), sans-serif;
   font-weight: 700;
@@ -1879,6 +1923,27 @@ p, li, .text-body {
 .archive-item-title a:hover {
   color: var(--hover);
   text-decoration: underline;
+}
+
+// ----- ARCHIVE ITEM META – Inter (harmonized) -----
+.archive-item-meta {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.archive-item-author {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.archive-item-dot {
+  opacity: 0.4;
 }
 
 // ----- ARCHIVE SUBTITLE – Inter -----
@@ -1923,6 +1988,19 @@ p, li, .text-body {
   color: var(--accent);
 }
 
+// ----- SEARCH RESULT META – Inter (harmonized) -----
+.search-result-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
 // ----- SEARCH RESULT SUMMARY – Inter -----
 .search-result-summary {
   font-family: var(--font-ui);
@@ -1955,6 +2033,23 @@ p, li, .text-body {
 }
 .overlay-card-title a:hover {
   text-decoration: underline !important;
+}
+
+// ----- OVERLAY CARD META – Inter (harmonized) -----
+.overlay-card-meta {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+.overlay-card-meta .dot {
+  opacity: 0.6;
 }
 
 // ----- FOOTER -----
@@ -2609,14 +2704,22 @@ html body .main-nav .header-inner {
 
 .archive-item-meta {
   font-family: var(--font-ui);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   display: flex;
+  align-items: center;
   gap: 0.4rem;
   flex-wrap: wrap;
 }
+.archive-item-author {
+  font-weight: 700;
+  color: var(--text-primary);
+}
 .archive-item-dot {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 // ----- PAGINATION -----
@@ -2806,6 +2909,9 @@ html body .main-nav .header-inner {
 .overlay-card-meta {
   font-family: var(--font-ui) !important;
   font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
   color: rgba(255, 255, 255, 0.85) !important;
   display: flex !important;
   flex-wrap: wrap !important;

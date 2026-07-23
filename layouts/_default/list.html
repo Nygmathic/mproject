@@ -59,7 +59,7 @@
 </div>
 
 <style>
-/* Simplified category grid – only headings, no images/summaries (date removed) */
+/* Simplified category grid – only headings, no images/summaries */
 .category-list-page {
   max-width: 1280px;
   margin: 0 auto;
@@ -72,18 +72,18 @@
   padding-bottom: 1.5rem;
 }
 .category-title {
-  font-family: var(--font-display);
+  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.5rem;
 }
 .category-desc {
   font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
   font-weight: 400;
+  font-style: italic;
   font-size: 1.1rem;
   color: var(--text-muted);
-  font-style: italic;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -175,14 +175,22 @@
 }
 .category-item-meta {
   font-family: var(--font-ui);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   display: flex;
+  align-items: center;
   gap: 0.4rem;
   flex-wrap: wrap;
 }
+.category-item-author {
+  font-weight: 700;
+  color: var(--text-primary);
+}
 .category-item-dot {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 .category-pagination {
   margin-top: 2rem;

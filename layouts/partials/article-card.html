@@ -1,4 +1,4 @@
-{{/* Article Card – icons on cards/lists, category image on single */}}
+{{/* Article Card – all fonts sans-serif, no serifs */}}
 {{ $p := .Page }}
 {{ $variant := .variant | default "default" }}
 {{ $hasImage := false }}
@@ -18,7 +18,7 @@
       </a>
     {{ end }}
   {{ else }}
-    {{/* Icon placeholder — Option G: top rule + color bar + centered SVG icon */}}
+    {{/* Icon placeholder — top rule + color bar + centered SVG icon */}}
     <a href="{{ $p.Permalink }}" class="card-img-link card-placeholder-link" tabindex="-1" aria-hidden="true">
       <div class="card-placeholder card-placeholder--{{ $variant }}" data-cat="{{ $catLower }}">
         <div class="cp-icon-wrap" aria-hidden="true">

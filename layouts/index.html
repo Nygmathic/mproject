@@ -88,7 +88,7 @@
             {{ with $cat }}<span class="np-kicker np-kicker--lead">{{ . }}</span>{{ end }}
             <h2 class="np-lead-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
             {{ with .Summary | truncate 220 }}<p class="np-lead-deck">{{ . }}</p>{{ end }}
-            <div class="np-byline">
+            <div class="np-byline np-byline--lead">
               {{ with .Params.author }}<span class="np-byline-name">By {{ . }}</span>{{ end }}
               <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
               <span class="np-dot">·</span><span>{{ .ReadingTime }} min read</span>
@@ -196,7 +196,7 @@
 
     <div class="np-rule" aria-hidden="true"></div>
 
-    {{/* SUPPORT STRIP */}}
+    {{/* SUPPORT STRIP - Emphasized "Independent journalism, rooted in truth." */}}
     <div class="np-newsletter">
       <div class="np-newsletter-inner">
         <svg class="np-newsletter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
