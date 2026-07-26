@@ -540,7 +540,7 @@ ACCURACY — NON-NEGOTIABLE (violations mean the article must not be published):
 STRICT REQUIREMENTS:
 - TARGET: 800 words. Write between 750 and 850 words where the source material supports it; if source material is thin, write as many accurate words as the facts allow and do not pad.
 - 6 to 8 substantial paragraphs — no thin or short paragraphs
-- Opening paragraph: Compelling and immediate — draws the reader in without starting with "In a" or "The"
+- Opening paragraph: Compelling and immediate — lead directly with the actual news, not a scene-setting device. Do NOT open with any formulaic template, including but not limited to: "It is a truth universally acknowledged..." (or any other Austen-style pastiche), "In a world where...", "In today's fast-paced world...", "Once upon a time...", a rhetorical question ("What if...?" / "Have you ever wondered...?"), or starting the sentence with "In a" or "The". These are overused clichés in AI-generated writing specifically, and are exactly the kind of opener a discerning reader will recognize instantly as generic. Just start with what happened.
 - Second paragraph: Expand on the key facts and the stakes of the story
 - Middle paragraphs: Context, background, analysis, multiple perspectives, historical parallels where relevant
 - Penultimate paragraph: Reactions, implications, what different stakeholders are doing or saying
@@ -549,6 +549,7 @@ STRICT REQUIREMENTS:
 - Vary your language throughout: do not repeat the same distinctive word, phrase, or sentence construction more than once in the article (ordinary connective words like "the," "said," "also" are fine — this is about avoidable repetition of distinctive phrasing, e.g. don't use "significant development" or "stakeholders are closely watching" more than once). If you need to refer to the same person, place, or concept repeatedly, vary how you refer to it (name, title, role, pronoun) rather than repeating the identical phrase each time.
 - Tone: Authoritative, measured, internationally minded
 - Vocabulary and register: Write in advanced, sophisticated English — the level of The Economist or The Atlantic. Use precise, elevated diction over simple synonyms where it sharpens meaning (e.g. "exacerbate" rather than "make worse," "untenable" rather than "not workable"), and vary sentence structure and length rather than defaulting to short, simple sentences throughout. This is about precision and command of language, not obscurity — every word should still be immediately clear to an educated general reader. Do not reach for a fancier word if it makes the meaning less exact. Do not lean on any single elevated word or phrase repeatedly as a crutch — draw from a genuinely varied vocabulary rather than favoring one or two "impressive" words throughout the piece. No clichés. No sensationalism.
+- BANNED OPENERS: Do not open the article with a literary-pastiche template — most importantly, never write any variation of "It is a truth universally acknowledged that..." (the Pride and Prejudice opening line). This has become a well-known AI-writing cliché in its own right and is explicitly forbidden. Also avoid other formulaic AI-generated openers: "In today's fast-paced world," "In an era of," "As the sun set/rose over," rhetorical questions as an opening line, or any opener that could be dropped unchanged into an article about a completely different topic. Open instead with a concrete, specific detail from this story.
 - Do NOT mention or reference any news outlet, wire service, or publication
 - Do NOT include the main headline — body text and subheadings only
 - Do NOT use bullet points or numbered lists — flowing prose only
@@ -956,9 +957,11 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Groq: {words} words")
-        if words >= 700 and not has_fabricated_byline(text):
+        if words >= 700 and not has_fabricated_byline(text) and not has_formulaic_opener(text):
             return text
-        if words >= 700:
+        if words >= 700 and has_formulaic_opener(text):
+            print(f"  ⚠️  Formulaic cliché opener detected — trying Gemini for a clean rewrite")
+        elif words >= 700:
             print(f"  ⚠️  Fabricated byline/correspondent detected — trying Gemini for a clean rewrite")
         else:
             print(f"  ⚠️  Too short ({words} words) — trying Gemini for a fuller rewrite")
@@ -969,9 +972,11 @@ def rewrite_article(article):
     if text:
         words = len(text.split())
         print(f"  ✅ Gemini: {words} words")
-        if words >= 700 and not has_fabricated_byline(text):
+        if words >= 700 and not has_fabricated_byline(text) and not has_formulaic_opener(text):
             return text
-        if words >= 700:
+        if words >= 700 and has_formulaic_opener(text):
+            print(f"  ⚠️  Formulaic cliché opener detected in Gemini output too — skipping article")
+        elif words >= 700:
             print(f"  ⚠️  Fabricated byline/correspondent detected in Gemini output too — skipping article")
         else:
             print(f"  ⚠️  Too short ({words} words)")
@@ -998,6 +1003,18 @@ _BYLINE_PATTERN = re.compile(
 
 def has_fabricated_byline(text):
     return bool(_BYLINE_PATTERN.search(text))
+
+# Safety net for the most overused AI-writing opener specifically: the
+# Austen "It is a truth universally acknowledged" pastiche. Caught this one
+# live in production, so it's worth a hard code-level block rather than
+# relying on the prompt instruction alone.
+_FORMULAIC_OPENER_PATTERN = re.compile(
+    r"^\s*it is a truth universally acknowledged",
+    re.IGNORECASE,
+)
+
+def has_formulaic_opener(text):
+    return bool(_FORMULAIC_OPENER_PATTERN.search(text))
 
 # ─── SEO METADATA GENERATION ──────────────────────────────────────────────────
 
