@@ -43,7 +43,9 @@ jobs:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
           GEMINI_API_KEY_3: ${{ secrets.GEMINI_API_KEY_3 }}
-          GROQ_API_KEY:     ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
+          GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
+          GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
         run: |
           [ -n "$GEMINI_API_KEY_1" ] && echo "✅ Gemini key 1 set" || echo "⚠️  Gemini key 1 NOT set"
           [ -n "$GEMINI_API_KEY_2" ] && echo "✅ Gemini key 2 set" || echo "⚠️  Gemini key 2 NOT set"
@@ -51,8 +53,7 @@ jobs:
           [ -n "$GEMINI_API_KEY_4" ] && echo "✅ Gemini key 4 set" || echo "ℹ️  Gemini key 4 not set (optional)"
           [ -n "$GEMINI_API_KEY_5" ] && echo "✅ Gemini key 5 set" || echo "ℹ️  Gemini key 5 not set (optional)"
           [ -n "$GEMINI_API_KEY_6" ] && echo "✅ Gemini key 6 set" || echo "ℹ️  Gemini key 6 not set (optional)"
-          [ -n "$GROQ_API_KEY" ]     && echo "✅ Groq key set"     || echo "⚠️  Groq key NOT set"
-          [ -z "$GEMINI_API_KEY_1" ] && [ -z "$GEMINI_API_KEY_2" ] && [ -z "$GEMINI_API_KEY_3" ] && [ -z "$GROQ_API_KEY" ] && echo "❌ No AI keys — aborting" && exit 1 || true
+          [ -z "$GEMINI_API_KEY_1" ] && [ -z "$GEMINI_API_KEY_2" ] && [ -z "$GEMINI_API_KEY_3" ] && [ -z "$GEMINI_API_KEY_4" ] && [ -z "$GEMINI_API_KEY_5" ] && [ -z "$GEMINI_API_KEY_6" ] && echo "❌ No AI keys — aborting" && exit 1 || true
 
       - name: Fetch and post news
         env:
@@ -62,7 +63,6 @@ jobs:
           GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
           GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
           GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
-          GROQ_API_KEY:     ${{ secrets.GROQ_API_KEY }}
           GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
         run: |
           # Sports-only crons are identified by their specific minute patterns

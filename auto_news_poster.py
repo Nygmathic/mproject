@@ -6,8 +6,7 @@ Veridus.space Auto News Poster
 - Prioritises LATEST content — each niche has a recency window
 - Rewrites entirely in Veridus voice — original, owned content
 - Verifies factual accuracy against source material before publishing
-- Primary AI: Google Gemini 2.0 Flash (free) — rotates across 3 keys
-- Fallback AI: Groq / Llama 3.3 70B (free)
+- AI: Google Gemini 2.0 Flash (free) — rotates across up to 6 keys
 - Runs every 2 hours via GitHub Actions for near-live event coverage
 """
 
@@ -34,8 +33,6 @@ GEMINI_API_KEYS = [
         os.environ.get("GEMINI_API_KEY_6", ""),
     ] if key
 ]
-
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
@@ -848,29 +845,6 @@ def call_gemini(prompt, max_tokens=2048):
     print(f"  ❌ All {len(GEMINI_API_KEYS)} Gemini keys exhausted")
     return None
 
-def call_groq(prompt, max_tokens=2048):
-    if not GROQ_API_KEY:
-        return None
-    try:
-        resp = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-            json={
-                "model":       "llama-3.1-8b-instant",  # 500k tokens/day free vs 100k for 70b
-                "messages":    [{"role": "user", "content": prompt}],
-                "temperature": 0.7,
-                "max_tokens":  max_tokens,
-            },
-            timeout=60,
-        )
-        if not resp.ok:
-            print(f"  ❌ Groq error {resp.status_code}: {resp.text[:250]}")
-            return None
-        return resp.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        print(f"  ❌ Groq exception: {e}")
-        return None
-
 # ─── ARTICLE REWRITE ──────────────────────────────────────────────────────────
 
 # ─── ACCURACY & RECENCY VERIFICATION ───────────────────────────────────────────
@@ -951,23 +925,7 @@ def rewrite_article(article):
 
     prompt = build_article_prompt(article)
 
-    # Groq first — faster and more reliable on free tier
-    print(f"  🤖 Trying Groq (primary)...")
-    text = call_groq(prompt, max_tokens=2048)
-    if text:
-        words = len(text.split())
-        print(f"  ✅ Groq: {words} words")
-        if words >= 700 and not has_fabricated_byline(text) and not has_formulaic_opener(text):
-            return text
-        if words >= 700 and has_formulaic_opener(text):
-            print(f"  ⚠️  Formulaic cliché opener detected — trying Gemini for a clean rewrite")
-        elif words >= 700:
-            print(f"  ⚠️  Fabricated byline/correspondent detected — trying Gemini for a clean rewrite")
-        else:
-            print(f"  ⚠️  Too short ({words} words) — trying Gemini for a fuller rewrite")
-
-    # Gemini fallback
-    print(f"  🔄 Trying Gemini fallback...")
+    print(f"  🤖 Generating with Gemini...")
     text = call_gemini(prompt, max_tokens=2048)
     if text:
         words = len(text.split())
@@ -981,7 +939,7 @@ def rewrite_article(article):
         else:
             print(f"  ⚠️  Too short ({words} words)")
 
-    print("  ❌ All AIs failed — skipping article")
+    print("  ❌ Gemini failed or output too short — skipping article")
     return None
 
 # Safety net beyond the prompt instruction: catches cases where the model
@@ -1021,10 +979,7 @@ def has_formulaic_opener(text):
 def generate_seo(article, body):
     prompt = build_seo_prompt(article, body)
 
-    # Groq first
-    raw = call_groq(prompt, max_tokens=400)
-    if not raw:
-        raw = call_gemini(prompt, max_tokens=400)
+    raw = call_gemini(prompt, max_tokens=400)
     if not raw:
         return None
 
@@ -1184,13 +1139,11 @@ def main():
     print(f"   {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"{'=' * 65}")
 
-    if not GEMINI_API_KEYS and not GROQ_API_KEY:
-        print("❌ No AI API keys set. Add GEMINI_API_KEY_1 or GROQ_API_KEY to GitHub Secrets.")
+    if not GEMINI_API_KEYS:
+        print("❌ No AI API keys set. Add GEMINI_API_KEY_1 (through _6) to GitHub Secrets.")
         return
 
     print(f"✅ Gemini keys loaded: {len(GEMINI_API_KEYS)} key(s)")
-    if GROQ_API_KEY:
-        print(f"✅ Groq key loaded (length: {len(GROQ_API_KEY)})")
 
     posted_log  = load_posted_log()          # dict: {article_id: iso_timestamp}
     posted_ids  = set(posted_log.keys())     # set used for fast membership checks
