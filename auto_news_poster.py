@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
 Veridus.space Auto News Poster
-- Fetches global news exclusively from RSS feeds of established news organizations
+- Fetches global news from RSS feeds
 - Fetches full article body from source URL for rich, accurate rewrites
 - Prioritises LATEST content — each niche has a recency window
 - Rewrites entirely in Veridus voice — original, owned content
-- Verifies factual accuracy against source material before publishing
-- AI: Google Gemini 2.0 Flash (free) — rotates across up to 6 keys
+- AI: Google Gemini 3.6 Flash (free tier) — rotates across up to 6 keys
 - Runs every 2 hours via GitHub Actions for near-live event coverage
 """
 
@@ -34,89 +33,71 @@ GEMINI_API_KEYS = [
     ] if key
 ]
 
+# Gemini model — current stable Flash workhorse (GA July 2026)
+# Check https://ai.google.dev/gemini-api/docs/models for updates
+GEMINI_MODEL = "gemini-3.6-flash"
+
 CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
 
 # Hard daily cap — max posts per niche per calendar day (UTC)
-# Opinion is written by humans — never auto-posted
 DAILY_POST_LIMIT = 4
 
-# How many articles to attempt per run (rate-limit AI calls per run)
-# The daily cap above is the primary control; this just throttles per-run usage
+# How many articles to attempt per run (throttles per-run usage)
 NICHE_LIMITS = {
     "politics":       2,
-    "global-affairs": 2,
-    "sports":         2,  # Daily cap of 4 still applies — post-match runs catch up
+    "africa":         2,
+    "sports":         2,
     "business":       1,
     "climate":        1,
+    "law":            2,
     "curious":        2,
 }
 
 # Maximum age of an article to be considered — oldest allowed per niche.
-# Kept tight so the poster never re-surfaces yesterday's news.
-# The 2-hour cron means a 6h window gives 3 chances to pick up a story.
 RECENCY_HOURS = {
-    "sports":         3,   # match reports must be same-day
-    "politics":       6,   # tight — political news moves fast
-    "global-affairs": 6,   # tight — same reason
-    "business":       6,   # markets move daily
-    "curious":        12,  # weird news is slow-burn; slight slack
-    "climate":        24,  # climate stories don't break by the hour
+    "sports":         3,
+    "politics":       6,
+    "africa":         6,
+    "business":       6,
+    "curious":        12,
+    "climate":        24,
+    "law":            48,
 }
 
 # ─── RSS FEEDS ────────────────────────────────────────────────────────────────
 
 RSS_FEEDS = {
     "politics": [
-        # ── Domestic & Regional Politics ─────────────────────────────
         "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
         "https://feeds.npr.org/1014/rss.xml",
         "https://www.theguardian.com/politics/rss",
         "https://www.dw.com/en/politics/rss",
         "https://www.euronews.com/rss?format=mrss&level=theme&name=news",
         "https://www.aljazeera.com/xml/rss/all.xml",
-        "https://feeds.bbci.co.uk/news/politics/rss.xml",  # replaces dead Reuters feed (Reuters killed public RSS in 2020)
-        "https://rss.politico.com/politicopicks.xml",     # Politico
-    ],
-    "global-affairs": [
-        # ── World News, Diplomacy & International Relations ──────────
         "https://foreignpolicy.com/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
         "https://www.theguardian.com/world/rss",
         "https://www.dw.com/en/world/rss",
-        "https://feeds.bbci.co.uk/news/world/rss.xml",  # replaces dead Reuters feed (Reuters killed public RSS in 2020)
-        # ── United Nations ────────────────────────────────────────────
         "https://news.un.org/feed/subscribe/en/news/all/feed/rss.xml",
-        # ── Regional perspectives, English-language ───────────────────
-        "https://www.themoscowtimes.com/rss/news",       # Russia — independent, operates in exile (Russia effectively outlawed it)
-        "https://www.scmp.com/rss/91/feed",               # China — South China Morning Post, Hong Kong-based (Alibaba-owned; editorially separate but worth knowing)
-        "https://www.abc.net.au/news/feed/2942460/rss.xml",  # Australia — ABC News
-        "https://rss.cbc.ca/lineup/topstories.xml",       # Canada — CBC News
-        "https://www.france24.com/en/rss",                # Western Europe — France 24 English
-        "https://en.mercopress.com/rss",                  # South America — MercoPress (English-language)
-        "https://punchng.com/feed/",                      # West Africa — The Punch (Nigeria)
-        "https://www.news24.com/rss",                     # South Africa — News24
-        "https://www.politico.eu/feed",                   # Politico Europe
-        "https://monocle.com/feed/",                       # Monocle — global affairs, business, culture briefing
     ],
     "business": [
         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
         "https://feeds.bbci.co.uk/news/business/rss.xml",
         "https://www.dw.com/en/economy/rss",
-        "https://www.forbes.com/business/feed/",          # Forbes
-        # ── Regional business perspectives ─────────────────────────
-        "https://www.premiumtimesng.com/feed",            # West Africa (Nigeria)
-        "https://www.fin24.com/rss",                      # South Africa — News24's business vertical
+        "https://www.theafricareport.com/feed/",
+        "https://www.premiumtimesng.com/feed",
     ],
     "sports": [
-        # ── Premier League ───────────────────────────────────────────
         "https://www.theguardian.com/football/premierleague/rss",
         "https://feeds.bbci.co.uk/sport/football/premier-league/rss.xml",
         "https://www.skysports.com/rss/12040",
         "https://www.fourfourtwo.com/rss",
-        # ── ESPN Soccer ─────────────────────────────────────────────
+        "https://supersport.com/rss",
+        "https://www.bbc.co.uk/sport/africa/rss.xml",
+        "https://www.goal.com/en-ke/rss",
+        "https://www.cafonline.com/rss",
         "https://www.espn.com/espn/rss/soccer/news",
-        # ── Global Sport ────────────────────────────────────────────
         "https://feeds.bbci.co.uk/sport/rss.xml",
         "https://www.theguardian.com/sport/rss",
     ],
@@ -126,28 +107,54 @@ RSS_FEEDS = {
         "https://insideclimatenews.org/feed/",
         "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",
     ],
+    "africa": [
+        "https://news.un.org/feed/subscribe/en/news/topic/africa/feed/rss.xml",
+        "https://au.int/en/pressreleases/rss",
+        "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
+        "https://www.theafricareport.com/feed/",
+        "https://www.africanews.com/feed/",
+        "https://eastafrican.nation.africa/feed",
+        "https://www.monitor.co.ug/rss",
+        "https://www.theeastafrican.co.ke/rss",
+        "https://www.standardmedia.co.ke/rss",
+        "https://nation.africa/kenya/rss.xml",
+        "https://www.premiumtimesng.com/feed",
+        "https://www.dailymaverick.co.za/feed/",
+        "https://www.news24.com/rss",
+        "https://www.egyptindependent.com/feed/",
+        "https://www.middleeasteye.net/rss",
+    ],
+    "law": [
+        "https://www.judiciary.go.ke/feed/",
+        "https://kenyalaw.org/feed/",
+        "https://www.standardmedia.co.ke/rss",
+        "https://nation.africa/kenya/rss.xml",
+        "https://www.judiciary.uk/feed/",
+        "https://www.supremecourt.uk/news/rss.xml",
+    ],
     "curious": [
-        # ── Verified Weird & Bizarre News ────────────────────────────
-        "https://www.theguardian.com/news/series/weird/rss",            # Guardian Weird
-        "https://feeds.bbci.co.uk/news/have_your_say/rss.xml",          # BBC HYS / Odd
-        "https://www.upi.com/RSS/Odd_News/",                            # UPI Odd News
-        "https://ripleys.com/feed/",                                    # Ripley's Believe It or Not
-        "https://www.odditycentral.com/feed",                           # Oddity Central
-        "https://www.atlasobscura.com/feeds/latest",                    # Atlas Obscura
-        "https://www.mentalfloss.com/rss.xml",                          # Mental Floss
-        "https://www.livescience.com/feeds/all",                        # Live Science (weird science)
-        "https://www.iflscience.com/rss.xml",                           # IFLScience
+        "https://feeds.reuters.com/reuters/oddlyEnoughNews",
+        "https://www.theguardian.com/news/series/weird/rss",
+        "https://feeds.bbci.co.uk/news/have_your_say/rss.xml",
+        "https://www.upi.com/RSS/Odd_News/",
+        "https://ripleys.com/feed/",
+        "https://www.odditycentral.com/feed",
+        "https://www.atlasobscura.com/feeds/latest",
+        "https://www.mentalfloss.com/rss.xml",
+        "https://www.livescience.com/feeds/all",
+        "https://www.iflscience.com/rss.xml",
     ],
 }
 
 # ─── NICHE METADATA ───────────────────────────────────────────────────────────
 
 NICHE_META = {
-    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "domestic politics", "elections", "governance"]'),
-    "global-affairs": ("Global Affairs", '["Global Affairs", "News"]', '["world news", "diplomacy", "geopolitics", "international relations", "united nations"]'),
+    "politics":       ("Politics",      '["Politics", "News"]',       '["politics", "world news", "global politics", "geopolitics", "diplomacy"]'),
     "business":       ("Business",      '["Business", "News"]',       '["business", "economy", "markets", "trade"]'),
     "climate":        ("Climate",       '["Climate", "News"]',        '["climate change", "environment", "sustainability", "global warming"]'),
-    "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "athletics"]'),
+    "sports":         ("Sports",        '["Sports"]',                 '["sports", "football", "premier league", "african football", "athletics"]'),
+    "africa":         ("Africa",        '["Africa", "News"]',         '["africa", "african politics", "african business", "world news"]'),
+    "law":            ("Law",           '["Law", "News"]',            '["kenya law", "court ruling", "supreme court", "high court", "court of appeal"]'),
     "curious":        ("Curious",       '["Curious", "News"]',        '["bizarre", "unusual", "strange", "odd news", "weird science"]'),
 }
 
@@ -174,22 +181,14 @@ def is_english(text):
 # ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 def load_posted_log():
-    """
-    Load the posted-articles log.
-    Format: dict of {article_id: iso_timestamp} — entries older than
-    MAX_LOG_AGE_DAYS are pruned on load so the log never grows unbounded
-    and IDs never silently age out before an article is old enough to repost.
-    """
-    MAX_LOG_AGE_DAYS = 14  # keep IDs for 2 weeks — far longer than any recency window
+    MAX_LOG_AGE_DAYS = 14
     cutoff = datetime.now(timezone.utc) - timedelta(days=MAX_LOG_AGE_DAYS)
 
     if POSTED_LOG.exists():
         try:
             raw = json.loads(POSTED_LOG.read_text())
-            # Legacy format: plain list of IDs — migrate to dict with sentinel timestamp
             if isinstance(raw, list):
                 raw = {aid: "2000-01-01T00:00:00Z" for aid in raw}
-            # Prune entries older than MAX_LOG_AGE_DAYS
             pruned = {
                 aid: ts for aid, ts in raw.items()
                 if datetime.fromisoformat(ts.replace("Z", "+00:00")) >= cutoff
@@ -200,7 +199,6 @@ def load_posted_log():
     return {}
 
 def save_posted_log(posted):
-    """Save posted log dict {id: timestamp}. No arbitrary size cap."""
     POSTED_LOG.write_text(json.dumps(posted, indent=2))
 
 def article_id(url):
@@ -214,7 +212,6 @@ def slugify(text):
     return text[:70]
 
 def count_today_posts(niche):
-    """Count how many auto-posts already exist for this niche today (UTC)."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     niche_dir = CONTENT_DIR / niche
     if not niche_dir.exists():
@@ -222,18 +219,8 @@ def count_today_posts(niche):
     return sum(1 for d in niche_dir.iterdir() if d.is_dir() and d.name.startswith(today))
 
 def score_by_virality(articles):
-    """
-    Score each article by cross-feed frequency — stories covered by multiple
-    sources are more widely talked about and score higher.
-
-    Sorting key: (recency_bucket, viral_score) — both descending.
-    Recency bucket divides age into 2-hour slots so a very fresh story always
-    beats an equally-viral older one, and a story more than 4h old can only
-    win if its viral score is significantly higher.
-    """
     now = datetime.now(timezone.utc)
 
-    # Build word sets for each article (significant words only, len > 3)
     stop = {"this","that","with","from","have","will","been","were","they",
             "their","more","than","over","after","into","about","says","said"}
     def sig_words(title):
@@ -253,15 +240,12 @@ def score_by_virality(articles):
         scores.append(score)
 
     def recency_bucket(article):
-        """Lower bucket = older. Each bucket = 2 hours. Fresh articles get higher bucket."""
         pub = article.get("pub_date")
         if not pub:
             return 0
         age_hours = max(0, (now - pub).total_seconds() / 3600)
-        # Invert: 0h old → bucket 12, 2h old → bucket 11, … 24h+ → bucket 0
         return max(0, 12 - int(age_hours / 2))
 
-    # Sort: recency_bucket first (DESC), viral score second (DESC)
     scored = sorted(
         zip(scores, articles),
         key=lambda x: (recency_bucket(x[1]), x[0]),
@@ -273,7 +257,6 @@ def score_by_virality(articles):
     return [a for _, a in scored]
 
 def parse_entry_date(entry):
-    """Parse feed entry publish date. Returns timezone-aware datetime or None."""
     for field in ("published_parsed", "updated_parsed"):
         t = entry.get(field)
         if t:
@@ -283,16 +266,9 @@ def parse_entry_date(entry):
                 pass
     return None
 
-
-
 # ─── RSS FETCHING ─────────────────────────────────────────────────────────────
 
 def fetch_rss_articles(niche, already_posted):
-    """
-    Fetch articles from all RSS feeds for a niche.
-    - Sorts ALL entries newest-first across all feeds
-    - Filters out anything older than RECENCY_HOURS[niche]
-    """
     max_age_hours = RECENCY_HOURS.get(niche, 24)
     cutoff        = datetime.now(timezone.utc) - timedelta(hours=max_age_hours)
     raw_entries   = []
@@ -310,14 +286,7 @@ def fetch_rss_articles(niche, already_posted):
 
                 pub_date = parse_entry_date(entry)
 
-                # Recency is mandatory, not best-effort: an entry with no
-                # parseable publish date is rejected outright rather than
-                # silently passing the recency filter. Previously a missing
-                # date bypassed the check entirely — a real gap, since a
-                # feed entry with no timestamp could be any age.
-                if not pub_date:
-                    continue
-                if pub_date < cutoff:
+                if pub_date and pub_date < cutoff:
                     continue
 
                 title   = entry.get("title", "").strip()
@@ -341,47 +310,42 @@ def fetch_rss_articles(niche, already_posted):
         except Exception as e:
             print(f"  ⚠️  Feed error {feed_url}: {e}")
 
-    # Sort newest first — most recent content wins
     raw_entries.sort(
         key=lambda x: x["pub_date"] or datetime.min.replace(tzinfo=timezone.utc),
         reverse=True
     )
 
-    # ── Relevance filter — reject obvious miscategorisations ────────────
-    # Each niche has REQUIRED keywords (at least one must appear in title+summary)
-    # and BANNED keywords (if any appear, article is rejected for this niche)
     NICHE_REQUIRED = {
-        # Sports: strict — must be about sport
         "sports":  ["football", "soccer", "match", "league", "cup", "goal", "player",
                     "club", "sport", "game", "tournament", "champion", "coach", "team",
                     "afcon", "premier league", "caf", "fifa", "rugby", "athletics",
                     "cricket", "tennis", "basketball", "racing", "olympic", "score",
                     "fixture", "season", "transfer", "squad", "winger", "striker"],
-        # Climate: must be environment-related
         "climate": ["climate", "environment", "carbon", "emission", "warming", "fossil",
                     "renewable", "drought", "flood", "weather", "temperature", "glacier",
                     "deforestation", "pollution", "biodiversity", "ecosystem", "net zero",
                     "wildfire", "hurricane", "sea level", "methane", "solar", "wind energy"],
-        # Business: must be economic/financial
+        "law":     ["court", "ruling", "judgment", "judge", "appeal", "tribunal",
+                    "supreme court", "high court", "verdict", "sentenced", "convicted",
+                    "acquitted", "constitution", "judicial", "injunction", "magistrate",
+                    "lawsuit", "prosecution", "acquittal", "bench", "hearing", "petition"],
         "business":["economy", "market", "trade", "gdp", "inflation", "investment",
                     "stock", "bank", "currency", "company", "revenue", "profit",
                     "startup", "merger", "acquisition", "financial", "debt", "growth",
                     "price", "cost", "fund", "budget", "tax", "export", "import",
                     "supply chain", "oil price", "energy", "billion", "million"],
-        # Curious: very loose — just needs to be factual/interesting non-standard news
-        # No required filter — rely on the curious RSS sources to self-select
-        # "curious": [],  # no filter needed — sources handle relevance
-        # Politics: no required filter — broad enough category
-        # "politics": [],
     }
 
     NICHE_BANNED = {
-        # Sports feed should never get climate/political/business articles
         "sports":  ["climate", "court ruling", "stock market", "inflation", "election",
-                    "parliament", "legislation", "gdp", "treaty", "diplomacy"],
-        # Climate feed should never get sports/political articles
+                    "parliament", "legislation", "gdp", "treaty", "diplomacy",
+                    "how to watch", "live stream", "tv channel", "kick-off time",
+                    "where to watch", "free stream", "tv details"],
         "climate": ["football", "premier league", "match result", "goal", "transfer",
                     "election", "parliament", "stock market", "gdp"],
+        "law":     ["law society", "lsk", "bar association", "lawyer appointed",
+                    "advocate appointed", "elected president of", "bar council",
+                    "legal profession", "attorney general appointed"],
     }
 
     articles = []
@@ -392,13 +356,11 @@ def fetch_rss_articles(niche, already_posted):
         niche = entry["niche"]
         text  = (entry["title"] + " " + entry["summary"]).lower()
 
-        # Check banned keywords — hard reject
         banned = NICHE_BANNED.get(niche, [])
         if any(kw in text for kw in banned):
             print(f"  ⛔ Rejected [{niche}] (banned keyword): {entry['title'][:60]}")
             continue
 
-        # Check required keywords — must match at least one
         required = NICHE_REQUIRED.get(niche, [])
         if required and not any(kw in text for kw in required):
             print(f"  ⛔ Rejected [{niche}] (off-topic): {entry['title'][:60]}")
@@ -413,7 +375,6 @@ def fetch_rss_articles(niche, already_posted):
 # ─── FULL ARTICLE FETCHER ─────────────────────────────────────────────────────
 
 class _TextExtractor(HTMLParser):
-    """Minimal HTML-to-text extractor using only the stdlib."""
     SKIP_TAGS = {"script", "style", "nav", "header", "footer", "aside",
                  "noscript", "form", "button", "iframe", "figure", "figcaption"}
 
@@ -438,25 +399,10 @@ class _TextExtractor(HTMLParser):
 
     def get_text(self):
         raw = "".join(self._chunks)
-        # Collapse whitespace runs but keep paragraph breaks
         lines = [" ".join(ln.split()) for ln in raw.splitlines()]
         return "\n".join(ln for ln in lines if ln)
 
-
 def fetch_full_article(url, min_chars=400, max_chars=6000):
-    """
-    Fetch the full body text of a news article from its source URL.
-
-    Strategy:
-      1. Download raw HTML with a browser-like User-Agent (avoids most 403s).
-      2. Strip boilerplate (nav, scripts, ads) with _TextExtractor.
-      3. Keep only paragraphs that look like prose (≥40 chars, not navigation).
-      4. Return up to max_chars of clean text, or None if fetching fails /
-         the extracted text is shorter than min_chars (page was paywalled,
-         JS-rendered, or returned noise).
-
-    Returns str or None.
-    """
     try:
         headers = {
             "User-Agent": (
@@ -471,14 +417,12 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
             print(f"  ⚠️  Full-fetch HTTP {resp.status_code} — falling back to RSS summary")
             return None
 
-        # Decode safely
         content = resp.content.decode(resp.apparent_encoding or "utf-8", errors="replace")
 
         extractor = _TextExtractor()
         extractor.feed(content)
         raw_text = extractor.get_text()
 
-        # Keep only paragraphs that look like real prose
         paragraphs = [
             ln for ln in raw_text.splitlines()
             if len(ln) >= 40 and not ln.strip().startswith(("©", "Cookie", "Subscribe", "Sign in", "Log in"))
@@ -497,63 +441,56 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
         print(f"  ⚠️  Full-fetch failed: {e}")
         return None
 
-
 # ─── PROMPT: ARTICLE BODY ─────────────────────────────────────────────────────
 
 def build_article_prompt(article):
     niche = article["niche"]
 
     niche_guidance = {
-        "politics":       "Cover domestic and national politics — elections, legislation, governance, political parties, and domestic policy debates. Keep the lens on a single country's internal politics rather than international relations.",
-        "global-affairs": "Cover international relations, diplomacy, geopolitics, wars, treaties, and global governance — the United Nations, multilateral institutions, and cross-border developments. Represent multiple regional perspectives evenly rather than centring any single region.",
-        "business":       "Cover business and economic developments with global impact. Represent perspectives from multiple emerging and established economies alongside one another, rather than centring any single region.",
-        "sports":         "Cover sport across major leagues and competitions — football (including the Premier League and major international tournaments), athletics, rugby, and other disciplines. Write match reports with energy and precision. Do not centre only one country's or region's sport.",
+        "politics":       "Cover political developments AND international affairs — domestic politics, geopolitics, diplomacy, international relations, wars, elections, and global governance. Represent multiple regional perspectives including voices from the Global South, Europe, Russia, China, Africa, and the Middle East.",
+        "business":       "Cover business and economic developments with global impact. Include emerging market perspectives from Africa, Asia, and Latin America alongside Western economies.",
+        "sports":         "Cover sport with emphasis on African football (CAF, AFCON, PSL, KPL) and the Premier League. Write match reports with energy and precision. Cover athletics, rugby, and other disciplines too. Do not centre only American sport.",
         "climate":        "Emphasise human and economic impact of climate change, especially on the most vulnerable regions. Ground all claims in science. Avoid alarmism.",
+        "africa":         "Write from an African-centred perspective. Treat African nations and people as full agents of their own story. Avoid patronising or 'Western saviour' framing entirely. African football and sports stories belong in Sports, not here.",
+        "law":            "STRICT: Cover ONLY formal court decisions — judgments, rulings, and orders from the Kenya Supreme Court, Court of Appeal, High Court, and equivalent courts in Commonwealth countries. Do NOT cover legal profession news, bar association events, lawyer appointments, or general legal commentary.",
         "curious":        "Cover genuinely strange, bizarre, or surprising true stories from around the world. The tone should be engaged and intelligent — curious and amused, not mocking. Every claim must be factual and verifiable. No sensationalism, no fabrication.",
     }
 
     guidance = niche_guidance.get(niche, "Cover this story with global context and balance.")
 
-    # Use the full fetched article body when available; fall back to RSS summary
     full_text = article.get("full_text", "")
     if full_text:
         source_block = f"SOURCE TEXT (full article body — use all facts contained here):\n{full_text}"
     else:
         source_block = f"SUMMARY (RSS excerpt only — base the article strictly on these facts):\n{article['summary']}"
 
-    return f"""You are a senior international correspondent writing for Veridus — an independent global publication with the precision of The Guardian and the voice of a publication that thinks for itself.
+    return f"""You are a senior international correspondent writing for Veridus — an independent African publication with the precision of The Guardian and the voice of a publication that thinks for itself.
 
 Write a complete, original news article. This content must be entirely Veridus's own — do not reproduce or closely paraphrase the source material. Transform it into something new.
 
 ACCURACY — NON-NEGOTIABLE (violations mean the article must not be published):
 - Every fact, figure, date, name, statistic, and quote you write must come directly and explicitly from the headline or summary provided below. If the source material does not state it, do not write it.
 - Do NOT invent, infer, or extrapolate any fact. If you do not have enough source material to confirm a detail, omit it entirely.
-- Do NOT fabricate or paraphrase quotes. If a quote is not present word-for-word in the source material, do not include it. Use attributed paraphrase only when the source material clearly supports it.
-- Do NOT speculate about causes, outcomes, or motivations unless the source explicitly states them — and if you include speculation present it clearly as speculation ("analysts suggest…", "officials have indicated…") only if those exact words appear in the source.
-- Do NOT fill gaps with background knowledge that contradicts, embellishes, or goes beyond what the source says. General context (e.g. established historical facts) is permitted only when it is unambiguously true and does not misrepresent the specific story.
-- If the headline and summary provide limited facts, write a shorter, accurate article rather than a long, padded, inaccurate one. Accuracy comes before word count.
-- Numbers matter: do not round, inflate, or alter any figures. If the source says "at least 12", write "at least 12" — not "dozens".
+- Do NOT fabricate or paraphrase quotes. If a quote is not present word-for-word in the source material, do not include it.
+- Do NOT speculate about causes, outcomes, or motivations unless the source explicitly states them.
+- If the headline and summary provide limited facts, write a shorter, accurate article rather than a long, padded, inaccurate one.
+- Numbers matter: do not round, inflate, or alter any figures.
 
 STRICT REQUIREMENTS:
 - TARGET: 800 words. Write between 750 and 850 words where the source material supports it; if source material is thin, write as many accurate words as the facts allow and do not pad.
 - 6 to 8 substantial paragraphs — no thin or short paragraphs
-- Opening paragraph: Compelling and immediate — lead directly with the actual news, not a scene-setting device. Do NOT open with any formulaic template, including but not limited to: "It is a truth universally acknowledged..." (or any other Austen-style pastiche), "In a world where...", "In today's fast-paced world...", "Once upon a time...", a rhetorical question ("What if...?" / "Have you ever wondered...?"), or starting the sentence with "In a" or "The". These are overused clichés in AI-generated writing specifically, and are exactly the kind of opener a discerning reader will recognize instantly as generic. Just start with what happened.
+- Opening paragraph: Compelling and immediate — draws the reader in without starting with "In a" or "The"
 - Second paragraph: Expand on the key facts and the stakes of the story
 - Middle paragraphs: Context, background, analysis, multiple perspectives, historical parallels where relevant
 - Penultimate paragraph: Reactions, implications, what different stakeholders are doing or saying
 - Final paragraph: Forward-looking — what happens next and what readers should watch
-- Use two or three descriptive H2 subheadings (## Heading) to break the article into sections. Each subheading must be distinct from the others and from the article's own topic sentence — do not reuse the same words or phrasing across subheadings, and do not simply restate the headline as a subheading.
-- Vary your language throughout: do not repeat the same distinctive word, phrase, or sentence construction more than once in the article (ordinary connective words like "the," "said," "also" are fine — this is about avoidable repetition of distinctive phrasing, e.g. don't use "significant development" or "stakeholders are closely watching" more than once). If you need to refer to the same person, place, or concept repeatedly, vary how you refer to it (name, title, role, pronoun) rather than repeating the identical phrase each time.
+- Use two or three descriptive H2 subheadings (## Heading) to break the article into sections
 - Tone: Authoritative, measured, internationally minded
-- Vocabulary and register: Write in advanced, sophisticated English — the level of The Economist or The Atlantic. Use precise, elevated diction over simple synonyms where it sharpens meaning (e.g. "exacerbate" rather than "make worse," "untenable" rather than "not workable"), and vary sentence structure and length rather than defaulting to short, simple sentences throughout. This is about precision and command of language, not obscurity — every word should still be immediately clear to an educated general reader. Do not reach for a fancier word if it makes the meaning less exact. Do not lean on any single elevated word or phrase repeatedly as a crutch — draw from a genuinely varied vocabulary rather than favoring one or two "impressive" words throughout the piece. No clichés. No sensationalism.
-- BANNED OPENERS: Do not open the article with a literary-pastiche template — most importantly, never write any variation of "It is a truth universally acknowledged that..." (the Pride and Prejudice opening line). This has become a well-known AI-writing cliché in its own right and is explicitly forbidden. Also avoid other formulaic AI-generated openers: "In today's fast-paced world," "In an era of," "As the sun set/rose over," rhetorical questions as an opening line, or any opener that could be dropped unchanged into an article about a completely different topic. Open instead with a concrete, specific detail from this story.
+- Vocabulary: Precise journalistic English. No clichés. No sensationalism.
 - Do NOT mention or reference any news outlet, wire service, or publication
 - Do NOT include the main headline — body text and subheadings only
 - Do NOT use bullet points or numbered lists — flowing prose only
 - Write in English only
-- NO BYLINE OR CORRESPONDENT NAME, EVER: Veridus articles carry no personal byline within the body text. Do NOT write phrases like "our correspondent," "our reporter," "Veridus's [name]," or any variation naming a writer. Write in an unattributed third-person reporting voice throughout.
-- If the source material names the journalist(s) who originally reported the story, that name belongs to them and their outlet — do NOT carry it into this article, do NOT present them as a Veridus staff member, and do NOT reference them at all unless they are themselves a subject of the news event (e.g. being quoted as an official or expert in their own right, not as the story's author).
-- NO IMPLIED FIELD PRESENCE, EVER: Veridus has no reporters on the ground and does not conduct original interviews — this article is a desk rewrite of published reporting. Do NOT write or imply otherwise. Banned phrasing includes (but is not limited to): "our team on the ground," "when this reporter visited," "sources told Veridus," "speaking to Veridus," "in an interview with Veridus," "Veridus witnessed," "Veridus can confirm," or any construction that implies Veridus itself gathered information firsthand. Attribute reporting neutrally to what happened or what was said/reported, without naming who is doing the reporting at all (e.g. "Officials said..." or "According to reports..." rather than "Veridus spoke to officials" or "our sources say").
 
 EDITORIAL FOCUS: {guidance}
 
@@ -586,25 +523,15 @@ ARTICLE BODY (first 400 words): {' '.join(body.split()[:400])}
 Return only the JSON object:"""
 
 # ─── WIKIMEDIA COMMONS IMAGE FETCHER ─────────────────────────────────────────
-#
-# Fetches a free, correctly-licensed image from Wikimedia Commons.
-# Accepted licenses: CC0, Public Domain only — no attribution requirement,
-# so nothing needs to be credited anywhere on the site.
-# Saves image locally into the Hugo page bundle so it is permanently owned.
-# If no suitable image is found the article posts without one — graceful fallback.
 
-# Licenses we trust — reject anything else (e.g. CC BY, CC BY-SA, CC BY-NC, fair use, unknown).
-# Deliberately excludes CC BY / CC BY-SA: those require visible attribution,
-# which this site does not display.
 ACCEPTED_LICENSES = {
-    "cc0",
+    "cc0", "cc-by", "cc-by-sa", "cc-by-2.0", "cc-by-3.0", "cc-by-4.0",
+    "cc-by-sa-2.0", "cc-by-sa-3.0", "cc-by-sa-4.0",
     "public domain", "pd", "cc-pd",
 }
 
-# Preferred image formats
 ACCEPTED_MIMES = {"image/jpeg", "image/png", "image/webp"}
 
-# Stop-words to strip when building image queries from titles
 _IMAGE_STOPWORDS = {
     "the","a","an","and","or","but","in","on","at","to","for","of","with",
     "by","from","as","is","was","are","were","be","been","has","have","had",
@@ -614,30 +541,24 @@ _IMAGE_STOPWORDS = {
     "live","update","updates","latest","breaking","new","report","reports",
 }
 
-# Niche-specific fallback queries when title parsing fails
 _NICHE_IMAGE_FALLBACKS = {
     "politics":       "parliament building",
     "business":       "stock exchange trading floor",
     "sports":         "football stadium",
     "climate":        "climate change flooding",
+    "africa":         "Africa continent map",
+    "law":            "supreme court building",
     "curious":        "magnifying glass mystery",
-    "global-affairs": "United Nations headquarters",
 }
 
 def build_image_query(article, seo):
-    """
-    Build a Wikimedia search query from article metadata — NO AI call needed.
-    Priority: focus_keyword → meaningful title words → niche fallback.
-    """
     niche   = article["niche"]
     title   = article["title"]
     keyword = (seo.get("focus_keyword", "") if seo else "").strip()
 
-    # Use focus keyword if it's specific enough (more than 2 words or 10 chars)
     if keyword and (len(keyword.split()) >= 2 or len(keyword) >= 10):
         return keyword[:80]
 
-    # Extract meaningful words from title — strip stopwords and short words
     words = [
         w for w in re.sub(r"[^a-zA-Z0-9 ]", " ", title).split()
         if len(w) > 3 and w.lower() not in _IMAGE_STOPWORDS
@@ -646,22 +567,16 @@ def build_image_query(article, seo):
     if len(words) >= 2:
         return " ".join(words[:4])
 
-    # Last resort: niche fallback
     return _NICHE_IMAGE_FALLBACKS.get(niche, "world news")
 
 def fetch_wikimedia_image(search_query):
-    """
-    Search Wikimedia Commons for a free image matching the query.
-    Returns dict with {url, filename, license, attribution} or None.
-    """
     try:
-        # Step 1: Search for matching files
         search_resp = requests.get(
             "https://commons.wikimedia.org/w/api.php",
             params={
                 "action":      "query",
                 "generator":   "search",
-                "gsrnamespace": 6,        # File namespace
+                "gsrnamespace": 6,
                 "gsrsearch":   f"File:{search_query}",
                 "gsrlimit":    10,
                 "prop":        "imageinfo",
@@ -679,7 +594,6 @@ def fetch_wikimedia_image(search_query):
             print(f"  ⚠️  Wikimedia: no results for '{search_query}'")
             return None
 
-        # Step 2: Filter by license and mime type
         candidates = []
         for page in pages.values():
             info_list = page.get("imageinfo", [])
@@ -691,7 +605,6 @@ def fetch_wikimedia_image(search_query):
             if mime not in ACCEPTED_MIMES:
                 continue
 
-            # Check dimensions — skip tiny images
             width  = info.get("width", 0)
             height = info.get("height", 0)
             if width < 400 or height < 250:
@@ -703,23 +616,19 @@ def fetch_wikimedia_image(search_query):
             artist        = meta.get("Artist", {}).get("value", "")
             artist        = re.sub(r"<[^>]+>", "", artist).strip()[:100]
 
-            # Validate license — strip version numbers for flexible matching
-            # e.g. "CC BY-SA 4.0" → normalise to "cc-by-sa" for lookup
             lic_normalised = re.sub(r'[\s\.]+', '-', license_short).strip('-')
-            lic_normalised = re.sub(r'-\d+\.\d+$', '', lic_normalised)  # strip trailing version
+            lic_normalised = re.sub(r'-\d+\.\d+$', '', lic_normalised)
             accepted = (
                 lic_normalised in ACCEPTED_LICENSES
                 or any(a in lic_normalised for a in ACCEPTED_LICENSES)
+                or "creative commons" in license_short
                 or "public domain" in license_short
-            ) and "nc" not in lic_normalised and "nd" not in lic_normalised and "by" not in lic_normalised
+            ) and "nc" not in lic_normalised and "nd" not in lic_normalised
 
             if not accepted:
                 print(f"  ⛔ Rejected license: {license_short}")
                 continue
 
-            # Prefer images that have been on Wikimedia longer (more stable)
-            # thumburl is only present if image is larger than iiurlwidth
-            # fall back to full url if thumb not available
             img_url = info.get("thumburl") or info.get("url", "")
             if not img_url:
                 continue
@@ -738,7 +647,6 @@ def fetch_wikimedia_image(search_query):
         if not candidates:
             return None
 
-        # Pick the widest image (best quality)
         candidates.sort(key=lambda x: x["width"], reverse=True)
         return candidates[0]
 
@@ -747,10 +655,6 @@ def fetch_wikimedia_image(search_query):
         return None
 
 def download_wikimedia_image(image_info, dest_dir):
-    """
-    Download image to dest_dir/cover.jpg (or .png).
-    Returns local filename string or None.
-    """
     try:
         ext_map = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp"}
         ext     = ext_map.get(image_info["mime"], "jpg")
@@ -758,7 +662,7 @@ def download_wikimedia_image(image_info, dest_dir):
 
         resp = requests.get(image_info["url"], timeout=30, stream=True)
         if not resp.ok:
-            print(f"  ⚠️  Image download failed: HTTP {resp.status_code} — {image_info['url'][:60]}")
+            print(f"  ⚠️  Image download failed: HTTP {resp.status_code}")
             return None
 
         with open(dest, "wb") as f:
@@ -775,24 +679,20 @@ def download_wikimedia_image(image_info, dest_dir):
         return None
 
 def get_feature_image(article, seo, dest_dir):
-    """
-    Full pipeline: generate search query → search Wikimedia → download.
-    Returns (local_filename, image_info) or (None, None).
-    """
     print(f"  🔎 Searching Wikimedia Commons for image...")
     query = build_image_query(article, seo)
     print(f"  🔍 Query: '{query}'")
 
     image_info = fetch_wikimedia_image(query)
     if not image_info:
-        # Try a simpler fallback query using just niche keyword
         fallback_queries = {
-            "politics":       "parliament building",
-            "global-affairs": "United Nations headquarters",
-            "sports":         "football stadium",
-            "business":       "stock exchange trading floor",
-            "climate":        "climate change flooding",
-            "curious":        "question mark abstract",
+            "politics":  "parliament building",
+            "africa":    "Africa map",
+            "sports":    "football stadium",
+            "business":  "stock exchange trading floor",
+            "climate":   "climate change flooding",
+            "law":       "courtroom gavel",
+            "curious":   "question mark abstract",
         }
         fallback = fallback_queries.get(article["niche"])
         if fallback:
@@ -806,117 +706,81 @@ def get_feature_image(article, seo, dest_dir):
     filename = download_wikimedia_image(image_info, dest_dir)
     return filename, image_info
 
+# ─── GEMINI AI ────────────────────────────────────────────────────────────────
 
-# ─── AI CALLS ─────────────────────────────────────────────────────────────────
-
-def call_gemini_with_key(prompt, api_key, max_tokens=2048):
+def call_gemini_with_key(prompt, api_key, max_tokens=4096):
+    """
+    Call Gemini with a single key.
+    Returns (text, should_try_next_key).
+    - 429 (rate limited) → rotate to next key
+    - 404 / 400 (bad model or request) → fatal, don't rotate
+    - network/other → fatal, don't rotate
+    """
     try:
         resp = requests.post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+            f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent",
             params={"key": api_key},
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
-                "generationConfig": {"temperature": 0.7, "maxOutputTokens": max_tokens, "topP": 0.9},
+                "generationConfig": {
+                    # Note: temperature, top_p, top_k are deprecated in Gemini 3.x
+                    # and have been intentionally removed.
+                    "maxOutputTokens": max_tokens,
+                },
             },
             headers={"Content-Type": "application/json"},
-            timeout=60,
+            timeout=90,
         )
+
         if resp.status_code == 429:
             print(f"  ⚠️  Gemini key rate limited (429) — trying next key...")
             return None, True
+
+        if resp.status_code in (400, 403, 404):
+            print(f"  ❌ Gemini config error {resp.status_code}: {resp.text[:250]}")
+            return None, False
+
         if not resp.ok:
             print(f"  ❌ Gemini error {resp.status_code}: {resp.text[:250]}")
             return None, False
-        return resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip(), False
+
+        data = resp.json()
+        candidates = data.get("candidates", [])
+        if not candidates:
+            print(f"  ⚠️  Gemini returned no candidates — prompt may be blocked")
+            return None, False
+
+        text = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "").strip()
+        if not text:
+            print(f"  ⚠️  Gemini returned empty text")
+            return None, False
+
+        return text, False
+
     except Exception as e:
         print(f"  ❌ Gemini exception: {e}")
         return None, False
 
-def call_gemini(prompt, max_tokens=2048):
+def call_gemini(prompt, max_tokens=4096):
+    """Try each Gemini key in rotation until one succeeds."""
     if not GEMINI_API_KEYS:
+        print("  ❌ No Gemini API keys configured")
         return None
+
     for i, key in enumerate(GEMINI_API_KEYS):
         print(f"  🤖 Trying Gemini key {i + 1}/{len(GEMINI_API_KEYS)}...")
-        result, quota_exceeded = call_gemini_with_key(prompt, key, max_tokens)
+        result, try_next = call_gemini_with_key(prompt, key, max_tokens)
         if result:
             return result
-        if not quota_exceeded:
+        if not try_next:
             return None
+
     print(f"  ❌ All {len(GEMINI_API_KEYS)} Gemini keys exhausted")
     return None
 
 # ─── ARTICLE REWRITE ──────────────────────────────────────────────────────────
 
-# ─── ACCURACY & RECENCY VERIFICATION ───────────────────────────────────────────
-# A second, independent AI call that cross-checks the generated article
-# against its actual source material on two fronts:
-#   1. Accuracy — flags anything invented (names, numbers, quotes, dates,
-#      claims) that isn't actually supported by the source.
-#   2. Recency — flags cases where the article presents an old or already-
-#      rehashed event as if it just happened, or contains a timing claim
-#      ("today," "this week," "just announced") that the source doesn't
-#      actually support.
-# This runs after generation but before the article is saved, so a flagged
-# article is skipped entirely rather than published. It costs one extra API
-# call per article, but catches errors the word-count/byline checks and the
-# mechanical RECENCY_HOURS filter can't: the model getting a fact wrong, or
-# writing about a stale event as if it were breaking news.
-
-def build_verification_prompt(article, body):
-    full_text = article.get("full_text", "")
-    if full_text:
-        source_block = f"SOURCE TEXT:\n{full_text}"
-    else:
-        source_block = f"SOURCE SUMMARY (RSS excerpt):\n{article['summary']}"
-
-    pub_date = article.get("pub_date")
-    recency_note = ""
-    if pub_date:
-        now = datetime.now(timezone.utc)
-        age_hours = (now - pub_date).total_seconds() / 3600
-        recency_note = f"\nThis source was published approximately {age_hours:.1f} hours ago (current time: {now.strftime('%Y-%m-%d %H:%M UTC')})."
-
-    return f"""You are a rigorous, skeptical fact-checker reviewing a news article before publication.
-
-{source_block}{recency_note}
-
-ARTICLE TO CHECK:
-{body}
-
-Check the ARTICLE against the SOURCE on two fronts:
-
-1. ACCURACY: Identify any specific factual claim in the ARTICLE — a name, number, statistic, date, quote, title, location, or event detail — that is NOT directly stated in or reasonably inferable from the SOURCE. Ignore paraphrasing, rewording, reordering, and stylistic differences — those are expected and fine. Only flag genuine invented or unsupported facts.
-
-2. RECENCY: Check whether the ARTICLE misrepresents the timing of the event. Flag it if the ARTICLE implies something is breaking news, just happened, or is more current than the SOURCE actually supports — for example, using words like "today," "this week," or "just announced" when the SOURCE describes something that already happened earlier, or reads as a rehash of an older, previously-reported event presented as new.
-
-Respond with EXACTLY one of these two formats, nothing else:
-- If the article is both accurate and honestly timed: CLEAN
-- If you find unsupported claims OR a recency/timing problem: FLAGGED: <comma-separated list of the specific issues, each under 15 words>"""
-
-def verify_accuracy(article, body):
-    prompt = build_verification_prompt(article, body)
-    result = call_groq(prompt, max_tokens=300)
-    if not result:
-        result = call_gemini(prompt, max_tokens=300)
-
-    if not result:
-        # Verification itself failed (both AIs down) — don't block publishing
-        # on an infrastructure failure; log it and let the article through.
-        print("  ⚠️  Accuracy/recency check unavailable (both AIs failed) — publishing without verification")
-        return True
-
-    result = result.strip()
-    if result.upper().startswith("CLEAN"):
-        print("  ✅ Accuracy & recency check passed")
-        return True
-
-    print(f"  🚫 Accuracy/recency check FLAGGED: {result[:300]}")
-    return False
-
 def rewrite_article(article):
-    # Attempt to fetch the full article body from source URL so the AI has
-    # enough real facts to write a complete 800-word piece without inventing.
-    # Falls back gracefully to the RSS summary if the page is paywalled/fails.
     if not article.get("full_text") and article.get("url"):
         print(f"  🌐 Fetching full article from source...")
         full_text = fetch_full_article(article["url"])
@@ -926,60 +790,25 @@ def rewrite_article(article):
     prompt = build_article_prompt(article)
 
     print(f"  🤖 Generating with Gemini...")
-    text = call_gemini(prompt, max_tokens=2048)
-    if text:
-        words = len(text.split())
-        print(f"  ✅ Gemini: {words} words")
-        if words >= 700 and not has_fabricated_byline(text) and not has_formulaic_opener(text):
-            return text
-        if words >= 700 and has_formulaic_opener(text):
-            print(f"  ⚠️  Formulaic cliché opener detected in Gemini output too — skipping article")
-        elif words >= 700:
-            print(f"  ⚠️  Fabricated byline/correspondent detected in Gemini output too — skipping article")
-        else:
-            print(f"  ⚠️  Too short ({words} words)")
+    text = call_gemini(prompt, max_tokens=4096)
+    if not text:
+        print("  ❌ Gemini failed — skipping article")
+        return None
 
-    print("  ❌ Gemini failed or output too short — skipping article")
-    return None
+    words = len(text.split())
+    print(f"  ✅ Gemini: {words} words")
 
-# Safety net beyond the prompt instruction: catches cases where the model
-# names a "correspondent"/"reporter" anyway — e.g. carrying over a real
-# journalist's name from the source material — or implies Veridus has a
-# field presence / conducted original interviews, which it does not (this
-# is a desk rewrite of published reporting, no reporters on the ground).
-# Any match means the article is rejected outright rather than published
-# with a fabricated byline or implied firsthand reporting.
-_BYLINE_PATTERN = re.compile(
-    r"\b(our|veridus'?s?)\s+(senior\s+)?(correspondent|reporter|journalist|team)\b"
-    r"|\bcorrespondent\s+[A-Z][a-z]+\s+[A-Z][a-z]+\b"
-    r"|\breporting\s+for\s+veridus\b"
-    r"|\b(told|speaking\s+to|in\s+an?\s+interview\s+with|spoke\s+to)\s+veridus\b"
-    r"|\bveridus\s+(witnessed|can\s+confirm|visited|travell?ed\s+to)\b"
-    r"|\bwhen\s+this\s+reporter\s+visited\b",
-    re.IGNORECASE,
-)
+    if words < 600:
+        print(f"  ⚠️  Too short ({words} words) — skipping article")
+        return None
 
-def has_fabricated_byline(text):
-    return bool(_BYLINE_PATTERN.search(text))
-
-# Safety net for the most overused AI-writing opener specifically: the
-# Austen "It is a truth universally acknowledged" pastiche. Caught this one
-# live in production, so it's worth a hard code-level block rather than
-# relying on the prompt instruction alone.
-_FORMULAIC_OPENER_PATTERN = re.compile(
-    r"^\s*it is a truth universally acknowledged",
-    re.IGNORECASE,
-)
-
-def has_formulaic_opener(text):
-    return bool(_FORMULAIC_OPENER_PATTERN.search(text))
+    return text
 
 # ─── SEO METADATA GENERATION ──────────────────────────────────────────────────
 
 def generate_seo(article, body):
     prompt = build_seo_prompt(article, body)
-
-    raw = call_gemini(prompt, max_tokens=400)
+    raw = call_gemini(prompt, max_tokens=600)
     if not raw:
         return None
 
@@ -1016,7 +845,6 @@ def build_hugo_markdown(article, body, seo, image_file=None, image_info=None):
     except Exception:
         tags_str = base_tags
 
-    # Build image front matter fields
     image_fm = ""
     if image_file and image_info:
         attr  = image_info.get("attribution", "Wikimedia Commons").replace('"', "'")
@@ -1045,65 +873,11 @@ keywords: {sec_kws}
 {body}
 """
 
-# ─── INTERNAL LINKING ─────────────────────────────────────────────────────────
-# Links a few mentions of this article's own tags to that tag's taxonomy
-# archive page (/tags/{tag}/) instead of one specific past article. Hugo
-# automatically populates that page with every article sharing the tag, so
-# clicking a linked term shows a reader every relevant piece, not just one —
-# and the list grows on its own as more articles get published, with no
-# separate index to build or maintain here.
-
-def insert_internal_links(body, tags, max_links=3):
-    """
-    Replaces the first mention of each candidate tag with a link to that
-    tag's archive page. Skips headings, skips lines that already contain a
-    link, requires a real word (4+ characters) to avoid linking on noise,
-    and caps the total links inserted so articles don't end up over-linked.
-    """
-    if not tags:
-        return body
-
-    candidates = [(t.strip(), f"/tags/{slugify(t)}/") for t in tags if len(t.strip()) >= 4]
-
-    lines = body.split("\n")
-    links_added = 0
-
-    for i, line in enumerate(lines):
-        if links_added >= max_links:
-            break
-        if not line.strip() or line.strip().startswith("#"):
-            continue
-        if "](" in line:
-            continue  # a markdown link already lives on this line — leave it alone
-
-        for phrase, permalink in candidates:
-            if links_added >= max_links:
-                break
-            pattern = re.compile(r'\b' + re.escape(phrase) + r'\b', re.IGNORECASE)
-            match = pattern.search(line)
-            if match:
-                matched_text = match.group(0)
-                new_line = line[:match.start()] + f"[{matched_text}]({permalink})" + line[match.end():]
-                lines[i] = new_line
-                line = new_line
-                links_added += 1
-
-    if links_added:
-        print(f"  🔗 Inserted {links_added} tag-archive link(s)")
-    return "\n".join(lines)
-
 def save_hugo_post(article, body, seo):
-    """
-    Saves article as a Hugo page bundle (directory with index.md + cover image).
-    Page bundles allow Hugo to find the feature image as a page resource.
-    Structure: content/news/{niche}/{date}-{slug}/index.md
-                                                  cover.jpg  (if found)
-    """
     niche_dir = CONTENT_DIR / article["niche"]
-    date_str  = datetime.now().strftime("%Y-%m-%d")
+    date_str  = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     slug      = slugify(seo["seo_slug"]) if seo and seo.get("seo_slug") else slugify(article["title"])
 
-    # Make unique bundle directory
     bundle_dir = niche_dir / f"{date_str}-{slug}"
     counter = 1
     while bundle_dir.exists():
@@ -1111,14 +885,8 @@ def save_hugo_post(article, body, seo):
         counter += 1
     bundle_dir.mkdir(parents=True, exist_ok=True)
 
-    # Fetch feature image from Wikimedia into the bundle directory
     image_file, image_info = get_feature_image(article, seo, bundle_dir)
 
-    # Link a few mentions of this article's own tags to their tag-archive pages
-    tag_candidates = seo.get("secondary_keywords", []) if seo else []
-    body = insert_internal_links(body, tag_candidates)
-
-    # Build and write markdown with image front matter
     md_content = build_hugo_markdown(article, body, seo, image_file, image_info)
     index_file = bundle_dir / "index.md"
     index_file.write_text(md_content, encoding="utf-8")
@@ -1140,21 +908,22 @@ def main():
     print(f"{'=' * 65}")
 
     if not GEMINI_API_KEYS:
-        print("❌ No AI API keys set. Add GEMINI_API_KEY_1 (through _6) to GitHub Secrets.")
+        print("❌ No Gemini API keys set. Add GEMINI_API_KEY_1 to GitHub Secrets.")
         return
 
     print(f"✅ Gemini keys loaded: {len(GEMINI_API_KEYS)} key(s)")
+    print(f"✅ Model: {GEMINI_MODEL}")
 
-    posted_log  = load_posted_log()          # dict: {article_id: iso_timestamp}
-    posted_ids  = set(posted_log.keys())     # set used for fast membership checks
+    posted_log  = load_posted_log()
+    posted_ids  = set(posted_log.keys())
     total_saved = 0
 
-    all_niches    = ["sports", "politics", "global-affairs", "business", "climate", "curious"]
+    all_niches    = ["sports", "africa", "politics", "business", "climate", "law", "curious"]
     active_niches = ["sports"] if sports_only else all_niches
+
     for niche in active_niches:
         print(f"\n📰 [{niche.upper()}]")
 
-        # ── Daily cap check ────────────────────────────────────────────
         already_today = count_today_posts(niche)
         remaining_today = max(0, DAILY_POST_LIMIT - already_today)
         if remaining_today == 0:
@@ -1163,8 +932,6 @@ def main():
         print(f"   📊 {already_today}/{DAILY_POST_LIMIT} posts today — {remaining_today} slot(s) remaining")
 
         articles = fetch_rss_articles(niche, posted_ids)
-
-        # ── Viral sort — most cross-covered stories first ──────────────
         articles = score_by_virality(articles)
 
         limit       = min(NICHE_LIMITS.get(niche, 1), remaining_today)
@@ -1185,11 +952,6 @@ def main():
             if not body:
                 continue
 
-            print(f"  🔎 Verifying accuracy and recency against source...")
-            if not verify_accuracy(article, body):
-                print(f"  ❌ Skipping article — failed accuracy check")
-                continue
-
             print(f"  🔍 Generating SEO metadata...")
             seo = generate_seo(article, body)
             if seo:
@@ -1204,12 +966,11 @@ def main():
             saved_count += 1
             total_saved += 1
 
-            # Pause between articles to avoid hitting Gemini RPM limit
             if saved_count < limit:
                 print(f"  ⏳ Pausing 8s before next article...")
                 time.sleep(8)
 
-    save_posted_log(posted_log)   # auto-pruned to 14 days on next load
+    save_posted_log(posted_log)
     print(f"\n{'=' * 65}")
     print(f"✨ Done — {total_saved} articles posted.")
     print(f"{'=' * 65}\n")
