@@ -1,15 +1,59 @@
 {
-  "f1468808ac573fd5da2a77dc84dd5497": "2026-10-03T22:16:46Z",
-  "0cd914638c0524f725e9555a67a63d36": "2026-10-04T13:33:59Z",
-  "319db2b8394a776ed358df186531ec04": "2026-10-04T13:38:26Z",
-  "d36baa20e0dcaa0f6084f8f1dd608d17": "2026-10-04T13:39:43Z",
-  "535a0b1e5a90016e07d6656c0b7a454b": "2026-10-04T13:40:45Z",
-  "c4112a5d6b85286470011397e12e9988": "2026-10-04T13:41:23Z",
-  "630be40568565374b64cd6c38afa40e0": "2026-10-04T13:41:52Z",
-  "570ec8835abe6751d0d38f63731cd683": "2026-10-04T13:42:49Z",
-  "c289eea1c29aaecb7eb965a1e1ca6a28": "2026-10-04T13:43:38Z",
-  "74af5a02ed845de748550712d873f2cb": "2026-10-04T13:44:17Z",
-  "422faf1b5791c01afed35d4cdb8312c5": "2026-10-04T13:45:08Z",
+  "f1468808ac573fd5da2a77dc84dd5497": {
+    "date": "2026-10-03T22:16:46Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "0cd914638c0524f725e9555a67a63d36": {
+    "date": "2026-10-04T13:33:59Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "319db2b8394a776ed358df186531ec04": {
+    "date": "2026-10-04T13:38:26Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "d36baa20e0dcaa0f6084f8f1dd608d17": {
+    "date": "2026-10-04T13:39:43Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "535a0b1e5a90016e07d6656c0b7a454b": {
+    "date": "2026-10-04T13:40:45Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "c4112a5d6b85286470011397e12e9988": {
+    "date": "2026-10-04T13:41:23Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "630be40568565374b64cd6c38afa40e0": {
+    "date": "2026-10-04T13:41:52Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "570ec8835abe6751d0d38f63731cd683": {
+    "date": "2026-10-04T13:42:49Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "c289eea1c29aaecb7eb965a1e1ca6a28": {
+    "date": "2026-10-04T13:43:38Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "74af5a02ed845de748550712d873f2cb": {
+    "date": "2026-10-04T13:44:17Z",
+    "niche": "",
+    "status": "posted"
+  },
+  "422faf1b5791c01afed35d4cdb8312c5": {
+    "date": "2026-10-04T13:45:08Z",
+    "niche": "",
+    "status": "posted"
+  },
   "CBMiugFBVV95cUxOS01QbDZTUDd1N1IyUkxBeXlURG94NUo4VWNQOEk4QmNGZWp2bEdXZFhnblA1SnBKQkQwWl9pdjMyTmY4Y2xlRm5VcDJwQWpsek85ck9CbEhtYlJBRlY3SDhMQ193ZWpnMkR0VlhkdkotWWw4b29UMGFVWjZNNkhGWVFYeDN1WVlxZTBrNlN5RDRnTVB5WWFHc1B6Ry1MbkJQT2wwXzItSlRxSHJqMFFKSHh4eGR2U2RiNlE": {
     "date": "2026-10-04T18:45:42Z",
     "niche": "politics",
@@ -569,5 +613,47 @@
     "date": "2026-10-04T18:58:12Z",
     "niche": "curious",
     "status": "skipped"
+  },
+  "https://www.bbc.co.uk/news/articles/c6jdm5n1vy7go#0": {
+    "date": "2026-10-04T19:17:56Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6jdm5n1vy7go?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/world/2026/oct/04/knox-chitiyo-obituary": {
+    "date": "2026-10-04T19:19:21Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/04/knox-chitiyo-obituary"
+  },
+  "https://www.bbc.co.uk/news/articles/cq0ld88kzxw8o#0": {
+    "date": "2026-10-04T19:19:57Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cq0ld88kzxw8o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/golf/articles/c6pwg5z9982zo#0": {
+    "date": "2026-10-04T19:20:26Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/golf/articles/c6pwg5z9982zo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/05/australia-and-turkey-criticised-for-hosting-un-climate-conference-while-embracing-coal": {
+    "date": "2026-10-04T19:20:48Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/05/australia-and-turkey-criticised-for-hosting-un-climate-conference-while-embracing-coal"
+  },
+  "https://www.bbc.co.uk/news/articles/crq5nd9dgz68o#0": {
+    "date": "2026-10-04T19:22:01Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/crq5nd9dgz68o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cv0lr3584ej9o#1": {
+    "date": "2026-10-04T19:22:33Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cv0lr3584ej9o?at_medium=RSS&at_campaign=rss"
   }
 }
