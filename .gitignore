@@ -2,3 +2,11 @@ public/
 resources/_gen/
 .obsidian/
 .obsidian/
+
+
+.env
+.posted_articles.json
+__pycache__/
+*.pyc
+.venv/
+venv/

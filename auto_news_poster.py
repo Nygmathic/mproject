@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 """
 Veridus.space Auto News Poster
-- Fetches global news from RSS
-- Fetches full article body from source URL for rich, accurate rewrites
-- Prioritises LATEST content — each niche has a recency window
-- Rewrites entirely in Veridus voice — original, owned content
-- Primary AI: Google Gemini 3.6 Flash — rotates across keys
-- Fallback AI: Groq / Llama 3.1 8B Instant
+- Fetches global news from RSS feeds with strict network timeouts
+- Fetches full article body from source URL
+- AI Engine: Google Gemini 2.5 Flash (rotates across keys)
+- Enforces strict 700+ word count minimum for all posts
 - Saves posts as Hugo Page Bundles in content/{niche}/
 """
 
@@ -16,13 +14,19 @@ import re
 import json
 import hashlib
 import time
+import socket
 import feedparser
 import requests
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from html.parser import HTMLParser
 
-# ─── CONFIG & HEADERS ─────────────────────────────────────────────────────────
+# Global socket timeout to prevent indefinite network hangs
+socket.setdefaulttimeout(15)
+
+# ─── CONFIG & MODEL ───────────────────────────────────────────────────────────
+
+GEMINI_MODEL = "gemini-2.5-flash"
 
 USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -40,8 +44,6 @@ GEMINI_API_KEYS = [
         os.environ.get("GEMINI_API_KEY_6", ""),
     ] if key
 ]
-
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
@@ -268,7 +270,11 @@ def fetch_rss_articles(niche, already_posted):
 
     for feed_url in RSS_FEEDS.get(niche, []):
         try:
-            feed = feedparser.parse(feed_url, agent=USER_AGENT)
+            resp = requests.get(feed_url, headers=HTTP_HEADERS, timeout=10)
+            if not resp.ok:
+                continue
+
+            feed = feedparser.parse(resp.content)
             for entry in feed.entries:
                 url = entry.get("link", "")
                 if not url:
@@ -375,9 +381,9 @@ class _TextExtractor(HTMLParser):
         lines = [" ".join(ln.split()) for ln in raw.splitlines()]
         return "\n".join(ln for ln in lines if ln)
 
-def fetch_full_article(url, min_chars=400, max_chars=6000):
+def fetch_full_article(url, min_chars=400, max_chars=8000):
     try:
-        resp = requests.get(url, headers=HTTP_HEADERS, timeout=15, allow_redirects=True)
+        resp = requests.get(url, headers=HTTP_HEADERS, timeout=10, allow_redirects=True)
         if not resp.ok:
             return None
 
@@ -397,7 +403,7 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
 
         return body[:max_chars]
     except Exception as e:
-        print(f"  ⚠️ Full-fetch failed: {e}")
+        print(f"  ⚠️️ Full-fetch failed: {e}")
         return None
 
 # ─── PROMPTS ──────────────────────────────────────────────────────────────────
@@ -422,13 +428,13 @@ def build_article_prompt(article):
     )
 
     return f"""You are a senior international correspondent writing for Veridus.
-Write a complete, original news article.
-Every fact, date, name, and figure must come strictly from the source provided below. Do not invent or extrapolate details.
+Write a comprehensive, highly detailed original news article based on the facts provided below.
+Do not invent or extrapolate details.
 
 STRICT REQUIREMENTS:
-- Target: 750 to 850 words (adjust reasonably if source text is brief).
-- 5 to 7 structured paragraphs with 2-3 H2 subheadings (## Heading).
-- Flowing prose only (NO bullet points).
+- MANDATORY LENGTH: AT LEAST 700 WORDS (Target: 750 to 900 words).
+- 6 to 9 structured, in-depth paragraphs with 3 to 4 H2 subheadings (## Heading).
+- Flowing, analytical journalism only (NO bullet points).
 - English language only.
 
 EDITORIAL FOCUS: {guidance}
@@ -436,7 +442,7 @@ NICHE: {niche.upper()}
 HEADLINE: {article['title']}
 {source_block}
 
-Write the full article body now:"""
+Write the full, detailed news article body (minimum 700 words) now:"""
 
 def build_seo_prompt(article, body):
     return f"""Given the headline and body below, generate SEO metadata.
@@ -480,7 +486,7 @@ def fetch_wikimedia_image(search_query):
                 "format":      "json",
             },
             headers=HTTP_HEADERS,
-            timeout=15,
+            timeout=10,
         )
         if not resp.ok:
             return None
@@ -534,7 +540,7 @@ def download_wikimedia_image(image_info, dest_dir):
         ext = ext_map.get(image_info["mime"], "jpg")
         dest = dest_dir / f"cover.{ext}"
 
-        resp = requests.get(image_info["url"], headers=HTTP_HEADERS, timeout=30, stream=True)
+        resp = requests.get(image_info["url"], headers=HTTP_HEADERS, timeout=15, stream=True)
         if not resp.ok:
             return None
 
@@ -561,19 +567,20 @@ def get_feature_image(article, seo, dest_dir):
         return filename, image_info
     return None, None
 
-# ─── AI API CALLS ─────────────────────────────────────────────────────────────
+# ─── GEMINI API CALLS ─────────────────────────────────────────────────────────
 
-def call_gemini_with_key(prompt, api_key, max_tokens=2048):
+def call_gemini_with_key(prompt, api_key, max_tokens=3000):
     try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
         resp = requests.post(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+            url,
             params={"key": api_key},
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": {"temperature": 0.7, "maxOutputTokens": max_tokens},
             },
             headers={"Content-Type": "application/json"},
-            timeout=60,
+            timeout=35,
         )
         if resp.status_code == 429:
             print("  ⚠️ Gemini key rate limited (429) — trying next key...")
@@ -593,38 +600,15 @@ def call_gemini_with_key(prompt, api_key, max_tokens=2048):
         print(f"  ❌ Gemini exception: {e}")
         return None, False
 
-def call_gemini(prompt, max_tokens=2048):
+def call_gemini(prompt, max_tokens=3000):
     if not GEMINI_API_KEYS:
         return None
     for i, key in enumerate(GEMINI_API_KEYS):
-        print(f"  🤖 Trying Gemini key {i + 1}/{len(GEMINI_API_KEYS)}...")
-        result, quota_exceeded = call_gemini_with_key(prompt, key, max_tokens)
+        print(f"  🤖 Trying Gemini key {i + 1}/{len(GEMINI_API_KEYS)} ({GEMINI_MODEL})...")
+        result, _ = call_gemini_with_key(prompt, key, max_tokens)
         if result:
             return result
-        if not quota_exceeded:
-            return None
-    print(f"  ❌ All {len(GEMINI_API_KEYS)} Gemini keys exhausted")
-    return None
-
-def call_groq(prompt, max_tokens=2048):
-    if not GROQ_API_KEY:
-        return None
-    try:
-        resp = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-            json={
-                "model":       "llama-3.1-8b-instant",
-                "messages":    [{"role": "user", "content": prompt}],
-                "temperature": 0.7,
-                "max_tokens":  max_tokens,
-            },
-            timeout=60,
-        )
-        if resp.ok:
-            return resp.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        print(f"  ❌ Groq exception: {e}")
+    print(f"  ❌ All {len(GEMINI_API_KEYS)} Gemini keys failed/exhausted")
     return None
 
 def rewrite_article(article):
@@ -635,25 +619,23 @@ def rewrite_article(article):
             article = {**article, "full_text": full_text}
 
     prompt = build_article_prompt(article)
+    text = call_gemini(prompt, max_tokens=3000)
 
-    print("  🤖 Trying Gemini (primary)...")
-    text = call_gemini(prompt, max_tokens=2048)
-    if text and len(text.split()) >= 400:
-        print(f"  ✅ Gemini output: {len(text.split())} words")
-        return text
+    if text:
+        words = len(text.split())
+        if words >= 700:
+            print(f"  ✅ Generated article: {words} words")
+            return text
+        else:
+            print(f"  ⚠️ Output short ({words} words < 700 target) — skipping article")
+            return None
 
-    print("  🔄 Trying Groq fallback...")
-    text = call_groq(prompt, max_tokens=2048)
-    if text and len(text.split()) >= 400:
-        print(f"  ✅ Groq output: {len(text.split())} words")
-        return text
-
-    print("  ❌ All AIs failed — skipping article")
+    print("  ❌ Gemini failed to generate valid text")
     return None
 
 def generate_seo(article, body):
     prompt = build_seo_prompt(article, body)
-    raw = call_gemini(prompt, max_tokens=400) or call_groq(prompt, max_tokens=400)
+    raw = call_gemini(prompt, max_tokens=400)
     if not raw:
         return None
 
@@ -737,12 +719,12 @@ def main():
     sports_only = "--sports-only" in sys.argv
 
     print(f"\n{'=' * 65}")
-    print(f"🚀 Veridus Auto News Poster{'  [SPORTS ONLY]' if sports_only else ''}")
+    print(f"🚀 Veridus Auto News Poster ({GEMINI_MODEL}){' [SPORTS ONLY]' if sports_only else ''}")
     print(f"   {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"{'=' * 65}")
 
-    if not GEMINI_API_KEYS and not GROQ_API_KEY:
-        print("❌ No AI API keys set. Add GEMINI_API_KEY_1 or GROQ_API_KEY to GitHub Secrets.")
+    if not GEMINI_API_KEYS:
+        print("❌ No Gemini API keys found. Please define GEMINI_API_KEY_1 in Secrets.")
         return
 
     posted_log = load_posted_log()
@@ -782,7 +764,7 @@ def main():
             posted_ids.add(article["id"])
             saved_count += 1
             total_saved += 1
-            time.sleep(5)
+            time.sleep(3)
 
     save_posted_log(posted_log)
     print(f"\n{'=' * 65}")
