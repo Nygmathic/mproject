@@ -6,14 +6,11 @@ on:
     - cron: "0 */2 * * *"
 
     # ── Sports-only: timed after Premier League matches end ──────────
-    # Saturday slots: after 12:30 kick (14:30), 15:00 kick (17:00), 17:30 kick (19:30)
     - cron: "30 14 * * 6"
     - cron: "0 17 * * 6"
     - cron: "30 19 * * 6"
-    # Sunday slots: after 14:00 kick (16:00), 16:30 kick (18:30)
     - cron: "0 16 * * 0"
     - cron: "30 18 * * 0"
-    # Midweek & Friday evenings: after 19:45/20:00 kick (22:00)
     - cron: "0 22 * * 1,2,3,5"
 
   workflow_dispatch:
@@ -21,10 +18,10 @@ on:
 jobs:
   post-news:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     permissions:
       contents: write
-      actions: write
 
     steps:
       - name: Checkout repository
@@ -46,14 +43,12 @@ jobs:
           GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
           GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
           GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           [ -n "$GEMINI_API_KEY_1" ] && echo "✅ Gemini key 1 set" || echo "⚠️  Gemini key 1 NOT set"
           [ -n "$GEMINI_API_KEY_2" ] && echo "✅ Gemini key 2 set" || echo "⚠️  Gemini key 2 NOT set"
           [ -n "$GEMINI_API_KEY_3" ] && echo "✅ Gemini key 3 set" || echo "⚠️  Gemini key 3 NOT set"
-          [ -n "$GEMINI_API_KEY_4" ] && echo "✅ Gemini key 4 set" || echo "ℹ️  Gemini key 4 not set (optional)"
-          [ -n "$GEMINI_API_KEY_5" ] && echo "✅ Gemini key 5 set" || echo "ℹ️  Gemini key 5 not set (optional)"
-          [ -n "$GEMINI_API_KEY_6" ] && echo "✅ Gemini key 6 set" || echo "ℹ️  Gemini key 6 not set (optional)"
-          [ -z "$GEMINI_API_KEY_1" ] && [ -z "$GEMINI_API_KEY_2" ] && [ -z "$GEMINI_API_KEY_3" ] && [ -z "$GEMINI_API_KEY_4" ] && [ -z "$GEMINI_API_KEY_5" ] && [ -z "$GEMINI_API_KEY_6" ] && echo "❌ No AI keys — aborting" && exit 1 || true
+          [ -n "$GROQ_API_KEY" ] && echo "✅ Groq key set" || echo "ℹ️  Groq key NOT set (optional)"
 
       - name: Fetch and post news
         env:
@@ -63,9 +58,9 @@ jobs:
           GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
           GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
           GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
         run: |
-          # Sports-only crons are identified by their specific minute patterns
           SCHEDULE="${GITHUB_EVENT_SCHEDULE}"
           if [[ "$SCHEDULE" == "30 14 * * 6" ]] || \
              [[ "$SCHEDULE" == "0 17 * * 6"  ]] || \
@@ -85,15 +80,9 @@ jobs:
           git config --global user.name "Veridus Auto Poster"
           git config --global user.email "autopost@veridus.space"
           git add content/ .posted_articles.json
-          # Also stage any downloaded images (jpg/png/webp in page bundles)
-          git add "*.jpg" "*.png" "*.webp" 2>/dev/null || true
-          git diff --cached --quiet || git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
-          git push
-
-      - name: Trigger Hugo deployment
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/hugo.yml/dispatches \
-            -d '{"ref":"main"}'
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "No new articles to commit."
+          fi
