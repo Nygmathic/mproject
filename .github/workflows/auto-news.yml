@@ -32,8 +32,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        # selectolax 1.0 breaks googlenewsdecoder 0.2.1 (import error), so pin below 1.0
-        run: pip install feedparser requests trafilatura googlenewsdecoder "selectolax<1.0"
+        run: pip install feedparser requests trafilatura
 
       - name: Check API keys
         env:

@@ -5,6 +5,7 @@ import json
 import re
 import random
 import hashlib
+import calendar
 import requests
 import feedparser
 from datetime import datetime, timezone
@@ -16,12 +17,6 @@ try:
 except Exception as e:  # ImportError or a failure inside the package
     trafilatura = None
     IMPORT_ERRORS.append(f"trafilatura: {e!r}")
-
-try:
-    from googlenewsdecoder import gnewsdecoder
-except Exception as e:
-    gnewsdecoder = None
-    IMPORT_ERRORS.append(f"googlenewsdecoder: {e!r}")
 
 # ─── CONFIGURATION ────────────────────────────────────────────────────────────
 
@@ -50,17 +45,63 @@ USER_AGENT = (
     "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 )
 
-def _feed(query):
-    return f"https://news.google.com/rss/search?q={query}+when:1d&hl=en-US&gl=US&ceid=US:en"
+MAX_AGE_HOURS = 48
+SKIP_LINK_PATTERN = re.compile(
+    r"/live/|/live-news|/liveblog|/av/|/video|/videos|/podcast|/gallery|/picture", re.I
+)
 
-RSS_FEEDS = {
-    "politics": [_feed("politics")],
-    "africa":   [_feed("africa+news")],
-    "business": [_feed("business+finance")],
-    "sports":   [_feed("sports+news")],
-    "climate":  [_feed("climate+change")],
-    "law":      [_feed("legal+court+news")],
-    "curious":  [_feed("science+technology+discovery")],
+AJ_ALL = "https://www.aljazeera.com/xml/rss/all.xml"
+IOL_ALL = "https://iol.co.za/rss/"
+BBC = "https://feeds.bbci.co.uk"
+GUARD = "https://www.theguardian.com"
+
+# Each feed: publisher name, url, and optional "include" regex that is matched against
+# title + summary + link (used for all-in-one feeds like Al Jazeera and IOL).
+FEEDS = {
+    "politics": [
+        {"publisher": "BBC News", "url": f"{BBC}/news/politics/rss.xml"},
+        {"publisher": "The Guardian", "url": f"{GUARD}/us-news/us-politics/rss"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL,
+         "include": r"election|parliament|president|prime minister|government|senate|congress|vote|politic|minister"},
+    ],
+    "africa": [
+        {"publisher": "BBC News", "url": f"{BBC}/news/world/africa/rss.xml"},
+        {"publisher": "The Guardian", "url": f"{GUARD}/world/africa/rss"},
+        {"publisher": "IOL", "url": IOL_ALL, "include": r"iol\.co\.za/(news|business-report)/"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL,
+         "include": r"africa|nigeria|kenya|ethiopia|sudan|south africa|ghana|egypt|congo|somalia|uganda|tanzania|zimbabwe|sahel|mali|senegal|cameroon|mozambique"},
+    ],
+    "business": [
+        {"publisher": "BBC News", "url": f"{BBC}/news/business/rss.xml"},
+        {"publisher": "The Guardian", "url": f"{GUARD}/business/rss"},
+        {"publisher": "IOL", "url": IOL_ALL, "include": r"iol\.co\.za/business-report/"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL, "include": r"/economy/|econom|market|trade|tariff|inflation|stocks|oil prices"},
+    ],
+    "sports": [
+        {"publisher": "BBC Sport", "url": f"{BBC}/sport/rss.xml"},
+        {"publisher": "The Guardian", "url": f"{GUARD}/sport/rss"},
+        {"publisher": "IOL", "url": IOL_ALL, "include": r"iol\.co\.za/sport/"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL, "include": r"/sports?/"},
+    ],
+    "climate": [
+        {"publisher": "The Guardian", "url": f"{GUARD}/environment/climate-crisis/rss"},
+        {"publisher": "BBC News", "url": f"{BBC}/news/science_and_environment/rss.xml",
+         "include": r"climate|emission|warming|carbon|cop\d+|renewable|flood|wildfire|drought|heatwave"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL, "include": r"climate|emission|global warming|carbon|renewable|flood|wildfire|drought"},
+    ],
+    "law": [
+        {"publisher": "The Guardian", "url": f"{GUARD}/law/rss"},
+        {"publisher": "BBC News", "url": f"{BBC}/news/uk/rss.xml",
+         "include": r"court|judge|tribunal|ruling|lawsuit|supreme|verdict|trial|sentenc|legal"},
+        {"publisher": "IOL", "url": IOL_ALL, "include": r"iol\.co\.za/news/crime-and-courts/"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL, "include": r"court|judge|tribunal|ruling|lawsuit|verdict|trial|sentenc"},
+    ],
+    "curious": [
+        {"publisher": "BBC News", "url": f"{BBC}/news/science_and_environment/rss.xml"},
+        {"publisher": "BBC News", "url": f"{BBC}/news/technology/rss.xml"},
+        {"publisher": "The Guardian", "url": f"{GUARD}/science/rss"},
+        {"publisher": "Al Jazeera", "url": AJ_ALL, "include": r"scientist|discover|space|nasa|study finds|research|species|archaeolog"},
+    ],
 }
 
 # ─── HELPERS ──────────────────────────────────────────────────────────────────
@@ -92,14 +133,14 @@ def save_posted_log(posted_log):
         print(f"❌ Error saving log: {e}")
 
 def prune_log(log):
-    cutoff = time.time() - LOG_RETENTION_DAYS * 86400
     kept = {}
     for key, val in log.items():
         try:
             ts = datetime.strptime(val["date"], NOW_FMT).replace(tzinfo=timezone.utc).timestamp()
         except Exception:
             ts = time.time()
-        if ts >= cutoff:
+        max_age = 2 * 86400 if val.get("status") == "skipped" else LOG_RETENTION_DAYS * 86400
+        if ts >= time.time() - max_age:
             kept[key] = val
     return kept
 
@@ -134,52 +175,59 @@ def yaml_str(value):
 
 # ─── RSS + ARTICLE FETCHING ───────────────────────────────────────────────────
 
-def fetch_rss_articles(niche, skip_ids):
-    articles = []
-    for url in RSS_FEEDS.get(niche, []):
-        try:
-            feed = feedparser.parse(url)
-            if not feed.entries:
-                print(f"   ⚠️ Feed returned no entries ({niche})")
-            for entry in feed.entries:
-                article_id = entry.get("id") or entry.get("link") or entry.get("title")
-                if not article_id or article_id in skip_ids:
-                    continue
-                title = entry.get("title", "Untitled")
-                publisher = ""
-                src = entry.get("source")
-                if src:
-                    publisher = src.get("title", "") or ""
-                suffix = f" - {publisher}"
-                if publisher and title.endswith(suffix):
-                    title = title[: -len(suffix)]
-                articles.append({
-                    "id": article_id,
-                    "title": title.strip(),
-                    "link": entry.get("link", ""),
-                    "publisher": publisher,
-                    "niche": niche,
-                })
-        except Exception as e:
-            print(f"⚠️ RSS fetch error ({niche}): {e}")
-    return articles
+def _entry_age_ok(entry):
+    ts = entry.get("published_parsed") or entry.get("updated_parsed")
+    if not ts:
+        return True
+    age_h = (time.time() - calendar.timegm(ts)) / 3600
+    return age_h <= MAX_AGE_HOURS
 
-def resolve_url(link):
-    """Google News links are redirect wrappers; decode to the real publisher URL."""
-    if not link:
-        return None
-    if "news.google.com" not in link:
-        return link
-    if gnewsdecoder is None:
-        print("   ⚠️ googlenewsdecoder not installed")
-        return None
-    try:
-        res = gnewsdecoder(link, interval=1)
-        if res.get("status"):
-            return res["decoded_url"]
-    except Exception as e:
-        print(f"   ⚠️ URL decode error: {e}")
-    return None
+def fetch_rss_articles(niche, skip_ids):
+    per_feed = []
+    for cfg in FEEDS.get(niche, []):
+        items = []
+        try:
+            resp = requests.get(cfg["url"], headers={"User-Agent": USER_AGENT}, timeout=20)
+            if resp.status_code != 200:
+                print(f"   ⚠️ {cfg['publisher']}: HTTP {resp.status_code} for {cfg['url']}")
+                continue
+            parsed = feedparser.parse(resp.content)
+            include = re.compile(cfg["include"], re.I) if cfg.get("include") else None
+            for entry in parsed.entries:
+                link = entry.get("link", "")
+                if not link or SKIP_LINK_PATTERN.search(link):
+                    continue
+                article_id = entry.get("id") or link
+                if article_id in skip_ids or not _entry_age_ok(entry):
+                    continue
+                title = (entry.get("title") or "Untitled").strip()
+                summary = entry.get("summary", "") or ""
+                if include and not include.search(f"{title} {summary} {link}"):
+                    continue
+                items.append({
+                    "id": article_id,
+                    "title": title,
+                    "link": link,
+                    "publisher": cfg["publisher"],
+                    "niche": niche,
+                    "ts": calendar.timegm(entry["published_parsed"]) if entry.get("published_parsed") else 0,
+                })
+            items.sort(key=lambda a: a["ts"], reverse=True)
+            print(f"   {cfg['publisher']}: {len(parsed.entries)} entries, {len(items)} usable")
+        except Exception as e:
+            print(f"   ⚠️ Feed error ({cfg['publisher']}): {e}")
+        per_feed.append(items)
+
+    # Interleave publishers so one outlet doesn't dominate
+    out, seen = [], set()
+    while any(per_feed):
+        for lst in per_feed:
+            if lst:
+                art = lst.pop(0)
+                if art["link"] not in seen:
+                    seen.add(art["link"])
+                    out.append(art)
+    return out
 
 def fetch_article_text(url):
     if trafilatura is None:
@@ -365,7 +413,7 @@ def main():
     skip_ids = set(posted_log.keys())
     total_posted = 0
 
-    for niche in RSS_FEEDS:
+    for niche in FEEDS:
         print(f"📰 [{niche.upper()}]")
         done_today = count_posted_today(posted_log, niche)
         if done_today >= DAILY_POST_LIMIT_PER_NICHE:
@@ -385,9 +433,9 @@ def main():
             tried += 1
             print(f"  📝 {article['title'][:70]}")
 
-            # 1) Get the real article text. If we can't, skip it permanently (no invented content).
-            source_url = resolve_url(article["link"])
-            source_text = fetch_article_text(source_url) if source_url else None
+            # 1) Get the full article text. If we can't, skip it (no invented content).
+            source_url = article["link"]
+            source_text = fetch_article_text(source_url)
             if not source_text:
                 print("  ⏭️  Could not retrieve full source text. Skipping article.")
                 posted_log[article["id"]] = {"date": utc_now_str(), "niche": niche, "status": "skipped"}
