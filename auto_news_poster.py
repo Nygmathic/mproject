@@ -273,56 +273,71 @@ def call_gemini(prompt, max_tokens=4096, require_complete=False):
         print("❌ No GEMINI_API_KEY variables set.")
         return None
 
-    # Rotate the starting key so one key doesn't take all the load
-    start = random.randrange(len(GEMINI_API_KEYS))
-    keys = GEMINI_API_KEYS[start:] + GEMINI_API_KEYS[:start]
-
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.5, "maxOutputTokens": max_tokens},
     }
+    MAX_PASSES = 3  # full passes over all keys per model, with growing pauses (handles 503 overload)
 
     for model in GEMINI_MODELS:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-        for key in keys:
-            try:
-                resp = requests.post(
-                    url,
-                    json=payload,
-                    headers={"Content-Type": "application/json", "x-goog-api-key": key},
-                    timeout=90,
-                )
-            except Exception as e:
-                print(f"  ⚠️ Request error on {model}: {e}")
-                continue
+        for attempt in range(1, MAX_PASSES + 1):
+            # Rotate the starting key so one key doesn't take all the load
+            start = random.randrange(len(GEMINI_API_KEYS))
+            keys = GEMINI_API_KEYS[start:] + GEMINI_API_KEYS[:start]
+            retryable = False
+            give_up_model = False
 
-            if resp.status_code == 200:
-                data = resp.json()
-                candidates = data.get("candidates", [])
-                if not candidates:
-                    print(f"  ⚠️ {model}: no candidates (blocked?) {str(data.get('promptFeedback', ''))[:120]}")
-                    break  # same prompt will be blocked on any key; try next model
-                cand = candidates[0]
-                finish = cand.get("finishReason", "")
-                parts = cand.get("content", {}).get("parts", [])
-                text = "".join(
-                    p.get("text", "") for p in parts if not p.get("thought")
-                ).strip()
-                if not text:
-                    print(f"  ⚠️ {model}: empty text (finishReason={finish}). Trying next model.")
+            for key in keys:
+                try:
+                    resp = requests.post(
+                        url,
+                        json=payload,
+                        headers={"Content-Type": "application/json", "x-goog-api-key": key},
+                        timeout=90,
+                    )
+                except Exception as e:
+                    print(f"  ⚠️ Request error on {model}: {e}")
+                    retryable = True
+                    continue
+
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if not candidates:
+                        print(f"  ⚠️ {model}: no candidates (blocked?) {str(data.get('promptFeedback', ''))[:120]}")
+                        give_up_model = True
+                        break
+                    cand = candidates[0]
+                    finish = cand.get("finishReason", "")
+                    parts = cand.get("content", {}).get("parts", [])
+                    text = "".join(p.get("text", "") for p in parts if not p.get("thought")).strip()
+                    if not text:
+                        print(f"  ⚠️ {model}: empty text (finishReason={finish}).")
+                        give_up_model = True
+                        break
+                    if require_complete and finish == "MAX_TOKENS":
+                        print(f"  ⚠️ {model}: output truncated (MAX_TOKENS).")
+                        give_up_model = True
+                        break
+                    return text
+                elif resp.status_code in (429, 500, 503):
+                    retryable = True
+                    print(f"  ⚠️ {model} busy/rate-limited ({resp.status_code}). Next key...")
+                    time.sleep(1)
+                elif resp.status_code == 404:
+                    print(f"  ❌ Model '{model}' not found (404). Check GEMINI_MODELS.")
+                    give_up_model = True
                     break
-                if require_complete and finish == "MAX_TOKENS":
-                    print(f"  ⚠️ {model}: output truncated (MAX_TOKENS). Trying next model.")
-                    break
-                return text
-            elif resp.status_code in (429, 500, 503):
-                print(f"  ⚠️ {model} busy/rate-limited ({resp.status_code}). Next key...")
-                time.sleep(2)
-            elif resp.status_code == 404:
-                print(f"  ❌ Model '{model}' not found (404). Check GEMINI_MODELS. Trying next model.")
+                else:
+                    print(f"  ⚠️ Gemini error {resp.status_code}: {resp.text[:150]}")
+
+            if give_up_model or not retryable:
                 break
-            else:
-                print(f"  ⚠️ Gemini error {resp.status_code}: {resp.text[:150]}")
+            if attempt < MAX_PASSES:
+                wait = 15 * attempt
+                print(f"  ⏳ All keys busy on {model}. Waiting {wait}s (pass {attempt}/{MAX_PASSES})...")
+                time.sleep(wait)
     return None
 
 # ─── CONTENT GENERATION ───────────────────────────────────────────────────────
