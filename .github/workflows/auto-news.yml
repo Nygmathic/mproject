@@ -2,26 +2,13 @@ name: Auto News Poster
 
 on:
   schedule:
-    # ── General run: every 2 hours for all niches ────────────────────
-    - cron: "0 */2 * * *"
-
-    # ── Sports-only: timed after Premier League matches end ──────────
-    - cron: "30 14 * * 6"
-    - cron: "0 17 * * 6"
-    - cron: "30 19 * * 6"
-    - cron: "0 16 * * 0"
-    - cron: "30 18 * * 0"
-    - cron: "0 22 * * 1,2,3,5"
-
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
   post-news:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
@@ -30,12 +17,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install feedparser requests
+        run: |
+          pip install feedparser requests
 
-      - name: Check API keys
+      - name: Check API Keys
         env:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -50,7 +38,7 @@ jobs:
           [ -n "$GEMINI_API_KEY_3" ] && echo "✅ Gemini key 3 set" || echo "⚠️  Gemini key 3 NOT set"
           [ -n "$GROQ_API_KEY" ] && echo "✅ Groq key set" || echo "ℹ️  Groq key NOT set (optional)"
 
-      - name: Fetch and post news
+      - name: Run Auto News Poster
         env:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -69,20 +57,20 @@ jobs:
              [[ "$SCHEDULE" == "30 18 * * 0" ]] || \
              [[ "$SCHEDULE" == "0 22 * * 1,2,3,5" ]]; then
             echo "⚽ Post-match run — sports only"
-            python auto_news_poster.py --sports-only
+            python -u auto_news_poster.py --sports-only
           else
             echo "🌍 General run — all niches"
-            python auto_news_poster.py
+            python -u auto_news_poster.py
           fi
 
-      - name: Commit and push new articles
+      - name: Commit and push changes
         run: |
           git config --global user.name "Veridus Auto Poster"
           git config --global user.email "autopost@veridus.space"
           git add content/ .posted_articles.json
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
-            git push origin HEAD:${{ github.ref_name }}
+            git push origin HEAD:main
           else
             echo "No new articles to commit."
           fi
