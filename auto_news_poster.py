@@ -114,13 +114,32 @@ def utc_now_str():
 def today_str():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+def normalize_log(data):
+    """Accept old/odd log formats and return {id: {"date", "niche", "status"}}."""
+    out = {}
+    now = utc_now_str()
+    for key, val in data.items():
+        if isinstance(val, dict):
+            val.setdefault("date", now)
+            val.setdefault("niche", "")
+            out[key] = val
+        else:
+            # legacy entry: value was a date string (or something else)
+            date = val if isinstance(val, str) and re.match(r"\d{4}-\d{2}-\d{2}", val) else now
+            if len(date) == 10:
+                date += "T00:00:00Z"
+            out[key] = {"date": date, "niche": "", "status": "posted"}
+    return out
+
 def load_posted_log():
     if os.path.exists(POSTED_LOG_FILE):
         try:
             with open(POSTED_LOG_FILE, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 if isinstance(data, dict):
-                    return data
+                    return normalize_log(data)
+                if isinstance(data, list):  # very old format: plain list of ids
+                    return normalize_log({str(i): "" for i in data})
         except Exception as e:
             print(f"⚠️ Warning loading log: {e}")
     return {}
