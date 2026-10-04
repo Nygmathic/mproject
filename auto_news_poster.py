@@ -3,7 +3,7 @@
 Veridus.space Auto News Poster
 - Fetches global news from RSS feeds with strict network timeouts
 - Fetches full article body from source URL
-- AI Engine: Google Gemini 2.5 Flash (rotates across keys)
+- AI Engine: Google Gemini 3.8 Flash (rotates across keys)
 - Enforces strict 700+ word count minimum for all posts
 - Saves posts as Hugo Page Bundles in content/{niche}/
 """
@@ -26,7 +26,7 @@ socket.setdefaulttimeout(15)
 
 # ─── CONFIG & MODEL ───────────────────────────────────────────────────────────
 
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-3.8-flash"
 
 USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -403,7 +403,7 @@ def fetch_full_article(url, min_chars=400, max_chars=8000):
 
         return body[:max_chars]
     except Exception as e:
-        print(f"  ⚠️️ Full-fetch failed: {e}")
+        print(f"  ⚠ Full-fetch failed: {e}")
         return None
 
 # ─── PROMPTS ──────────────────────────────────────────────────────────────────
