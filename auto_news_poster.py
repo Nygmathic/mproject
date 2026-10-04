@@ -9,22 +9,26 @@ import requests
 import feedparser
 from datetime import datetime, timezone
 
+IMPORT_ERRORS = []
+
 try:
     import trafilatura
-except ImportError:
+except Exception as e:  # ImportError or a failure inside the package
     trafilatura = None
+    IMPORT_ERRORS.append(f"trafilatura: {e!r}")
 
 try:
     from googlenewsdecoder import gnewsdecoder
-except ImportError:
+except Exception as e:
     gnewsdecoder = None
+    IMPORT_ERRORS.append(f"googlenewsdecoder: {e!r}")
 
 # ─── CONFIGURATION ────────────────────────────────────────────────────────────
 
 # Comma-separated list in env var GEMINI_MODELS overrides this (first = preferred, rest = fallbacks)
 GEMINI_MODELS = [
     m.strip()
-    for m in os.environ.get("GEMINI_MODELS", "gemini-3.6-flash").split(",")
+    for m in (os.environ.get("GEMINI_MODELS") or "gemini-3.6-flash").split(",")
     if m.strip()
 ]
 
@@ -350,6 +354,11 @@ def main():
 
     if not GEMINI_API_KEYS:
         print("❌ No Gemini API keys found in environment.")
+        sys.exit(1)
+
+    if IMPORT_ERRORS:
+        for err in IMPORT_ERRORS:
+            print(f"❌ Dependency failed to import -> {err}")
         sys.exit(1)
 
     posted_log = prune_log(load_posted_log())

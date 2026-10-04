@@ -32,7 +32,8 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install feedparser requests trafilatura googlenewsdecoder
+        # selectolax 1.0 breaks googlenewsdecoder 0.2.1 (import error), so pin below 1.0
+        run: pip install feedparser requests trafilatura googlenewsdecoder "selectolax<1.0"
 
       - name: Check API keys
         env:
@@ -66,20 +67,24 @@ jobs:
           git config user.name "Veridus Auto Poster"
           git config user.email "autopost@veridus.space"
           git add content/ .posted_articles.json
+          # Deploy only if an actual post was added, not just log changes
+          if [ -n "$(git status --porcelain content/)" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          fi
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Auto: Add news articles $(date -u +'%Y-%m-%d %H:%M UTC')"
             git pull --rebase origin main
             git push origin HEAD:main
-            echo "pushed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No new articles to commit."
-            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to commit."
           fi
 
       # Pushes made with GITHUB_TOKEN do not trigger other workflows,
       # so explicitly kick off the Hugo deploy.
       - name: Trigger site deploy
-        if: steps.commit.outputs.pushed == 'true'
+        if: steps.commit.outputs.deploy == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run hugo.yml --ref main
