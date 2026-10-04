@@ -155,6 +155,17 @@ NON_ENGLISH_PATTERN = re.compile(
     r"[\u0400-\u04FF\u4E00-\u9FFF\u3040-\u30FF\u0600-\u06FF\u0900-\u097F\uAC00-\uD7AF\u0370-\u03FF\u0590-\u05FF]"
 )
 
+BANNED_IMAGE_KEYWORDS = {
+    "logo", "emblem", "crest", "badge", "icon", "banner", "symbol",
+    "coat_of_arms", "coat-of-arms", "flag", "screenshot", "watermark",
+    "poster", "map", "diagram", "chart", "vector", "svg"
+}
+
+BRAND_TERMS = {
+    "sky", "skysports", "bbc", "espn", "goal", "guardian", "reuters",
+    "afp", "ap", "cnn", "nytimes", "aljazeera", "dw", "supersport", "fourfourtwo"
+}
+
 # ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 def is_english(text):
@@ -447,7 +458,13 @@ BODY: {' '.join(body.split()[:300])}
 ACCEPTED_LICENSES = {"cc0", "cc-by", "cc-by-sa", "public domain", "pd", "cc-pd"}
 ACCEPTED_MIMES = {"image/jpeg", "image/png", "image/webp"}
 
+def clean_image_query(query):
+    words = re.findall(r"\w+", query.lower())
+    filtered = [w for w in words if w not in BRAND_TERMS and w not in BANNED_IMAGE_KEYWORDS]
+    return " ".join(filtered) if filtered else query
+
 def fetch_wikimedia_image(search_query):
+    clean_query = clean_image_query(search_query)
     try:
         resp = requests.get(
             "https://commons.wikimedia.org/w/api.php",
@@ -455,8 +472,8 @@ def fetch_wikimedia_image(search_query):
                 "action":      "query",
                 "generator":   "search",
                 "gsrnamespace": 6,
-                "gsrsearch":   f"File:{search_query}",
-                "gsrlimit":    8,
+                "gsrsearch":   f"File:{clean_query}",
+                "gsrlimit":    10,
                 "prop":        "imageinfo",
                 "iiprop":      "url|mime|extmetadata|size",
                 "iiurlwidth":  1200,
@@ -471,12 +488,20 @@ def fetch_wikimedia_image(search_query):
         pages = resp.json().get("query", {}).get("pages", {})
         candidates = []
         for page in pages.values():
+            title = page.get("title", "").lower()
+            if any(banned in title for banned in BANNED_IMAGE_KEYWORDS):
+                continue
+
             info = page.get("imageinfo", [{}])[0]
             mime = info.get("mime", "")
             if mime not in ACCEPTED_MIMES or info.get("width", 0) < 400:
                 continue
 
             meta = info.get("extmetadata", {})
+            desc = (meta.get("ObjectName", {}).get("value", "") + " " + meta.get("ImageDescription", {}).get("value", "")).lower()
+            if any(banned in desc for banned in BANNED_IMAGE_KEYWORDS):
+                continue
+
             license_short = meta.get("LicenseShortName", {}).get("value", "").lower()
             artist = meta.get("Artist", {}).get("value", "")
             artist = re.sub(r"<[^>]+>", "", artist).strip()[:100]
@@ -611,16 +636,16 @@ def rewrite_article(article):
 
     prompt = build_article_prompt(article)
 
-    print("  🤖 Trying Groq (primary)...")
-    text = call_groq(prompt, max_tokens=2048)
-    if text and len(text.split()) >= 400:
-        print(f"  ✅ Groq output: {len(text.split())} words")
-        return text
-
-    print("  🔄 Trying Gemini fallback...")
+    print("  🤖 Trying Gemini (primary)...")
     text = call_gemini(prompt, max_tokens=2048)
     if text and len(text.split()) >= 400:
         print(f"  ✅ Gemini output: {len(text.split())} words")
+        return text
+
+    print("  🔄 Trying Groq fallback...")
+    text = call_groq(prompt, max_tokens=2048)
+    if text and len(text.split()) >= 400:
+        print(f"  ✅ Groq output: {len(text.split())} words")
         return text
 
     print("  ❌ All AIs failed — skipping article")
@@ -628,7 +653,7 @@ def rewrite_article(article):
 
 def generate_seo(article, body):
     prompt = build_seo_prompt(article, body)
-    raw = call_groq(prompt, max_tokens=400) or call_gemini(prompt, max_tokens=400)
+    raw = call_gemini(prompt, max_tokens=400) or call_groq(prompt, max_tokens=400)
     if not raw:
         return None
 
@@ -724,7 +749,7 @@ def main():
     posted_ids = set(posted_log.keys())
     total_saved = 0
 
-    all_niches    = ["sports", "africa", "politics", "business", "climate", "law", "curious"]
+    all_niches    = ["politics", "africa", "business", "sports", "climate", "law", "curious"]
     active_niches = ["sports"] if sports_only else all_niches
 
     for niche in active_niches:
