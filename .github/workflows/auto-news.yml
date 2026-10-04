@@ -2,13 +2,25 @@ name: Auto News Poster
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    # 3 runs/day. The script posts at most 1 per niche per day, so later runs
+    # only fill niches that failed earlier and otherwise exit without committing.
+    - cron: '0 6 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 18 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write   # push generated posts
+  actions: write    # trigger the Hugo deploy workflow
+
+concurrency:
+  group: auto-news
+  cancel-in-progress: false
 
 jobs:
   post-news:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -20,10 +32,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install feedparser requests
+        run: pip install feedparser requests trafilatura googlenewsdecoder
 
-      - name: Check API Keys
+      - name: Check API keys
         env:
           GEMINI_API_KEY_1: ${{ secrets.GEMINI_API_KEY_1 }}
           GEMINI_API_KEY_2: ${{ secrets.GEMINI_API_KEY_2 }}
@@ -31,12 +42,11 @@ jobs:
           GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
           GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
           GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          [ -n "$GEMINI_API_KEY_1" ] && echo "✅ Gemini key 1 set" || echo "⚠️  Gemini key 1 NOT set"
-          [ -n "$GEMINI_API_KEY_2" ] && echo "✅ Gemini key 2 set" || echo "⚠️  Gemini key 2 NOT set"
-          [ -n "$GEMINI_API_KEY_3" ] && echo "✅ Gemini key 3 set" || echo "⚠️  Gemini key 3 NOT set"
-          [ -n "$GROQ_API_KEY" ] && echo "✅ Groq key set" || echo "ℹ️  Groq key NOT set (optional)"
+          for i in 1 2 3 4 5 6; do
+            var="GEMINI_API_KEY_$i"
+            [ -n "${!var}" ] && echo "✅ Gemini key $i set" || echo "ℹ️  Gemini key $i not set"
+          done
 
       - name: Run Auto News Poster
         env:
@@ -46,31 +56,30 @@ jobs:
           GEMINI_API_KEY_4: ${{ secrets.GEMINI_API_KEY_4 }}
           GEMINI_API_KEY_5: ${{ secrets.GEMINI_API_KEY_5 }}
           GEMINI_API_KEY_6: ${{ secrets.GEMINI_API_KEY_6 }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}
-        run: |
-          SCHEDULE="${GITHUB_EVENT_SCHEDULE}"
-          if [[ "$SCHEDULE" == "30 14 * * 6" ]] || \
-             [[ "$SCHEDULE" == "0 17 * * 6"  ]] || \
-             [[ "$SCHEDULE" == "30 19 * * 6" ]] || \
-             [[ "$SCHEDULE" == "0 16 * * 0"  ]] || \
-             [[ "$SCHEDULE" == "30 18 * * 0" ]] || \
-             [[ "$SCHEDULE" == "0 22 * * 1,2,3,5" ]]; then
-            echo "⚽ Post-match run — sports only"
-            python -u auto_news_poster.py --sports-only
-          else
-            echo "🌍 General run — all niches"
-            python -u auto_news_poster.py
-          fi
+          # Optional: set a repo variable GEMINI_MODELS (e.g. "gemini-3.6-flash,gemini-2.5-flash")
+          GEMINI_MODELS: ${{ vars.GEMINI_MODELS }}
+        run: python -u auto_news_poster.py
 
       - name: Commit and push changes
+        id: commit
         run: |
-          git config --global user.name "Veridus Auto Poster"
-          git config --global user.email "autopost@veridus.space"
+          git config user.name "Veridus Auto Poster"
+          git config user.email "autopost@veridus.space"
           git add content/ .posted_articles.json
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Auto: Add news articles $(date +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "Auto: Add news articles $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase origin main
             git push origin HEAD:main
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
           else
             echo "No new articles to commit."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # Pushes made with GITHUB_TOKEN do not trigger other workflows,
+      # so explicitly kick off the Hugo deploy.
+      - name: Trigger site deploy
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run hugo.yml --ref main
