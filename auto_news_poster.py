@@ -33,17 +33,14 @@ GEMINI_API_KEYS = [
     ] if key
 ]
 
-# Gemini model — current stable Flash workhorse (GA July 2026)
-# Check https://ai.google.dev/gemini-api/docs/models for updates
+# Gemini model — current stable Flash workhorse
 GEMINI_MODEL = "gemini-3.6-flash"
 
 CONTENT_DIR = Path("content")
 POSTED_LOG  = Path(".posted_articles.json")
 
-# Hard daily cap — max posts per niche per calendar day (UTC)
 DAILY_POST_LIMIT = 4
 
-# How many articles to attempt per run (throttles per-run usage)
 NICHE_LIMITS = {
     "politics":       2,
     "africa":         2,
@@ -54,7 +51,6 @@ NICHE_LIMITS = {
     "curious":        2,
 }
 
-# Maximum age of an article to be considered — oldest allowed per niche.
 RECENCY_HOURS = {
     "sports":         3,
     "politics":       6,
@@ -275,7 +271,26 @@ def fetch_rss_articles(niche, already_posted):
 
     for feed_url in RSS_FEEDS.get(niche, []):
         try:
-            feed = feedparser.parse(feed_url)
+            # Fetch with a hard timeout instead of letting feedparser hang.
+            # feedparser has no timeout of its own and will stall forever
+            # on a dead or slow feed — this was the cause of long runs.
+            try:
+                feed_resp = requests.get(
+                    feed_url,
+                    timeout=10,
+                    headers={"User-Agent": "Mozilla/5.0 Veridus/1.0"},
+                )
+                if not feed_resp.ok:
+                    print(f"  ⚠️  Feed HTTP {feed_resp.status_code}: {feed_url}")
+                    continue
+                feed = feedparser.parse(feed_resp.content)
+            except requests.Timeout:
+                print(f"  ⚠️  Feed timeout: {feed_url}")
+                continue
+            except Exception as e:
+                print(f"  ⚠️  Feed fetch failed {feed_url}: {e}")
+                continue
+
             for entry in feed.entries:
                 url = entry.get("link", "")
                 if not url:
@@ -412,7 +427,9 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
             "Accept": "text/html,application/xhtml+xml",
             "Accept-Language": "en-US,en;q=0.9",
         }
-        resp = requests.get(url, headers=headers, timeout=15, allow_redirects=True)
+        # Short timeout — a real article loads in 1-2s. If it takes longer,
+        # skip and fall back to the RSS summary rather than stalling.
+        resp = requests.get(url, headers=headers, timeout=8, allow_redirects=True)
         if not resp.ok:
             print(f"  ⚠️  Full-fetch HTTP {resp.status_code} — falling back to RSS summary")
             return None
@@ -437,6 +454,9 @@ def fetch_full_article(url, min_chars=400, max_chars=6000):
         print(f"  📄 Full article fetched: {len(truncated)} chars from source")
         return truncated
 
+    except requests.Timeout:
+        print(f"  ⚠️  Full-fetch timeout — falling back to RSS summary")
+        return None
     except Exception as e:
         print(f"  ⚠️  Full-fetch failed: {e}")
         return None
@@ -729,7 +749,7 @@ def call_gemini_with_key(prompt, api_key, max_tokens=4096):
                 },
             },
             headers={"Content-Type": "application/json"},
-            timeout=90,
+            timeout=45,
         )
 
         if resp.status_code == 429:
@@ -757,6 +777,9 @@ def call_gemini_with_key(prompt, api_key, max_tokens=4096):
 
         return text, False
 
+    except requests.Timeout:
+        print(f"  ⚠️  Gemini timeout — trying next key...")
+        return None, True
     except Exception as e:
         print(f"  ❌ Gemini exception: {e}")
         return None, False
