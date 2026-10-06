@@ -667,5 +667,29 @@
     "niche": "africa",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6gqw8jg7k3go?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cwp9g5p1gy7yo#0": {
+    "date": "2026-10-05T23:58:07Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cwp9g5p1gy7yo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/cmvg9lp24p1po#12": {
+    "date": "2026-10-05T23:58:35Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/cmvg9lp24p1po?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/oct/05/supreme-court-big-oil-climate-damage-lawsuits": {
+    "date": "2026-10-06T00:00:12Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/oct/05/supreme-court-big-oil-climate-damage-lawsuits"
+  },
+  "https://www.bbc.co.uk/news/articles/c617kl241z91o#2": {
+    "date": "2026-10-06T00:04:12Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c617kl241z91o?at_medium=RSS&at_campaign=rss"
   }
 }
