@@ -691,5 +691,35 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c617kl241z91o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cxvgdl5npl86o#0": {
+    "date": "2026-10-06T13:00:51Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cxvgdl5npl86o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo#0": {
+    "date": "2026-10-06T13:01:51Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/technology/2026/oct/06/ai-misuse-brand-reputation": {
+    "date": "2026-10-06T13:06:10Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.theguardian.com/technology/2026/oct/06/ai-misuse-brand-reputation"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/c6pvgzkdppwvo#12": {
+    "date": "2026-10-06T13:06:36Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/c6pvgzkdppwvo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cmn9rxy32xpgo#4": {
+    "date": "2026-10-06T13:09:38Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cmn9rxy32xpgo?at_medium=RSS&at_campaign=rss"
   }
 }
