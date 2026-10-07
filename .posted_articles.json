@@ -161,5 +161,41 @@
     "niche": "law",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cmn9rxy32xpgo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm1j3rj2r72xo#0": {
+    "date": "2026-10-07T18:04:20Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm1j3rj2r72xo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c6eq3x3v11d5o#0": {
+    "date": "2026-10-07T18:07:28Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6eq3x3v11d5o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cwly0jyk2vl5o#0": {
+    "date": "2026-10-07T18:09:07Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cwly0jyk2vl5o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/c5y43n38z0ndo#12": {
+    "date": "2026-10-07T18:12:33Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/c5y43n38z0ndo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/07/penguin-colony-population-crash-zavodovski-island-antarctica": {
+    "date": "2026-10-07T18:13:15Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/07/penguin-colony-population-crash-zavodovski-island-antarctica"
+  },
+  "https://www.bbc.co.uk/news/articles/ckly4jn2ppmqo#1": {
+    "date": "2026-10-07T18:18:49Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ckly4jn2ppmqo?at_medium=RSS&at_campaign=rss"
   }
 }
