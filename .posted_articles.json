@@ -203,5 +203,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c5pvgzvlepr1o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm2d6x11l6pko#0": {
+    "date": "2026-10-08T23:12:50Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm2d6x11l6pko?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c9p8gn55433jo#0": {
+    "date": "2026-10-08T23:13:29Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c9p8gn55433jo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo#3": {
+    "date": "2026-10-08T23:13:52Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/ckpqg9388e7wo#1": {
+    "date": "2026-10-08T23:14:14Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/ckpqg9388e7wo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/08/hope-save-planet-endangered-parrot-global-biodiversity-report": {
+    "date": "2026-10-08T23:14:41Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/08/hope-save-planet-endangered-parrot-global-biodiversity-report"
+  },
+  "https://www.theguardian.com/education/2026/oct/08/legal-rights-must-be-retained-for-children-with-special-educational-needs": {
+    "date": "2026-10-08T23:15:09Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/education/2026/oct/08/legal-rights-must-be-retained-for-children-with-special-educational-needs"
+  },
+  "https://www.bbc.co.uk/news/articles/cdr7n610rmzo#0": {
+    "date": "2026-10-08T23:16:19Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cdr7n610rmzo?at_medium=RSS&at_campaign=rss"
   }
 }
