@@ -245,5 +245,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cdr7n610rmzo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm4g13dqwj7zo#1": {
+    "date": "2026-10-09T12:50:58Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm4g13dqwj7zo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo#0": {
+    "date": "2026-10-09T12:51:33Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo#0": {
+    "date": "2026-10-09T12:53:12Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c8wyz69r0nnpo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/cricket/articles/ck20wpg18w19o#0": {
+    "date": "2026-10-09T12:54:27Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/cricket/articles/ck20wpg18w19o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/09/cop31-host-wealthy-countries-climate-crisis-spending-defence-nato": {
+    "date": "2026-10-09T12:54:55Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/09/cop31-host-wealthy-countries-climate-crisis-spending-defence-nato"
+  },
+  "https://www.theguardian.com/world/2026/oct/09/navanethem-navi-pillay-wins-nobel-peace-prize": {
+    "date": "2026-10-09T12:57:55Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/09/navanethem-navi-pillay-wins-nobel-peace-prize"
+  },
+  "https://www.bbc.co.uk/weather/articles/cw146l6pnvx0o#0": {
+    "date": "2026-10-09T12:58:27Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/weather/articles/cw146l6pnvx0o?at_medium=RSS&at_campaign=rss"
   }
 }
