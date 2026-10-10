@@ -287,5 +287,52 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/weather/articles/cw146l6pnvx0o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/oct/10/marcy-kaptur-ohio-trans-ad": {
+    "date": "2026-10-10T12:07:14Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/oct/10/marcy-kaptur-ohio-trans-ad"
+  },
+  "https://www.bbc.co.uk/news/articles/cqp8gknl1njjo#0": {
+    "date": "2026-10-10T12:08:07Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqp8gknl1njjo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sounds/play/m0032qlk#5": {
+    "date": "2026-10-10T12:08:10Z",
+    "niche": "business",
+    "status": "skipped"
+  },
+  "https://www.theguardian.com/business/2026/oct/09/trump-investigate-lisa-cook-fed-governor": {
+    "date": "2026-10-10T12:09:14Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.theguardian.com/business/2026/oct/09/trump-investigate-lisa-cook-fed-governor"
+  },
+  "https://www.bbc.co.uk/sport/cycling/articles/cqx2vm911870o#0": {
+    "date": "2026-10-10T12:09:52Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/cycling/articles/cqx2vm911870o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/world/2026/oct/10/tornado-hit-marsala-sicily-injuries-damage": {
+    "date": "2026-10-10T12:10:15Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/10/tornado-hit-marsala-sicily-injuries-damage"
+  },
+  "https://www.theguardian.com/society/2026/oct/10/military-school-alleged-abuse-1980s-bunde-germany": {
+    "date": "2026-10-10T12:11:42Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/oct/10/military-school-alleged-abuse-1980s-bunde-germany"
+  },
+  "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo#0": {
+    "date": "2026-10-10T12:12:10Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss"
   }
 }
