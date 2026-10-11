@@ -334,5 +334,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c65yn92nj423o#0": {
+    "date": "2026-10-11T12:20:19Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c65yn92nj423o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/world/2026/oct/11/deaths-migrant-boat-capsizes-djibouti": {
+    "date": "2026-10-11T12:21:04Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/11/deaths-migrant-boat-capsizes-djibouti"
+  },
+  "https://www.bbc.co.uk/news/articles/c5x2vn4dzz08o#3": {
+    "date": "2026-10-11T12:21:28Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c5x2vn4dzz08o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/ckq5nzwlwn6zo#14": {
+    "date": "2026-10-11T12:21:48Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/ckq5nzwlwn6zo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/uk-news/2026/oct/11/farmers-uk-food-security-producers-supply-chains": {
+    "date": "2026-10-11T12:22:15Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/uk-news/2026/oct/11/farmers-uk-food-security-producers-supply-chains"
+  },
+  "https://www.theguardian.com/world/2026/oct/09/pete-hegseth-public-execution-nidal-hasan-capital-sentences": {
+    "date": "2026-10-11T12:22:53Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/09/pete-hegseth-public-execution-nidal-hasan-capital-sentences"
+  },
+  "https://www.bbc.co.uk/news/articles/cr4g1wy331pdo#1": {
+    "date": "2026-10-11T12:23:15Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cr4g1wy331pdo?at_medium=RSS&at_campaign=rss"
   }
 }
