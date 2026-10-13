@@ -413,5 +413,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6rrydykw44lo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c68jz0282re9o#0": {
+    "date": "2026-10-13T00:30:20Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c68jz0282re9o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c8wy9d940pyko#0": {
+    "date": "2026-10-13T00:31:11Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c8wy9d940pyko?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/ck5yn0n14r8do#0": {
+    "date": "2026-10-13T00:32:29Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ck5yn0n14r8do?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/cw78p7l7rp30o#0": {
+    "date": "2026-10-13T00:33:09Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/cw78p7l7rp30o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/politics/2026/oct/11/party-conference-season-uk-climate-action-tories-greens-labour": {
+    "date": "2026-10-13T00:34:22Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/politics/2026/oct/11/party-conference-season-uk-climate-action-tories-greens-labour"
+  },
+  "https://www.theguardian.com/society/2026/oct/12/couple-devastating-attack-sexual-assault-rape": {
+    "date": "2026-10-13T00:35:17Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/oct/12/couple-devastating-attack-sexual-assault-rape"
+  },
+  "https://www.bbc.co.uk/news/articles/c6pvgryp8yv0o#0": {
+    "date": "2026-10-13T00:36:02Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6pvgryp8yv0o?at_medium=RSS&at_campaign=rss"
   }
 }
