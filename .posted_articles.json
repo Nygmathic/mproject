@@ -455,5 +455,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6pvgryp8yv0o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c83vq9vpwwr1o#0": {
+    "date": "2026-10-14T11:25:58Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c83vq9vpwwr1o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/athletics/articles/cv4g5gkw7kr4o#0": {
+    "date": "2026-10-14T11:26:26Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/athletics/articles/cv4g5gkw7kr4o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c6x2qw2xn1x4o#3": {
+    "date": "2026-10-14T11:26:57Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6x2qw2xn1x4o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/football/2026/oct/14/sunderland-53-years-away-europa-league-torreense": {
+    "date": "2026-10-14T11:28:01Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.theguardian.com/football/2026/oct/14/sunderland-53-years-away-europa-league-torreense"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/14/climate-crisis-insurance-risk-disaster-catastrophe": {
+    "date": "2026-10-14T11:28:25Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/14/climate-crisis-insurance-risk-disaster-catastrophe"
+  },
+  "https://www.theguardian.com/society/2026/oct/14/brandon-guffey-gavin-killed-himelf-online-scam-sextortionist": {
+    "date": "2026-10-14T11:29:33Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/oct/14/brandon-guffey-gavin-killed-himelf-online-scam-sextortionist"
+  },
+  "https://www.bbc.co.uk/news/articles/ck8dzgr780j8o#1": {
+    "date": "2026-10-14T11:31:10Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ck8dzgr780j8o?at_medium=RSS&at_campaign=rss"
   }
 }
