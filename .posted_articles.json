@@ -497,5 +497,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/ck8dzgr780j8o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cw3dj458re1vo#0": {
+    "date": "2026-10-15T11:03:16Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cw3dj458re1vo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/global-development/2026/oct/15/senegal-homosexuality-criminalised-anti-lgbtq-arrests-hiv-testing-human-rights-watch": {
+    "date": "2026-10-15T11:04:15Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/global-development/2026/oct/15/senegal-homosexuality-criminalised-anti-lgbtq-arrests-hiv-testing-human-rights-watch"
+  },
+  "https://www.bbc.co.uk/news/articles/ck8dz1me439no#0": {
+    "date": "2026-10-15T11:05:10Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ck8dz1me439no?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/c3n04gy12r91o#0": {
+    "date": "2026-10-15T11:06:16Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/c3n04gy12r91o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/global-development/2026/oct/15/afghanistan-drought-hunger-displaced-families-girls-child-marriage-poverty": {
+    "date": "2026-10-15T11:07:16Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/global-development/2026/oct/15/afghanistan-drought-hunger-displaced-families-girls-child-marriage-poverty"
+  },
+  "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane": {
+    "date": "2026-10-15T11:08:10Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane"
+  },
+  "https://www.bbc.co.uk/news/articles/cqkgk4zg54reo#2": {
+    "date": "2026-10-15T11:09:20Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqkgk4zg54reo?at_medium=RSS&at_campaign=rss"
   }
 }
