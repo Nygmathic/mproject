@@ -539,5 +539,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cqkgk4zg54reo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/oct/16/no-kings-early-voting-midterm-elections": {
+    "date": "2026-10-16T11:00:25Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/oct/16/no-kings-early-voting-midterm-elections"
+  },
+  "https://www.theguardian.com/world/2026/oct/15/eritrean-aggression-must-not-be-overlooked": {
+    "date": "2026-10-16T11:03:15Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/15/eritrean-aggression-must-not-be-overlooked"
+  },
+  "https://www.theguardian.com/business/2026/oct/15/tech-market-sell-off-deepens-amid-fears-over-us-inflation-and-ai-debt": {
+    "date": "2026-10-16T11:05:47Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.theguardian.com/business/2026/oct/15/tech-market-sell-off-deepens-amid-fears-over-us-inflation-and-ai-debt"
+  },
+  "https://www.bbc.co.uk/sport/cricket/articles/cjn5vk4qe6g1o#0": {
+    "date": "2026-10-16T11:06:18Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/cricket/articles/cjn5vk4qe6g1o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/15/severe-drought-declared-six-areas-england-public-water-supplies-threat": {
+    "date": "2026-10-16T11:06:49Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/15/severe-drought-declared-six-areas-england-public-water-supplies-threat"
+  },
+  "https://www.bbc.co.uk/news/articles/cwm243x4my4zo#0": {
+    "date": "2026-10-16T11:10:12Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cwm243x4my4zo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c68xzg941x5vo#2": {
+    "date": "2026-10-16T11:10:39Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c68xzg941x5vo?at_medium=RSS&at_campaign=rss"
   }
 }
