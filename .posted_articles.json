@@ -581,5 +581,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c68xzg941x5vo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/crn4el88y7p2o#0": {
+    "date": "2026-10-17T10:20:18Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/crn4el88y7p2o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cmwyvxj49gpwo#0": {
+    "date": "2026-10-17T10:20:41Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cmwyvxj49gpwo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cqde8zk6d916o#3": {
+    "date": "2026-10-17T10:21:01Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqde8zk6d916o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/rugby-league/articles/c6djvxmx0z1po#0": {
+    "date": "2026-10-17T10:21:24Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/rugby-league/articles/c6djvxmx0z1po?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/17/bogong-moth-swarms-rain-weather-radars": {
+    "date": "2026-10-17T10:21:48Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/17/bogong-moth-swarms-rain-weather-radars"
+  },
+  "https://www.theguardian.com/society/2026/oct/16/pornography-strangulation-incest-ban-uk-november": {
+    "date": "2026-10-17T10:22:17Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/oct/16/pornography-strangulation-incest-ban-uk-november"
+  },
+  "https://www.bbc.co.uk/news/articles/c6m24e1ln130o#0": {
+    "date": "2026-10-17T10:22:39Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6m24e1ln130o?at_medium=RSS&at_campaign=rss"
   }
 }
