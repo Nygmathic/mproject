@@ -1,9 +1,4 @@
 {
-  "f1468808ac573fd5da2a77dc84dd5497": {
-    "date": "2026-10-03T22:16:46Z",
-    "niche": "",
-    "status": "posted"
-  },
   "0cd914638c0524f725e9555a67a63d36": {
     "date": "2026-10-04T13:33:59Z",
     "niche": "",
@@ -623,5 +618,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6m24e1ln130o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c64g1803dkp7o#0": {
+    "date": "2026-10-18T10:35:44Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c64g1803dkp7o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/world/2026/oct/18/lagos-hypemen-redefining-afrobeats-music-afrohype": {
+    "date": "2026-10-18T10:36:31Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/oct/18/lagos-hypemen-redefining-afrobeats-music-afrohype"
+  },
+  "https://www.bbc.co.uk/news/articles/c6x2zrjl7kjno#0": {
+    "date": "2026-10-18T10:37:11Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6x2zrjl7kjno?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/football/2026/oct/18/how-to-watch-premier-league-nottingham-forest-arsenal": {
+    "date": "2026-10-18T10:37:55Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.theguardian.com/football/2026/oct/18/how-to-watch-premier-league-nottingham-forest-arsenal"
+  },
+  "https://www.theguardian.com/australia-news/2026/oct/18/nsw-homes-destroyed-in-black-summer-bushfires-in-high-risk-buffer-zone": {
+    "date": "2026-10-18T10:38:59Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/australia-news/2026/oct/18/nsw-homes-destroyed-in-black-summer-bushfires-in-high-risk-buffer-zone"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/18/time-bbc-tv-prison-young-offenders-jimmy-mcgovern-david-tennant": {
+    "date": "2026-10-18T10:39:22Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/18/time-bbc-tv-prison-young-offenders-jimmy-mcgovern-david-tennant"
+  },
+  "https://www.bbc.co.uk/news/articles/cv8ez40yz950o#0": {
+    "date": "2026-10-18T10:40:09Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cv8ez40yz950o?at_medium=RSS&at_campaign=rss"
   }
 }
