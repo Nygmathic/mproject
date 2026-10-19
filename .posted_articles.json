@@ -568,5 +568,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cv8ez40yz950o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cq1m4zz9e44go#0": {
+    "date": "2026-10-19T12:31:36Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cq1m4zz9e44go?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/ckd6d2l3dz4xo#0": {
+    "date": "2026-10-19T12:32:18Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ckd6d2l3dz4xo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm89z008x7xdo#0": {
+    "date": "2026-10-19T12:33:23Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm89z008x7xdo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/football/2026/oct/19/bayern-munich-luis-diaz-arsenal-revenge-mission-leipzig-bundesliga": {
+    "date": "2026-10-19T12:34:27Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.theguardian.com/football/2026/oct/19/bayern-munich-luis-diaz-arsenal-revenge-mission-leipzig-bundesliga"
+  },
+  "https://www.bbc.co.uk/news/articles/c6vgjnk8nw2wo#0": {
+    "date": "2026-10-19T12:35:55Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6vgjnk8nw2wo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/society/2026/oct/18/what-gets-in-the-way-of-prisoners-rehabilitation": {
+    "date": "2026-10-19T12:36:18Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/oct/18/what-gets-in-the-way-of-prisoners-rehabilitation"
+  },
+  "https://www.bbc.co.uk/news/articles/cm2kez327gdko#2": {
+    "date": "2026-10-19T12:36:47Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm2kez327gdko?at_medium=RSS&at_campaign=rss"
   }
 }
