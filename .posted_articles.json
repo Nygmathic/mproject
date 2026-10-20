@@ -1,28 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/cwp9g5p1gy7yo#0": {
-    "date": "2026-10-05T23:58:07Z",
-    "niche": "business",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cwp9g5p1gy7yo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/sport/football/articles/cmvg9lp24p1po#12": {
-    "date": "2026-10-05T23:58:35Z",
-    "niche": "sports",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/sport/football/articles/cmvg9lp24p1po?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/us-news/2026/oct/05/supreme-court-big-oil-climate-damage-lawsuits": {
-    "date": "2026-10-06T00:00:12Z",
-    "niche": "climate",
-    "status": "posted",
-    "source": "https://www.theguardian.com/us-news/2026/oct/05/supreme-court-big-oil-climate-damage-lawsuits"
-  },
-  "https://www.bbc.co.uk/news/articles/c617kl241z91o#2": {
-    "date": "2026-10-06T00:04:12Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c617kl241z91o?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/cxvgdl5npl86o#0": {
     "date": "2026-10-06T13:00:51Z",
     "niche": "politics",
@@ -598,5 +574,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cm2kez327gdko?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c50me4w4x1vyo#0": {
+    "date": "2026-10-20T11:09:24Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c50me4w4x1vyo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cmqxn4gggdw4o#0": {
+    "date": "2026-10-20T11:10:21Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cmqxn4gggdw4o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cj62y9dnd6pwo#0": {
+    "date": "2026-10-20T11:10:47Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cj62y9dnd6pwo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/rugby-league/articles/cmd6d3gj2znxo#0": {
+    "date": "2026-10-20T11:11:15Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/rugby-league/articles/cmd6d3gj2znxo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/global-development/2026/oct/20/panama-canal-environment-water-drought-el-nino-farming": {
+    "date": "2026-10-20T11:12:47Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/global-development/2026/oct/20/panama-canal-environment-water-drought-el-nino-farming"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/20/trump-icc-sanctions-opinion": {
+    "date": "2026-10-20T11:14:17Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/20/trump-icc-sanctions-opinion"
+  },
+  "https://www.bbc.co.uk/weather/articles/c9rkyjzgp6kdo#0": {
+    "date": "2026-10-20T11:14:59Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/weather/articles/c9rkyjzgp6kdo?at_medium=RSS&at_campaign=rss"
   }
 }
