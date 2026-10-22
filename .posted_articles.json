@@ -1,10 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/c5pvgzvlepr1o#1": {
-    "date": "2026-10-07T22:58:52Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c5pvgzvlepr1o?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/cm2d6x11l6pko#0": {
     "date": "2026-10-08T23:12:50Z",
     "niche": "politics",
@@ -592,5 +586,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/weather/articles/c6m24ln2j43go?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c3n049jr2ge5o#1": {
+    "date": "2026-10-22T11:23:14Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c3n049jr2ge5o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cq62y0v7434yo#0": {
+    "date": "2026-10-22T11:23:45Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cq62y0v7434yo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c3qjnwye0ep5o#0": {
+    "date": "2026-10-22T11:25:12Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c3qjnwye0ep5o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/cycling/articles/cq1kd0z33r8ro#0": {
+    "date": "2026-10-22T11:25:37Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/cycling/articles/cq1kd0z33r8ro?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action": {
+    "date": "2026-10-22T11:26:01Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/21/andy-burnham-approve-jackdaw-labour-climate-action"
+  },
+  "https://www.bbc.co.uk/news/articles/c9e8lz4mrg88o#0": {
+    "date": "2026-10-22T11:27:05Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c9e8lz4mrg88o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm5ynl4v4wgwo#0": {
+    "date": "2026-10-22T11:27:33Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm5ynl4v4wgwo?at_medium=RSS&at_campaign=rss"
   }
 }
