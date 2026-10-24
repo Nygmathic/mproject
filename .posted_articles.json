@@ -586,5 +586,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c9x28dgj2r0go?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c63r5779vyl9o#0": {
+    "date": "2026-10-24T10:32:00Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c63r5779vyl9o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c6x2355448eyo#0": {
+    "date": "2026-10-24T10:32:36Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6x2355448eyo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/oct/23/susan-collins-maine-trump-tariffs-canada": {
+    "date": "2026-10-24T10:33:19Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/oct/23/susan-collins-maine-trump-tariffs-canada"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/c6q8nd9g9n72o#0": {
+    "date": "2026-10-24T10:35:11Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/c6q8nd9g9n72o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/24/false-autumn-stressed-trees-drop-leaves-early-extreme-summer-heat": {
+    "date": "2026-10-24T10:35:53Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/24/false-autumn-stressed-trees-drop-leaves-early-extreme-summer-heat"
+  },
+  "https://www.theguardian.com/commentisfree/2026/oct/23/teenage-girls-ban-school-uniform-porn-children-minors": {
+    "date": "2026-10-24T10:36:15Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/commentisfree/2026/oct/23/teenage-girls-ban-school-uniform-porn-children-minors"
+  },
+  "https://www.bbc.co.uk/news/articles/c60qk5lw1z8wo#0": {
+    "date": "2026-10-24T10:36:57Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c60qk5lw1z8wo?at_medium=RSS&at_campaign=rss"
   }
 }
