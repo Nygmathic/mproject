@@ -586,5 +586,41 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c60qk5lw1z8wo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cqm24j9y9zn7o#0": {
+    "date": "2026-10-25T10:57:36Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqm24j9y9zn7o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cmz98plpjzplo#0": {
+    "date": "2026-10-25T10:58:14Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cmz98plpjzplo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cqy8ljkle97ro#0": {
+    "date": "2026-10-25T10:58:38Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqy8ljkle97ro?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/tennis/articles/cwg7xy5x3590o#2": {
+    "date": "2026-10-25T10:59:02Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/tennis/articles/cwg7xy5x3590o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/law/2026/oct/24/icc-deputy-prosecutor-nazhat-shameem-khan-marco-rubio-us-sanctions": {
+    "date": "2026-10-25T11:00:11Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/law/2026/oct/24/icc-deputy-prosecutor-nazhat-shameem-khan-marco-rubio-us-sanctions"
+  },
+  "https://www.bbc.co.uk/news/articles/c6n9rzde1n80o#0": {
+    "date": "2026-10-25T11:00:41Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6n9rzde1n80o?at_medium=RSS&at_campaign=rss"
   }
 }
