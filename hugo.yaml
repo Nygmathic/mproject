@@ -1,6 +1,6 @@
-baseURL: "https://veridus.space/"
+baseURL: "https://veriduspost.com/"
 languageCode: "en-us"
-title: "Veridus"
+title: "Veridus Post"
 
 outputs:
   home:
@@ -41,7 +41,7 @@ params:
 
   # Social Media Links
   social:
-    email: "contact@veridus.space"
+    email: "contact@veriduspost.com"
     rss: "/index.xml"
 
 menu:
