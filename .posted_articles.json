@@ -586,5 +586,47 @@
     "niche": "climate",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c84g10r00221o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cx240dpzv009o#0": {
+    "date": "2026-10-26T12:32:13Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cx240dpzv009o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/olympics/articles/ck0546l2j4ppo#0": {
+    "date": "2026-10-26T12:32:38Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/olympics/articles/ck0546l2j4ppo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c60rlp8kkz1zo#0": {
+    "date": "2026-10-26T12:33:11Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c60rlp8kkz1zo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/rugby-union/articles/ck20wj7znqy8o#0": {
+    "date": "2026-10-26T12:33:34Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/rugby-union/articles/ck20wj7znqy8o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/global-development/2026/oct/26/us-forces-accused-of-weaponising-somalia-flood-el-nino": {
+    "date": "2026-10-26T12:34:00Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/global-development/2026/oct/26/us-forces-accused-of-weaponising-somalia-flood-el-nino"
+  },
+  "https://iol.co.za/news/crime-and-courts/2026-10-26-stolen-nissan-navara-recovered-at-tshwane-informal-settlement/": {
+    "date": "2026-10-26T12:34:26Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://iol.co.za/news/crime-and-courts/2026-10-26-stolen-nissan-navara-recovered-at-tshwane-informal-settlement/"
+  },
+  "https://www.bbc.co.uk/news/articles/cqm264jxxnxzo#0": {
+    "date": "2026-10-26T12:35:11Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqm264jxxnxzo?at_medium=RSS&at_campaign=rss"
   }
 }
