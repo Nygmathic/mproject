@@ -580,5 +580,11 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6gelgxjwzdzo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/cricket/articles/cxyvr1my94m4o#0": {
+    "date": "2026-10-28T17:33:56Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/cricket/articles/cxyvr1my94m4o?at_medium=RSS&at_campaign=rss"
   }
 }
