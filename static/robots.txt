@@ -6,4 +6,4 @@ Disallow: /thanks/
 Disallow: /search/
 
 # Sitemap
-Sitemap: https://veridus.space/sitemap.xml
+Sitemap: https://veriduspost.com/sitemap.xml
