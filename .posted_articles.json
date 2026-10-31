@@ -1,46 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/crn4el88y7p2o#0": {
-    "date": "2026-10-17T10:20:18Z",
-    "niche": "politics",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/crn4el88y7p2o?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/cmwyvxj49gpwo#0": {
-    "date": "2026-10-17T10:20:41Z",
-    "niche": "africa",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cmwyvxj49gpwo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/cqde8zk6d916o#3": {
-    "date": "2026-10-17T10:21:01Z",
-    "niche": "business",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cqde8zk6d916o?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/sport/rugby-league/articles/c6djvxmx0z1po#0": {
-    "date": "2026-10-17T10:21:24Z",
-    "niche": "sports",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/sport/rugby-league/articles/c6djvxmx0z1po?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/environment/2026/oct/17/bogong-moth-swarms-rain-weather-radars": {
-    "date": "2026-10-17T10:21:48Z",
-    "niche": "climate",
-    "status": "posted",
-    "source": "https://www.theguardian.com/environment/2026/oct/17/bogong-moth-swarms-rain-weather-radars"
-  },
-  "https://www.theguardian.com/society/2026/oct/16/pornography-strangulation-incest-ban-uk-november": {
-    "date": "2026-10-17T10:22:17Z",
-    "niche": "law",
-    "status": "posted",
-    "source": "https://www.theguardian.com/society/2026/oct/16/pornography-strangulation-incest-ban-uk-november"
-  },
-  "https://www.bbc.co.uk/news/articles/c6m24e1ln130o#0": {
-    "date": "2026-10-17T10:22:39Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c6m24e1ln130o?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/c64g1803dkp7o#0": {
     "date": "2026-10-18T10:35:44Z",
     "niche": "politics",
@@ -586,5 +544,47 @@
     "niche": "law",
     "status": "posted",
     "source": "https://www.theguardian.com/uk-news/ng-interactive/2026/oct/30/the-white-house-farm-massacre-phone-calls-could-a-single-disputed-digit-set-jeremy-bamber-free"
+  },
+  "https://www.bbc.co.uk/news/articles/c5398239je88o#0": {
+    "date": "2026-10-31T11:53:12Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c5398239je88o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cr3wv311dwnlo#0": {
+    "date": "2026-10-31T11:54:01Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cr3wv311dwnlo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cr0qk25p1yeno#3": {
+    "date": "2026-10-31T11:55:01Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cr0qk25p1yeno?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/articles/cwp8grl5xypjo#2": {
+    "date": "2026-10-31T11:56:13Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/articles/cwp8grl5xypjo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/environment/2026/oct/31/cop17-reforms-fails-to-deliver-targets": {
+    "date": "2026-10-31T11:57:26Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/environment/2026/oct/31/cop17-reforms-fails-to-deliver-targets"
+  },
+  "https://www.theguardian.com/us-news/2026/oct/30/ohio-festival-shooting-charges-dropped": {
+    "date": "2026-10-31T11:58:37Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/oct/30/ohio-festival-shooting-charges-dropped"
+  },
+  "https://www.bbc.co.uk/news/articles/ck9dz3v7z7v3o#0": {
+    "date": "2026-10-31T12:01:39Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/ck9dz3v7z7v3o?at_medium=RSS&at_campaign=rss"
   }
 }
