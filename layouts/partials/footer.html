@@ -1,4 +1,4 @@
-{{/* Footer[cite: 2] */}}
+{{/* Footer */}}
 <footer class="site-footer">
   <div class="footer-wordmark-bar">
     <div class="footer-container">
@@ -41,13 +41,6 @@
         <nav aria-label="Footer connect links">
           <a href="mailto:{{ .Site.Params.author_email }}">contact@veriduspost.com</a>
           <a href="/index.xml">RSS Feed</a>
-          <a href="https://veridusmedia.substack.com" target="_blank" rel="noopener" class="social-link">
-            <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Substack
-          </a>
           {{ with .Site.Params.patreon_url }}
             <a href="{{ . }}" target="_blank" rel="noopener" class="social-link">
               <svg class="social-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -113,11 +106,17 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: emailInput.value.trim() })
         });
-        const data = await res.json();
         
-        if (res.ok) {
+        let data;
+        try {
+          data = await res.json();
+        } catch (parseErr) {
+          data = { error: "Invalid server response." };
+        }
+        
+        if (res.ok && data.success) {
           responseMsg.textContent = data.message;
-          responseMsg.style.color = "var(--accent, #2b6cb0)";
+          responseMsg.style.color = "var(--accent, #D94838)";
           emailInput.value = '';
         } else {
           responseMsg.textContent = data.error || "An error occurred.";
@@ -140,4 +139,4 @@
       </div>
     </div>
   </div>
-</footer>[cite: 2]
+</footer>

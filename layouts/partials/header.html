@@ -1,0 +1,312 @@
+<header class="np-header">
+
+  {{/* ── TOP STRIP ── */}}
+  <div class="np-topbar">
+    <div class="np-topbar-inner">
+      <button class="np-hamburger" id="np-hamburger" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <span class="np-topbar-date">{{ now.Format "Monday, January 2, 2006" }}</span>
+      <span class="np-topbar-sep">|</span>
+      <span class="np-topbar-edition">Global Edition</span>
+      <div class="np-topbar-actions">
+        <a href="/search/" class="np-topbar-icon" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <button class="np-topbar-icon" id="np-theme-toggle" aria-label="Toggle theme">
+          <svg class="np-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg class="np-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {{/* ── MASTHEAD ── */}}
+  <div class="np-masthead">
+    <a href="/" class="np-masthead-wordmark">{{ .Site.Title }}</a>
+    <p class="np-masthead-tagline">{{ .Site.Params.description }}</p>
+  </div>
+
+  {{/* ── NAVBAR ── */}}
+  <nav class="np-navbar" aria-label="Sections">
+    <div class="np-navbar-inner">
+      <div class="np-navbar-links">
+        {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+        <a href="/archive/">Archive</a>
+      </div>
+      <a href="/donate/" class="np-navbar-subscribe">Support Veridus</a>
+    </div>
+  </nav>
+
+  {{/* ── MOBILE DRAWER ── */}}
+  <div class="np-drawer" id="np-drawer" aria-hidden="true">
+    <div class="np-drawer-head">
+      <span class="np-drawer-title">{{ .Site.Title }}</span>
+      <button class="np-drawer-close" id="np-drawer-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="np-drawer-nav">
+      {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+      <a href="/archive/">Archive</a>
+      <a href="/search/">Search</a>
+      <a href="/donate/" class="np-drawer-donate">Support Veridus</a>
+    </nav>
+  </div>
+  <div class="np-drawer-overlay" id="np-drawer-overlay"></div>
+
+</header>
+
+<style>
+/* ── Header base ── */
+.np-header {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
+/* ── Top strip ── */
+.np-topbar { border-bottom: 1px solid var(--border); }
+.np-topbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.4rem clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.np-topbar-date { white-space: nowrap; }
+.np-topbar-sep { color: var(--text-muted); }
+.np-topbar-edition { color: var(--text-muted); white-space: nowrap; }
+.np-topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+.np-topbar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s;
+}
+.np-topbar-icon:hover { background: var(--bg-muted); }
+.np-topbar-icon svg { width: 15px; height: 15px; }
+.np-topbar-icon .np-icon-moon { display: none; }
+[data-theme="dark"] .np-topbar-icon .np-icon-sun { display: none; }
+[data-theme="dark"] .np-topbar-icon .np-icon-moon { display: block; }
+
+/* ── Hamburger ── */
+.np-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+.np-hamburger svg { width: 100%; height: 100%; }
+@media (max-width: 768px) {
+  .np-hamburger { display: flex; }
+  .np-topbar-edition { display: none; }
+  .np-topbar-sep { display: none; }
+  .np-topbar-date { font-size: 0.58rem; letter-spacing: 0.06em; }
+}
+
+/* ── Masthead ── */
+.np-masthead {
+  text-align: center;
+  padding: clamp(1rem, 3vw, 1.75rem) 1rem clamp(0.75rem, 2vw, 1.25rem);
+  border-bottom: 1px solid var(--border);
+}
+.np-masthead-wordmark {
+  display: block;
+  font-family: var(--font-masthead);
+  font-size: clamp(2.4rem, 8vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.np-masthead-wordmark:hover { opacity: 0.85; }
+.np-masthead-tagline {
+  font-family: var(--font-ui);
+  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+/* ── Navbar ── */
+.np-navbar {
+  border-top: 1px solid var(--border);
+  border-bottom: 3px double var(--text-primary);
+  background: var(--bg);
+}
+.np-navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.np-navbar-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+}
+.np-navbar-links a {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.7rem 0.85rem;
+  transition: color 0.15s;
+}
+.np-navbar-links a:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; }
+.np-navbar-subscribe {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2rem);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: var(--accent);
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.np-navbar-subscribe:hover { background: var(--accent-hover); color: #fff !important; }
+@media (max-width: 900px) {
+  .np-navbar-subscribe { display: none; }
+}
+@media (max-width: 768px) {
+  .np-navbar { display: none; }
+}
+
+/* ── Drawer ── */
+.np-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  max-width: 340px;
+  height: 100vh;
+  background: var(--bg);
+  z-index: 1100;
+  transition: left 0.28s ease;
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+}
+.np-drawer.active { left: 0; }
+.np-drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 3px double var(--text-primary);
+}
+.np-drawer-title { font-family: var(--font-masthead); font-size: 1.4rem; color: var(--text-primary); }
+.np-drawer-close { background: none; border: none; padding: 0.3rem; color: var(--text-primary); cursor: pointer; }
+.np-drawer-close svg { width: 20px; height: 20px; }
+.np-drawer-nav { display: flex; flex-direction: column; padding: 0; }
+.np-drawer-nav a {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  padding: 0.95rem 1.25rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.15s;
+}
+.np-drawer-nav a:hover { background: var(--bg-alt); }
+.np-drawer-nav .np-drawer-donate { color: var(--accent); }
+.np-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1050;
+}
+.np-drawer-overlay.active { display: block; }
+</style>
+
+<script>
+(function() {
+  var hamburger = document.getElementById('np-hamburger');
+  var drawer    = document.getElementById('np-drawer');
+  var closeBtn  = document.getElementById('np-drawer-close');
+  var overlay   = document.getElementById('np-drawer-overlay');
+  var themeBtn  = document.getElementById('np-theme-toggle');
+
+  function openDrawer() {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+    drawer.setAttribute('aria-hidden', 'false');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+    drawer.setAttribute('aria-hidden', 'true');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  if (hamburger) hamburger.addEventListener('click', openDrawer);
+  if (closeBtn)  closeBtn.addEventListener('click', closeDrawer);
+  if (overlay)   overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeDrawer(); });
+
+  if (themeBtn) themeBtn.addEventListener('click', function() {
+    var html = document.documentElement;
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+})();
+</script>

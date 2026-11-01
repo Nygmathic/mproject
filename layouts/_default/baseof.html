@@ -1,65 +1,60 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode | default "en-us" }}">
-{{ partial "head.html" . }}
-<body class="site-layout">
-    {{ if .IsPage }}
-    <div id="reading-progress" aria-hidden="true"></div>
-    <div id="reading-time-indicator" aria-hidden="true" data-reading-time="{{ .ReadingTime }}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      <span id="reading-time-text">{{ .ReadingTime }} min read</span>
-    </div>
-    {{ end }}
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="site-body">
+  {{ partial "header.html" . }}
 
-    <a class="skip-link" href="#main-content">Skip to content</a>
+  <main class="site-main" id="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
 
-    {{ partial "nav.html" . }}
+  {{ partial "footer.html" . }}
 
-    <main id="main-content" role="main">
-        {{ block "main" . }}{{ end }}
-    </main>
+  <!-- Newsletter Signup Form Handler -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("newsletter-form");
+      if (!form) return;
 
-    <button id="back-to-top" aria-label="Back to top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
-    </button>
+      const messageDiv = document.getElementById("newsletter-message");
 
-    {{ partial "footer.html" . }}
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    <script>
-      // Reading progress and back-to-top
-      (function() {
-        var bar = document.getElementById('reading-progress'),
-            pill = document.getElementById('reading-time-indicator'),
-            txt = document.getElementById('reading-time-text'),
-            totalMins = pill ? parseInt(pill.getAttribute('data-reading-time'),10)||0 : 0;
-        if(!bar) return;
-        window.addEventListener('scroll',function(){
-          var st = window.scrollY||document.documentElement.scrollTop,
-              dh = document.documentElement.scrollHeight-document.documentElement.clientHeight,
-              pct = dh>0 ? (st/dh)*100 : 0;
-          pct = Math.min(pct, 100);
-          bar.style.width = pct+'%';
-          if(!pill||!txt) return;
-          if(pct > 8 && pct < 98) {
-            pill.classList.add('visible'); pill.classList.remove('done');
-            var minsLeft = Math.ceil(totalMins*(1-pct/100));
-            txt.textContent = minsLeft <=1 ? 'Almost done' : minsLeft+' min left';
-          } else if(pct >= 98) {
-            pill.classList.add('visible','done'); txt.textContent = 'Finished ✓';
-          } else {
-            pill.classList.remove('visible','done');
-          }
-        },{passive:true});
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput.value.trim();
 
-        var btn = document.getElementById('back-to-top');
-        if(btn) {
-          window.addEventListener('scroll',function(){
-            btn.classList.toggle('visible', window.scrollY > 400);
-          },{passive:true});
-          btn.addEventListener('click',function(){
-            window.scrollTo({top:0,behavior:'smooth'});
+        messageDiv.style.display = "block";
+        messageDiv.style.color = "#555";
+        messageDiv.textContent = "Submitting...";
+
+        try {
+          const response = await fetch("https://newsletter-api.xmania365.workers.dev", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: email }),
           });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            messageDiv.style.color = "green";
+            messageDiv.textContent = data.message || "Thank you for subscribing!";
+            form.reset();
+          } else {
+            messageDiv.style.color = "red";
+            messageDiv.textContent = data.error || "Subscription failed. Please try again.";
+          }
+        } catch (err) {
+          messageDiv.style.color = "red";
+          messageDiv.textContent = "An error occurred. Please try again later.";
         }
-      })();
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>

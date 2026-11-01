@@ -11,51 +11,197 @@
 }}
 {{ $slug := .Title | urlize }}
 {{ $desc := index $categoryMeta $slug }}
+{{ $pageNum := .Paginator.PageNumber }}
+{{ $pages := .Paginator.Pages }}
 
-<div class="category-list-page">
-  <header class="category-header">
-    <div class="category-header-inner">
-      <h1 class="category-title">{{ .Title }}</h1>
-      {{ if $desc }}
-        <p class="category-desc">{{ $desc }}</p>
-      {{ else if .Content }}
-        <div class="category-desc">{{ .Content }}</div>
-      {{ end }}
+<div class="section-page">
+  <header class="section-header">
+    <div class="section-header-inner">
+      <span class="section-eyebrow">Veridus Post · Section</span>
+      <h1 class="section-title">{{ .Title }}</h1>
+      {{ if $desc }}<p class="section-desc">{{ $desc }}</p>{{ end }}
     </div>
   </header>
 
-  <div class="category-articles-grid">
-    {{ range .Paginator.Pages }}
-      {{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
-      {{ $itemCat := index .Params.categories 0 | default "" }}
-      {{ $byline := .Params.author }}
-      {{ if ne (lower $itemCat) "opinion" }}{{ $byline = .Params.author | default .Site.Params.author }}{{ end }}
-      <article class="category-item-simple">
-        {{ with index .Params.categories 0 }}
-          <span class="category-item-cat">{{ . }}</span>
-        {{ end }}
-        <h2 class="category-item-title">
-          <a href="{{ .Permalink }}">{{ .Title }}</a>
-        </h2>
-        <div class="category-item-meta">
-          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-          <span class="category-item-dot">·</span>
-          <span>{{ .ReadingTime }} min read</span>
-          {{ with $byline }}<span class="category-item-author">· {{ . }}</span>{{ end }}
-        </div>
-      </article>
-    {{ end }}
-  </div>
+  {{ if $pages }}
+    {{ if eq $pageNum 1 }}
+      {{ $lead := index $pages 0 }}
+      {{ $secondary := after 1 $pages }}
 
+      <div class="section-body">
+        <div class="section-main">
+
+          {{/* LEAD STORY */}}
+          {{ with $lead }}
+            {{ $cat := index .Params.categories 0 | default "" }}
+            {{ $catL := $cat | lower }}
+            <article class="section-lead">
+              {{ $hasImg := false }}
+              {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+                {{ $hasImg = true }}
+                {{ $img := .Resize "1200x" }}
+                <a href="{{ $.Permalink }}" class="section-lead-img">
+                  <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="eager" width="{{ $img.Width }}" height="{{ $img.Height }}">
+                </a>
+              {{ end }}
+              {{ if not $hasImg }}
+                <a href="{{ .Permalink }}" class="section-lead-img">
+                  <div class="card-placeholder card-placeholder--hero" data-cat="{{ $catL }}">
+                    <div class="cp-icon-wrap">{{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon cp-icon--lg") }}</div>
+                    <span class="cp-cat-pill">{{ $cat }}</span>
+                  </div>
+                </a>
+              {{ end }}
+              {{ with $cat }}<span class="np-kicker np-kicker--lead">{{ . }}</span>{{ end }}
+              <h2 class="section-lead-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+              {{ with .Summary }}<p class="section-lead-deck">{{ . | truncate 220 }}</p>{{ end }}
+              <div class="np-byline np-byline--lead">
+                {{ with .Params.author }}<span class="np-byline-name">By {{ . }}</span><span class="np-dot">·</span>{{ end }}
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                <span class="np-dot">·</span><span>{{ .ReadingTime }} min read</span>
+              </div>
+            </article>
+          {{ end }}
+
+          {{/* SECONDARY – 2 columns */}}
+          {{ if gt (len $secondary) 0 }}
+          <div class="section-secondary-row">
+            {{ range first 2 $secondary }}
+              {{ $cat := index .Params.categories 0 | default "" }}
+              {{ $catL := $cat | lower }}
+              <article class="section-secondary-item">
+                {{ $hasImg := false }}
+                {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+                  {{ $hasImg = true }}
+                  {{ $img := .Fill "480x320" }}
+                  <a href="{{ $.Permalink }}" class="section-secondary-img">
+                    <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+                  </a>
+                {{ end }}
+                {{ if not $hasImg }}
+                  <a href="{{ .Permalink }}" class="section-secondary-img">
+                    <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $catL }}">
+                      <div class="cp-icon-wrap">{{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon") }}</div>
+                      <span class="cp-cat-pill">{{ $cat }}</span>
+                    </div>
+                  </a>
+                {{ end }}
+                {{ with $cat }}<span class="np-kicker">{{ . }}</span>{{ end }}
+                <h3 class="section-secondary-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                {{ with .Summary }}<p class="section-secondary-deck">{{ . | truncate 140 }}</p>{{ end }}
+                <div class="np-byline np-byline--sm">
+                  {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+                  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                </div>
+              </article>
+            {{ end }}
+          </div>
+          {{ end }}
+
+          {{/* GRID – 3 columns */}}
+          {{ if gt (len $secondary) 2 }}
+          <div class="section-more-grid">
+            {{ range after 2 $secondary }}
+              {{ $cat := index .Params.categories 0 | default "" }}
+              {{ $catL := $cat | lower }}
+              <article class="section-grid-item">
+                {{ $hasImg := false }}
+                {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+                  {{ $hasImg = true }}
+                  {{ $img := .Fill "400x260" }}
+                  <a href="{{ $.Permalink }}" class="section-grid-img">
+                    <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+                  </a>
+                {{ end }}
+                {{ if not $hasImg }}
+                  <a href="{{ .Permalink }}" class="section-grid-img">
+                    <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $catL }}">
+                      <div class="cp-icon-wrap">{{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon") }}</div>
+                      <span class="cp-cat-pill">{{ $cat }}</span>
+                    </div>
+                  </a>
+                {{ end }}
+                {{ with $cat }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+                <h3 class="section-grid-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                <div class="np-byline np-byline--xs">
+                  {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+                  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                </div>
+              </article>
+            {{ end }}
+          </div>
+          {{ end }}
+        </div>
+
+        {{/* SIDEBAR */}}
+        <aside class="section-sidebar">
+          <div class="sidebar-widget">
+            <h3 class="sidebar-title">More in {{ .Title }}</h3>
+            <ol class="sidebar-list">
+              {{ range first 5 $pages }}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+              {{ end }}
+            </ol>
+          </div>
+          <div class="sidebar-widget">
+            <h3 class="sidebar-title">Sections</h3>
+            <ul class="sidebar-sections">
+              {{ range .Site.Menus.main }}
+                <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+              {{ end }}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    {{ else }}
+      {{/* PAGE 2+ – dense grid only */}}
+      <div class="section-more-grid section-more-grid--full">
+        {{ range $pages }}
+          {{ $cat := index .Params.categories 0 | default "" }}
+          {{ $catL := $cat | lower }}
+          <article class="section-grid-item">
+            {{ $hasImg := false }}
+            {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+              {{ $hasImg = true }}
+              {{ $img := .Fill "400x260" }}
+              <a href="{{ $.Permalink }}" class="section-grid-img">
+                <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $img.Width }}" height="{{ $img.Height }}">
+              </a>
+            {{ end }}
+            {{ if not $hasImg }}
+              <a href="{{ .Permalink }}" class="section-grid-img">
+                <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $catL }}">
+                  <div class="cp-icon-wrap">{{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon") }}</div>
+                  <span class="cp-cat-pill">{{ $cat }}</span>
+                </div>
+              </a>
+            {{ end }}
+            {{ with $cat }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+            <h3 class="section-grid-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="np-byline np-byline--xs">
+              {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    {{ end }}
+  {{ end }}
+
+  {{/* PAGINATION */}}
   {{ if gt .Paginator.TotalPages 1 }}
-  <nav class="category-pagination" aria-label="Page navigation">
-    <div class="pagination-inner">
+  <nav class="paginated-nav" aria-label="Page navigation">
+    <div class="paginated-nav-inner">
       {{ if .Paginator.HasPrev }}
-        <a href="{{ .Paginator.Prev.URL }}" class="page-link page-prev">← Newer</a>
+        <a href="{{ .Paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+      {{ else }}
+        <span class="paginated-prev disabled">← Newer</span>
       {{ end }}
-      <span class="page-info">Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}</span>
+      <span class="paginated-page-info">Page {{ .Paginator.PageNumber }} of {{ .Paginator.TotalPages }}</span>
       {{ if .Paginator.HasNext }}
-        <a href="{{ .Paginator.Next.URL }}" class="page-link page-next">Older →</a>
+        <a href="{{ .Paginator.Next.URL }}" class="paginated-next">Older →</a>
+      {{ else }}
+        <span class="paginated-next disabled">Older →</span>
       {{ end }}
     </div>
   </nav>
@@ -63,180 +209,236 @@
 </div>
 
 <style>
-/* Simplified category grid – only headings, no images/summaries */
-.category-list-page {
+.section-page {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 0 1.5rem 4rem;
 }
-.category-header {
+.section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
-  border-bottom: 2px double var(--border);
-  padding-bottom: 1.5rem;
+  padding: 2rem 0 1.5rem;
+  border-bottom: 3px double var(--text-primary);
+  margin-bottom: 2rem;
 }
-.category-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
-  font-size: clamp(2rem, 5vw, 3rem);
+.section-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
   font-weight: 700;
-  line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
   margin-bottom: 0.5rem;
 }
-.category-desc {
+.section-title {
   font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
-  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+}
+.section-desc {
+  font-family: var(--font-ui);
   font-style: italic;
   font-size: 1.1rem;
   color: var(--text-muted);
   max-width: 600px;
   margin: 0 auto;
 }
-.category-articles-grid {
+.section-body {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  gap: 2.5rem;
 }
-@media (min-width: 600px) {
-  .category-articles-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-  .category-articles-grid > *:nth-child(odd) {
-    border-right: 1px solid var(--border);
-    padding-right: 1.5rem;
-  }
-  .category-articles-grid > *:nth-child(even) {
-    padding-left: 1.5rem;
+@media (min-width: 1024px) {
+  .section-body {
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
   }
 }
-@media (min-width: 900px) {
-  .category-articles-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .category-articles-grid > * {
-    border-right: none;
-    padding-right: 0;
-    padding-left: 0;
-  }
-  .category-articles-grid > *:not(:nth-child(3n)) {
-    border-right: 1px solid var(--border);
-    padding-right: 1.5rem;
-  }
-  .category-articles-grid > *:nth-child(3n+1) {
-    padding-left: 0;
-  }
-  .category-articles-grid > *:nth-child(3n+2),
-  .category-articles-grid > *:nth-child(3n+3) {
-    padding-left: 1.5rem;
-  }
+.section-main { min-width: 0; }
+
+/* LEAD */
+.section-lead {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
 }
-@media (min-width: 1200px) {
-  .category-articles-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .category-articles-grid > *:not(:nth-child(4n)) {
-    border-right: 1px solid var(--border);
-    padding-right: 1.5rem;
-  }
-  .category-articles-grid > *:nth-child(4n+1) {
-    padding-left: 0;
-  }
-  .category-articles-grid > *:nth-child(4n+2),
-  .category-articles-grid > *:nth-child(4n+3),
-  .category-articles-grid > *:nth-child(4n+4) {
-    padding-left: 1.5rem;
-  }
+.section-lead-img {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  aspect-ratio: 3/2;
+  background: var(--bg-alt);
 }
-.category-item-simple {
-  padding: 0.5rem 0;
+.section-lead-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 }
-.category-item-cat {
+.section-lead-img:hover img { transform: scale(1.02); }
+.section-lead-hed {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+}
+.section-lead-hed a { color: var(--text-primary); text-decoration: none; }
+.section-lead-hed a:hover { color: var(--hover); text-decoration: underline; }
+.section-lead-deck {
   font-family: var(--font-ui);
-  font-size: 0.6rem;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-bottom: 0.6rem;
+}
+
+/* SECONDARY */
+.section-secondary-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+@media (min-width: 640px) { .section-secondary-row { grid-template-columns: 1fr 1fr; } }
+.section-secondary-img {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  aspect-ratio: 3/2;
+  background: var(--bg-alt);
+}
+.section-secondary-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.section-secondary-img:hover img { transform: scale(1.03); }
+.section-secondary-hed {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  line-height: 1.2;
+  margin: 0.3rem 0;
+}
+.section-secondary-hed a { color: var(--text-primary); text-decoration: none; }
+.section-secondary-hed a:hover { color: var(--hover); text-decoration: underline; }
+.section-secondary-deck {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+/* GRID */
+.section-more-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 560px) { .section-more-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .section-more-grid { grid-template-columns: repeat(3, 1fr); } }
+.section-more-grid--full { max-width: 1280px; margin: 0 auto; }
+@media (min-width: 900px) { .section-more-grid--full { grid-template-columns: repeat(4, 1fr); } }
+.section-grid-item { padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-light); }
+.section-grid-img {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 0.65rem;
+  aspect-ratio: 3/2;
+  background: var(--bg-alt);
+}
+.section-grid-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.section-grid-img:hover img { transform: scale(1.04); }
+.section-grid-hed {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0.2rem 0;
+}
+.section-grid-hed a { color: var(--text-primary); text-decoration: none; }
+.section-grid-hed a:hover { color: var(--hover); text-decoration: underline; }
+
+/* SIDEBAR */
+.section-sidebar { min-width: 0; }
+@media (min-width: 1024px) {
+  .section-sidebar {
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--border);
+  }
+}
+.sidebar-widget {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.sidebar-widget:last-child { border-bottom: none; }
+.sidebar-title {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
   color: var(--accent);
-  display: inline-block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
 }
-.category-item-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: sidebar-counter;
+}
+.sidebar-list li {
+  counter-increment: sidebar-counter;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-light);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.sidebar-list li:last-child { border-bottom: none; }
+.sidebar-list li::before {
+  content: counter(sidebar-counter);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent);
+  flex-shrink: 0;
+  width: 1.2rem;
+  text-align: right;
   line-height: 1.3;
-  margin: 0 0 0.3rem;
 }
-.category-item-title a {
+.sidebar-list li a { color: var(--text-primary); text-decoration: none; transition: color 0.2s; }
+.sidebar-list li a:hover { color: var(--hover); text-decoration: underline; }
+.sidebar-sections { list-style: none; padding: 0; margin: 0; }
+.sidebar-sections li { padding: 0.4rem 0; border-bottom: 1px solid var(--border-light); }
+.sidebar-sections li:last-child { border-bottom: none; }
+.sidebar-sections a {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--text-primary);
   text-decoration: none;
   transition: color 0.2s;
 }
-.category-item-title a:hover {
-  color: var(--hover);
-  text-decoration: underline;
-}
-.category-item-meta {
-  font-family: var(--font-ui);
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-.category-item-author {
-  font-weight: 700;
-  color: var(--text-primary);
-}
-.category-item-dot {
-  opacity: 0.4;
-}
-.category-pagination {
-  margin-top: 2rem;
-  text-align: center;
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-}
-.pagination-inner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-.page-link {
-  text-decoration: none;
-  color: var(--text-primary);
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-pill);
-  transition: all 0.2s;
-}
-.page-link:hover {
-  background: var(--accent);
-  color: #fff;
-}
-.page-info {
-  color: var(--text-muted);
-  background: var(--bg-alt);
-  padding: 0.4rem 1rem;
-  border-radius: var(--radius-pill);
-}
-@media (max-width: 600px) {
-  .category-list-page {
-    padding: 1.5rem;
-  }
-  .category-item-title {
-    font-size: 1.1rem;
-  }
-}
+.sidebar-sections a:hover { color: var(--hover); text-decoration: underline; }
 </style>
 {{ end }}

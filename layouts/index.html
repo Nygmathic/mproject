@@ -5,9 +5,7 @@
 {{ $pinned := slice }}
 {{ range where $allArticles "Params.pin" true }}
   {{ $expired := false }}
-  {{ with .Params.pin_expiry }}
-    {{ if lt (time .) now }}{{ $expired = true }}{{ end }}
-  {{ end }}
+  {{ with .Params.pin_expiry }}{{ if lt (time .) now }}{{ $expired = true }}{{ end }}{{ end }}
   {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
 {{ end }}
 
@@ -15,238 +13,130 @@
 {{ range $pinned }}{{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}{{ end }}
 
 {{ $unpinned := slice }}
-{{ range $allArticles }}
-  {{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}
-{{ end }}
+{{ range $allArticles }}{{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}{{ end }}
 
 {{ $paginator := .Paginate $unpinned }}
 
 {{ if eq $paginator.PageNumber 1 }}
-  {{/* ── FIRST PAGE: full broadsheet layout ── */}}
   {{ $pool := $paginator.Pages }}
   {{ if $pinned }}{{ $pool = $pinned | append $paginator.Pages }}{{ end }}
 
-  <div class="np-page">
+  <div class="np-home">
 
-    {{/* ── DATE RIBBON (with search icon, no support) ── */}}
-    <div class="np-ribbon">
-      <span class="np-ribbon-date">{{ now.Format "Monday, January 2, 2006" }}</span>
-      <span class="np-ribbon-rule"></span>
-      <nav class="np-ribbon-nav" aria-label="Sections">
-        {{ range .Site.Menus.main }}<a href="{{ .URL }}">{{ .Name }}</a>{{ end }}
-      </nav>
-      <span class="np-ribbon-rule"></span>
-      <a href="/search/" class="np-ribbon-search" aria-label="Search">
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="6"/><path d="m16 16-3.5-3.5"/></svg>
-      </a>
-    </div>
+    {{/* ── FRONT PAGE ── */}}
+    <section class="np-front">
+      <div class="np-grid">
 
-    {{/* ── NAMEPLATE ── */}}
-    <header class="np-nameplate">
-      <div class="np-nameplate-inner">
-        <a href="/" class="np-nameplate-wordmark">{{ .Site.Title }}</a>
-        <p class="np-nameplate-tagline">{{ .Site.Params.description }}</p>
-      </div>
-    </header>
-
-    <div class="np-thick-rule" aria-hidden="true"></div>
-
-    {{/* FRONT PAGE GRID */}}
-    <section class="np-front" aria-label="Front page">
-      <div class="np-front-inner">
-
-        {{/* LEAD STORY */}}
-        {{ with index $pool 0 }}
-          {{ $hasImg := false }}
-          {{ $imageRes := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-          {{ if $imageRes }}{{ $hasImg = true }}{{ end }}
-          {{ $cat := index .Params.categories 0 | default "" }}
-          {{ $catSlot := 0 }}
-          {{ $catL := $cat | lower }}
-          {{ if eq $catL "opinion" }}{{ $catSlot = 1 }}{{ else if eq $catL "politics" }}{{ $catSlot = 2 }}{{ else if eq $catL "business" }}{{ $catSlot = 3 }}{{ else if eq $catL "climate" }}{{ $catSlot = 4 }}{{ else if eq $catL "sports" }}{{ $catSlot = 5 }}{{ else if eq $catL "global-affairs" }}{{ $catSlot = 1 }}{{ end }}
-
-          <article class="np-lead" data-slot="{{ $catSlot }}">
-            {{ if $hasImg }}
-              {{ with $imageRes }}
-                {{ $img := .Resize "900x" }}
-                <a href="{{ $.Permalink }}" class="np-lead-img-wrap">
-                  <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="eager" fetchpriority="high" width="{{ $img.Width }}" height="{{ $img.Height }}">
-                </a>
-              {{ end }}
-            {{ else }}
-              {{ $words := split .Title " " }}
-              {{ $ini := "" }}{{ range first 3 $words }}{{ $ini = print $ini (. | upper | truncate 1 "") }}{{ end }}
-              <a href="{{ .Permalink }}" class="np-lead-img-wrap np-lead-placeholder">
-                <div class="card-placeholder card-placeholder--hero" data-cat="{{ $catL }}">
-                  <div class="cp-icon-wrap" aria-hidden="true">
-                    {{ partial "cat-icon.html" (dict "cat" $catL "class" "cp-icon cp-icon--lg") }}
-                  </div>
-                  <span class="cp-cat-pill">{{ $cat }}</span>
-                </div>
+        {{/* LEAD */}}
+        <article class="np-lead">
+          {{ with index $pool 0 }}
+            {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+              {{ $img := .Resize "1200x" }}
+              <a href="{{ $.Permalink }}" class="np-lead-img">
+                <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="eager" width="{{ $img.Width }}" height="{{ $img.Height }}">
               </a>
             {{ end }}
-            {{ with $cat }}<span class="np-kicker np-kicker--lead">{{ . }}</span>{{ end }}
-            <h2 class="np-lead-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-            {{ with .Summary | truncate 220 }}<p class="np-lead-deck">{{ . }}</p>{{ end }}
-            <div class="np-byline np-byline--lead">
-              {{ with .Params.author }}<span class="np-byline-name">By {{ . }}</span>{{ end }}
+            {{ with index .Params.categories 0 }}<span class="np-kicker">{{ . }}</span>{{ end }}
+            <h2 class="np-lead-hed clamp-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+            {{ with .Summary }}<p class="np-lead-deck clamp-3">{{ . | plainify | truncate 180 }}</p>{{ end }}
+            <div class="np-byline">
+              {{ with .Params.author }}<span>By {{ . }}</span><span>·</span>{{ end }}
               <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-              <span class="np-dot">·</span><span>{{ .ReadingTime }} min read</span>
+              <span>·</span><span>{{ .ReadingTime }} min read</span>
             </div>
-          </article>
-        {{ end }}
+          {{ end }}
+        </article>
 
-        {{/* CENTRE COLUMN */}}
-        <div class="np-col-centre">
-          {{ range first 2 (after 1 $pool) }}
-            {{ $hasImg2 := false }}
-            {{ $imgRes2 := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-            {{ if $imgRes2 }}{{ $hasImg2 = true }}{{ end }}
-            {{ $cat2 := index .Params.categories 0 | default "" }}
-            {{ $cat2L := $cat2 | lower }}
-            <article class="np-second" data-cat="{{ $cat2L }}">
-              {{ if $hasImg2 }}
-                {{ with $imgRes2 }}
-                  {{ $img2 := .Fill "480x320" }}
-                  <a href="{{ $.Permalink }}" class="np-second-img-wrap">
-                    <img src="{{ $img2.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $img2.Width }}" height="{{ $img2.Height }}">
-                  </a>
-                {{ end }}
-              {{ else }}
-                <a href="{{ .Permalink }}" class="np-second-img-wrap">
-                  <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $cat2L }}">
-                    <div class="cp-icon-wrap" aria-hidden="true">
-                      {{ partial "cat-icon.html" (dict "cat" $cat2L "class" "cp-icon") }}
-                    </div>
-                    <span class="cp-cat-pill">{{ $cat2 }}</span>
-                  </div>
-                </a>
-              {{ end }}
-              {{ with $cat2 }}<span class="np-kicker">{{ . }}</span>{{ end }}
-              <h3 class="np-second-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-              {{ with .Summary | truncate 140 }}<p class="np-second-deck">{{ . }}</p>{{ end }}
-              <div class="np-byline np-byline--sm">
-                {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
+        {{/* SECONDARY — 3 equal cards */}}
+        <div class="np-secondary">
+          {{ range first 3 (after 1 $pool) }}
+            <article class="np-secondary-item">
+              {{ with index .Params.categories 0 }}<span class="np-kicker">{{ . }}</span>{{ end }}
+              <h3 class="np-secondary-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+              {{ with .Summary }}<p class="np-secondary-deck clamp-2">{{ . | plainify | truncate 100 }}</p>{{ end }}
+              <div class="np-byline">
                 <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                <span>·</span><span>{{ .ReadingTime }} min</span>
               </div>
             </article>
           {{ end }}
         </div>
 
-        {{/* RIGHT COLUMN */}}
-        <aside class="np-col-digest">
-          <div class="np-digest-head"><span class="np-section-label">Latest</span></div>
-          {{ range after 3 (first 13 $pool) }}
-            <article class="np-digest-row">
-              {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
-              <h4 class="np-digest-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-              <div class="np-byline np-byline--xs">
-                {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
-                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
-              </div>
-            </article>
-          {{ end }}
-          <a href="/archive/" class="np-digest-more">More stories →</a>
+        {{/* SIDEBAR — Most Read */}}
+        <aside class="np-sidebar">
+          <h3 class="np-label">Most Read</h3>
+          <ol class="np-sidebar-list">
+            {{ range first 7 (after 4 $pool) }}
+              <li>
+                <a href="{{ .Permalink }}">
+                  {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+                  <span class="np-sidebar-title clamp-2">{{ .Title }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ol>
         </aside>
 
       </div>
     </section>
 
-    <div class="np-rule" aria-hidden="true"></div>
+    <hr class="np-rule">
 
-    {{/* SECTIONS ROW (Opinion + Global Affairs) */}}
-    {{ $opinionPages := where .Site.RegularPages "Params.categories" "intersect" (slice "opinion") | first 3 }}
-    {{ $globalPages  := where .Site.RegularPages "Params.categories" "intersect" (slice "global-affairs")  | first 3 }}
-    {{ if or $opinionPages $globalPages }}
-    <section class="np-sections-row" aria-label="Opinion and Global Affairs">
-      {{ if $opinionPages }}
-      <div class="np-section-col">
-        <header class="np-section-col-head">
-          <span class="np-section-label np-section-label--opinion">Opinion</span>
-          <a href="/categories/opinion/" class="np-section-more">All Opinion →</a>
-        </header>
+    {{/* ── MORE NEWS ── */}}
+    {{ $moreNews := after 11 (first 17 $pool) }}
+    {{ if $moreNews }}
+    <section class="np-block">
+      <h2 class="np-label">More News</h2>
+      <div class="np-block-grid np-block-grid--3">
+        {{ range $moreNews }}
+          <article class="np-item">
+            {{ with index .Params.categories 0 }}<span class="np-kicker">{{ . }}</span>{{ end }}
+            <h3 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary }}<p class="np-item-deck clamp-2">{{ . | plainify | truncate 100 }}</p>{{ end }}
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              <span>·</span><span>{{ .ReadingTime }} min</span>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <hr class="np-rule">
+
+    {{/* ── OPINION ── */}}
+    {{ $opinionPages := where .Site.RegularPages "Params.categories" "intersect" (slice "opinion") | first 4 }}
+    {{ if $opinionPages }}
+    <section class="np-block">
+      <h2 class="np-label np-label--opinion">Opinion</h2>
+      <div class="np-block-grid np-block-grid--4">
         {{ range $opinionPages }}
-          <article class="np-section-item">
-            {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs" style="color:var(--accent)">Opinion</span>{{ end }}
-            <h3 class="np-section-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-            {{ with .Params.author }}<p class="np-section-byline">By {{ . }}</p>{{ end }}
+          <article class="np-item np-item--opinion">
+            <span class="np-kicker">By {{ .Params.author | default "Veridus Editorial" }}</span>
+            <h3 class="np-item-hed clamp-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary }}<p class="np-item-deck clamp-2">{{ . | plainify | truncate 90 }}</p>{{ end }}
           </article>
         {{ end }}
       </div>
-      {{ end }}
-      {{ if $globalPages }}
-      <div class="np-section-col">
-        <header class="np-section-col-head">
-          <span class="np-section-label np-section-label--global-affairs">Global Affairs</span>
-          <a href="/categories/global-affairs/" class="np-section-more">All Global Affairs →</a>
-        </header>
-        {{ range $globalPages }}
-          <article class="np-section-item">
-            <h3 class="np-section-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-            {{ with .Summary | truncate 100 }}<p class="np-section-deck">{{ . }}</p>{{ end }}
-            <div class="np-byline np-byline--xs">
-              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-            </div>
-          </article>
-        {{ end }}
-      </div>
-      {{ end }}
     </section>
     {{ end }}
 
-    <div class="np-rule" aria-hidden="true"></div>
+    <hr class="np-rule">
 
-    {{/* SUPPORT STRIP - Emphasized "Independent journalism, rooted in truth." */}}
-    <div class="np-newsletter">
-      <div class="np-newsletter-inner">
-        <svg class="np-newsletter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-        <div class="np-newsletter-text">
-          <p class="np-newsletter-hed">Independent journalism, rooted in truth.</p>
-          <p class="np-newsletter-sub">No advertisers dictating our coverage, no algorithm deciding what you see. Just readers keeping this going.</p>
-        </div>
-        <a href="/donate/" class="np-newsletter-btn">Support Veridus</a>
-      </div>
-    </div>
-
-    {{/* MORE STORIES (4‑col grid) */}}
-    {{ $more := after 13 $pool }}
-    {{ if $more }}
-    <section class="np-more" aria-label="More stories">
-      <div class="np-rule" aria-hidden="true"></div>
-      <header class="np-more-head">
-        <span class="np-section-label">More Stories</span>
-        <div class="np-more-head-rule"></div>
-      </header>
-      <div class="np-more-grid">
-        {{ range $more }}
-          {{ $hasImgM := false }}
-          {{ $imgResM := .Resources.GetMatch (.Params.feature_image | default "cover*") }}
-          {{ if $imgResM }}{{ $hasImgM = true }}{{ end }}
-          {{ $catM := index .Params.categories 0 | default "" }}
-          {{ $catML := $catM | lower }}
-          <article class="np-more-card" data-cat="{{ $catML }}">
-            {{ if $hasImgM }}
-              {{ with $imgResM }}
-                {{ $imgM := .Fill "420x280" }}
-                <a href="{{ $.Permalink }}" class="np-more-img-wrap">
-                  <img src="{{ $imgM.RelPermalink }}" alt="{{ $.Title }}" loading="lazy" width="{{ $imgM.Width }}" height="{{ $imgM.Height }}">
-                </a>
-              {{ end }}
-            {{ else }}
-              <a href="{{ .Permalink }}" class="np-more-img-wrap">
-                <div class="card-placeholder card-placeholder--secondary" data-cat="{{ $catML }}">
-                  <div class="cp-icon-wrap" aria-hidden="true">
-                    {{ partial "cat-icon.html" (dict "cat" $catML "class" "cp-icon") }}
-                  </div>
-                  <span class="cp-cat-pill">{{ $catM }}</span>
-                </div>
-              </a>
-            {{ end }}
-            {{ with $catM }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
-            <h3 class="np-more-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-            <div class="np-byline np-byline--xs">
-              {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
-              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+    {{/* ── IN BRIEF ── */}}
+    {{ $briefs := after 17 (first 23 $pool) }}
+    {{ if $briefs }}
+    <section class="np-block">
+      <h2 class="np-label">In Brief</h2>
+      <div class="np-block-grid np-block-grid--3">
+        {{ range $briefs }}
+          <article class="np-item">
+            {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+            <h4 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              <span>·</span><span>{{ .ReadingTime }} min</span>
             </div>
           </article>
         {{ end }}
@@ -254,75 +144,392 @@
     </section>
     {{ end }}
 
-  </div>{{/* /np-page */}}
+    <hr class="np-rule">
 
-  {{/* PAGINATION for page 1 */}}
+    {{/* ── SUPPORT STRIP ── */}}
+    <section class="np-block">
+      <div class="np-support">
+        <p class="np-support-hed">Independent journalism, rooted in truth.</p>
+        <a href="/donate/" class="np-support-btn">Support Veridus</a>
+      </div>
+    </section>
+
+    <hr class="np-rule">
+
+    {{/* ── MORE STORIES ── */}}
+    {{ $moreStories := after 23 $pool }}
+    {{ if $moreStories }}
+    <section class="np-block">
+      <h2 class="np-label">More Stories</h2>
+      <div class="np-block-grid np-block-grid--4">
+        {{ range first 12 $moreStories }}
+          <article class="np-item">
+            {{ with index .Params.categories 0 }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
+            <h3 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+  </div>
+
   {{ if gt $paginator.TotalPages 1 }}
   <nav class="paginated-nav" aria-label="Page navigation">
     <div class="paginated-nav-inner">
-      {{ if $paginator.HasPrev }}
-        <a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
-      {{ else }}
-        <span class="paginated-prev disabled">← Newer</span>
-      {{ end }}
+      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+      {{ else }}<span class="paginated-prev disabled">← Newer</span>{{ end }}
       <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-      {{ if $paginator.HasNext }}
-        <a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
-      {{ else }}
-        <span class="paginated-next disabled">Older →</span>
-      {{ end }}
+      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+      {{ else }}<span class="paginated-next disabled">Older →</span>{{ end }}
     </div>
   </nav>
   {{ end }}
 
 {{ else }}
-  {{/* ============================================================
-       PAGES 2+ – SIMPLIFIED GRID (no images, no summaries, only headings)
-       ============================================================ */}}
+
+  {{/* ── PAGES 2+ ── */}}
   <div class="archive-grid-page">
     <header class="archive-grid-header">
-      <div class="archive-grid-eyebrow">{{ now.Format "Monday, January 2, 2006" }}</div>
       <h1 class="archive-grid-title">More from {{ .Site.Title }}</h1>
-      <p class="archive-grid-subtitle">Older articles, essays, and investigations – in full.</p>
     </header>
-
     <div class="archive-articles-grid">
       {{ range $paginator.Pages }}
         <article class="archive-item-simple">
-          {{ with index .Params.categories 0 }}
-            <span class="archive-item-cat">{{ . }}</span>
-          {{ end }}
-          <h2 class="archive-item-title">
-            <a href="{{ .Permalink }}">{{ .Title }}</a>
-          </h2>
+          {{ with index .Params.categories 0 }}<span class="archive-item-cat">{{ . }}</span>{{ end }}
+          <h2 class="archive-item-title clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
           <div class="archive-item-meta">
             <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-            <span class="archive-item-dot">·</span>
+            <span>·</span>
             <span>{{ .ReadingTime }} min read</span>
-            {{ with .Params.author }}<span class="archive-item-author">· {{ . }}</span>{{ end }}
           </div>
         </article>
       {{ end }}
     </div>
-
     {{ if gt $paginator.TotalPages 1 }}
     <nav class="paginated-nav" aria-label="Page navigation">
       <div class="paginated-nav-inner">
-        {{ if $paginator.HasPrev }}
-          <a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
-        {{ else }}
-          <span class="paginated-prev disabled">← Newer</span>
-        {{ end }}
+        {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+        {{ else }}<span class="paginated-prev disabled">← Newer</span>{{ end }}
         <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-        {{ if $paginator.HasNext }}
-          <a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
-        {{ else }}
-          <span class="paginated-next disabled">Older →</span>
-        {{ end }}
+        {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+        {{ else }}<span class="paginated-next disabled">Older →</span>{{ end }}
       </div>
     </nav>
     {{ end }}
   </div>
 {{ end }}
 
+<style>
+/* ── STRUCTURE — tight, equal-sized cards ── */
+
+.np-home { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+.np-rule {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ── Clamping utilities ── */
+.clamp-2,
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.clamp-2 { -webkit-line-clamp: 2; line-clamp: 2; }
+.clamp-3 { -webkit-line-clamp: 3; line-clamp: 3; }
+
+/* ── Front grid ── */
+.np-front { padding: 2rem 0 0; }
+.np-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .np-grid { grid-template-columns: 2fr 1.1fr; gap: 0; }
+}
+@media (min-width: 1024px) {
+  .np-grid { grid-template-columns: 2fr 1.1fr 1fr; }
+}
+
+/* ── Lead ── */
+.np-lead { padding-bottom: 1.5rem; }
+@media (min-width: 768px) {
+  .np-lead { padding-right: 1.5rem; border-right: 1px solid var(--border); }
+}
+.np-lead-img {
+  display: block;
+  margin: 0 0 1rem;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.np-lead-img img { width: 100%; height: 100%; object-fit: cover; }
+.np-lead-hed { margin: 0.25rem 0 0.5rem; }
+.np-lead-deck { margin: 0 0 0.5rem; }
+
+/* ── Secondary ── */
+@media (min-width: 768px) {
+  .np-secondary {
+    padding: 0 1.5rem;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (max-width: 1023px) and (min-width: 768px) {
+  .np-secondary { border-right: none; }
+}
+.np-secondary-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-light);
+  min-height: 0;
+}
+.np-secondary-item:first-child { padding-top: 0; }
+.np-secondary-item:last-child { border-bottom: none; padding-bottom: 0; }
+.np-secondary-item .np-byline { margin-top: auto; padding-top: 0.5rem; }
+.np-secondary-hed { margin: 0.25rem 0 0.4rem; }
+.np-secondary-deck { margin: 0 0 0.25rem; }
+
+/* ── Sidebar ── */
+@media (min-width: 768px) { .np-sidebar { padding-left: 1.5rem; } }
+.np-sidebar-list { list-style: none; padding: 0; margin: 1rem 0 0; }
+.np-sidebar-list li {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.np-sidebar-list li:last-child { border-bottom: none; }
+.np-sidebar-list a { text-decoration: none; color: inherit; display: block; }
+.np-sidebar-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* ── Section blocks ── */
+.np-block { padding: 2rem 0; }
+
+.np-block-grid {
+  display: grid;
+  gap: 1.75rem;
+  grid-auto-rows: 1fr;
+}
+.np-block-grid--3 { grid-template-columns: 1fr; }
+.np-block-grid--4 { grid-template-columns: 1fr; }
+@media (min-width: 640px) {
+  .np-block-grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .np-block-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .np-block-grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .np-block-grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+.np-item {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-light);
+  min-height: 0;
+}
+.np-item .np-byline { margin-top: auto; padding-top: 0.5rem; }
+.np-item-hed { margin: 0.25rem 0 0.4rem; }
+.np-item-deck { margin: 0 0 0.25rem; }
+.np-item--opinion .np-item-hed { font-style: italic; }
+
+/* ── Support strip ── */
+.np-support {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+
+/* ── Structural typography ── */
+.np-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid var(--text-primary);
+  margin: 0 0 1rem;
+}
+.np-label--opinion { border-color: var(--accent); }
+
+.np-kicker {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+.np-kicker--xs { font-size: 0.56rem; margin-bottom: 0.15rem; }
+
+.np-byline {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.np-lead-hed,
+.np-secondary-hed,
+.np-item-hed {
+  line-height: 1.2;
+}
+.np-lead-hed a,
+.np-secondary-hed a,
+.np-item-hed a,
+.np-sidebar-title a { color: inherit; text-decoration: none; }
+
+.np-lead-hed { font-size: clamp(1.6rem, 2.8vw, 2.2rem); }
+.np-secondary-hed { font-size: 1.1rem; }
+.np-item-hed { font-size: 1.05rem; }
+
+.np-lead-deck,
+.np-secondary-deck,
+.np-item-deck {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.np-support-hed { margin: 0; font-weight: 700; }
+
+@media (max-width: 767px) {
+  .np-secondary,
+  .np-sidebar { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+}
+
+/* ════════════════════════════════════════════════
+   APPLE-STYLE PILL BUTTONS
+   ════════════════════════════════════════════════ */
+
+/* ── Support — filled pill with soft glow ── */
+.np-support-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.75rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--accent);
+  color: #fff !important;
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(var(--accent-rgb), 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition:
+    transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.2s ease,
+    box-shadow 0.28s ease;
+}
+.np-support-btn:hover {
+  background: var(--accent-hover) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 10px 26px rgba(var(--accent-rgb), 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+.np-support-btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(var(--accent-rgb), 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Pagination — outlined pills that invert on hover ── */
+.paginated-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 1.5rem 0;
+}
+.paginated-prev,
+.paginated-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  color: var(--text-primary) !important;
+  background: transparent;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition:
+    transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.28s ease;
+}
+.paginated-prev:hover,
+.paginated-next:hover {
+  background: var(--text-primary) !important;
+  color: var(--bg) !important;
+  border-color: var(--text-primary) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+.paginated-prev:active,
+.paginated-next:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.paginated-prev.disabled,
+.paginated-next.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.paginated-page-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+}
+</style>
 {{ end }}

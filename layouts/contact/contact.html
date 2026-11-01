@@ -1,168 +1,407 @@
 {{ define "main" }}
 <div class="contact-page">
   <div class="contact-container">
-    <div class="contact-header">
-      <h1>Contact</h1>
-      <p class="contact-subtitle">Get in touch with the Veridus team.</p>
-    </div>
-    <div class="contact-card">
-      <form class="contact-form" action="https://formsubmit.co/contact@veridus.space" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_subject" value="Veridus Contact Form Submission">
-        <input type="hidden" name="_next" value="{{ .Site.BaseURL }}thanks/">
-        
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send message</button>
-      </form>
-      <div class="contact-alternate">
-        <p>Or email us directly:</p>
-        <a href="mailto:contact@veriduspost.com">contact@veriduspost.com</a>
+
+    <header class="contact-header">
+      <span class="contact-eyebrow">Contact Veridus</span>
+      <h1 class="contact-title">Get in touch.</h1>
+      <p class="contact-sub">We read everything. We answer most things.</p>
+    </header>
+
+    {{/* ── DIRECT EMAIL ── */}}
+    <section class="contact-channels">
+      <div class="contact-channel">
+        <h3 class="contact-channel-label">General inquiries</h3>
+        <a href="mailto:contact@veriduspost.com" class="contact-channel-link">contact@veriduspost.com</a>
+        <p class="contact-channel-note">Questions, feedback, partnerships.</p>
       </div>
+      <div class="contact-channel">
+        <h3 class="contact-channel-label">Story tips</h3>
+        <a href="mailto:tips@veriduspost.com" class="contact-channel-link">tips@veriduspost.com</a>
+        <p class="contact-channel-note">For sensitive material, email first — we'll send a Signal number.</p>
+      </div>
+      <div class="contact-channel">
+        <h3 class="contact-channel-label">Corrections</h3>
+        <a href="mailto:corrections@veriduspost.com" class="contact-channel-link">corrections@veriduspost.com</a>
+        <p class="contact-channel-note">Include the article URL and what needs fixing.</p>
+      </div>
+    </section>
+
+    <div class="contact-divider">
+      <span>or send a message</span>
     </div>
+
+    {{/* ── FORM ── */}}
+    <section class="contact-form-wrap">
+      <form id="contact-form" class="contact-form" novalidate>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cf-name">Name</label>
+            <input
+              type="text"
+              id="cf-name"
+              name="name"
+              placeholder="Your name"
+              autocomplete="name"
+              required
+            >
+          </div>
+          <div class="form-field">
+            <label for="cf-email">Email</label>
+            <input
+              type="email"
+              id="cf-email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="cf-message">Message</label>
+          <textarea
+            id="cf-message"
+            name="message"
+            placeholder="What's on your mind?"
+            rows="7"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="contact-submit" id="contact-submit">
+            <span class="contact-submit-label">Send message</span>
+            <svg class="contact-submit-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          <p id="contact-status" class="contact-status" aria-live="polite" role="status"></p>
+        </div>
+
+      </form>
+    </section>
+
+    <footer class="contact-footer">
+      <p>Every message reaches a person, not a queue. We reply within 2–3 business days.</p>
+    </footer>
+
   </div>
 </div>
 
 <style>
 .contact-page {
-  background: var(--bg, #FFFFFF);
-  padding: 3rem 1.5rem;
-  min-height: 60vh;
+  background: var(--bg);
+  padding: 3rem 1.5rem 5rem;
+  min-height: 70vh;
 }
 .contact-container {
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
 }
+
+/* ── Header ── */
 .contact-header {
   text-align: center;
+  padding-bottom: 2rem;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border, #E5E5E5);
+  border-bottom: 1px solid var(--border);
 }
-.contact-header h1 {
-  font-family: var(--font-display, 'Inter Display'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: var(--step-3, 2rem);
-  font-weight: 800;
-  margin: 0.5rem 0 0.25rem;
-  color: var(--text-primary, #1A1A1A);
-}
-.contact-subtitle {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-size: var(--step-0, 1.125rem);
-  color: var(--text-secondary, #3D3D3D);
-  line-height: 1.6;
-}
-.contact-card {
-  background: var(--bg-alt, #FBFBFB);
-  border-radius: var(--radius-md, 10px);
-  padding: 2rem 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid var(--border-light, #EFEFEF);
-}
-.contact-form .form-group {
-  margin-bottom: 1.5rem;
-}
-.contact-form label {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary, #1A1A1A);
-}
-.contact-form input,
-.contact-form textarea {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.05rem;
-  padding: 0.75rem 1rem;
-  line-height: 1.5;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid var(--border, #E5E5E5);
-  border-radius: var(--radius-sm, 6px);
-  background: var(--bg, #FFFFFF);
-  color: var(--text-primary, #1A1A1A);
-  transition: border-color 0.2s;
-}
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: var(--accent, #D94838);
-}
-.submit-btn {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.9rem;
+.contact-eyebrow {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 0.85rem 1.8rem;
-  background: var(--accent, #D94838);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-pill, 50px);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  width: auto;
-}
-.submit-btn:hover {
-  background: var(--hover-dark, #1a5490);
-  transform: translateY(-1px);
-}
-.contact-alternate {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-light, #EFEFEF);
-  text-align: center;
-}
-.contact-alternate p {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-size: 0.85rem;
-  color: var(--text-muted, #6E6E6E);
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
-.contact-alternate a {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+.contact-title {
+  font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+.contact-sub {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── Direct channels ── */
+.contact-channels {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 640px) {
+  .contact-channels {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+.contact-channel-label {
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.contact-channel-link {
+  font-family: 'Source Serif 4', Georgia, serif;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--accent, #D94838);
-  text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #D94838);
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s;
+  word-break: break-word;
 }
-.contact-alternate a:hover {
-  border-bottom-style: solid;
+.contact-channel-link:hover {
+  color: var(--accent);
+}
+.contact-channel-note {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0.4rem 0 0;
+}
+
+/* ── Divider ── */
+.contact-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.contact-divider::before,
+.contact-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Form ── */
+.contact-form-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 560px) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.form-field label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+}
+.form-field input,
+.form-field textarea {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.8rem 1rem;
+  background: var(--bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-faint, #9E9E9E);
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb, 217, 72, 56), 0.12);
+}
+
+/* ── Submit + status ── */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.contact-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0.8rem 1.75rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(var(--accent-rgb, 217, 72, 56), 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition:
+    transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    background 0.2s,
+    box-shadow 0.28s;
+}
+.contact-submit:hover {
+  background: var(--accent-hover, #b83526);
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 10px 26px rgba(var(--accent-rgb, 217, 72, 56), 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+}
+.contact-submit:active {
+  transform: translateY(0) scale(0.97);
+}
+.contact-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.contact-submit-icon {
+  transition: transform 0.2s;
+}
+.contact-submit:hover .contact-submit-icon {
+  transform: translateX(3px);
+}
+
+.contact-status {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0;
+  min-height: 1.2em;
+  padding-left: 0.15rem;
+}
+.contact-status.is-success { color: #1a7a4a; }
+.contact-status.is-error   { color: var(--accent); }
+.contact-status.is-info    { color: var(--text-muted); }
+
+/* ── Footer ── */
+.contact-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.contact-footer p {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
 }
 </style>
 
 <script>
-// Form handling for FormSubmit.co
-(function() {
-  const form = document.querySelector('.contact-form');
-  if (!form) return;
+(function () {
+  var form   = document.getElementById('contact-form');
+  var status = document.getElementById('contact-status');
+  var btn    = document.getElementById('contact-submit');
+  var label  = btn.querySelector('.contact-submit-label');
 
-  form.addEventListener('submit', function(e) {
-    const btn = form.querySelector('.submit-btn');
-    btn.textContent = 'Sending...';
+  // ⚠️ Replace this with your Worker URL
+  var WORKER_URL = 'https://veridus-contact.xmania365.workers.dev';
+
+  function setStatus(text, kind) {
+    status.textContent = text;
+    status.className = 'contact-status ' + (kind ? 'is-' + kind : '');
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    var payload = {
+      name:    form.name.value.trim(),
+      email:   form.email.value.trim(),
+      message: form.message.value.trim()
+    };
+
+    if (!payload.name || !payload.email || !payload.message) {
+      setStatus('Please fill in all fields.', 'error');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      setStatus('Please enter a valid email address.', 'error');
+      return;
+    }
+
     btn.disabled = true;
-    
-    setTimeout(function() {
-      btn.textContent = 'Send message';
+    label.textContent = 'Sending…';
+    setStatus('', '');
+
+    try {
+      var res  = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      var data = await res.json().catch(function () { return {}; });
+
+      if (res.ok && data.success) {
+        setStatus(data.message || 'Message sent. Thank you.', 'success');
+        form.reset();
+      } else {
+        setStatus(data.error || 'Something went wrong. Please try again.', 'error');
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      setStatus('Network error. Please try again later.', 'error');
+    } finally {
       btn.disabled = false;
-    }, 5000);
+      label.textContent = 'Send message';
+    }
   });
 })();
 </script>

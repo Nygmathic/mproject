@@ -2983,3 +2983,260 @@ html body .main-nav .header-inner {
 .social-link:hover .social-icon {
   opacity: 1;
 }
+
+
+
+/* ═════════════════════════════════════════════════════════════
+   APPLE-STYLE PILL BUTTON SYSTEM — GLOBAL
+   Overrides all prior button styles site-wide.
+   ═════════════════════════════════════════════════════════════ */
+
+:root {
+  --pill-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --pill-dur: 0.28s;
+  --pill-radius: 999px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   1. FILLED PILLS — primary CTAs (donate, submit, share, newsletter)
+   ───────────────────────────────────────────────────────────── */
+.donate-btn,
+.submit-btn,
+.share-trigger,
+.newsletter-btn,
+.np-newsletter-btn,
+.np-support-btn,
+.donation-cta-btn,
+.error-btn-primary,
+.follow-btn,
+.nl-toast-btn,
+.contact-form .submit-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  padding: 0.75rem 1.6rem !important;
+  border-radius: var(--pill-radius) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(var(--accent-rgb), 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  transition:
+    transform var(--pill-dur) var(--pill-ease),
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow var(--pill-dur) var(--pill-ease) !important;
+}
+
+.donate-btn:hover,
+.submit-btn:hover,
+.share-trigger:hover,
+.newsletter-btn:hover,
+.np-newsletter-btn:hover,
+.np-support-btn:hover,
+.donation-cta-btn:hover,
+.error-btn-primary:hover,
+.follow-btn:hover,
+.nl-toast-btn:hover,
+.contact-form .submit-btn:hover {
+  background: var(--accent-hover) !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 10px 26px rgba(var(--accent-rgb), 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24) !important;
+  text-decoration: none !important;
+}
+
+.donate-btn:active,
+.submit-btn:active,
+.share-trigger:active,
+.newsletter-btn:active,
+.np-newsletter-btn:active,
+.np-support-btn:active,
+.donation-cta-btn:active,
+.error-btn-primary:active,
+.follow-btn:active,
+.nl-toast-btn:active,
+.contact-form .submit-btn:active {
+  transform: translateY(0) scale(0.97) !important;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(var(--accent-rgb), 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   2. COMPACT FILLED PILLS — header/nav subscribe buttons
+   ───────────────────────────────────────────────────────────── */
+.np-navbar-subscribe,
+.nyt-subscribe {
+  padding: 0.5rem 1.1rem !important;
+  font-size: 0.68rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  border-radius: var(--pill-radius) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3. OUTLINED PILLS — secondary actions (pagination, back links)
+   ───────────────────────────────────────────────────────────── */
+.paginated-prev,
+.paginated-next,
+.page-link,
+.page-btn,
+.error-btn-secondary,
+.thanks-home-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+  padding: 0.7rem 1.4rem !important;
+  border-radius: var(--pill-radius) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  background: transparent !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  transition:
+    transform var(--pill-dur) var(--pill-ease),
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow var(--pill-dur) var(--pill-ease) !important;
+}
+
+.paginated-prev:hover,
+.paginated-next:hover,
+.page-link:hover,
+.page-btn:hover,
+.error-btn-secondary:hover,
+.thanks-home-link:hover {
+  background: var(--text-primary) !important;
+  color: var(--bg) !important;
+  border-color: var(--text-primary) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  text-decoration: none !important;
+}
+
+.paginated-prev:active,
+.paginated-next:active,
+.page-link:active,
+.page-btn:active,
+.error-btn-secondary:active,
+.thanks-home-link:active {
+  transform: translateY(0) scale(0.97) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.paginated-prev.disabled,
+.paginated-next.disabled {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+.paginated-page-info,
+.page-info {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.55rem 1.1rem !important;
+  border-radius: var(--pill-radius) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: var(--text-muted) !important;
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+.paginated-nav-inner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  flex-wrap: wrap !important;
+  padding: 1.5rem 0 !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   4. CHIP PILLS — tags & topic pills
+   ───────────────────────────────────────────────────────────── */
+.tag-pill,
+.error-topic-pills a {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 0.35rem 0.9rem !important;
+  border-radius: var(--pill-radius) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-decoration: none !important;
+  background: var(--bg-alt) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  transition:
+    transform var(--pill-dur) var(--pill-ease),
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease !important;
+}
+
+.tag-pill:hover,
+.error-topic-pills a:hover {
+  background: var(--text-primary) !important;
+  color: var(--bg) !important;
+  border-color: var(--text-primary) !important;
+  transform: translateY(-1px) !important;
+  text-decoration: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. ICON BUTTONS — press-scale only (preserves existing styles)
+   ───────────────────────────────────────────────────────────── */
+.share-icon:active,
+.author-social-icon:active,
+.np-topbar-icon:active,
+.search-trigger:active,
+.theme-toggle:active,
+.menu-toggle:active,
+.np-hamburger:active,
+.np-drawer-close:active,
+.donation-cta-close:active,
+#back-to-top:active,
+.back-to-top:active,
+.search-field-clear:active {
+  transform: scale(0.94) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   6. UTILITY — clean rounded corners on anything leftover
+   ───────────────────────────────────────────────────────────── */
+.np-support-btn,
+.np-navbar-subscribe,
+.donation-cta-btn {
+  border-width: 0 !important;
+}
