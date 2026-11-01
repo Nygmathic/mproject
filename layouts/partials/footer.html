@@ -1,4 +1,4 @@
-{{/* Footer – with Substack, Patreon, and Buy me a soda links */}}
+{{/* Footer[cite: 2] */}}
 <footer class="site-footer">
   <div class="footer-wordmark-bar">
     <div class="footer-container">
@@ -70,23 +70,65 @@
     </div>
   </div>
 
-  {{/* NEWSLETTER SECTION - button linking to Substack */}}
+  {{/* NEWSLETTER SECTION - Sovereign API Worker Form */}}
   <div class="footer-newsletter-section">
     <div class="footer-container">
       <div class="footer-newsletter-inner">
         <h4 class="footer-newsletter-heading">Newsletter</h4>
         <p class="footer-newsletter-text">Get new pieces delivered to your inbox. No spam, no tracking.</p>
-        <a href="https://veridusmedia.substack.com" class="newsletter-btn" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          Subscribe on Substack
-        </a>
-        <p class="footer-newsletter-note">Powered by Substack. Unsubscribe anytime.</p>
+        <form id="newsletter-form" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+          <input 
+            type="email" 
+            id="subscriber-email" 
+            placeholder="Enter your email" 
+            required 
+            aria-label="Email address"
+            style="padding: 0.6rem 1rem; font-family: inherit; font-size: 0.95rem; border: 1px solid var(--border-color, #ccc); border-radius: var(--radius-sm, 4px); background: var(--bg-card, #fff); color: var(--text-main, #333); flex: 1; min-width: 220px; max-width: 320px;"
+          />
+          <button type="submit" class="newsletter-btn" style="cursor: pointer;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Subscribe
+          </button>
+        </form>
+        <p id="form-response" class="footer-newsletter-note" style="margin-top: 0.75rem; min-height: 1.2rem;"></p>
       </div>
     </div>
   </div>
+
+  <script>
+    document.getElementById('newsletter-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('subscriber-email');
+      const responseMsg = document.getElementById('form-response');
+      
+      responseMsg.style.color = "inherit";
+      responseMsg.textContent = "Subscribing...";
+
+      try {
+        const res = await fetch('https://newsletter-api.xmania365.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailInput.value.trim() })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          responseMsg.textContent = data.message;
+          responseMsg.style.color = "var(--accent, #2b6cb0)";
+          emailInput.value = '';
+        } else {
+          responseMsg.textContent = data.error || "An error occurred.";
+          responseMsg.style.color = "var(--error-color, #e53e3e)";
+        }
+      } catch (err) {
+        responseMsg.textContent = "Unable to connect. Please try again later.";
+        responseMsg.style.color = "var(--error-color, #e53e3e)";
+      }
+    });
+  </script>
 
   <div class="footer-bottom-bar">
     <div class="footer-container footer-bottom-inner">
@@ -98,4 +140,4 @@
       </div>
     </div>
   </div>
-</footer>
+</footer>[cite: 2]
