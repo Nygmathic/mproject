@@ -1,46 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/c64g1803dkp7o#0": {
-    "date": "2026-10-18T10:35:44Z",
-    "niche": "politics",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c64g1803dkp7o?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/world/2026/oct/18/lagos-hypemen-redefining-afrobeats-music-afrohype": {
-    "date": "2026-10-18T10:36:31Z",
-    "niche": "africa",
-    "status": "posted",
-    "source": "https://www.theguardian.com/world/2026/oct/18/lagos-hypemen-redefining-afrobeats-music-afrohype"
-  },
-  "https://www.bbc.co.uk/news/articles/c6x2zrjl7kjno#0": {
-    "date": "2026-10-18T10:37:11Z",
-    "niche": "business",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c6x2zrjl7kjno?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/football/2026/oct/18/how-to-watch-premier-league-nottingham-forest-arsenal": {
-    "date": "2026-10-18T10:37:55Z",
-    "niche": "sports",
-    "status": "posted",
-    "source": "https://www.theguardian.com/football/2026/oct/18/how-to-watch-premier-league-nottingham-forest-arsenal"
-  },
-  "https://www.theguardian.com/australia-news/2026/oct/18/nsw-homes-destroyed-in-black-summer-bushfires-in-high-risk-buffer-zone": {
-    "date": "2026-10-18T10:38:59Z",
-    "niche": "climate",
-    "status": "posted",
-    "source": "https://www.theguardian.com/australia-news/2026/oct/18/nsw-homes-destroyed-in-black-summer-bushfires-in-high-risk-buffer-zone"
-  },
-  "https://www.theguardian.com/commentisfree/2026/oct/18/time-bbc-tv-prison-young-offenders-jimmy-mcgovern-david-tennant": {
-    "date": "2026-10-18T10:39:22Z",
-    "niche": "law",
-    "status": "posted",
-    "source": "https://www.theguardian.com/commentisfree/2026/oct/18/time-bbc-tv-prison-young-offenders-jimmy-mcgovern-david-tennant"
-  },
-  "https://www.bbc.co.uk/news/articles/cv8ez40yz950o#0": {
-    "date": "2026-10-18T10:40:09Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cv8ez40yz950o?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/cq1m4zz9e44go#0": {
     "date": "2026-10-19T12:31:36Z",
     "niche": "politics",
@@ -586,5 +544,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/ck9dz3v7z7v3o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cv369266644lo#0": {
+    "date": "2026-11-01T12:52:06Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cv369266644lo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/world/2026/nov/01/anger-over-johannesburgs-run-down-infrastructure-elections": {
+    "date": "2026-11-01T12:52:57Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/world/2026/nov/01/anger-over-johannesburgs-run-down-infrastructure-elections"
+  },
+  "https://www.bbc.co.uk/news/articles/cqj34gnd3n30o#3": {
+    "date": "2026-11-01T12:53:30Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqj34gnd3n30o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/tennis/articles/cm62y10v3p96o#0": {
+    "date": "2026-11-01T12:53:59Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/tennis/articles/cm62y10v3p96o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.aljazeera.com/?t=1789403891": {
+    "date": "2026-11-01T12:54:47Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.aljazeera.com/news/2026/11/1/malawi-cattle-farmers-travel-farther-as-el-nino-worsens-drought?traffic_source=rss"
+  },
+  "https://www.theguardian.com/society/2026/nov/01/progress-takes-time-stonewall-ceo-on-turning-down-the-heat-on-the-trans-debate": {
+    "date": "2026-11-01T12:55:10Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/nov/01/progress-takes-time-stonewall-ceo-on-turning-down-the-heat-on-the-trans-debate"
+  },
+  "https://www.bbc.co.uk/news/articles/c64g18lkz0kno#1": {
+    "date": "2026-11-01T12:55:39Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c64g18lkz0kno?at_medium=RSS&at_campaign=rss"
   }
 }
