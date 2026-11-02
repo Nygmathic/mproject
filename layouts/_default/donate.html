@@ -1,229 +1,445 @@
 {{ define "main" }}
-<div class="page-container">
-  <div class="page-header">
-    <span class="page-eyebrow">Support Veridus</span>
-    <h1>Help keep Veridus independent.</h1>
-    <p class="page-subtitle">Independent journalism, rooted in truth.</p>
-  </div>
+<div class="donate-page">
+  <div class="donate-container">
 
-  <div class="contact-card">
-    <div class="donate-action-group">
-      <!-- Patreon -->
-      <div class="action-item">
-        <div class="action-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-            <path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/>
-          </svg>
-        </div>
-        <div class="action-text">
-          <span class="action-label">Patreon</span>
-          <p class="action-desc">Become a monthly patron and help sustain independent journalism.</p>
-        </div>
-        <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}" class="submit-btn donate-btn" target="_blank" rel="noopener">
-          Support on Patreon
-          <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
+    <header class="donate-header">
+      <span class="donate-eyebrow">Support Veridus</span>
+      <h1 class="donate-title">Help keep Veridus independent.</h1>
+      <p class="donate-sub">Reader-supported journalism, rooted in truth.</p>
+    </header>
+
+    {{/* ── OPTIONAL LISTING FORM ── */}}
+    <section class="listing-section">
+      <h2 class="listing-title">Want to be thanked publicly?</h2>
+      <p class="listing-hint">Optional — takes 10 seconds. You can skip this and donate normally.</p>
+
+      <div class="listing-options">
+        <label class="listing-option">
+          <input type="radio" name="listing" value="keep-private" checked>
+          <span class="listing-option-label">Keep it private</span>
+        </label>
+        <label class="listing-option">
+          <input type="radio" name="listing" value="list-name">
+          <span class="listing-option-label">List my name on the donor wall</span>
+        </label>
+        <label class="listing-option">
+          <input type="radio" name="listing" value="anonymous">
+          <span class="listing-option-label">List me as Anonymous</span>
+        </label>
       </div>
 
-      <!-- Buy Me a Soda -->
-      <div class="action-item">
-        <div class="action-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2l1 3h10l1-3"/>
-            <rect x="7" y="5" width="10" height="14" rx="2" ry="2"/>
-            <circle cx="12" cy="16" r="1.5"/>
-            <path d="M9 8h6"/>
-          </svg>
+      <div class="listing-details" id="listing-details" hidden>
+        <div class="listing-field" id="field-name" hidden>
+          <label for="display-name">How should we list you?</label>
+          <input type="text" id="display-name" placeholder="e.g. Sarah K. or a pseudonym" autocomplete="name">
         </div>
-        <div class="action-text">
-          <span class="action-label">Buy Me a Soda</span>
-          <p class="action-desc">One‑time contribution to show your support. Every soda helps keep us going.</p>
+        <div class="listing-field">
+          <label for="donor-email">Your email <span class="listing-field-note">(so we can match your donation — never published)</span></label>
+          <input type="email" id="donor-email" placeholder="you@example.com" autocomplete="email">
         </div>
-        <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2" class="submit-btn donate-btn" target="_blank" rel="noopener">
-          Buy a soda
-          <svg class="btn-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
       </div>
-    </div>
+    </section>
 
-    <div class="contact-alternate">
-      <p>Every contribution, however small, directly funds the work — not a platform or an algorithm.</p>
-      <a href="/about/">Learn more about Veridus →</a>
-    </div>
+    {{/* ── PLATFORM BUTTONS ── */}}
+    <section class="platforms-section">
+      <h2 class="platforms-title">Choose how to support</h2>
+      <div class="platforms-grid">
+
+        {{/* Patreon */}}
+        <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}"
+           class="platform-card"
+           data-platform="patreon"
+           target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+              <path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/>
+            </svg>
+          </div>
+          <div class="platform-text">
+            <span class="platform-name">Patreon</span>
+            <span class="platform-desc">Monthly support — the most meaningful kind</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
+
+        {{/* Buy Me a Soda */}}
+        <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2"
+           class="platform-card"
+           data-platform="buymeasoda"
+           target="_blank" rel="noopener">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+              <path d="M6 2l1 3h10l1-3"/>
+              <rect x="7" y="5" width="10" height="14" rx="2" ry="2"/>
+              <circle cx="12" cy="16" r="1.5"/>
+              <path d="M9 8h6"/>
+            </svg>
+          </div>
+          <div class="platform-text">
+            <span class="platform-name">Buy Me a Soda</span>
+            <span class="platform-desc">One-time contribution</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
+
+        {{/* Bitcoin — reveals panel instead of navigating */}}
+        <a href="#"
+           class="platform-card"
+           data-platform="bitcoin"
+           id="bitcoin-card"
+           role="button"
+           aria-expanded="false"
+           aria-controls="bitcoin-panel">
+          <div class="platform-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+              <path d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.548v-.002zm-6.35-4.613c.24-1.59-.974-2.45-2.64-3.03l.54-2.153-1.315-.328-.525 2.107c-.345-.087-.705-.167-1.064-.25l.526-2.127-1.32-.33-.54 2.165c-.285-.067-.565-.132-.86-.195v.005l-1.815-.45-.35 1.407s.975.225.955.236c.535.136.63.486.615.766l-1.477 5.92c-.075.166-.24.406-.614.314.015.02-.96-.24-.96-.24l-.66 1.51 1.71.426.93.242-.54 2.19 1.32.327.54-2.17c.36.1.705.19 1.05.273l-.51 2.154 1.32.33.545-2.19c2.24.427 3.93.257 4.64-1.774.57-1.637-.03-2.58-1.217-3.196.854-.193 1.5-.76 1.68-1.93h.01zm-3.01 4.22c-.404 1.64-3.157.75-4.05.53l.72-2.9c.896.23 3.757.67 3.33 2.37zm.41-4.24c-.37 1.49-2.662.735-3.405.55l.654-2.64c.744.18 3.137.524 2.75 2.084v.006z"/>
+            </svg>
+          </div>
+          <div class="platform-text">
+            <span class="platform-name">Bitcoin</span>
+            <span class="platform-desc">Direct, no intermediary</span>
+          </div>
+          <span class="platform-arrow">↓</span>
+        </a>
+
+      </div>
+
+      {{/* ── BITCOIN PANEL ── */}}
+      <div class="bitcoin-panel" id="bitcoin-panel" hidden>
+        <div class="bitcoin-panel-inner">
+          <button class="bitcoin-panel-close" id="bitcoin-panel-close" aria-label="Close panel">✕</button>
+
+          <h3 class="bitcoin-panel-title">Send Bitcoin</h3>
+
+          <div class="bitcoin-qr">
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=0&data=bitcoin:bc1qc4khhz5853tray2xkv092vqm34m8sajsg2f0tk"
+              alt="Bitcoin address QR code"
+              loading="lazy"
+              width="220"
+              height="220"
+            >
+          </div>
+
+          <p class="bitcoin-label">Bitcoin address</p>
+
+          <code class="bitcoin-address" id="btc-address">bc1qc4khhz5853tray2xkv092vqm34m8sajsg2f0tk</code>
+
+          <button class="bitcoin-copy-btn" id="bitcoin-copy" data-copy="bc1qc4khhz5853tray2xkv092vqm34m8sajsg2f0tk">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+            <span class="bitcoin-copy-label">Copy address</span>
+          </button>
+
+          <p class="bitcoin-note">
+            Scan with any Bitcoin wallet, or copy the address. Verify the first and last characters before sending — Bitcoin transfers are irreversible.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="donate-footer">
+  <p>Every contribution, however small, directly funds the work — not a platform or an algorithm.</p>
+  <p class="donate-footer-small">
+    Looking for another way to give — bank transfer, M-Pesa, or something else?
+    <a href="mailto:contact@veriduspost.com?subject=Other%20ways%20to%20donate">Email contact@veriduspost.com</a>
+    .
+  </p>
+</footer>
+
   </div>
 </div>
 
 <style>
-.page-container {
-  max-width: 760px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
-  background: var(--bg, #FFFFFF);
-}
-.page-header {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border, #E5E5E5);
-}
-.page-eyebrow {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent, #D94838);
-}
-.page-header h1 {
-  font-family: var(--font-display, 'Inter Display'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: var(--step-3, 2rem);
-  font-weight: 800;
-  margin: 0.5rem 0 0.25rem;
-  color: var(--text-primary, #1A1A1A);
-}
-.page-subtitle {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-size: var(--step-0, 1.125rem);
-  color: var(--text-secondary, #3D3D3D);
-  line-height: 1.6;
-}
-.contact-card {
-  background: var(--bg-alt, #FBFBFB);
-  border-radius: var(--radius-md, 10px);
+.donate-page { background: var(--bg); padding: 3rem 1.5rem 5rem; min-height: 70vh; }
+.donate-container { max-width: 720px; margin: 0 auto; }
+
+/* Header */
+.donate-header { text-align: center; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 3px double var(--text-primary); }
+.donate-eyebrow { display: inline-block; font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.donate-title { font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text-primary); margin: 0 0 0.6rem; }
+.donate-sub { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin: 0; }
+
+/* Listing section */
+.listing-section { margin-bottom: 2.5rem; padding: 1.5rem; background: var(--bg-alt); border: 1px solid var(--border); }
+.listing-title { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.2rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--text-primary); }
+.listing-hint { font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-muted); margin: 0 0 1.25rem; }
+.listing-options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+.listing-option { display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-family: var(--font-ui); font-size: 0.92rem; color: var(--text-primary); }
+.listing-option:hover { border-color: var(--accent); }
+.listing-option input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
+.listing-option:has(input:checked) { border-color: var(--accent); background: rgba(var(--accent-rgb, 217, 72, 56), 0.04); }
+.listing-option-label { flex: 1; }
+
+.listing-details { display: flex; flex-direction: column; gap: 0.85rem; padding-top: 1rem; border-top: 1px solid var(--border-light); }
+.listing-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.listing-field label { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-primary); }
+.listing-field-note { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--text-muted); font-size: 0.78rem; margin-left: 0.25rem; }
+.listing-field input { font-family: var(--font-ui); font-size: 0.95rem; padding: 0.7rem 0.9rem; background: var(--bg); color: var(--text-primary); border: 1px solid var(--border); border-radius: var(--radius-sm, 6px); transition: border-color 0.2s; }
+.listing-field input:focus { outline: none; border-color: var(--accent); }
+
+/* Platform section */
+.platforms-section { margin-bottom: 2rem; }
+.platforms-title { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-primary); padding-bottom: 0.5rem; border-bottom: 2px solid var(--text-primary); margin: 0 0 1.25rem; }
+.platforms-grid { display: flex; flex-direction: column; gap: 0.85rem; }
+.platform-card { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md, 10px); text-decoration: none; color: var(--text-primary); transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s; }
+.platform-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(var(--accent-rgb, 217, 72, 56), 0.08); transform: translateY(-1px); }
+.platform-icon { flex-shrink: 0; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(var(--accent-rgb, 217, 72, 56), 0.08); border-radius: 50%; color: var(--accent); }
+.platform-text { flex: 1; display: flex; flex-direction: column; gap: 0.15rem; }
+.platform-name { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+.platform-desc { font-family: var(--font-ui); font-size: 0.82rem; color: var(--text-muted); }
+.platform-arrow { font-size: 1.2rem; color: var(--text-muted); transition: transform 0.2s, color 0.2s; }
+.platform-card:hover .platform-arrow { transform: translateX(4px); color: var(--accent); }
+
+/* ── BITCOIN PANEL ── */
+.bitcoin-panel {
+  margin-top: 1rem;
   padding: 2rem 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid var(--border-light, #EFEFEF);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid #F7931A;
+  animation: btc-slide-in 0.25s ease-out;
 }
-.donate-action-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+@keyframes btc-slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.action-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: var(--bg, #FFFFFF);
-  padding: 1.25rem;
-  border-radius: var(--radius-sm, 6px);
-  border: 1px solid var(--border-light, #EFEFEF);
-  transition: border-color 0.2s, box-shadow 0.2s;
+.bitcoin-panel-inner {
+  max-width: 380px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
 }
-.action-item:hover {
-  border-color: var(--accent, #D94838);
-  box-shadow: 0 2px 6px rgba(var(--accent-rgb, 217, 72, 56), 0.08);
+.bitcoin-panel-close {
+  position: absolute;
+  top: -0.75rem;
+  right: -0.25rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  line-height: 1;
+  transition: color 0.15s;
 }
-.action-icon {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background: rgba(var(--accent-rgb, 217, 72, 56), 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent, #D94838);
+.bitcoin-panel-close:hover { color: var(--text-primary); }
+
+.bitcoin-panel-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--text-primary);
 }
-.action-icon svg {
-  width: 22px;
-  height: 22px;
-  stroke-width: 1.5;
+.bitcoin-qr {
+  display: inline-block;
+  padding: 0.75rem;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
-.action-text {
-  flex: 1;
-}
-.action-label {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.7rem;
+.bitcoin-qr img { display: block; width: 220px; height: 220px; }
+.bitcoin-label {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent, #D94838);
+  color: var(--text-muted);
+  margin: 0 0 0.4rem;
+}
+.bitcoin-address {
   display: block;
-  margin-bottom: 0.2rem;
-}
-.action-desc {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-size: 0.95rem;
-  color: var(--text-secondary, #3D3D3D);
+  font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+  font-size: 0.78rem;
   line-height: 1.5;
-  margin: 0;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+  padding: 0.65rem 0.85rem;
+  margin: 0 0 0.75rem;
+  word-break: break-all;
+  user-select: all;
+  letter-spacing: 0.01em;
 }
-.donate-btn {
+.bitcoin-copy-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.6rem 1.2rem;
-  background: var(--accent, #D94838);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius-pill, 50px);
-  cursor: pointer;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.2s, transform 0.15s;
-}
-.donate-btn:hover {
-  background: var(--hover-dark, #1a5490);
-  transform: translateY(-1px);
-}
-.btn-icon {
-  transition: transform 0.2s;
-}
-.donate-btn:hover .btn-icon {
-  transform: translateX(3px);
-}
-.contact-alternate {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-light, #EFEFEF);
-  text-align: center;
-}
-.contact-alternate p {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-size: 0.85rem;
-  color: var(--text-muted, #6E6E6E);
-  margin-bottom: 0.5rem;
-}
-.contact-alternate a {
-  font-family: var(--font-ui, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 0.9rem;
+  gap: 0.4rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
   font-weight: 600;
-  color: var(--accent, #D94838);
-  text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #D94838);
+  color: #fff;
+  background: #F7931A;
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 4px 12px rgba(247, 147, 26, 0.3);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
-.contact-alternate a:hover {
-  border-bottom-style: solid;
+.bitcoin-copy-btn:hover {
+  background: #E07C0A;
+  transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 8px 18px rgba(247, 147, 26, 0.35);
 }
-@media (max-width: 600px) {
-  .action-item {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-  .action-icon {
-    align-self: center;
-  }
-  .donate-btn {
-    justify-content: center;
-  }
-  .contact-card {
-    padding: 1.5rem;
-  }
+.bitcoin-copy-btn:active { transform: translateY(0) scale(0.97); }
+.bitcoin-copy-btn.copied { background: #1a7a4a; }
+.bitcoin-note {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 1rem 0 0;
 }
+
+/* Footer */
+.donate-footer { text-align: center; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.donate-footer p { font-family: 'Source Serif 4', Georgia, serif; font-size: 0.95rem; color: var(--text-secondary); margin: 0 0 0.5rem; line-height: 1.55; }
+.donate-footer-small { font-family: var(--font-ui) !important; font-size: 0.8rem !important; color: var(--text-muted) !important; font-style: italic; }
+.donate-footer a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 </style>
+
+<script>
+(function() {
+  var WORKER_URL = 'https://veridus-contact.xmania365.workers.dev';
+
+  var radios      = document.querySelectorAll('input[name="listing"]');
+  var details     = document.getElementById('listing-details');
+  var nameField   = document.getElementById('field-name');
+  var nameInput   = document.getElementById('display-name');
+  var emailInput  = document.getElementById('donor-email');
+  var platformCards = document.querySelectorAll('.platform-card[data-platform]:not([data-platform="bitcoin"])');
+  var btcCard     = document.getElementById('bitcoin-card');
+  var btcPanel    = document.getElementById('bitcoin-panel');
+  var btcClose    = document.getElementById('bitcoin-panel-close');
+  var btcCopy     = document.getElementById('bitcoin-copy');
+
+  function currentListing() {
+    return document.querySelector('input[name="listing"]:checked').value;
+  }
+
+  function updateForm() {
+    var val = currentListing();
+    if (val === 'keep-private') {
+      details.hidden = true;
+    } else {
+      details.hidden = false;
+      nameField.hidden = (val !== 'list-name');
+    }
+  }
+  radios.forEach(function(r) { r.addEventListener('change', updateForm); });
+  updateForm();
+
+  async function sendIntentIfNeeded(platform) {
+    var listing = currentListing();
+    if (listing === 'keep-private') return true;
+
+    var displayName = (listing === 'list-name') ? nameInput.value.trim() : '';
+    var email = emailInput.value.trim();
+
+    if (listing === 'list-name' && !displayName) {
+      alert('Please enter how you would like to be listed.');
+      nameInput.focus();
+      return false;
+    }
+    if (!email) {
+      alert('Please enter your email so we can match your donation.');
+      emailInput.focus();
+      return false;
+    }
+
+    try {
+      await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'donor-intent',
+          listing: listing,
+          displayName: displayName,
+          email: email,
+          platform: platform
+        })
+      });
+    } catch (err) {
+      console.error('Donor intent failed (continuing anyway):', err);
+    }
+    return true;
+  }
+
+  platformCards.forEach(function(card) {
+    card.addEventListener('click', async function(e) {
+      if (currentListing() === 'keep-private') return;
+      e.preventDefault();
+      var href = card.href;
+      var platform = card.getAttribute('data-platform');
+      var ok = await sendIntentIfNeeded(platform);
+      if (ok) window.location.href = href;
+    });
+  });
+
+  if (btcCard && btcPanel) {
+    btcCard.addEventListener('click', async function(e) {
+      e.preventDefault();
+      var ok = await sendIntentIfNeeded('bitcoin');
+      if (!ok) return;
+      btcPanel.hidden = false;
+      btcCard.setAttribute('aria-expanded', 'true');
+      btcPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+
+  if (btcClose && btcPanel) {
+    btcClose.addEventListener('click', function() {
+      btcPanel.hidden = true;
+      btcCard.setAttribute('aria-expanded', 'false');
+      btcCard.focus();
+    });
+  }
+
+  if (btcCopy) {
+    btcCopy.addEventListener('click', async function() {
+      var addr = btcCopy.getAttribute('data-copy');
+      var label = btcCopy.querySelector('.bitcoin-copy-label');
+      try {
+        await navigator.clipboard.writeText(addr);
+        label.textContent = 'Copied ✓';
+        btcCopy.classList.add('copied');
+        setTimeout(function() {
+          label.textContent = 'Copy address';
+          btcCopy.classList.remove('copied');
+        }, 2000);
+      } catch (err) {
+        var ta = document.createElement('textarea');
+        ta.value = addr;
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          label.textContent = 'Copied ✓';
+          btcCopy.classList.add('copied');
+          setTimeout(function() {
+            label.textContent = 'Copy address';
+            btcCopy.classList.remove('copied');
+          }, 2000);
+        } catch (e) {
+          alert('Copy failed. Select the address manually.');
+        }
+        document.body.removeChild(ta);
+      }
+    });
+  }
+})();
+</script>
 {{ end }}
