@@ -1,46 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/cq1m4zz9e44go#0": {
-    "date": "2026-10-19T12:31:36Z",
-    "niche": "politics",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cq1m4zz9e44go?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/ckd6d2l3dz4xo#0": {
-    "date": "2026-10-19T12:32:18Z",
-    "niche": "africa",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/ckd6d2l3dz4xo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/cm89z008x7xdo#0": {
-    "date": "2026-10-19T12:33:23Z",
-    "niche": "business",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cm89z008x7xdo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/football/2026/oct/19/bayern-munich-luis-diaz-arsenal-revenge-mission-leipzig-bundesliga": {
-    "date": "2026-10-19T12:34:27Z",
-    "niche": "sports",
-    "status": "posted",
-    "source": "https://www.theguardian.com/football/2026/oct/19/bayern-munich-luis-diaz-arsenal-revenge-mission-leipzig-bundesliga"
-  },
-  "https://www.bbc.co.uk/news/articles/c6vgjnk8nw2wo#0": {
-    "date": "2026-10-19T12:35:55Z",
-    "niche": "climate",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c6vgjnk8nw2wo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/society/2026/oct/18/what-gets-in-the-way-of-prisoners-rehabilitation": {
-    "date": "2026-10-19T12:36:18Z",
-    "niche": "law",
-    "status": "posted",
-    "source": "https://www.theguardian.com/society/2026/oct/18/what-gets-in-the-way-of-prisoners-rehabilitation"
-  },
-  "https://www.bbc.co.uk/news/articles/cm2kez327gdko#2": {
-    "date": "2026-10-19T12:36:47Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cm2kez327gdko?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/c50me4w4x1vyo#0": {
     "date": "2026-10-20T11:09:24Z",
     "niche": "politics",
@@ -586,5 +544,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c64g18lkz0kno?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c63dj21yvjd3o#0": {
+    "date": "2026-11-02T15:03:34Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c63dj21yvjd3o?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/global-development/2026/nov/02/they-assume-the-man-next-to-me-is-the-owner-four-women-doing-business-in-africa-in-their-own-way": {
+    "date": "2026-11-02T15:04:22Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.theguardian.com/global-development/2026/nov/02/they-assume-the-man-next-to-me-is-the-owner-four-women-doing-business-in-africa-in-their-own-way"
+  },
+  "https://www.bbc.co.uk/news/articles/cq1kd1nee80eo#0": {
+    "date": "2026-11-02T15:04:50Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cq1kd1nee80eo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/sport/2026/nov/03/melbourne-cup-2026-poll-record-numbers-turn-their-backs": {
+    "date": "2026-11-02T15:05:58Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.theguardian.com/sport/2026/nov/03/melbourne-cup-2026-poll-record-numbers-turn-their-backs"
+  },
+  "https://www.theguardian.com/us-news/2026/nov/02/gen-z-voting-issues": {
+    "date": "2026-11-02T15:06:27Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/nov/02/gen-z-voting-issues"
+  },
+  "https://www.theguardian.com/politics/2026/nov/02/unions-google-workers-uk-employment-rights": {
+    "date": "2026-11-02T15:06:53Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/politics/2026/nov/02/unions-google-workers-uk-employment-rights"
+  },
+  "https://www.bbc.co.uk/news/articles/cqly0r3kp1mlo#1": {
+    "date": "2026-11-02T15:07:27Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqly0r3kp1mlo?at_medium=RSS&at_campaign=rss"
   }
 }
