@@ -586,5 +586,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/cqly0r3kp1mlo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c58jzn1ve0kjo#0": {
+    "date": "2026-11-03T00:51:24Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c58jzn1ve0kjo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/c9vgrvpk4l6eo#0": {
+    "date": "2026-11-03T00:51:48Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c9vgrvpk4l6eo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cm86zdp2ygqno#0": {
+    "date": "2026-11-03T00:52:13Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cm86zdp2ygqno?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/football/articles/cmly05n114gjo#0": {
+    "date": "2026-11-03T00:52:40Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/football/articles/cmly05n114gjo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/nov/02/north-carolina-congress-republicans": {
+    "date": "2026-11-03T00:53:01Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/nov/02/north-carolina-congress-republicans"
+  },
+  "https://www.theguardian.com/society/2026/nov/02/domestic-violence-survivor-terror-attacker-released-without-tag": {
+    "date": "2026-11-03T00:53:28Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/society/2026/nov/02/domestic-violence-survivor-terror-attacker-released-without-tag"
+  },
+  "https://www.bbc.co.uk/news/articles/c6n8dn457ypko#0": {
+    "date": "2026-11-03T00:54:09Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c6n8dn457ypko?at_medium=RSS&at_campaign=rss"
   }
 }
