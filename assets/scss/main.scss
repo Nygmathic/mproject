@@ -3239,4 +3239,158 @@ html body .main-nav .header-inner {
 .np-navbar-subscribe,
 .donation-cta-btn {
   border-width: 0 !important;
+
+
+
+
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   JUSTIFIED, CENTERED ARTICLE COLUMN
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. Narrow the whole article column for a centered feel */
+.article-container {
+  max-width: 680px;      /* was 800px — tighter measure, floats visibly */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 2. Justify only body text — not headings, captions, or bylines */
+.article-content p,
+.article-content li,
+.article-content > p {
+  text-align: justify;
+  text-justify: inter-word;       /* spread spaces, not letters */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphenate-limit-chars: 8 4 3;   /* only hyphenate words ≥ 8 chars,
+                                     leave ≥ 4 before / ≥ 3 after */
+}
+
+/* 3. Preserve natural left alignment on structural text */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content blockquote,
+.article-content figcaption,
+.article-content ul,
+.article-content ol {
+  text-align: left;
+  hyphens: manual;
+}
+
+/* 4. Keep the drop cap and any inline code clean inside justified text */
+.article-content .drop-cap > p:first-of-type {
+  text-align: justify;
+}
+.article-content code,
+.article-content pre {
+  text-align: left;
+  hyphens: none;
+}
+
+/* 5. Headlines and bylines live in .article-header — keep them left-aligned,
+      but ensure they sit inside the narrower column */
+.article-header {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 6. On mobile, drop justification — narrow viewports get rivers */
+@media (max-width: 640px) {
+  .article-container {
+    max-width: 100%;
+  }
+  .article-content p,
+  .article-content li {
+    text-align: left;
+    hyphens: manual;
+  }
+}
+
+
+
+
+
+
+
+/* ═══ JUSTIFIED ARTICLE — FORCED OVERRIDES ═══ */
+
+html body .article-container {
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+html body .article-content > p,
+html body .article-content > p *,
+html body .article-content > ul > li,
+html body .article-content > ol > li {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  hyphens: auto !important;
+  -webkit-hyphens: auto !important;
+  hyphenate-limit-chars: 8 4 3 !important;
+}
+
+html body .article-content h1,
+html body .article-content h2,
+html body .article-content h3,
+html body .article-content h4,
+html body .article-content blockquote,
+html body .article-content figcaption,
+html body .article-content ul,
+html body .article-content ol {
+  text-align: left !important;
+  hyphens: manual !important;
+}
+
+/* Only turn off on very narrow screens */
+@media (max-width: 500px) {
+  html body .article-content > p,
+  html body .article-content > ul > li,
+  html body .article-content > ol > li {
+    text-align: left !important;
+    hyphens: manual !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
