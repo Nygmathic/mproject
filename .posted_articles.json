@@ -1,46 +1,4 @@
 {
-  "https://www.bbc.co.uk/news/articles/c6gel2xv4493o#0": {
-    "date": "2026-10-21T11:23:47Z",
-    "niche": "politics",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/c6gel2xv4493o?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo#0": {
-    "date": "2026-10-21T11:24:27Z",
-    "niche": "africa",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/news/articles/cm3wv9pn22e5o#0": {
-    "date": "2026-10-21T11:26:38Z",
-    "niche": "business",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/news/articles/cm3wv9pn22e5o?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.bbc.co.uk/sport/rugby-union/articles/cmvg6vdggxvvo#1": {
-    "date": "2026-10-21T11:27:33Z",
-    "niche": "sports",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/sport/rugby-union/articles/cmvg6vdggxvvo?at_medium=RSS&at_campaign=rss"
-  },
-  "https://www.theguardian.com/us-news/2026/oct/21/extreme-weather-survivors-climate-crisis": {
-    "date": "2026-10-21T11:28:33Z",
-    "niche": "climate",
-    "status": "posted",
-    "source": "https://www.theguardian.com/us-news/2026/oct/21/extreme-weather-survivors-climate-crisis"
-  },
-  "https://www.theguardian.com/society/2026/oct/21/jess-phillips-hopes-supreme-court-sees-sense-and-overturns-domestic-abuse-ruling": {
-    "date": "2026-10-21T11:29:24Z",
-    "niche": "law",
-    "status": "posted",
-    "source": "https://www.theguardian.com/society/2026/oct/21/jess-phillips-hopes-supreme-court-sees-sense-and-overturns-domestic-abuse-ruling"
-  },
-  "https://www.bbc.co.uk/weather/articles/c6m24ln2j43go#0": {
-    "date": "2026-10-21T11:30:20Z",
-    "niche": "curious",
-    "status": "posted",
-    "source": "https://www.bbc.co.uk/weather/articles/c6m24ln2j43go?at_medium=RSS&at_campaign=rss"
-  },
   "https://www.bbc.co.uk/news/articles/c3n049jr2ge5o#1": {
     "date": "2026-10-22T11:23:14Z",
     "niche": "politics",
@@ -586,5 +544,47 @@
     "niche": "curious",
     "status": "posted",
     "source": "https://www.bbc.co.uk/news/articles/c6n8dn457ypko?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/us-news/2026/nov/04/texas-democrats-victory-talarico-hinojosa": {
+    "date": "2026-11-04T13:59:08Z",
+    "niche": "politics",
+    "status": "posted",
+    "source": "https://www.theguardian.com/us-news/2026/nov/04/texas-democrats-victory-talarico-hinojosa"
+  },
+  "https://www.bbc.co.uk/news/articles/cr4g1x6l77xyo#0": {
+    "date": "2026-11-04T13:59:33Z",
+    "niche": "africa",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cr4g1x6l77xyo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cqvg0y44ym7vo#0": {
+    "date": "2026-11-04T14:00:16Z",
+    "niche": "business",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cqvg0y44ym7vo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/sport/articles/cmy56zekeneqo#5": {
+    "date": "2026-11-04T14:00:45Z",
+    "niche": "sports",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/sport/articles/cmy56zekeneqo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.bbc.co.uk/news/articles/cr62yv02zwxwo#0": {
+    "date": "2026-11-04T14:04:24Z",
+    "niche": "climate",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/cr62yv02zwxwo?at_medium=RSS&at_campaign=rss"
+  },
+  "https://www.theguardian.com/law/2026/nov/03/british-lawyer-dapo-akande-elected-to-un-international-court-of-justice-diplomatic-win": {
+    "date": "2026-11-04T14:04:51Z",
+    "niche": "law",
+    "status": "posted",
+    "source": "https://www.theguardian.com/law/2026/nov/03/british-lawyer-dapo-akande-elected-to-un-international-court-of-justice-diplomatic-win"
+  },
+  "https://www.bbc.co.uk/news/articles/c699z8792n7ro#0": {
+    "date": "2026-11-04T14:05:33Z",
+    "niche": "curious",
+    "status": "posted",
+    "source": "https://www.bbc.co.uk/news/articles/c699z8792n7ro?at_medium=RSS&at_campaign=rss"
   }
 }
