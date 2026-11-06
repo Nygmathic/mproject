@@ -1452,7 +1452,7 @@ p, li, .text-body {
 
 .article-content {
   font-family: var(--font-article);
-  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.35rem);
+  font-size: clamp(1.2rem, 1rem + 0.5vw, 1.35rem);
   line-height: 1.5;
   letter-spacing: -0.002em;
   color: var(--text-primary);
@@ -2930,11 +2930,11 @@ html body .main-nav .header-inner {
     padding-right: 1rem !important;
   }
   .article-content {
-    font-size: 1.125rem !important;
-    line-height: 1.55 !important;
+    font-size: 1.3rem !important;      // was 1.125rem — bigger for Spectral
+    line-height: 1.6 !important;        // was 1.55 — more air for bigger text
   }
   .article-content p {
-    margin-bottom: 0.9em !important;
+    margin-bottom: 0.95em !important;   // was 0.9em — small bump for larger text
   }
   .article-content h2 {
     font-size: 1.7rem !important;
@@ -2944,7 +2944,7 @@ html body .main-nav .header-inner {
     font-size: 1.4rem !important;
   }
   .article-content blockquote {
-    font-size: 1rem !important;
+    font-size: 1.15rem !important;      // was 1rem — kept proportional to body
     padding-left: 1rem !important;
   }
 }
@@ -3361,6 +3361,35 @@ html body .article-content ol {
     text-align: left !important;
     hyphens: manual !important;
   }
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   HOMEPAGE — unify all serif elements to the reading font
+   (Spectral). Fixes the mismatch caused by leftover
+   'Source Serif 4' references in the homepage CSS.
+   ═══════════════════════════════════════════════════════════ */
+
+.np-home-lead-hed,
+.np-home-secondary-hed,
+.np-home-below-hed,
+.np-home-opinion-hed,
+.np-home-brief-hed,
+.np-home-more-hed,
+.np-sidebar-title,
+.np-lead-hed,
+.np-secondary-hed,
+.np-item-hed,
+.np-home-lead-deck,
+.np-home-secondary-deck,
+.np-home-below-deck,
+.np-home-opinion-deck,
+.np-home-more-deck,
+.np-lead-deck,
+.np-secondary-deck,
+.np-item-deck {
+  font-family: var(--font-reading) !important;
 }
 
 

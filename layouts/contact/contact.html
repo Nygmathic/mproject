@@ -14,47 +14,47 @@
         <a href="mailto:contact@veriduspost.com" class="contact-channel-link">contact@veriduspost.com</a>
       </div>
       <div class="contact-channel">
-        <h3 class="contact-channel-label">Tips</h3>
-        <a href="mailto:tips@veriduspost.com" class="contact-channel-link">tips@veriduspost.com</a>
+        <h3 class="contact-channel-label">Corrections</h3>
+        <a href="mailto:correction@veriduspost.com" class="contact-channel-link">correction@veriduspost.com</a>
       </div>
       <div class="contact-channel">
-        <h3 class="contact-channel-label">Corrections</h3>
-        <a href="mailto:corrections@veriduspost.com" class="contact-channel-link">corrections@veriduspost.com</a>
+        <h3 class="contact-channel-label">Tips</h3>
+        <a href="mailto:tutamail@veridus.com" class="contact-channel-link">tutamail@veridus.com</a>
+        <p class="contact-channel-note">Private, encrypted inbox.</p>
       </div>
     </section>
 
     <div class="contact-divider"><span>or send a message</span></div>
 
-    <form action="https://formsubmit.co/contact@veriduspost.com" method="POST" class="contact-form">
-      {{/* Formsubmit configuration */}}
-      <input type="hidden" name="_subject" value="New message from Veridus contact form">
-      <input type="hidden" name="_next" value="https://veriduspost.com/thanks/">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_replyto" value="email">
-      <input type="hidden" name="_captcha" value="true">
-
-      {{/* Honeypot — bots fill this, humans don't see it */}}
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+      <input type="hidden" name="access_key" value="2a37b31b-b74e-41ea-9554-efd5fce0c677">
+      <input type="hidden" name="subject" value="New message from Veridus contact form">
+      <input type="hidden" name="from_name" value="Veridus Post">
+      <input type="checkbox" name="botcheck" style="display:none">
 
       <div class="form-row">
         <div class="form-field">
           <label for="cf-name">Name</label>
-          <input type="text" id="cf-name" name="name" autocomplete="name" required>
+          <input type="text" id="cf-name" name="name" placeholder="Your name" autocomplete="name" required>
         </div>
         <div class="form-field">
           <label for="cf-email">Email</label>
-          <input type="email" id="cf-email" name="email" autocomplete="email" required>
+          <input type="email" id="cf-email" name="email" placeholder="you@example.com" autocomplete="email" required>
         </div>
       </div>
 
       <div class="form-field">
         <label for="cf-message">Message</label>
-        <textarea id="cf-message" name="message" rows="6" required></textarea>
+        <textarea id="cf-message" name="message" placeholder="Your message" rows="6" required></textarea>
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="contact-submit">Send message</button>
+        <button type="submit" class="contact-submit" id="cf-submit">
+          <span id="cf-submit-label">Send message</span>
+        </button>
       </div>
+
+      <div id="cf-status" class="contact-status" role="status" aria-live="polite"></div>
     </form>
 
   </div>
@@ -66,14 +66,15 @@
 
 .contact-header { text-align: center; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
 .contact-eyebrow { display: inline-block; font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
-.contact-title { font-family: 'Source Serif 4', Georgia, serif; font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text-primary); margin: 0 0 0.5rem; }
-.contact-sub { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin: 0; }
+.contact-title { font-family: 'Spectral', Georgia, serif; font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text-primary); margin: 0 0 0.5rem; }
+.contact-sub { font-family: 'Spectral', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin: 0; }
 
 .contact-channels { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2rem; }
 @media (min-width: 560px) { .contact-channels { grid-template-columns: repeat(3, 1fr); } }
 .contact-channel-label { font-family: var(--font-ui); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin: 0 0 0.4rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border-light); }
-.contact-channel-link { font-family: 'Source Serif 4', Georgia, serif; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; word-break: break-word; }
+.contact-channel-link { font-family: 'Spectral', Georgia, serif; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; word-break: break-word; }
 .contact-channel-link:hover { color: var(--accent); }
+.contact-channel-note { font-family: var(--font-ui); font-size: 0.72rem; color: var(--text-muted); margin: 0.35rem 0 0; font-style: italic; }
 
 .contact-divider { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); }
 .contact-divider::before, .contact-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -91,5 +92,56 @@
 .contact-submit { display: inline-flex; align-items: center; justify-content: center; padding: 0.8rem 1.75rem; border-radius: 999px; font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em; color: #fff; background: var(--accent); border: none; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 6px 18px rgba(var(--accent-rgb, 217, 72, 56), 0.28), inset 0 1px 0 rgba(255,255,255,0.2); transition: transform 0.28s cubic-bezier(0.25,0.1,0.25,1), background 0.2s, box-shadow 0.28s; }
 .contact-submit:hover { background: var(--accent-hover, #b83526); transform: translateY(-1px); }
 .contact-submit:active { transform: translateY(0) scale(0.97); }
+.contact-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.contact-status { font-family: var(--font-ui); font-size: 0.9rem; line-height: 1.5; min-height: 1.4em; margin: 0.25rem 0 0; }
+.contact-status.is-success { color: #1a7a4a; font-weight: 600; }
+.contact-status.is-error { color: var(--accent); }
 </style>
+
+<script>
+(function () {
+  var form = document.getElementById('contact-form');
+  var submit = document.getElementById('cf-submit');
+  var label = document.getElementById('cf-submit-label');
+  var status = document.getElementById('cf-status');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    submit.disabled = true;
+    label.textContent = 'Sending…';
+    status.textContent = '';
+    status.className = 'contact-status';
+
+    try {
+      var data = new FormData(form);
+      var res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      var json = await res.json();
+
+      if (res.ok && json.success) {
+        status.textContent = 'Thank you — your message has been sent. We’ll be in touch within 2–3 business days.';
+        status.className = 'contact-status is-success';
+        form.reset();
+      } else {
+        status.textContent = (json && json.message) || 'Something went wrong. Please try again.';
+        status.className = 'contact-status is-error';
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      status.textContent = 'Network error. Please try again, or email contact@veriduspost.com directly.';
+      status.className = 'contact-status is-error';
+    } finally {
+      submit.disabled = false;
+      label.textContent = 'Send message';
+    }
+  });
+})();
+</script>
 {{ end }}

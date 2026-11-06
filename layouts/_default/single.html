@@ -535,4 +535,129 @@
 })();
 </script>
 
+
+
+
+<script>
+(function() {
+  var trigger = document.getElementById('share-trigger');
+  var icons   = document.getElementById('share-icons');
+  var copyBtn = document.getElementById('copy-link-btn');
+  var container = document.querySelector('.share-container');
+
+  if (!trigger || !icons) return;
+
+  // Hide the check icon by default (only shown after copy)
+  if (copyBtn) {
+    var checkIcon = copyBtn.querySelector('.icon-check');
+    if (checkIcon) checkIcon.style.display = 'none';
+  }
+
+  // Toggle the icons panel
+  trigger.addEventListener('click', function(e) {
+    e.preventDefault();
+    var isOpen = icons.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    icons.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', function(e) {
+    if (container && !container.contains(e.target) && icons.classList.contains('open')) {
+      icons.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      icons.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  // Copy-to-clipboard handler
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async function(e) {
+      e.preventDefault();
+      var url = copyBtn.getAttribute('data-url');
+      var linkIcon  = copyBtn.querySelector('.icon-link');
+      var checkIcon = copyBtn.querySelector('.icon-check');
+
+      function showCopied() {
+        copyBtn.classList.add('copied');
+        if (linkIcon)  linkIcon.style.display = 'none';
+        if (checkIcon) checkIcon.style.display = 'block';
+        setTimeout(function() {
+          copyBtn.classList.remove('copied');
+          if (linkIcon)  linkIcon.style.display = '';
+          if (checkIcon) checkIcon.style.display = 'none';
+        }, 2000);
+      }
+
+      try {
+        await navigator.clipboard.writeText(url);
+        showCopied();
+      } catch (err) {
+        // Fallback for older browsers / insecure contexts
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showCopied();
+        } catch (e2) {
+          alert('Could not copy the link. Please copy it manually:\n' + url);
+        }
+        document.body.removeChild(ta);
+      }
+    });
+  }
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {{ end }}
