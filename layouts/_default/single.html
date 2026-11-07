@@ -19,7 +19,6 @@
       </div>
       <h1 class="article-title">{{ .Title }}</h1>
       {{ with .Params.subtitle }}<p class="article-subtitle">{{ . }}</p>{{ end }}
-      {{/* Default author to Veridus Editorial for all sections except Opinion, where individual bylines are required */}}
       {{ $catIsOpinion := false }}
       {{ if .Params.categories }}
         {{ range .Params.categories }}
@@ -36,7 +35,6 @@
     </header>
   </div>
 
-  {{/* Feature image - only shown if exists */}}
   {{ $hasFeatureImage := false }}
   {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
     {{ $hasFeatureImage = true }}
@@ -47,7 +45,6 @@
     </figure>
   {{ end }}
 
-  {{/* No feature image — use per-category image or fallback icon */}}
   {{ if not $hasFeatureImage }}
     {{ $cat := index .Params.categories 0 | default "essay" }}
     {{ $catLower := $cat | lower }}
@@ -70,7 +67,7 @@
   {{ end }}
 
   <div class="article-container">
-    <div class="article-content drop-cap">
+    <div class="article-content drop-cap" id="article-body">
       {{ .Content }}
     </div>
 
@@ -113,7 +110,6 @@
     </footer>
   </div>
 
-  {{/* AUTHOR BIO CARD - shown on every article; defaults to the Veridus Editorial team bio except in Opinion, where individual author details take over */}}
   {{ $authorBio := .Params.author_bio }}
   {{ if not $catIsOpinion }}{{ $authorBio = .Params.author_bio | default .Site.Params.author_bio }}{{ end }}
 
@@ -155,7 +151,6 @@
   </div>
   {{ end }}
 
-  {{/* Article Navigation (prev/next) */}}
   {{ $next := .NextInSection }}
   {{ $prev := .PrevInSection }}
   <div class="article-continue">
@@ -177,7 +172,6 @@
     </div>
   </div>
 
-  {{/* Related Articles */}}
   {{ $related := site.RegularPages.Related . | first 3 }}
   {{ if not $related }}{{ $currentCat := index .Params.categories 0 }}{{ if $currentCat }}{{ $sameCat := where site.RegularPages "Params.categories" "intersect" (slice $currentCat) }}{{ $related = where $sameCat "Permalink" "ne" .Permalink | first 3 }}{{ end }}{{ end }}
   {{ if not $related }}{{ $related = where site.RegularPages "Permalink" "ne" .Permalink | first 3 }}{{ end }}
@@ -216,182 +210,81 @@
   {{ end }}
 </article>
 
-{{/* DONATION CALL-TO-ACTION (70% scroll, dismissible) */}}
-<div id="donation-cta" class="donation-cta" aria-hidden="true">
-  <div class="donation-cta-inner">
-    <button class="donation-cta-close" aria-label="Close">✕</button>
-    <div class="donation-cta-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-        <polyline points="22,6 12,13 2,6"/>
-      </svg>
-    </div>
-    <p class="donation-cta-title">Help keep Veridus independent.</p>
-    <p class="donation-cta-text">Reader-supported journalism, rooted in truth.</p>
-    <div class="donation-cta-buttons">
-      <a href="{{ .Site.Params.patreon_url | default "https://patreon.com/veridusmedia" }}" class="donation-cta-btn patreon" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 2.5C11.5 2.5 8 6 8 10s3.5 7.5 7.5 7.5S23 14 23 10s-3.5-7.5-7.5-7.5zM1 2h4v20H1V2z"/></svg>
-        Patreon
-      </a>
-      <a href="https://buymesoda.com/H0KL6zdVlEUS9MUhz0JMUEkMXTg2" class="donation-cta-btn soda" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1 3h10l1-3"/><rect x="7" y="5" width="10" height="14" rx="2"/><circle cx="12" cy="16" r="1.5"/><path d="M9 8h6"/></svg>
-        Buy me a soda
-      </a>
-    </div>
-    <p class="donation-cta-note">Every contribution funds the work — not a platform or algorithm.</p>
-  </div>
-</div>
-
 <style>
-.donation-cta {
-  position: fixed;
-  bottom: 2rem;
-  left: 1rem;
-  right: 1rem;
-  max-width: 420px;
-  margin: 0 auto;
-  background: var(--bg);
-  border-left: 4px solid var(--accent);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px);
-  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
-  pointer-events: none;
+/* ════════════════════════════════════════════════
+   INLINE CTA — NYT-style mid-article support block
+   ════════════════════════════════════════════════ */
+.article-cta-inline {
+  margin: 3rem auto;
+  max-width: 560px;
+  padding: 2.5rem 1.5rem;
+  border-top: 3px double var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
 }
-.donation-cta.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.donation-cta-inner {
-  position: relative;
-  padding: 1.25rem 1rem 1rem 1rem;
-}
-.donation-cta-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  background: none;
-  border: none;
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--text-muted);
-  padding: 0.25rem;
-}
-.donation-cta-close:hover {
-  color: var(--text-primary);
-  background: transparent;
-}
-.donation-cta-icon svg {
-  width: 36px;
-  height: 36px;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-.donation-cta-title {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0 0 0.25rem;
-  color: var(--text-primary);
-}
-.donation-cta-text {
-  font-family: var(--font-headline-sans);
-  font-weight: 400;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-}
-.donation-cta-buttons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.75rem;
-}
-.donation-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
+.article-cta-eyebrow {
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-pill);
-  text-decoration: none;
-  transition: background 0.2s, transform 0.1s;
-  color: #fff !important;
-  border: none;
-  cursor: pointer;
-  background: var(--accent);
+  color: var(--accent);
+  margin: 0 0 0.85rem;
 }
-.donation-cta-btn:hover {
-  background: var(--hover-dark) !important;
+.article-cta-hed {
+  font-family: 'Spectral', Georgia, serif;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 0 auto 0.85rem;
+  max-width: 460px;
+}
+.article-cta-text {
+  font-family: 'Spectral', Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0 auto 1.5rem;
+  max-width: 460px;
+}
+.article-cta-primary {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: #fff !important;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 6px 18px rgba(var(--accent-rgb, 217, 72, 56), 0.28);
+  transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.2s, box-shadow 0.28s;
+}
+.article-cta-primary:hover {
+  background: var(--accent-hover) !important;
   color: #fff !important;
   transform: translateY(-1px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 10px 26px rgba(var(--accent-rgb, 217, 72, 56), 0.36);
 }
-.donation-cta-note {
-  font-family: var(--font-headline-sans);
-  font-weight: 400;
-  font-size: 0.65rem;
+.article-cta-primary:active {
+  transform: translateY(0) scale(0.97);
+}
+.article-cta-fine {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin: 0;
+  font-style: italic;
+  margin: 1rem 0 0;
 }
-@media (min-width: 640px) {
-  .donation-cta {
-    left: auto;
-    right: 1.5rem;
-    bottom: 1.5rem;
-  }
-}
-</style>
 
-<script>
-(function() {
-  var cta = document.getElementById('donation-cta');
-  if (!cta) return;
-  var closed = localStorage.getItem('donationCtaClosed');
-  if (closed === 'true') return;
-
-  var shown = false;
-  var scrollThreshold = 0.7;
-  var winH = window.innerHeight;
-  var docH = document.documentElement.scrollHeight;
-
-  function checkScroll() {
-    if (shown) return;
-    var scrollPercent = (window.scrollY + winH) / docH;
-    if (scrollPercent >= scrollThreshold) {
-      shown = true;
-      cta.classList.add('visible');
-    }
-  }
-
-  window.addEventListener('scroll', checkScroll, { passive: true });
-  window.addEventListener('resize', function() {
-    winH = window.innerHeight;
-    docH = document.documentElement.scrollHeight;
-  });
-
-  var closeBtn = cta.querySelector('.donation-cta-close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', function() {
-      cta.classList.remove('visible');
-      localStorage.setItem('donationCtaClosed', 'true');
-    });
-  }
-})();
-</script>
-
-<style>
-/* Internal link hover-preview popup (Gwern.net-style) */
+/* Link preview popup (unchanged) */
 #link-preview-popup {
   position: fixed;
   z-index: 500;
@@ -440,11 +333,46 @@
   color: var(--text-muted);
 }
 @media (max-width: 600px) {
-  #link-preview-popup { display: none; } /* no hover on touch devices — link just navigates normally */
+  #link-preview-popup { display: none; }
 }
 </style>
 
 <script>
+/* ── Inject NYT-style inline CTA after 5th paragraph ── */
+(function() {
+  var content = document.getElementById('article-body');
+  if (!content) return;
+
+  var paragraphs = [];
+  Array.prototype.forEach.call(content.children, function(child) {
+    if (child.tagName === 'P' && child.textContent.trim().length > 40) {
+      paragraphs.push(child);
+    }
+  });
+
+  if (paragraphs.length < 3) return;
+
+  var insertAfter;
+  if (paragraphs.length >= 6) {
+    insertAfter = paragraphs[4];
+  } else {
+    insertAfter = paragraphs[Math.floor(paragraphs.length / 2) - 1];
+  }
+  if (!insertAfter) return;
+
+  var cta = document.createElement('div');
+  cta.className = 'article-cta-inline';
+  cta.innerHTML =
+    '<p class="article-cta-eyebrow">Reader-supported</p>' +
+    '<h3 class="article-cta-hed">Help keep Veridus independent.</h3>' +
+    '<p class="article-cta-text">No paywalls. No advertisers. Just readers who believe context matters more than speed.</p>' +
+    '<a href="/donate/" class="article-cta-primary">Support Veridus</a>' +
+    '<p class="article-cta-fine">Every contribution, however small, keeps this work going.</p>';
+
+  insertAfter.parentNode.insertBefore(cta, insertAfter.nextSibling);
+})();
+
+/* ── Link preview popup (unchanged) ── */
 (function() {
   var container = document.querySelector('.article-content');
   if (!container) return;
@@ -521,7 +449,7 @@
           var entry = findEntry(path, data);
           if (entry) showPopup(link, entry);
         });
-      }, 250); // small delay avoids flashing on quick cursor pass-throughs
+      }, 250);
     });
 
     link.addEventListener('mouseleave', function() {
@@ -533,12 +461,8 @@
   popup.addEventListener('mouseenter', function() { clearTimeout(hideTimer); });
   popup.addEventListener('mouseleave', function() { hideTimer = setTimeout(hidePopup, 200); });
 })();
-</script>
 
-
-
-
-<script>
+/* ── Share button + copy-to-clipboard ── */
 (function() {
   var trigger = document.getElementById('share-trigger');
   var icons   = document.getElementById('share-icons');
@@ -547,13 +471,11 @@
 
   if (!trigger || !icons) return;
 
-  // Hide the check icon by default (only shown after copy)
   if (copyBtn) {
     var checkIcon = copyBtn.querySelector('.icon-check');
     if (checkIcon) checkIcon.style.display = 'none';
   }
 
-  // Toggle the icons panel
   trigger.addEventListener('click', function(e) {
     e.preventDefault();
     var isOpen = icons.classList.toggle('open');
@@ -561,7 +483,6 @@
     icons.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
   });
 
-  // Close when clicking outside
   document.addEventListener('click', function(e) {
     if (container && !container.contains(e.target) && icons.classList.contains('open')) {
       icons.classList.remove('open');
@@ -570,7 +491,6 @@
     }
   });
 
-  // Copy-to-clipboard handler
   if (copyBtn) {
     copyBtn.addEventListener('click', async function(e) {
       e.preventDefault();
@@ -593,7 +513,6 @@
         await navigator.clipboard.writeText(url);
         showCopied();
       } catch (err) {
-        // Fallback for older browsers / insecure contexts
         var ta = document.createElement('textarea');
         ta.value = url;
         ta.style.position = 'fixed';
@@ -612,52 +531,5 @@
   }
 })();
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 {{ end }}

@@ -19,12 +19,6 @@
   {{ end }}
   {{ if not $ogImage }}{{ if fileExists "static/images/og-default.jpg" }}{{ $ogImage = absURL "/images/og-default.jpg" }}{{ end }}{{ end }}
 
-  {{/* Square logo for schema.org publisher/logo fields — Google's structured
-       data guidelines want a roughly-square mark here (recommend 600x600),
-       NOT the 1200x630 social-share banner used for og:image above.
-       Add a square logo file at static/images/logo-square.jpg (or .png)
-       and this will pick it up automatically; falls back to the og image
-       if the square version doesn't exist yet so nothing breaks. */}}
   {{ $logoSquare := "" }}
   {{ if fileExists "static/images/logo-square.png" }}{{ $logoSquare = absURL "/images/logo-square.png" }}
   {{ else if fileExists "static/images/logo-square.jpg" }}{{ $logoSquare = absURL "/images/logo-square.jpg" }}
@@ -173,9 +167,14 @@
 
   <script>
     (function() {
-      var k='veridus-theme', t=localStorage.getItem(k);
-      if(t) document.documentElement.setAttribute('data-theme', t);
-      else if(window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+      try {
+        var saved = localStorage.getItem('veridus-theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
     })();
   </script>
 
@@ -184,8 +183,6 @@
     {{ $style := . | css.Sass $opts | resources.Fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
   {{ end }}
-
-  <!-- Self-hosted fonts only – no Google Fonts -->
 
   <link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
