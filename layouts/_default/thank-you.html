@@ -1,0 +1,156 @@
+{{ define "main" }}
+<div class="thanks-page">
+  <div class="thanks-container">
+
+    <header class="thanks-header">
+      <span class="thanks-eyebrow">Supporters</span>
+      <h1 class="thanks-title">The people who make this possible.</h1>
+      <p class="thanks-sub">Independent journalism, funded by readers — not advertisers.</p>
+    </header>
+
+    <div class="thanks-body">
+      <p class="thanks-lede">Every contribution, however small, directly funds the work. When we asked, these readers said yes — and let us thank them by name. Many others gave quietly, and we thank them just the same.</p>
+    </div>
+
+    {{ $donors := site.Data.donors }}
+    {{ $hasPatrons := and $donors $donors.patrons (gt (len $donors.patrons) 0) }}
+    {{ $hasSupporters := and $donors $donors.supporters (gt (len $donors.supporters) 0) }}
+
+    {{ if or $hasPatrons $hasSupporters }}
+
+      {{ if $hasPatrons }}
+      <section class="thanks-tier">
+        <h2 class="thanks-tier-label">
+          <span class="thanks-tier-name">Patrons</span>
+          <span class="thanks-tier-note">recurring monthly support</span>
+        </h2>
+        <ul class="thanks-donors thanks-donors--patrons">
+          {{ range $donors.patrons }}
+            <li class="thanks-donor">
+              <span class="thanks-donor-name">{{ .name }}</span>
+              {{ with .since }}<span class="thanks-donor-since">Since {{ (time .).Format "Jan 2006" }}</span>{{ end }}
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+
+      {{ if $hasSupporters }}
+      <section class="thanks-tier">
+        <h2 class="thanks-tier-label">
+          <span class="thanks-tier-name">Supporters</span>
+          <span class="thanks-tier-note">one-time contributions</span>
+        </h2>
+        <ul class="thanks-donors thanks-donors--supporters">
+          {{ range $donors.supporters }}
+            <li class="thanks-donor">
+              <span class="thanks-donor-name">{{ .name }}</span>
+              {{ with .since }}<span class="thanks-donor-since">Since {{ (time .).Format "Jan 2006" }}</span>{{ end }}
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+      {{ end }}
+
+    {{ else }}
+
+      <section class="thanks-tier">
+        <p class="thanks-empty">You're among the first.</p>
+      </section>
+
+    {{ end }}
+
+    {{/* ── QUIET PRINCIPLE NOTE — no CTA ── */}}
+    <p class="thanks-principle">
+      Every name on this page is here because the reader said yes. We write to each donor directly to ask — no one is listed without permission, and anyone can ask to be removed at any time.
+    </p>
+
+    {{/* ── NEXT STEPS ── */}}
+    <section class="thanks-next">
+      <h2 class="thanks-next-title">While you're here</h2>
+      <div class="thanks-next-grid">
+        <a href="/" class="thanks-next-item">
+          <span class="thanks-next-label">Read the latest</span>
+          <span class="thanks-next-arrow">→</span>
+        </a>
+        <a href="/archive/" class="thanks-next-item">
+          <span class="thanks-next-label">Browse the archive</span>
+          <span class="thanks-next-arrow">→</span>
+        </a>
+        <a href="/donate/" class="thanks-next-item">
+          <span class="thanks-next-label">Support Veridus</span>
+          <span class="thanks-next-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="thanks-footer">
+      <p>— The Veridus Post Editorial Team</p>
+    </footer>
+
+  </div>
+</div>
+
+<style>
+.thanks-page { background: var(--bg); padding: 3rem 1.5rem 5rem; min-height: 70vh; }
+.thanks-container { max-width: 760px; margin: 0 auto; }
+
+.thanks-header { text-align: center; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 3px double var(--text-primary); }
+.thanks-eyebrow { display: inline-block; font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.thanks-title { font-family: var(--font-reading); font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; color: var(--text-primary); margin: 0 0 0.6rem; }
+.thanks-sub { font-family: var(--font-reading); font-style: italic; font-size: 1.05rem; color: var(--text-muted); margin: 0; }
+
+.thanks-body { margin-bottom: 3rem; }
+.thanks-lede { font-family: var(--font-reading); font-size: 1.1rem; line-height: 1.65; color: var(--text-primary); margin: 0; }
+.thanks-lede::first-letter { float: left; font-family: var(--font-reading); font-size: 3.2em; line-height: 0.85; margin: 0.05em 0.1em 0 0; font-weight: 700; color: var(--accent); }
+
+.thanks-tier { margin-bottom: 2.5rem; }
+.thanks-tier-label { display: flex; align-items: baseline; gap: 0.75rem; padding-bottom: 0.6rem; margin: 0 0 1.25rem; border-bottom: 2px solid var(--text-primary); }
+.thanks-tier-name { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-primary); }
+.thanks-tier-note { font-family: var(--font-reading); font-size: 0.85rem; font-style: italic; color: var(--text-muted); text-transform: none; letter-spacing: 0; }
+
+.thanks-donors { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 0; }
+@media (min-width: 560px) { .thanks-donors { grid-template-columns: 1fr 1fr; gap: 0 2rem; } }
+@media (min-width: 860px) { .thanks-donors--patrons { grid-template-columns: repeat(3, 1fr); } .thanks-donors--supporters { grid-template-columns: repeat(3, 1fr); } }
+.thanks-donor { display: flex; align-items: baseline; gap: 0.6rem; padding: 0.65rem 0; border-bottom: 1px solid var(--border-light); }
+.thanks-donors--patrons .thanks-donor-name { font-family: var(--font-reading); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+.thanks-donors--supporters .thanks-donor-name { font-family: var(--font-reading); font-size: 1rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; }
+.thanks-donor-since { font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; margin-left: auto; }
+
+.thanks-empty { font-family: var(--font-reading); font-style: italic; font-size: 1rem; color: var(--text-muted); text-align: center; padding: 1.5rem 0; margin: 0; }
+
+/* ── Quiet principle note — no CTA, no email ── */
+.thanks-principle {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 560px;
+  margin: 3rem auto;
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* ── Next steps ── */
+.thanks-next { margin: 3rem 0; }
+.thanks-next-title { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-primary); padding-bottom: 0.5rem; border-bottom: 2px solid var(--text-primary); margin: 0 0 1rem; }
+.thanks-next-grid { display: flex; flex-direction: column; }
+.thanks-next-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0.25rem; border-bottom: 1px solid var(--border-light); text-decoration: none; color: var(--text-primary); transition: padding-left 0.2s; }
+.thanks-next-item:last-child { border-bottom: none; }
+.thanks-next-item:hover { padding-left: 0.5rem; }
+.thanks-next-label { font-family: var(--font-reading); font-size: 1.05rem; font-weight: 600; color: inherit; }
+.thanks-next-arrow { font-size: 1.2rem; color: var(--text-muted); transition: transform 0.2s, color 0.2s; }
+.thanks-next-item:hover .thanks-next-arrow { transform: translateX(4px); color: var(--accent); }
+
+.thanks-footer { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center; }
+.thanks-footer p { font-family: var(--font-reading); font-style: italic; font-size: 0.95rem; color: var(--text-muted); margin: 0; }
+
+@media (max-width: 560px) {
+  .thanks-page { padding: 2rem 1rem 4rem; }
+  .thanks-principle { font-size: 0.72rem; padding: 1rem 0.5rem; }
+}
+</style>
+{{ end }}

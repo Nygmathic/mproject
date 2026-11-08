@@ -1,226 +1,376 @@
 {{ define "main" }}
-{{ $allPages := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "global-affairs") }}
-{{ $groups := $allPages.GroupByDate "2006" }}
-
 <div class="archive-page">
-  <div class="archive-inner">
+  <div class="archive-container">
+
     <header class="archive-header">
-      <span class="archive-eyebrow">Veridus Post · Archive</span>
-      <h1 class="archive-title">Archive</h1>
-      <p class="archive-subtitle">Every story we've published, sorted by year.</p>
+      <span class="archive-eyebrow">Archive</span>
+      <h1 class="archive-title">Every story, sorted by year.</h1>
+      <p class="archive-sub">A complete index — or use the <a href="/sitemap/">sitemap</a> for a compact view.</p>
     </header>
 
-    {{ if $groups }}
-    <nav class="archive-year-nav" aria-label="Jump to year">
-      <span class="archive-year-nav-label">Jump to:</span>
-      {{ range $groups }}
-        <a href="#year-{{ .Key }}">{{ .Key }}</a>
-      {{ end }}
-    </nav>
+    {{ $allPages := where site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "global-affairs") }}
+    {{ $byYear := $allPages.GroupByDate "2006" }}
+    {{ $currentYear := now.Format "2006" }}
+
+    {{ if $byYear }}
+
+      <nav class="archive-jump" aria-label="Jump to year">
+        <span class="archive-jump-label">Jump to:</span>
+        {{ range $byYear }}
+          <a href="#year-{{ .Key }}">{{ .Key }}</a>
+        {{ end }}
+      </nav>
+
+      <div class="archive-years">
+        {{ range $byYear }}
+          {{ $yearKey := .Key }}
+          {{ $isCurrentYear := eq $yearKey $currentYear }}
+          {{ $byMonth := .Pages.GroupByDate "January" }}
+
+          <details class="archive-year" id="year-{{ $yearKey }}"{{ if $isCurrentYear }} open{{ end }}>
+            <summary class="archive-year-summary">
+              <span class="archive-year-name">{{ $yearKey }}</span>
+              <span class="archive-year-count">{{ len .Pages }} {{ if eq (len .Pages) 1 }}article{{ else }}articles{{ end }}</span>
+              <svg class="archive-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </summary>
+
+            <div class="archive-year-body">
+              {{ range $i, $month := $byMonth }}
+                {{ $firstPage := index $month.Pages 0 }}
+                {{ $monthNum := $firstPage.Date.Format "01" }}
+                {{ $monthId := printf "year-%s-month-%s" $yearKey $monthNum }}
+                {{ $isOpenMonth := and $isCurrentYear (eq $i 0) }}
+
+                <details class="archive-month" id="{{ $monthId }}"{{ if $isOpenMonth }} open{{ end }}>
+                  <summary class="archive-month-summary">
+                    <span class="archive-month-name">{{ $month.Key }}</span>
+                    <span class="archive-month-count">{{ len $month.Pages }}</span>
+                    <svg class="archive-chevron archive-chevron--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </summary>
+
+                  <ol class="archive-list">
+                    {{ range $month.Pages }}
+                      <li class="archive-item">
+                        <a href="{{ .Permalink }}" class="archive-link">
+                          {{ with index .Params.categories 0 }}<span class="archive-cat">{{ . }}</span>{{ end }}
+                          <span class="archive-item-title">{{ .Title }}</span>
+                          <time class="archive-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                        </a>
+                      </li>
+                    {{ end }}
+                  </ol>
+                </details>
+              {{ end }}
+            </div>
+          </details>
+        {{ end }}
+      </div>
+
+    {{ else }}
+      <p class="archive-empty">No articles yet — the first one is coming soon.</p>
     {{ end }}
 
-    {{ range $groups }}
-      <section class="archive-year-group" id="year-{{ .Key }}">
-        <h2 class="archive-year-heading">
-          {{ .Key }}
-          <span class="archive-year-count">{{ len .Pages }}</span>
-        </h2>
-        <ul class="archive-list">
-          {{ range .Pages }}
-            <li class="archive-item">
-              <div class="archive-item-info">
-                {{ if .Params.categories }}
-                  <span class="archive-category">{{ index .Params.categories 0 }}</span>
-                {{ end }}
-                <a href="{{ .Permalink }}" class="archive-title">{{ .Title }}</a>
-              </div>
-              <div class="archive-meta">
-                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
-                <span class="archive-reading-time">{{ .ReadingTime }} min read</span>
-              </div>
-            </li>
-          {{ end }}
-        </ul>
-      </section>
-    {{ end }}
-
-    <div class="archive-back-top">
-      <a href="#top">↑ Back to top</a>
-    </div>
   </div>
 </div>
 
 <style>
-.archive-page {
-  background: var(--bg);
-  padding: 2rem 0 4rem;
-}
-.archive-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 var(--space-xl, 2rem);
-}
+.archive-page { background: var(--bg); padding: 3rem 1.5rem 5rem; min-height: 70vh; }
+.archive-container { max-width: 860px; margin: 0 auto; }
+
 .archive-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 3px double var(--text-primary);
   text-align: center;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 3px double var(--text-primary);
 }
 .archive-eyebrow {
+  display: inline-block;
   font-family: var(--font-ui);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
-  display: block;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 .archive-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
-  font-size: clamp(2.2rem, 5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.1;
+  font-family: var(--font-reading);
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.05;
   letter-spacing: -0.02em;
-  margin: 0 0 0.4rem;
   color: var(--text-primary);
+  margin: 0 0 0.6rem;
 }
-.archive-subtitle {
-  font-family: var(--font-ui);
-  font-size: 1.05rem;
+.archive-sub {
+  font-family: var(--font-reading);
+  font-style: italic;
+  font-size: 1rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  margin: 0;
 }
+.archive-sub a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.archive-sub a:hover { color: var(--accent-hover); }
 
-/* Year nav */
-.archive-year-nav {
+/* ── Jump nav — accent pill, no hover fill ── */
+.archive-jump {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 0 1.25rem;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--border);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
-}
-.archive-year-nav-label {
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+}
+.archive-jump-label {
   color: var(--text-muted);
   margin-right: 0.25rem;
 }
-.archive-year-nav a {
-  font-weight: 700;
+.archive-jump a {
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
   text-decoration: none;
-  color: var(--text-primary);
-  padding: 0.15rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  transition: all 0.2s;
+  letter-spacing: 0.1em;
+  transition: border-color 0.2s, transform 0.2s;
 }
-.archive-year-nav a:hover {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
+.archive-jump a:hover {
+  border-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.archive-jump a:active {
+  transform: translateY(0) scale(0.97);
 }
 
-/* Year groups */
-.archive-year-group {
-  margin-bottom: 2.5rem;
-  scroll-margin-top: 5rem;
+/* ── Year accordion ── */
+.archive-years { display: flex; flex-direction: column; gap: 0; }
+.archive-year {
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 2rem;
 }
-.archive-year-heading {
+.archive-year:first-child { border-top: 1px solid var(--border); }
+
+.archive-year-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 1.1rem 0.25rem;
+  cursor: pointer;
+  list-style: none;
+  transition: padding-left 0.2s;
+}
+.archive-year-summary::-webkit-details-marker { display: none; }
+.archive-year-summary:hover {
+  padding-left: 0.5rem;
+}
+
+.archive-year-name {
+  font-family: var(--font-reading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+}
+.archive-year-count {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.archive-chevron {
+  margin-left: auto;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  transition: transform 0.25s ease, color 0.15s;
+  flex-shrink: 0;
+}
+.archive-chevron--sm { width: 14px; height: 14px; }
+.archive-year[open] > .archive-year-summary .archive-chevron {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+.archive-year-body { padding: 0.25rem 0 1.25rem 0; }
+
+/* ── Month accordion ── */
+.archive-month {
+  border-bottom: 1px solid var(--border-light);
+  scroll-margin-top: 2rem;
+}
+.archive-month:last-child { border-bottom: none; }
+
+.archive-month-summary {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
+  padding: 0.75rem 0.25rem;
+  cursor: pointer;
+  list-style: none;
+  transition: padding-left 0.2s;
+}
+.archive-month-summary::-webkit-details-marker { display: none; }
+.archive-month-summary:hover {
+  padding-left: 0.5rem;
+}
+
+.archive-month-name {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-primary);
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.75rem;
 }
-.archive-year-count {
+.archive-month-count {
+  font-family: var(--font-ui);
   font-size: 0.65rem;
   font-weight: 600;
   color: var(--text-muted);
-  background: var(--bg-alt);
-  padding: 0.1rem 0.55rem;
-  border-radius: var(--radius-pill);
+  letter-spacing: 0.06em;
 }
+.archive-month[open] > .archive-month-summary .archive-chevron {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+/* ── Article list ── */
 .archive-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0 0 0.75rem 0.75rem;
+  margin: 0 0 0 0.5rem;
+  border-left: 2px solid var(--border-light);
 }
-.archive-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--border-light);
-}
+.archive-item { border-bottom: 1px solid var(--border-light); }
 .archive-item:last-child { border-bottom: none; }
-.archive-item-info { min-width: 0; }
-.archive-category {
+
+.archive-link {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.55rem 0.25rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: padding-left 0.15s;
+}
+.archive-link:hover { padding-left: 0.5rem; }
+.archive-cat {
   font-family: var(--font-ui);
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  display: inline-block;
-  margin-right: 0.6rem;
-  vertical-align: middle;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 4.5rem;
 }
-.archive-title {
-  font-family: 'Libre Franklin', var(--font-ui), sans-serif;
-  font-weight: 600;
+.archive-item-title {
+  font-family: var(--font-reading);
   font-size: 1rem;
-  line-height: 1.45;
+  font-weight: 500;
+  line-height: 1.35;
   color: var(--text-primary);
-  text-decoration: none;
-  transition: color 0.18s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.archive-title:hover { color: var(--hover); text-decoration: underline; }
-.archive-meta {
+.archive-link:hover .archive-item-title {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.archive-date {
   font-family: var(--font-ui);
   font-size: 0.7rem;
+  font-weight: 600;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   white-space: nowrap;
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
   flex-shrink: 0;
 }
-.archive-reading-time::before { content: '·'; margin-right: 0.6rem; }
 
-.archive-back-top {
+@media (max-width: 640px) {
+  .archive-page { padding: 2rem 1rem 4rem; }
+  .archive-year-name { font-size: 1.35rem; }
+  .archive-link { grid-template-columns: 1fr auto; gap: 0.5rem; }
+  .archive-cat {
+    grid-column: 1 / -1;
+    font-size: 0.58rem;
+    margin-bottom: 0.1rem;
+    min-width: 0;
+  }
+  .archive-item-title {
+    font-size: 0.95rem;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .archive-jump { font-size: 0.65rem; }
+  .archive-jump a { padding: 0.3rem 0.7rem; }
+  .archive-list { padding-left: 0.5rem; margin-left: 0.25rem; }
+}
+
+.archive-empty {
+  font-family: var(--font-reading);
+  font-style: italic;
+  color: var(--text-muted);
   text-align: center;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-.archive-back-top a {
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  color: var(--accent);
-}
-.archive-back-top a:hover { color: var(--hover); text-decoration: underline; }
-
-@media (max-width: 600px) {
-  .archive-inner { padding: 0 1.25rem; }
-  .archive-item { flex-direction: column; gap: 0.35rem; }
-  .archive-meta { white-space: normal; }
+  padding: 2rem 0;
 }
 </style>
+
+<script>
+(function() {
+  function expandToTarget(target) {
+    if (!target) return;
+    if (target.tagName === 'DETAILS') {
+      target.open = true;
+    }
+    var parent = target.parentElement;
+    while (parent) {
+      if (parent.tagName === 'DETAILS') {
+        parent.open = true;
+      }
+      parent = parent.parentElement;
+    }
+    setTimeout(function() {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+
+  function openFromHash() {
+    var hash = window.location.hash;
+    if (!hash) return;
+    var id = hash.slice(1);
+    if (id.indexOf('year-') !== 0) return;
+    var el = document.getElementById(id);
+    if (el) expandToTarget(el);
+  }
+
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+})();
+</script>
 {{ end }}

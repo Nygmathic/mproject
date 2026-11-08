@@ -1,4 +1,16 @@
 {{ define "main" }}
+<style>
+.article-content.drop-cap > p:first-of-type::first-letter {
+  float: left !important;
+  font-family: inherit !important;
+  font-size: 3.4em !important;
+  line-height: 0.82 !important;
+  margin: 0.06em 0.12em 0 0 !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
+}
+</style>
+
 <article class="single-article">
   <div class="article-container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -211,9 +223,6 @@
 </article>
 
 <style>
-/* ════════════════════════════════════════════════
-   INLINE CTA — NYT-style mid-article support block
-   ════════════════════════════════════════════════ */
 .article-cta-inline {
   margin: 3rem auto;
   max-width: 560px;
@@ -232,7 +241,7 @@
   margin: 0 0 0.85rem;
 }
 .article-cta-hed {
-  font-family: 'Spectral', Georgia, serif;
+  font-family: var(--font-reading);
   font-size: clamp(1.4rem, 2.5vw, 1.85rem);
   font-weight: 700;
   line-height: 1.15;
@@ -242,7 +251,7 @@
   max-width: 460px;
 }
 .article-cta-text {
-  font-family: 'Spectral', Georgia, serif;
+  font-family: var(--font-reading);
   font-size: 1rem;
   line-height: 1.55;
   color: var(--text-secondary);
@@ -260,22 +269,16 @@
   letter-spacing: -0.01em;
   text-decoration: none;
   border-radius: 999px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 6px 18px rgba(var(--accent-rgb, 217, 72, 56), 0.28);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 6px 18px rgba(var(--accent-rgb, 217, 72, 56), 0.28);
   transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.2s, box-shadow 0.28s;
 }
 .article-cta-primary:hover {
   background: var(--accent-hover) !important;
   color: #fff !important;
   transform: translateY(-1px);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 10px 26px rgba(var(--accent-rgb, 217, 72, 56), 0.36);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08), 0 10px 26px rgba(var(--accent-rgb, 217, 72, 56), 0.36);
 }
-.article-cta-primary:active {
-  transform: translateY(0) scale(0.97);
-}
+.article-cta-primary:active { transform: translateY(0) scale(0.97); }
 .article-cta-fine {
   font-family: var(--font-ui);
   font-size: 0.72rem;
@@ -284,7 +287,6 @@
   margin: 1rem 0 0;
 }
 
-/* Link preview popup (unchanged) */
 #link-preview-popup {
   position: fixed;
   z-index: 500;
@@ -315,7 +317,7 @@
   margin-bottom: 0.35rem;
 }
 #link-preview-popup .lp-title {
-  font-family: 'Libre Franklin', var(--font-headline-sans), sans-serif;
+  font-family: var(--font-reading);
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.35;
@@ -332,13 +334,10 @@
   font-size: 0.7rem;
   color: var(--text-muted);
 }
-@media (max-width: 600px) {
-  #link-preview-popup { display: none; }
-}
+@media (max-width: 600px) { #link-preview-popup { display: none; } }
 </style>
 
 <script>
-/* ── Inject NYT-style inline CTA after 5th paragraph ── */
 (function() {
   var content = document.getElementById('article-body');
   if (!content) return;
@@ -372,7 +371,6 @@
   insertAfter.parentNode.insertBefore(cta, insertAfter.nextSibling);
 })();
 
-/* ── Link preview popup (unchanged) ── */
 (function() {
   var container = document.querySelector('.article-content');
   if (!container) return;
@@ -381,7 +379,6 @@
   popup.id = 'link-preview-popup';
   document.body.appendChild(popup);
 
-  var indexData = null;
   var indexPromise = null;
   var showTimer = null;
   var hideTimer = null;
@@ -390,17 +387,13 @@
     if (indexPromise) return indexPromise;
     indexPromise = fetch('/index.json')
       .then(function(res) { return res.ok ? res.json() : []; })
-      .then(function(data) { indexData = data; return data; })
-      .catch(function() { indexData = []; return []; });
+      .catch(function() { return []; });
     return indexPromise;
   }
 
   function normalizePath(url) {
-    try {
-      return new URL(url, window.location.origin).pathname;
-    } catch (e) {
-      return url;
-    }
+    try { return new URL(url, window.location.origin).pathname; }
+    catch (e) { return url; }
   }
 
   function findEntry(path, data) {
@@ -416,9 +409,7 @@
     var rect = link.getBoundingClientRect();
     var popupWidth = 340;
     var left = rect.left;
-    if (left + popupWidth > window.innerWidth - 16) {
-      left = window.innerWidth - popupWidth - 16;
-    }
+    if (left + popupWidth > window.innerWidth - 16) left = window.innerWidth - popupWidth - 16;
     var top = rect.bottom + 8;
     popup.style.left = Math.max(16, left) + 'px';
     popup.style.top = top + 'px';
@@ -435,13 +426,10 @@
     popup.classList.add('visible');
   }
 
-  function hidePopup() {
-    popup.classList.remove('visible');
-  }
+  function hidePopup() { popup.classList.remove('visible'); }
 
   container.querySelectorAll('a[href^="/"]').forEach(function(link) {
     var path = link.getAttribute('href');
-
     link.addEventListener('mouseenter', function() {
       clearTimeout(hideTimer);
       showTimer = setTimeout(function() {
@@ -451,7 +439,6 @@
         });
       }, 250);
     });
-
     link.addEventListener('mouseleave', function() {
       clearTimeout(showTimer);
       hideTimer = setTimeout(hidePopup, 200);
@@ -462,13 +449,11 @@
   popup.addEventListener('mouseleave', function() { hideTimer = setTimeout(hidePopup, 200); });
 })();
 
-/* ── Share button + copy-to-clipboard ── */
 (function() {
   var trigger = document.getElementById('share-trigger');
   var icons   = document.getElementById('share-icons');
   var copyBtn = document.getElementById('copy-link-btn');
   var container = document.querySelector('.share-container');
-
   if (!trigger || !icons) return;
 
   if (copyBtn) {
@@ -519,12 +504,8 @@
         ta.style.opacity = '0';
         document.body.appendChild(ta);
         ta.select();
-        try {
-          document.execCommand('copy');
-          showCopied();
-        } catch (e2) {
-          alert('Could not copy the link. Please copy it manually:\n' + url);
-        }
+        try { document.execCommand('copy'); showCopied(); }
+        catch (e2) { alert('Could not copy the link. Please copy it manually:\n' + url); }
         document.body.removeChild(ta);
       }
     });
@@ -532,4 +513,4 @@
 })();
 </script>
 
-{{ end }}
+{{ end }} 
