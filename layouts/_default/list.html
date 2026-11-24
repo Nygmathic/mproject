@@ -123,6 +123,7 @@
                 {{ end }}
                 {{ with $cat }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
                 <h3 class="section-grid-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                {{ with .Summary }}<p class="section-grid-deck">{{ . | plainify | truncate 100 }}</p>{{ end }}
                 <div class="np-byline np-byline--xs">
                   {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
                   <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
@@ -178,6 +179,7 @@
             {{ end }}
             {{ with $cat }}<span class="np-kicker np-kicker--xs">{{ . }}</span>{{ end }}
             <h3 class="section-grid-hed"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary }}<p class="section-grid-deck">{{ . | plainify | truncate 100 }}</p>{{ end }}
             <div class="np-byline np-byline--xs">
               {{ with .Params.author }}<span class="np-byline-name">{{ . }}</span><span class="np-dot">·</span>{{ end }}
               <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
@@ -290,9 +292,9 @@
 .section-lead-hed a { color: var(--text-primary); text-decoration: none; }
 .section-lead-hed a:hover { color: var(--hover); text-decoration: underline; }
 .section-lead-deck {
-  font-family: var(--font-ui);
+  font-family: var(--font-reading);
   font-size: 1.15rem;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--text-secondary);
   margin-bottom: 0.6rem;
 }
@@ -331,9 +333,9 @@
 .section-secondary-hed a { color: var(--text-primary); text-decoration: none; }
 .section-secondary-hed a:hover { color: var(--hover); text-decoration: underline; }
 .section-secondary-deck {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-family: var(--font-reading);
+  font-size: 0.95rem;
+  line-height: 1.5;
   color: var(--text-secondary);
   margin-bottom: 0.4rem;
 }
@@ -372,6 +374,13 @@
 }
 .section-grid-hed a { color: var(--text-primary); text-decoration: none; }
 .section-grid-hed a:hover { color: var(--hover); text-decoration: underline; }
+.section-grid-deck {
+  font-family: var(--font-reading);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0.4rem;
+}
 
 /* SIDEBAR */
 .section-sidebar { min-width: 0; }
