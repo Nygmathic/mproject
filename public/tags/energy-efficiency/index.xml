@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Energy Efficiency on Veridus Post</title>
+		<link>//localhost:1313/tags/energy-efficiency/</link>
+		<description>Recent content in Energy Efficiency on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 22 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/energy-efficiency/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Optical Waveguides Replace Liquid Cooling Loops in New Climate Modeling Clusters</title>
+				<link>//localhost:1313/climate/optical-waveguides-cooling/</link>
+				<pubDate>Sun, 22 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/climate/optical-waveguides-cooling/</guid>
+				<description>&lt;p&gt;ZURICH — Meteorological research centers upgrading supercomputers for kilometer-scale storm forecasting are bypassing copper backplanes in favor of silicon-photonic waveguides that move data with infrared pulses rather than electrical currents.&lt;/p&gt;&#xA;&lt;p&gt;High-resolution atmospheric models exchange petabytes of boundary values between adjacent server racks every second. Moving those bits electrically turns nearly half of a facility&amp;rsquo;s power draw into waste heat, forcing operators to install massive evaporative cooling towers.&lt;/p&gt;&#xA;&lt;h2 id=&#34;lowering-water-demand-alongside-kilowatts&#34;&gt;Lowering Water Demand Alongside Kilowatts&lt;/h2&gt;&#xA;&lt;p&gt;By replacing short-reach copper cables with co-packaged optical engines, pilot installations cut cluster cooling water consumption by 38 percent during summer peaks without slowing convection-resolving simulations.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

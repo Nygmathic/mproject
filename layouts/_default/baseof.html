@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode | default "en" }}">
-<head>
-  {{ partial "head.html" . }}
-</head>
-<body class="site-body">
+{{ partial "head.html" . }}
+{{ $isUtility := or (eq .Layout "archive") (eq .Layout "search") (eq .Layout "donate") (eq .Layout "about") (eq .Layout "policy") (eq .Layout "sitemap") (eq .Layout "thanks") (eq .Layout "thank-you") (eq .Layout "writers") (eq .Layout "saved") (eq .Layout "contact") }}
+<body class="site-body {{ if $isUtility }}page-utility{{ else }}page-editorial{{ end }}">
+  <div id="nav-progress" class="nav-progress" aria-hidden="true"></div>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
   {{ partial "header.html" . }}
 
   <main class="site-main" id="main-content">
@@ -12,49 +14,251 @@
 
   {{ partial "footer.html" . }}
 
-  <!-- Newsletter Signup Form Handler -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("newsletter-form");
-      if (!form) return;
+    (function () {
+      var htmlCache = new Map();
+      var inflight = new Map();
+      var scrollCache = new Map();
+      var progressEl = document.getElementById("nav-progress");
+      var navSeq = 0;
 
-      const messageDiv = document.getElementById("newsletter-message");
+      function isEligibleLink(a) {
+        if (!a || !a.getAttribute) return false;
+        var raw = a.getAttribute("href");
+        if (!raw || raw.charAt(0) === "#" || raw.indexOf("mailto:") === 0 || raw.indexOf("tel:") === 0 || raw.indexOf("javascript:") === 0) return false;
+        if (a.target && a.target !== "_self") return false;
+        if (a.hasAttribute("download")) return false;
+        try {
+          var u = new URL(a.href, window.location.origin);
+          if (u.origin !== window.location.origin) return false;
+          if (/^\/(api|fonts)\//.test(u.pathname)) return false;
+          if (/\.(xml|json|pdf|zip|png|jpe?g|webp|avif|gif|svg|woff2?)$/i.test(u.pathname)) return false;
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
 
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault();
+      function cacheKey(u) {
+        return u.pathname + u.search;
+      }
 
-        const emailInput = form.querySelector('input[type="email"]');
-        const email = emailInput.value.trim();
+      function prefetchUrl(href) {
+        try {
+          var u = new URL(href, window.location.origin);
+          var key = cacheKey(u);
+          if (key === cacheKey(window.location)) return null;
+          if (htmlCache.has(key)) return Promise.resolve(htmlCache.get(key));
+          if (inflight.has(key)) return inflight.get(key);
 
-        messageDiv.style.display = "block";
-        messageDiv.style.color = "#555";
-        messageDiv.textContent = "Submitting...";
+          var p = fetch(key, { credentials: "same-origin" })
+            .then(function (res) {
+              var ct = res.headers.get("content-type") || "";
+              if (ct.indexOf("text/html") === -1) return null;
+              return res.text().then(function (html) {
+                if (htmlCache.size >= 40) {
+                  var oldest = htmlCache.keys().next().value;
+                  if (oldest) htmlCache.delete(oldest);
+                }
+                htmlCache.set(key, html);
+                return html;
+              });
+            })
+            .catch(function () { return null; })
+            .finally(function () { inflight.delete(key); });
+
+          inflight.set(key, p);
+          return p;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function closeDrawerIfOpen() {
+        var drawer = document.getElementById("np-drawer");
+        var overlay = document.getElementById("np-drawer-overlay");
+        var hamburger = document.getElementById("np-hamburger");
+        if (drawer && drawer.classList.contains("active")) {
+          drawer.classList.remove("active");
+          if (overlay) overlay.classList.remove("active");
+          drawer.setAttribute("aria-hidden", "true");
+          if (hamburger) hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        }
+      }
+
+      function runScripts(container) {
+        var scripts = container.querySelectorAll("script");
+        Array.prototype.forEach.call(scripts, function (oldScript) {
+          if (oldScript.type && oldScript.type !== "text/javascript" && oldScript.type !== "application/javascript") return;
+          var fresh = document.createElement("script");
+          Array.prototype.forEach.call(oldScript.attributes, function (attr) {
+            fresh.setAttribute(attr.name, attr.value);
+          });
+          fresh.textContent = oldScript.textContent;
+          oldScript.parentNode.replaceChild(fresh, oldScript);
+        });
+      }
+
+      async function navigateTo(urlStr, isPopState) {
+        var seq = ++navSeq;
+        var target = new URL(urlStr, window.location.origin);
+        var key = cacheKey(target);
+        var currentKey = window.location.pathname + window.location.search + window.location.hash;
+
+        if (!isPopState) {
+          scrollCache.set(currentKey, window.scrollY || 0);
+        }
+
+        var showTimer = null;
+        if (!htmlCache.has(key) && progressEl) {
+          showTimer = setTimeout(function () {
+            if (seq === navSeq) {
+              progressEl.classList.remove("done");
+              progressEl.classList.add("loading");
+            }
+          }, 75);
+        }
+
+        var html = htmlCache.get(key);
+        if (!html) {
+          html = await prefetchUrl(target.href);
+        }
+
+        if (showTimer) clearTimeout(showTimer);
+        if (seq !== navSeq) return;
+
+        if (!html) {
+          window.location.href = target.href;
+          return;
+        }
 
         try {
-          const response = await fetch("https://newsletter-api.xmania365.workers.dev", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email: email }),
-          });
-
-          const data = await response.json();
-
-          if (response.ok && data.success) {
-            messageDiv.style.color = "green";
-            messageDiv.textContent = data.message || "Thank you for subscribing!";
-            form.reset();
-          } else {
-            messageDiv.style.color = "red";
-            messageDiv.textContent = data.error || "Subscription failed. Please try again.";
+          var doc = new DOMParser().parseFromString(html, "text/html");
+          var newMain = doc.getElementById("main-content");
+          var oldMain = document.getElementById("main-content");
+          if (!newMain || !oldMain) {
+            window.location.href = target.href;
+            return;
           }
+
+          closeDrawerIfOpen();
+          document.title = doc.title || document.title;
+          document.body.className = doc.body.className || document.body.className;
+          oldMain.innerHTML = newMain.innerHTML;
+
+          if (!isPopState) {
+            history.pushState({ vp: true }, "", target.pathname + target.search + target.hash);
+          }
+
+          runScripts(oldMain);
+
+          var fullTarget = target.pathname + target.search + target.hash;
+          if (isPopState && scrollCache.has(fullTarget)) {
+            window.scrollTo(0, scrollCache.get(fullTarget));
+          } else if (target.hash) {
+            var anchor = document.getElementById(decodeURIComponent(target.hash.slice(1)));
+            if (anchor) anchor.scrollIntoView();
+            else window.scrollTo(0, 0);
+          } else {
+            window.scrollTo(0, 0);
+          }
+
+          warmVisibleLinks();
         } catch (err) {
-          messageDiv.style.color = "red";
-          messageDiv.textContent = "An error occurred. Please try again later.";
+          window.location.href = target.href;
+          return;
+        } finally {
+          if (progressEl && progressEl.classList.contains("loading")) {
+            progressEl.classList.remove("loading");
+            progressEl.classList.add("done");
+            setTimeout(function () { progressEl.classList.remove("done"); }, 280);
+          }
         }
+      }
+
+      document.addEventListener("pointerover", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (isEligibleLink(a)) prefetchUrl(a.href);
+      }, { passive: true });
+
+      document.addEventListener("touchstart", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (isEligibleLink(a)) prefetchUrl(a.href);
+      }, { passive: true });
+
+      document.addEventListener("focusin", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (isEligibleLink(a)) prefetchUrl(a.href);
       });
-    });
+
+      document.addEventListener("click", function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (!isEligibleLink(a)) return;
+        var target = new URL(a.href, window.location.origin);
+        if (target.pathname === window.location.pathname && target.search === window.location.search && target.hash) return;
+        e.preventDefault();
+        navigateTo(target.href, false);
+      });
+
+      window.addEventListener("popstate", function () {
+        navigateTo(window.location.href, true);
+      });
+
+      function warmVisibleLinks() {
+        var run = function () {
+          var links = document.querySelectorAll(".np-lead-hed a, .np-lead-img, .np-feature-card-link, .section-lead-link, .np-secondary-hed a");
+          var count = 0;
+          for (var i = 0; i < links.length && count < 3; i++) {
+            if (isEligibleLink(links[i])) {
+              prefetchUrl(links[i].href);
+              count++;
+            }
+          }
+        };
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(run, { timeout: 1200 });
+        } else {
+          setTimeout(run, 450);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        warmVisibleLinks();
+
+        var form = document.getElementById("newsletter-form");
+        if (!form) return;
+        var messageDiv = document.getElementById("newsletter-message");
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var emailInput = form.querySelector('input[type="email"]');
+          var email = emailInput.value.trim();
+          messageDiv.style.display = "block";
+          messageDiv.style.color = "var(--text-muted)";
+          messageDiv.textContent = "Submitting...";
+          try {
+            var response = await fetch("/api/newsletter", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email: email }),
+            });
+            var data = await response.json();
+            if (response.ok && data.success) {
+              messageDiv.style.color = "var(--success)";
+              messageDiv.textContent = data.message || "Thank you for subscribing!";
+              form.reset();
+            } else {
+              messageDiv.style.color = "var(--accent)";
+              messageDiv.textContent = data.error || "Subscription failed. Please try again.";
+            }
+          } catch (err) {
+            messageDiv.style.color = "var(--accent)";
+            messageDiv.textContent = "An error occurred. Please try again later.";
+          }
+        });
+      });
+    })();
   </script>
 </body>
 </html>

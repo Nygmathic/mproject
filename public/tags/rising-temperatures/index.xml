@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Rising Temperatures on Veridus Post</title>
+		<link>//localhost:1313/tags/rising-temperatures/</link>
+		<description>Recent content in Rising Temperatures on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 23 Mar 2026 03:18:30 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/rising-temperatures/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>U.N. Climate Report Finds Growing Energy Imbalance on Earth</title>
+				<link>//localhost:1313/climate/2026-03-23-global-energy-imbalance-unmitigated-consequences-fossil-fuel-addiction/</link>
+				<pubDate>Mon, 23 Mar 2026 03:18:30 +0000</pubDate>
+				<guid>//localhost:1313/climate/2026-03-23-global-energy-imbalance-unmitigated-consequences-fossil-fuel-addiction/</guid>
+				<description>&lt;h2 id=&#34;a-tipping-point-of-unmitigated-consequences&#34;&gt;A Tipping Point of Unmitigated Consequences&lt;/h2&gt;&#xA;&lt;p&gt;As the world&amp;rsquo;s leading climate scientists gather in Geneva, the United Nations&amp;rsquo; latest report on the global energy balance delivers a stark reminder that the consequences of humanity&amp;rsquo;s addiction to fossil fuels are no longer a distant threat, but a palpable reality. The findings, based on decades of data analysis and cutting-edge research, paint a picture of a planet on a precipice, where the natural systems that have maintained equilibrium for millennia are now teetering on the verge of collapse. The report&amp;rsquo;s central message is clear: the continued burning of fossil fuels is locking heat in the Earth&amp;rsquo;s atmosphere, oceans, and land, effectively stranding it in a state of perpetual warming.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

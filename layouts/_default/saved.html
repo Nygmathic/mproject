@@ -1,0 +1,110 @@
+{{ define "main" }}
+<div class="saved-page">
+  <div class="saved-container">
+    <header class="archive-header">
+      <span class="archive-eyebrow">Reading List · Local Browser Only</span>
+      <h1 class="archive-title">Saved Articles</h1>
+      <p class="archive-sub">Bookmarked dispatches are stored privately in your browser — no account or tracking required.</p>
+    </header>
+
+    <div class="saved-toolbar" id="saved-toolbar" hidden>
+      <span class="saved-count" id="saved-count"></span>
+      <button type="button" class="saved-clear-btn" id="saved-clear-all">Clear all</button>
+    </div>
+
+    <div id="saved-list" class="saved-list" aria-live="polite"></div>
+
+    <div id="saved-empty" class="saved-empty" hidden>
+      <p>You haven't saved any articles yet.</p>
+      <p class="saved-empty-hint">Click <strong>Save article</strong> on any dispatch to keep it here for later reading, or browse the <a href="/">front page</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'veridus-saved';
+  var listEl = document.getElementById('saved-list');
+  var emptyEl = document.getElementById('saved-empty');
+  var toolbarEl = document.getElementById('saved-toolbar');
+  var countEl = document.getElementById('saved-count');
+  var clearBtn = document.getElementById('saved-clear-all');
+  if (!listEl || !emptyEl || !toolbarEl || !countEl || !clearBtn) return;
+
+  function loadSaved() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveList(items) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch (e) {}
+  }
+
+  function esc(str) {
+    var d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function render() {
+    var items = loadSaved();
+    if (!items.length) {
+      listEl.innerHTML = '';
+      toolbarEl.hidden = true;
+      emptyEl.hidden = false;
+      return;
+    }
+
+    emptyEl.hidden = true;
+    toolbarEl.hidden = false;
+    countEl.textContent = items.length + ' saved ' + (items.length === 1 ? 'article' : 'articles');
+
+    listEl.innerHTML = items.map(function (item) {
+      var sec = item.section || '';
+      return (
+        '<article class="saved-item" data-cat="' + esc(sec.toLowerCase()) + '">' +
+          '<div class="saved-item-body">' +
+            (sec ? '<span class="saved-item-cat">' + esc(sec) + '</span>' : '') +
+            '<h2 class="saved-item-title"><a href="' + esc(item.url) + '">' + esc(item.title) + '</a></h2>' +
+            '<div class="saved-item-meta">' +
+              (item.author ? '<span>By ' + esc(item.author) + '</span>' : '') +
+              (item.author && item.date ? ' <span>·</span> ' : '') +
+              (item.date ? '<span>' + esc(item.date) + '</span>' : '') +
+              (item.readingTime ? ' <span>· ' + esc(String(item.readingTime)) + ' min read</span>' : '') +
+            '</div>' +
+          '</div>' +
+          '<button type="button" class="saved-remove-btn" data-url="' + esc(item.url) + '" aria-label="Remove ' + esc(item.title) + '">Remove</button>' +
+        '</article>'
+      );
+    }).join('');
+  }
+
+  listEl.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('.saved-remove-btn') : null;
+    if (!btn) return;
+    var url = btn.getAttribute('data-url');
+    var next = loadSaved().filter(function (it) { return it.url !== url; });
+    saveList(next);
+    render();
+  });
+
+  clearBtn.addEventListener('click', function () {
+    saveList([]);
+    render();
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+})();
+</script>
+{{ end }}

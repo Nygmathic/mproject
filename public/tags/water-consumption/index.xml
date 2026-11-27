@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Water Consumption on Veridus Post</title>
+		<link>//localhost:1313/tags/water-consumption/</link>
+		<description>Recent content in Water Consumption on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Tue, 14 Jul 2026 22:45:02 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/water-consumption/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>New York Becomes First State in the Nation to Pause New Hyperscale Data Centers</title>
+				<link>//localhost:1313/climate/2026-07-14-new-york-hyperscale-data-centers-pause-climate-action/</link>
+				<pubDate>Tue, 14 Jul 2026 22:45:02 +0000</pubDate>
+				<guid>//localhost:1313/climate/2026-07-14-new-york-hyperscale-data-centers-pause-climate-action/</guid>
+				<description>&lt;h2 id=&#34;new-york-takes-the-lead-a-nation-wide-pause-on-hyperscale-data-centers&#34;&gt;New York Takes the Lead: A Nation-Wide Pause on Hyperscale Data Centers&lt;/h2&gt;&#xA;&lt;p&gt;In a groundbreaking move, New York Governor Kathy Hochul has signed an executive order, making the state the first in the nation to pause new hyperscale data centers. This moratorium, which will remain in place for up to one year, marks a significant step towards mitigating the environmental impacts of these facilities, which have sparked concerns over their potential energy and water consumption.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

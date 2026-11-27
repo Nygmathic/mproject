@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Solar on Veridus Post</title>
+		<link>//localhost:1313/tags/solar/</link>
+		<description>Recent content in Solar on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 15 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/solar/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Solar Cold Hubs Cut Post-Harvest Fish Spoilage Along Lake Victoria Piers</title>
+				<link>//localhost:1313/africa/lake-victoria-cold-chain/</link>
+				<pubDate>Sun, 15 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/africa/lake-victoria-cold-chain/</guid>
+				<description>&lt;p&gt;KISUMU — Before dawn along the timber jetties of Lake Victoria, wooden skiffs unload silver cyprinid and Nile perch directly beside humming white shipping containers topped with angled photovoltaic panels.&lt;/p&gt;&#xA;&lt;p&gt;Inside the modular walk-in rooms, flake ice produced overnight keeps morning catches near freezing for forty-eight hours, removing the midday deadline that once forced small-boat crews to accept distressed prices on the shoreline.&lt;/p&gt;&#xA;&lt;h2 id=&#34;cooperative-ownership-at-the-pier&#34;&gt;Cooperative Ownership at the Pier&lt;/h2&gt;&#xA;&lt;p&gt;Managed by local landing-site committees, the solar cold hubs charge a per-kilogram chilling fee settled via mobile transfer rather than high-interest fuel loans for diesel generators.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

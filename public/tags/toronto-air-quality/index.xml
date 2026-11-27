@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Toronto Air Quality on Veridus Post</title>
+		<link>//localhost:1313/tags/toronto-air-quality/</link>
+		<description>Recent content in Toronto Air Quality on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 15 Jul 2026 17:03:52 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/toronto-air-quality/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Wildfires in Ontario make Toronto air quality worst in world</title>
+				<link>//localhost:1313/climate/2026-07-15-ontario-wildfires-cause-worst-global-air-quality-in-toronto/</link>
+				<pubDate>Wed, 15 Jul 2026 17:03:52 +0000</pubDate>
+				<guid>//localhost:1313/climate/2026-07-15-ontario-wildfires-cause-worst-global-air-quality-in-toronto/</guid>
+				<description>&lt;h2 id=&#34;devastating-consequences-of-wildfires-in-ontario-a-global-air-quality-crisis&#34;&gt;Devastating Consequences of Wildfires in Ontario: A Global Air Quality Crisis&lt;/h2&gt;&#xA;&lt;p&gt;The skies above Toronto have turned a sickly yellow, a stark reminder of the devastating consequences of wildfires in Ontario. Environment Canada has issued health warnings as the city&amp;rsquo;s air quality has plummeted to the worst in the world, according to IQAir, a Swiss technology company that tracks global air quality. The situation is dire, with over 100 active wildfires in northern Ontario spewing smoke that has engulfed the city and neighboring areas.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

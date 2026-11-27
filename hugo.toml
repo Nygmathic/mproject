@@ -1,0 +1,74 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Veridus Post"
+
+[pagination]
+  pagerSize = 35
+
+[taxonomies]
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+  description = "Independent journalism, rooted in truth."
+  author = "Veridus Editorial"
+  author_bio = "Veridus Post brings context and integrity to the stories that matter — examining the ideas, events, and power dynamics that define our era."
+  patreon_url = "https://patreon.com/veriduspost"
+  buymesoda_url = "https://buymeacoffee.com/veriduspost"
+
+[[menu.main]]
+  name = "Politics"
+  url = "/politics/"
+  weight = 1
+
+[[menu.main]]
+  name = "Business"
+  url = "/business/"
+  weight = 2
+
+[[menu.main]]
+  name = "Sports"
+  url = "/sports/"
+  weight = 3
+
+[[menu.main]]
+  name = "Climate"
+  url = "/climate/"
+  weight = 4
+
+[[menu.main]]
+  name = "Technology"
+  url = "/technology/"
+  weight = 5
+
+[[menu.main]]
+  name = "Opinion"
+  url = "/opinion/"
+  weight = 6
+
+[[menu.main]]
+  name = "Lifestyle"
+  url = "/lifestyle/"
+  weight = 7
+
+[[menu.main]]
+  name = "Africa"
+  url = "/africa/"
+  weight = 8
+
+[[menu.main]]
+  name = "Science"
+  url = "/science/"
+  weight = 9
+
+[[menu.main]]
+  name = "Culture"
+  url = "/culture/"
+  weight = 10

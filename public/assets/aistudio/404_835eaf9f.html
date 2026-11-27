@@ -1,0 +1,295 @@
+{{ define "main" }}
+
+<div class="error-page">
+  <div class="article-container">
+    <div class="error-inner">
+      <div class="error-main">
+        <span class="error-eyebrow">404</span>
+        <h1 class="error-heading">Page not found</h1>
+        <p class="error-body">The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
+        <div class="error-actions">
+          <a href="/" class="error-btn-primary">← Go home</a>
+          <a href="/search/" class="error-btn-secondary">Search articles</a>
+        </div>
+      </div>
+      <aside class="error-sidebar">
+        <div class="error-card">
+          <h3 class="error-card-title">Recent stories</h3>
+          <ul class="error-card-list">
+            {{ range first 5 .Site.RegularPages }}
+              {{ $cat := index .Params.categories 0 | default "" }}
+              <li>
+                {{ with $cat }}<span class="error-card-cat">{{ . }}</span>{{ end }}
+                <a href="{{ .Permalink }}" class="error-card-title-link">{{ .Title }}</a>
+                <div class="error-card-meta">
+                  {{ with .Params.author }}<span class="error-card-author">{{ . }}</span><span class="error-card-dot">·</span>{{ end }}
+                  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+                  <span class="error-card-dot">·</span>
+                  <span>{{ .ReadingTime }} min read</span>
+                </div>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+        <div class="error-card">
+          <h3 class="error-card-title">Browse topics</h3>
+          <div class="error-topic-pills">
+            <a href="/categories/news/">News</a>
+            <a href="/categories/politics/">Politics</a>
+            <a href="/categories/business/">Business</a>
+            <a href="/categories/sports/">Sports</a>
+            <a href="/categories/climate/">Climate</a>
+            <a href="/categories/global-affairs/">Global Affairs</a>
+            <a href="/categories/opinion/">Opinion</a>
+            <a href="/archive/">Archive</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<style>
+/* ── Self-hosted fonts (local to this page) ── */
+@font-face {
+  font-family: 'FreeSerif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/FreeSerif.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'FreeSerif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/FreeSerifItalic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'FreeSerif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/FreeSerifBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+}
+
+:root {
+  /* EDIT: editorial pages use FreeSerif for display + reading.
+     Utility pages use Inter for both. Masthead is always serif. */
+  --font-reading:  'FreeSerif', Georgia, 'Times New Roman', serif;      /* EDIT */
+  --font-display:  'FreeSerif', Georgia, 'Times New Roman', serif;      /* EDIT */
+  --font-ui:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-masthead: 'FreeSerif', Georgia, 'Times New Roman', serif;
+}
+</style>
+
+
+<style>
+
+
+
+/* ── Shell ── */
+.error-page {
+  padding: 3rem 1.5rem 6rem;
+  min-height: 60vh;
+  background: var(--bg);
+}
+
+/* ── Layout ── */
+.error-inner {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 680px) {
+  .error-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+/* ── Main column ── */
+.error-eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--border);
+  margin-bottom: 1.5rem;
+}
+.error-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+.error-body {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 420px;
+  margin-bottom: 2rem;
+}
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Buttons ── */
+.error-btn-primary {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  transition: background var(--transition), transform var(--transition);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.error-btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.error-btn-secondary {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 40px;
+  transition: border-color var(--transition), color var(--transition);
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.error-btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Sidebar ── */
+.error-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.error-card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  background: var(--bg);
+}
+.error-card-title {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+.error-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.error-card-list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.error-card-list li:last-child { border-bottom: none; }
+.error-card-cat {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.error-card-title-link {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-decoration: none;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.error-card-title-link:hover {
+  color: var(--hover);
+  text-decoration: underline;
+}
+.error-card-meta {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.error-card-author {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.error-card-dot { opacity: 0.4; }
+
+/* ── Topic pills ── */
+.error-topic-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.error-topic-pills a {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.error-topic-pills a:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+</style>
+{{ end }}

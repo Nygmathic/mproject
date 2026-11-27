@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Journalism on Veridus Post</title>
+		<link>//localhost:1313/tags/journalism/</link>
+		<description>Recent content in Journalism on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 15 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/journalism/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>The Case for Newsrooms That Fit Inside a Single Document Request</title>
+				<link>//localhost:1313/opinion/single-request-news/</link>
+				<pubDate>Sun, 15 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/opinion/single-request-news/</guid>
+				<description>&lt;p&gt;When a reader opens a newspaper dispatch on a commuter bus or a modest mobile data plan, they are asking a simple question: what happened, and why does it matter? They are not asking to download three megabytes of telemetry bundles, third-party ad auctions, and competing layout frameworks.&lt;/p&gt;&#xA;&lt;p&gt;Modern publishing forgot a basic architectural truth of the early web. Text is fast. Well-structured markup with inlined styling arrives complete in the very first round trip.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

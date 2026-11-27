@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Global Health on Veridus Post</title>
+		<link>//localhost:1313/tags/global-health/</link>
+		<description>Recent content in Global Health on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 15 Jul 2026 18:53:28 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/global-health/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Surviving extreme heat increasingly boils down to this: access to air conditioning | Mark Wolfe</title>
+				<link>//localhost:1313/climate/2026-07-15-air-conditioning-inequality-climate-adaptation/</link>
+				<pubDate>Wed, 15 Jul 2026 18:53:28 +0000</pubDate>
+				<guid>//localhost:1313/climate/2026-07-15-air-conditioning-inequality-climate-adaptation/</guid>
+				<description>&lt;h2 id=&#34;the-growing-divide-access-to-air-conditioning-in-a-warming-world&#34;&gt;The Growing Divide: Access to Air Conditioning in a Warming World&lt;/h2&gt;&#xA;&lt;p&gt;As the mercury soars across Europe and the United States, television screens are filled with familiar images: heat maps shaded deep red, schools closing, rail lines slowing, wildfires spreading, and emergency rooms treating growing numbers of people with heat-related illnesses. The advice from public officials is equally familiar: stay indoors, drink plenty of water, and, if possible, turn on the air conditioning. But for millions of households, especially in the global south, this is a luxury they cannot afford.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

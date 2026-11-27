@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Opinion on Veridus Post</title>
+		<link>//localhost:1313/opinion/</link>
+		<description>Recent content in Opinion on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 08 Mar 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/opinion/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Nairobi Floods Again. When Does &#39;Again&#39; Become Enough?</title>
+				<link>//localhost:1313/opinion/nairobi-floods-lesson/</link>
+				<pubDate>Sun, 08 Mar 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/opinion/nairobi-floods-lesson/</guid>
+				<description>&lt;p&gt;On the evening of Friday, March 6, the same desperate calculation played out in home after home across Mukuru kwa Njenga, Mathare, Kibera, and Pipeline — Nairobi&amp;rsquo;s densest, most flood-prone neighbourhoods: what could be saved, and what had already been lost.&lt;/p&gt;&#xA;&lt;p&gt;By morning, twenty-three people were dead. Hundreds of vehicles had been swallowed by roads that double as rivers every rainy season. Kenya Airways diverted flights to Mombasa. The military was deployed. A city of five million had, once again, been brought to its knees by rain.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>The Drum Major Is Gone: A Tribute to Reverend Jesse Louis Jackson</title>
+				<link>//localhost:1313/opinion/jesse-jackson/</link>
+				<pubDate>Tue, 17 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/opinion/jesse-jackson/</guid>
+				<description>&lt;p&gt;There are people who arrive in the world as if they were sent with a specific assignment. They do not drift through history — they &lt;strong&gt;shape&lt;/strong&gt; it. They do not ask permission to speak — they thunder. Reverend Jesse Louis Jackson was one of those people. Born October 8, 1941, in Greenville, South Carolina, a city that taught him injustice before it taught him anything else, he left this world on February 17, 2026, at the age of 84 — peacefully, surrounded by family, in Chicago, the city he made his pulpit and his battlefield.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

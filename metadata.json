@@ -1,0 +1,6 @@
+{
+  "name": "Hugo Inline CSS Studio",
+  "description": "Design, convert, and preview Hugo templates that embed CSS directly inside each HTML page instead of external stylesheets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

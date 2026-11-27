@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Glaciers on Veridus Post</title>
+		<link>//localhost:1313/tags/glaciers/</link>
+		<description>Recent content in Glaciers on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 16 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/glaciers/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Alpine Glaciologists Deploy Low-Power Radar Stakes to Track Winter Melt Pockets</title>
+				<link>//localhost:1313/climate/alpine-melt-sensors/</link>
+				<pubDate>Mon, 16 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/climate/alpine-melt-sensors/</guid>
+				<description>&lt;p&gt;INNSBRUCK — Glaciologists monitoring upper Alpine catchment basins have anchored forty low-power ground-penetrating radar stakes directly into bedrock ridges above 3,200 meters, giving downstream hydrologists real-time visibility into sub-surface winter melt pockets.&lt;/p&gt;&#xA;&lt;p&gt;Satellite altimetry measures total snow height well, yet misses hidden liquid water pooling beneath frozen surface crusts during unseasonal mid-winter thaws.&lt;/p&gt;&#xA;&lt;h2 id=&#34;early-warnings-for-downstream-reservoirs&#34;&gt;Early Warnings for Downstream Reservoirs&lt;/h2&gt;&#xA;&lt;p&gt;Hydroelectric operators and valley flood boards now receive hourly dielectric readings over long-range radio links, sharpening spring runoff forecasts weeks before snowpack collapse begins.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

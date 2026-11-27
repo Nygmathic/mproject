@@ -1,0 +1,113 @@
+{{ define "main" }}
+<div class="legal-page">
+  <div class="legal-container">
+    <div class="legal-header">
+      <h1>{{ .Title | default "Contact" }}</h1>
+    </div>
+
+    <div class="legal-content">
+      {{ .Content }}
+    </div>
+
+    <section class="contact-form-section" id="contact-form-wrap" aria-labelledby="contact-form-heading">
+      <h2 class="contact-form-heading" id="contact-form-heading">Send a Message to the Newsroom</h2>
+      <p class="contact-form-note">Use this form for general inquiries, factual corrections, guest pitches, supporter help, or legal notices.</p>
+
+      <form id="contact-form" class="contact-form" novalidate>
+        <div class="contact-field">
+          <label for="contact-topic">Topic</label>
+          <select id="contact-topic" name="topic" required>
+            <option value="general">General Inquiry</option>
+            <option value="correction">Editorial Correction</option>
+            <option value="pitch">Guest Writer Pitch</option>
+            <option value="supporter">Supporter Help</option>
+            <option value="legal">Legal / Rights Notice</option>
+          </select>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-field">
+            <label for="contact-name">Your Name</label>
+            <input type="text" id="contact-name" name="name" required minlength="2" maxlength="120" autocomplete="name" placeholder="Jane Doe">
+          </div>
+          <div class="contact-field">
+            <label for="contact-email">Email Address</label>
+            <input type="email" id="contact-email" name="email" required maxlength="254" autocomplete="email" placeholder="you@example.com">
+          </div>
+        </div>
+
+        <div class="contact-field">
+          <label for="contact-article-url">Related Article URL <span class="contact-optional">(optional — include for corrections)</span></label>
+          <input type="text" id="contact-article-url" name="articleUrl" maxlength="300" placeholder="https://veriduspost.com/...">
+        </div>
+
+        <div class="contact-field">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" required minlength="10" maxlength="5000" placeholder="Write your inquiry, correction details, or pitch summary…"></textarea>
+        </div>
+
+        <div class="contact-actions">
+          <button type="submit" class="contact-submit-btn" id="contact-submit-btn">Send Message →</button>
+          <p id="contact-status" class="contact-status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  function initContactForm() {
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var statusEl = document.getElementById('contact-status');
+    var submitBtn = document.getElementById('contact-submit-btn');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      if (!statusEl || !submitBtn) return;
+
+      var payload = {
+        topic: form.topic.value,
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        articleUrl: form.articleUrl.value.trim(),
+        message: form.message.value.trim(),
+      };
+
+      submitBtn.disabled = true;
+      statusEl.className = 'contact-status';
+      statusEl.textContent = 'Sending…';
+
+      try {
+        var res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        var data = await res.json();
+        if (res.ok && data.success) {
+          statusEl.className = 'contact-status is-success';
+          statusEl.textContent = data.message + (data.referenceId ? ' (Ref #' + data.referenceId + ')' : '');
+          form.reset();
+        } else {
+          statusEl.className = 'contact-status is-error';
+          statusEl.textContent = data.error || 'Could not send message. Please check your entries.';
+        }
+      } catch (err) {
+        statusEl.className = 'contact-status is-error';
+        statusEl.textContent = 'Network error. Please email contact@veriduspost.com directly.';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactForm);
+  } else {
+    initContactForm();
+  }
+})();
+</script>
+{{ end }}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Local News on Veridus Post</title>
+		<link>//localhost:1313/tags/local-news/</link>
+		<description>Recent content in Local News on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sat, 14 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/local-news/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Why Public Libraries Are Building Permanent Offline Archives of Local Reporting</title>
+				<link>//localhost:1313/opinion/public-libraries-digital-editions/</link>
+				<pubDate>Sat, 14 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/opinion/public-libraries-digital-editions/</guid>
+				<description>&lt;p&gt;Every few months, another regional newsroom shuts down its content management server and lets its domain lapse. Within days, city council investigations, school board minutes, and local court reporting evaporate into broken links.&lt;/p&gt;&#xA;&lt;p&gt;Municipal librarians across three continents are quietly stepping into that breach by harvesting clean static HTML editions rather than relying on fragile database backups or commercial PDF aggregators.&lt;/p&gt;&#xA;&lt;h2 id=&#34;preserving-plain-html-for-fifty-years&#34;&gt;Preserving Plain HTML for Fifty Years&lt;/h2&gt;&#xA;&lt;p&gt;Archivists point out that self-contained static pages — with readable typography and zero external runtime dependencies — remain legible in any browser decades after proprietary publishing platforms disappear.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

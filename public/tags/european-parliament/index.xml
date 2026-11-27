@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>European Parliament on Veridus Post</title>
+		<link>//localhost:1313/tags/european-parliament/</link>
+		<description>Recent content in European Parliament on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Tue, 24 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/european-parliament/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Continental Grid Pact Clears Final Hurdle as Member States Lock In Cross-Border Transmission</title>
+				<link>//localhost:1313/politics/european-grid-accord/</link>
+				<pubDate>Tue, 24 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/politics/european-grid-accord/</guid>
+				<description>&lt;p&gt;BRUSSELS — After nineteen months of closed-door drafting sessions and three stalled ministerial summits, lawmakers finalized a binding continental grid accord late Tuesday that compels national transmission operators to allocate at least 70 percent of interconnector capacity to cross-border electricity flows.&lt;/p&gt;&#xA;&lt;p&gt;The legislation targets a persistent structural bottleneck: clean generation in coastal wind corridors routinely gets curtailed while inland manufacturing hubs burn natural gas reserves only a few hundred kilometers away.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

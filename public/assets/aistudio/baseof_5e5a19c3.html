@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="site-body">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  {{ partial "header.html" . }}
+
+  <main class="site-main" id="main-content">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+
+  {{/* Newsletter form handler — kept global so any page with #newsletter-form works */}}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var form = document.getElementById("newsletter-form");
+      if (!form) return;
+
+      var messageDiv = document.getElementById("newsletter-message");
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        var emailInput = form.querySelector('input[type="email"]');
+        var email = emailInput.value.trim();
+
+        messageDiv.style.display = "block";
+        messageDiv.style.color = "var(--text-muted)";
+        messageDiv.textContent = "Submitting...";
+
+        try {
+          var response = await fetch("https://newsletter-api.xmania365.workers.dev", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email }),
+          });
+
+          var data = await response.json();
+
+          if (response.ok && data.success) {
+            messageDiv.style.color = "var(--success)";
+            messageDiv.textContent = data.message || "Thank you for subscribing!";
+            form.reset();
+          } else {
+            messageDiv.style.color = "var(--accent)";
+            messageDiv.textContent = data.error || "Subscription failed. Please try again.";
+          }
+        } catch (err) {
+          messageDiv.style.color = "var(--accent)";
+          messageDiv.textContent = "An error occurred. Please try again later.";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

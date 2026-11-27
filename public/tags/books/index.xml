@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Books on Veridus Post</title>
+		<link>//localhost:1313/tags/books/</link>
+		<description>Recent content in Books on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 13 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/books/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Small-Batch Thread-Sewn Bookbinders Find New Readers Tired of Disposables</title>
+				<link>//localhost:1313/culture/independent-print-bookbinders/</link>
+				<pubDate>Fri, 13 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/culture/independent-print-bookbinders/</guid>
+				<description>&lt;p&gt;LEIPZIG — Inside a brick courtyard bindery smelling faintly of linen thread and wheat paste, two restored 1960s sewing machines stitch folded paper signatures into books meant to outlive their first owners.&lt;/p&gt;&#xA;&lt;p&gt;While mass-market paperbacks rely on brittle hot-melt glues that crack after two readings, independent literary houses report rising pre-order demand for modestly priced Smyth-sewn editions.&lt;/p&gt;&#xA;&lt;h2 id=&#34;tactile-permanence-in-print&#34;&gt;Tactile Permanence in Print&lt;/h2&gt;&#xA;&lt;p&gt;Publishers say readers buying fewer physical volumes increasingly favor durable cloth spines, French-fold jackets, and archival wood-free stock over glossy novelty coatings.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

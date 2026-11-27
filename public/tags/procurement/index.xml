@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Procurement on Veridus Post</title>
+		<link>//localhost:1313/tags/procurement/</link>
+		<description>Recent content in Procurement on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 12 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/procurement/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Parliamentary Audit Committee Mandates Open Machine-Readable Procurement Ledgers</title>
+				<link>//localhost:1313/politics/public-procurement-ledgers/</link>
+				<pubDate>Thu, 12 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/politics/public-procurement-ledgers/</guid>
+				<description>&lt;p&gt;GENEVA — A cross-party parliamentary audit panel passed sweeping transparency revisions Thursday requiring central ministries and state enterprises to publish contract price amendments in plain machine-readable ledgers within forty-eight hours of signature.&lt;/p&gt;&#xA;&lt;p&gt;Historically, procurement portals posted initial winning bids while burying post-award change orders—where project budgets frequently doubled—inside scanned PDF annexes that civic watchdogs struggled to parse.&lt;/p&gt;&#xA;&lt;h2 id=&#34;tracking-beneficial-ownership-through-subcontractors&#34;&gt;Tracking Beneficial Ownership Through Subcontractors&lt;/h2&gt;&#xA;&lt;p&gt;Under the updated statute, prime contractors exceeding $500,000 must disclose tiered subcontractor registries before treasury disbursements clear. Municipal comptrollers gain matching API access to flag split-tender evasion across regional hospital and road districts.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

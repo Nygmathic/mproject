@@ -1,0 +1,240 @@
+{{ define "main" }}
+<style>
+/* ── STIX Two Text — masthead only (variable) ── */
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/STIXTwoText-VariableFont_wght.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/STIXTwoText-Italic-VariableFont_wght.woff2') format('woff2-variations');
+}
+
+/* ── Inter — UI + body ── */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Inter-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/Inter-SemiBold.woff2') format('woff2'); }
+
+:root {
+  --font-reading:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-ui:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-masthead: 'STIX Two Text', Georgia, 'Times New Roman', serif;
+}
+</style>
+
+<div class="search-page">
+  <div class="search-container">
+    <div class="search-header">
+      <h1>Search</h1>
+      <p class="search-subtitle">Find articles across news, opinion, and lifestyle.</p>
+    </div>
+
+    <div class="search-card">
+      <div class="search-form-wrap">
+        <form id="search-form" role="search" autocomplete="off">
+          <div class="search-field">
+            <svg class="search-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="search"
+              id="search-input"
+              class="search-field-input"
+              placeholder="Search articles…"
+              aria-label="Search articles"
+              autocomplete="off"
+            >
+            <button type="button" id="search-clear" class="search-field-clear" aria-label="Clear search" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="search-status" class="search-status" aria-live="polite"></div>
+      <div id="search-placeholder" class="search-placeholder">
+        <p class="search-placeholder-hint">Start typing to search all articles.</p>
+      </div>
+      <div id="search-results" class="search-results" aria-live="polite" aria-label="Search results"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<script>
+(function() {
+  const input = document.getElementById('search-input');
+  const clearBtn = document.getElementById('search-clear');
+  const statusEl = document.getElementById('search-status');
+  const placeholder = document.getElementById('search-placeholder');
+  const resultsEl = document.getElementById('search-results');
+  let fuse = null;
+
+  async function init() {
+    try {
+      const res = await fetch('/index.json');
+      if (!res.ok) throw new Error('Index not found');
+      const data = await res.json();
+      fuse = new Fuse(data, {
+        keys: ['title', 'summary', 'content', 'categories'],
+        threshold: 0.3,
+        ignoreLocation: true,
+        minMatchCharLength: 2
+      });
+    } catch (err) {
+      console.error('Search init failed:', err);
+      statusEl.textContent = 'Search index not available. Please try again later.';
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  function highlight(text, query) {
+    if (!text) return '';
+    const safe = text.length > 240 ? text.slice(0, 240) + '…' : text;
+    const words = query.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return escapeHtml(safe);
+    const regex = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+    return escapeHtml(safe).replace(regex, '<mark>$1</mark>');
+  }
+
+  function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+  }
+
+  function render(query) {
+    const q = query.trim();
+
+    if (q.length < 2) {
+      resultsEl.innerHTML = '';
+      statusEl.innerHTML = '';
+      placeholder.hidden = false;
+      clearBtn.hidden = (q.length === 0);
+      return;
+    }
+
+    placeholder.hidden = true;
+    clearBtn.hidden = false;
+
+    if (!fuse) {
+      statusEl.textContent = 'Loading search…';
+      return;
+    }
+
+    const results = fuse.search(q).slice(0, 20);
+
+    statusEl.innerHTML = results.length
+      ? `<strong>${results.length}</strong> result${results.length !== 1 ? 's' : ''} for "${escapeHtml(q)}"`
+      : 'No results.';
+
+    if (!results.length) {
+      resultsEl.innerHTML = `
+        <div class="search-no-results">
+          <p>No articles found for "<strong>${escapeHtml(q)}</strong>".</p>
+          <p>Try different keywords, or browse the <a href="/archive/">archive</a>.</p>
+        </div>`;
+      return;
+    }
+
+    resultsEl.innerHTML = results.map(({ item }) => {
+      const cat = (item.categories && item.categories[0]) ? item.categories[0] : '';
+      return `
+        <article class="search-result">
+          ${cat ? `<span class="search-result-cat">${escapeHtml(cat)}</span>` : ''}
+          <h2 class="search-result-title">
+            <a href="${escapeHtml(item.url)}">${highlight(item.title, q)}</a>
+          </h2>
+          <div class="search-result-meta">
+            ${item.date ? `<time datetime="${escapeHtml(item.date)}">${formatDate(item.date)}</time>` : ''}
+            ${item.readingTime ? `<span>· ${item.readingTime} min read</span>` : ''}
+          </div>
+          ${item.summary ? `<p class="search-result-summary">${highlight(item.summary, q)}</p>` : ''}
+        </article>
+      `;
+    }).join('');
+  }
+
+  input.addEventListener('input', () => render(input.value));
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    render('');
+    input.focus();
+  });
+
+  document.getElementById('search-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const first = resultsEl.querySelector('.search-result-title a');
+    if (first) first.focus();
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    init().then(() => {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      if (q) {
+        input.value = q;
+        render(q);
+      }
+    });
+  });
+})();
+</script>
+
+<style>
+.search-page { background: var(--bg); padding: 3rem 1.5rem; min-height: 70vh; }
+.search-container { max-width: 760px; margin: 0 auto; }
+.search-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.search-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: var(--text-primary); margin: 0.5rem 0 0.25rem; }
+.search-subtitle { font-family: var(--font-reading); font-style: italic; font-size: 1rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+.search-card { background: var(--bg-alt); border-radius: var(--radius-md); padding: 2rem 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+.search-form-wrap { margin-bottom: 1.5rem; }
+.search-field { display: flex; align-items: center; border-bottom: 2px solid var(--border); transition: border-color var(--transition); }
+.search-field:focus-within { border-bottom-color: var(--accent); }
+.search-field-icon { width: 22px; height: 22px; color: var(--text-muted); margin-right: 0.75rem; flex-shrink: 0; }
+.search-field-input { flex: 1; font-family: var(--font-ui); font-size: 1.2rem; background: transparent; border: none; padding: 0.6rem 0.5rem 0.6rem 0; outline: none; color: var(--text-primary); }
+.search-field-input::placeholder { color: var(--text-faint); font-style: italic; }
+.search-field-clear { background: none; border: none; padding: 0 0.3rem; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; transition: color var(--transition); }
+.search-field-clear:hover { color: var(--text-primary); }
+.search-field-clear svg { width: 18px; height: 18px; }
+.search-status { font-family: var(--font-ui); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1rem; min-height: 1.2em; }
+.search-placeholder { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-light); }
+.search-placeholder-hint { font-family: var(--font-reading); font-style: italic; font-size: 1rem; color: var(--text-muted); margin: 0; }
+.search-results { margin-top: 1rem; }
+.search-result { padding: 1.5rem 0; border-bottom: 1px solid var(--border-light); }
+.search-result:last-child { border-bottom: none; }
+.search-result-cat { font-family: var(--font-ui); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.3rem; }
+.search-result-title { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; line-height: 1.25; margin: 0.25rem 0 0.3rem; color: var(--text-primary); }
+.search-result-title a { color: var(--text-primary); text-decoration: none; transition: color var(--transition); }
+.search-result-title a:hover { color: var(--accent); }
+.search-result-meta { display: flex; gap: 0.75rem; font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem; }
+.search-result-summary { font-family: var(--font-reading); font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); margin: 0; }
+.search-result-title mark, .search-result-summary mark { background: rgba(var(--accent-rgb), 0.13); border-radius: 2px; padding: 0 2px; color: var(--text-primary); }
+[data-theme="dark"] .search-result-title mark, [data-theme="dark"] .search-result-summary mark { background: rgba(var(--accent-rgb), 0.28); }
+.search-no-results { text-align: center; padding: 2rem 0; font-family: var(--font-reading); font-size: 1rem; color: var(--text-secondary); }
+.search-no-results p { margin-bottom: 0.5em; }
+.search-no-results a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) {
+  .search-card { padding: 1.5rem 1.25rem; }
+  .search-field-input { font-size: 1.05rem; }
+  .search-result-title { font-size: 1.15rem; }
+  .search-result-summary { font-size: 0.9rem; }
+}
+</style>
+{{ end }}

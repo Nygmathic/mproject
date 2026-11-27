@@ -1,0 +1,28 @@
+{{ define "main" }}
+<div class="legal-page">
+  <div class="legal-container">
+    <div class="legal-header">
+      <h1>{{ .Title | default "Privacy Policy" }}</h1>
+    </div>
+    <div class="legal-content">
+      {{ if .Content }}
+        {{ .Content }}
+      {{ else }}
+        <p>Veridus Post ("we", "us", "our") operates the website veriduspost.com (the "Service"). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service.</p>
+        <h2>Information Collection And Use</h2>
+        <p>We do not collect any personally identifiable information unless you voluntarily contact us via email or subscribe to our newsletter. We do not use third-party tracking cookies or advertising scripts.</p>
+        <h2>Log Data</h2>
+        <p>Standard server access logs record request paths and status codes strictly for reliability and abuse prevention. This data is never sold or shared with third-party brokers.</p>
+        <h2>Email Communications</h2>
+        <p>If you contact us via email, we retain your message and email address solely to respond to your inquiry. We will never add you to any marketing list without your explicit consent.</p>
+        <h2>Client-Side Search</h2>
+        <p>Our search feature inspects the locally hosted article index directly inside your browser — no keystrokes are transmitted to external analytics vendors.</p>
+        <h2>Changes To This Policy</h2>
+        <p>We may update our Privacy Policy from time to time. Any changes are published directly on this page.</p>
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:contact@veriduspost.com">contact@veriduspost.com</a>.</p>
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{ end }}

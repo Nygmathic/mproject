@@ -1,0 +1,92 @@
+{{ $cat := .cat | lower }}
+{{ $variant := .variant | default "card" }}
+{{ $label := replace $cat "-" " " }}
+
+<div class="editorial-plate editorial-plate--{{ $variant }}" data-cat="{{ $cat }}">
+  <svg class="ep-art" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <pattern id="ep-grid-{{ $cat }}-{{ $variant }}" width="24" height="24" patternUnits="userSpaceOnUse">
+        <path d="M 24 0 L 0 0 0 24" fill="none" stroke="currentColor" stroke-width="0.6" stroke-opacity="0.1"/>
+      </pattern>
+    </defs>
+    <rect width="480" height="270" fill="url(#ep-grid-{{ $cat }}-{{ $variant }})"/>
+
+    {{ if eq $cat "politics" }}
+      <circle cx="360" cy="76" r="56" fill="currentColor" fill-opacity="0.1"/>
+      <path d="M120 130 Q240 46 360 130 Z" fill="currentColor" fill-opacity="0.18"/>
+      <rect x="110" y="130" width="260" height="12" fill="currentColor" fill-opacity="0.45"/>
+      <rect x="135" y="142" width="18" height="76" fill="currentColor" fill-opacity="0.32"/>
+      <rect x="177" y="142" width="18" height="76" fill="currentColor" fill-opacity="0.42"/>
+      <rect x="231" y="142" width="18" height="76" fill="currentColor" fill-opacity="0.55"/>
+      <rect x="285" y="142" width="18" height="76" fill="currentColor" fill-opacity="0.42"/>
+      <rect x="327" y="142" width="18" height="76" fill="currentColor" fill-opacity="0.32"/>
+      <rect x="92" y="218" width="296" height="12" fill="currentColor" fill-opacity="0.6"/>
+      <rect x="74" y="230" width="332" height="14" fill="currentColor" fill-opacity="0.22"/>
+    {{ else if eq $cat "business" }}
+      <path d="M24 220 L108 186 L184 198 L266 132 L348 144 L456 64 L456 270 L24 270 Z" fill="currentColor" fill-opacity="0.12"/>
+      <polyline points="24,220 108,186 184,198 266,132 348,144 456,64" fill="none" stroke="currentColor" stroke-width="3" stroke-opacity="0.72"/>
+      <rect x="88" y="168" width="28" height="72" fill="currentColor" fill-opacity="0.22"/>
+      <rect x="164" y="144" width="28" height="96" fill="currentColor" fill-opacity="0.3"/>
+      <rect x="246" y="110" width="28" height="130" fill="currentColor" fill-opacity="0.45"/>
+      <rect x="328" y="88" width="28" height="152" fill="currentColor" fill-opacity="0.55"/>
+      <circle cx="266" cy="132" r="5" fill="currentColor"/>
+      <circle cx="456" cy="64" r="5" fill="currentColor"/>
+    {{ else if eq $cat "sports" }}
+      <path d="M-20 260 Q220 60 500 180" fill="none" stroke="currentColor" stroke-width="18" stroke-opacity="0.1"/>
+      <path d="M-20 280 Q220 88 500 208" fill="none" stroke="currentColor" stroke-width="10" stroke-opacity="0.2"/>
+      <path d="M-20 296 Q220 116 500 236" fill="none" stroke="currentColor" stroke-width="4" stroke-opacity="0.45"/>
+      <circle cx="348" cy="84" r="42" fill="currentColor" fill-opacity="0.18"/>
+      <circle cx="348" cy="84" r="22" fill="currentColor" fill-opacity="0.48"/>
+      <line x1="84" y1="42" x2="176" y2="238" stroke="currentColor" stroke-width="2" stroke-opacity="0.28" stroke-dasharray="6 6"/>
+    {{ else if eq $cat "climate" }}
+      <circle cx="352" cy="78" r="44" fill="currentColor" fill-opacity="0.26"/>
+      <path d="M0 176 Q120 128 240 168 T480 154 L480 270 L0 270 Z" fill="currentColor" fill-opacity="0.16"/>
+      <path d="M0 202 Q130 162 260 198 T480 186 L480 270 L0 270 Z" fill="currentColor" fill-opacity="0.28"/>
+      <path d="M0 228 Q140 196 280 226 T480 216 L480 270 L0 270 Z" fill="currentColor" fill-opacity="0.45"/>
+    {{ else if eq $cat "technology" }}
+      <rect x="170" y="65" width="140" height="140" rx="10" fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-width="2" stroke-opacity="0.4"/>
+      <rect x="200" y="95" width="80" height="80" rx="6" fill="currentColor" fill-opacity="0.28"/>
+      <path d="M40 105 H170 M40 135 H170 M40 165 H170 M310 105 H440 M310 135 H440 M310 165 H440" stroke="currentColor" stroke-width="2" stroke-opacity="0.35"/>
+      <path d="M210 15 V65 M240 15 V65 M270 15 V65 M210 205 V255 M240 205 V255 M270 205 V255" stroke="currentColor" stroke-width="2" stroke-opacity="0.35"/>
+      <circle cx="110" cy="105" r="4" fill="currentColor" fill-opacity="0.7"/>
+      <circle cx="372" cy="165" r="4" fill="currentColor" fill-opacity="0.7"/>
+    {{ else if eq $cat "opinion" }}
+      <rect x="58" y="48" width="210" height="156" rx="4" fill="currentColor" fill-opacity="0.1"/>
+      <rect x="212" y="72" width="210" height="148" rx="4" fill="currentColor" fill-opacity="0.18"/>
+      <path d="M126 110 C126 88 144 76 164 76 L164 96 C152 96 146 102 146 112 L164 112 L164 148 L126 148 Z" fill="currentColor" fill-opacity="0.55"/>
+      <path d="M180 110 C180 88 198 76 218 76 L218 96 C206 96 200 102 200 112 L218 112 L218 148 L180 148 Z" fill="currentColor" fill-opacity="0.55"/>
+      <line x1="240" y1="168" x2="390" y2="168" stroke="currentColor" stroke-width="3" stroke-opacity="0.45"/>
+      <line x1="240" y1="184" x2="352" y2="184" stroke="currentColor" stroke-width="3" stroke-opacity="0.3"/>
+    {{ else if eq $cat "lifestyle" }}
+      <path d="M168 232 L168 124 A72 72 0 0 1 312 124 L312 232 Z" fill="currentColor" fill-opacity="0.14"/>
+      <path d="M196 232 L196 132 A44 44 0 0 1 284 132 L284 232 Z" fill="currentColor" fill-opacity="0.22"/>
+      <circle cx="352" cy="84" r="34" fill="currentColor" fill-opacity="0.18"/>
+      <rect x="112" y="218" width="256" height="14" fill="currentColor" fill-opacity="0.35"/>
+    {{ else if eq $cat "africa" }}
+      <circle cx="344" cy="96" r="52" fill="currentColor" fill-opacity="0.22"/>
+      <path d="M0 198 Q140 166 260 194 T480 184 L480 270 L0 270 Z" fill="currentColor" fill-opacity="0.18"/>
+      <path d="M0 222 Q160 200 320 224 T480 214 L480 270 L0 270 Z" fill="currentColor" fill-opacity="0.35"/>
+      <ellipse cx="164" cy="126" rx="76" ry="18" fill="currentColor" fill-opacity="0.45"/>
+      <ellipse cx="142" cy="114" rx="46" ry="14" fill="currentColor" fill-opacity="0.35"/>
+      <rect x="158" y="138" width="12" height="72" fill="currentColor" fill-opacity="0.55"/>
+    {{ else if eq $cat "science" }}
+      <ellipse cx="240" cy="135" rx="146" ry="44" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.35" transform="rotate(-18 240 135)"/>
+      <ellipse cx="240" cy="135" rx="146" ry="44" fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.35" transform="rotate(24 240 135)"/>
+      <ellipse cx="240" cy="135" rx="78" ry="78" fill="currentColor" fill-opacity="0.1"/>
+      <circle cx="240" cy="135" r="22" fill="currentColor" fill-opacity="0.5"/>
+      <circle cx="352" cy="92" r="7" fill="currentColor" fill-opacity="0.75"/>
+      <circle cx="132" cy="176" r="6" fill="currentColor" fill-opacity="0.6"/>
+    {{ else }}
+      <path d="M84 226 L84 114 A42 42 0 0 1 168 114 L168 226 Z" fill="currentColor" fill-opacity="0.16"/>
+      <path d="M198 226 L198 114 A42 42 0 0 1 282 114 L282 226 Z" fill="currentColor" fill-opacity="0.28"/>
+      <path d="M312 226 L312 114 A42 42 0 0 1 396 114 L396 226 Z" fill="currentColor" fill-opacity="0.16"/>
+      <rect x="64" y="226" width="352" height="10" fill="currentColor" fill-opacity="0.42"/>
+      <circle cx="240" cy="54" r="18" fill="currentColor" fill-opacity="0.35"/>
+    {{ end }}
+  </svg>
+
+  <div class="ep-caption-bar">
+    <span class="ep-kicker">{{ $label }}</span>
+    <span class="ep-mark">Veridus Desk</span>
+  </div>
+</div>

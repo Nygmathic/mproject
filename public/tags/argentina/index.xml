@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Argentina on Veridus Post</title>
+		<link>//localhost:1313/tags/argentina/</link>
+		<description>Recent content in Argentina on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 13 Jul 2026 01:45:28 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/argentina/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>A-List: FIFA&#39;s top-4 make WC semis for first time</title>
+				<link>//localhost:1313/sports/2026-07-13-world-cup-semis-history-argentina-spain-france-england/</link>
+				<pubDate>Mon, 13 Jul 2026 01:45:28 +0000</pubDate>
+				<guid>//localhost:1313/sports/2026-07-13-world-cup-semis-history-argentina-spain-france-england/</guid>
+				<description>&lt;h2 id=&#34;the-unprecedented-quartet&#34;&gt;The Unprecedented Quartet&lt;/h2&gt;&#xA;&lt;p&gt;The world&amp;rsquo;s top football nations are poised to etch their names in history as Argentina, Spain, France, and England made it past the quarterfinals of the World Cup, a feat no top-four ranked teams have ever achieved in the competition&amp;rsquo;s history. Argentina, the reigning champions, have been in scintillating form, with their impressive 3-0 win against Australia setting them up for a mouth-watering clash against the Netherlands in the semis. For France, the defending runners-up, a 2-1 victory over Poland secured their spot alongside England, who edged out Senegal 3-0 in the last eight. Meanwhile, Spain, who have been struggling for consistency throughout the tournament, edged out Croatia 3-1 in a high-intensity match.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

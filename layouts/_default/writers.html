@@ -1,0 +1,73 @@
+{{ define "main" }}
+{{ $allArticles := sort (where site.RegularPages "Section" "in" (slice "opinion" "lifestyle" "politics" "business" "sports" "climate" "technology" "africa" "science" "culture")) "Date" "desc" }}
+
+{{ $writers := slice }}
+{{ $seen := dict }}
+{{ range $allArticles }}
+  {{ $name := .Params.author | default site.Params.author }}
+  {{ if and $name (not (index $seen $name)) }}
+    {{ $seen = merge $seen (dict $name true) }}
+    {{ $writers = $writers | append $name }}
+  {{ end }}
+{{ end }}
+
+<div class="writers-page">
+  <div class="writers-container">
+    <header class="archive-header">
+      <span class="archive-eyebrow">Newsroom &amp; Contributors</span>
+      <h1 class="archive-title">Writers</h1>
+      <p class="archive-sub">{{ len $writers }} reporters, editors, and guest contributors across {{ len $allArticles }} dispatches.</p>
+    </header>
+
+    {{ if gt (len $writers) 0 }}
+    <nav class="writers-jump" aria-label="Jump to writer">
+      <span class="archive-jump-label">Jump to:</span>
+      {{ range $writers }}
+        <a href="#{{ . | urlize }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+
+    <div class="writers-grid">
+      {{ range $writers }}
+        {{ $wName := . }}
+        {{ $wPages := where $allArticles "Params.author" $wName }}
+        {{ $firstPage := index $wPages 0 }}
+        {{ $wBio := "" }}
+        {{ $wTitle := "" }}
+        {{ with $firstPage }}
+          {{ $wBio = .Params.author_bio | default "" }}
+          {{ $wTitle = .Params.author_title | default "" }}
+        {{ end }}
+        <section class="writer-card" id="{{ $wName | urlize }}">
+          <div class="writer-card-head">
+            <div>
+              <h2 class="writer-card-name">{{ $wName }}</h2>
+              {{ with $wTitle }}<p class="writer-card-role">{{ . }}</p>{{ end }}
+            </div>
+            <span class="writer-card-count">{{ len $wPages }} {{ if eq (len $wPages) 1 }}article{{ else }}articles{{ end }}</span>
+          </div>
+          {{ with $wBio }}<p class="writer-card-bio">{{ . }}</p>{{ end }}
+          <ul class="writer-articles">
+            {{ range $wPages }}
+              {{ $sec := .Section | default "opinion" }}
+              <li class="writer-article-item" data-cat="{{ $sec | lower }}">
+                <a href="{{ .Permalink }}" class="writer-article-link">
+                  <span class="writer-article-sec">{{ replace $sec "-" " " }}</span>
+                  <span class="writer-article-title">{{ .Title }}</span>
+                  <span class="writer-article-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+          <div class="writer-card-foot">
+            <a href="/search/?q={{ $wName | urlquery }}" class="writer-search-link">Search dispatches by {{ $wName }} →</a>
+          </div>
+        </section>
+      {{ end }}
+    </div>
+    {{ else }}
+      <p class="archive-empty">No contributors indexed yet.</p>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

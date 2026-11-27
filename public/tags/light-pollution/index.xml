@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Light Pollution on Veridus Post</title>
+		<link>//localhost:1313/tags/light-pollution/</link>
+		<description>Recent content in Light Pollution on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Fri, 10 Jul 2026 22:49:16 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/light-pollution/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>F.C.C. Approves Test of Space Mirror to Light Night Sky Despite Outcry</title>
+				<link>//localhost:1313/climate/2026-07-10-space-based-solar-mirror-fcc-approval/</link>
+				<pubDate>Fri, 10 Jul 2026 22:49:16 +0000</pubDate>
+				<guid>//localhost:1313/climate/2026-07-10-space-based-solar-mirror-fcc-approval/</guid>
+				<description>&lt;h2 id=&#34;a-beacon-in-the-dark-fcc-approves-experimental-solar-project&#34;&gt;A Beacon in the Dark: FCC Approves Experimental Solar Project&lt;/h2&gt;&#xA;&lt;p&gt;In a bold move that has sparked intense debate, the Federal Communications Commission (FCC) has given the green light to a start-up company to test its innovative plan to harness solar energy and illuminate the night sky. The ambitious project, which involves bouncing solar rays onto the dark side of Earth, has the potential to bring unprecedented light to a three-mile-wide patch of the globe – but it has also raised concerns about its environmental impact and potential disruptions to the natural world.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

@@ -1,8 +1,6 @@
 ---
-title: "Thank You"
-layout: "thanks"
+title: "Message Sent"
+description: "Confirmation that your message reached the Veridus Post newsroom."
 url: "/thanks/"
-sitemap:
-  priority: 0.0
-  changefreq: "never"
+layout: "thanks"
 ---

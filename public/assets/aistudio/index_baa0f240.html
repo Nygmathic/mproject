@@ -1,0 +1,344 @@
+{{ define "main" }}
+<style>
+/* ── STIX Two Text — reading + display (variable) ── */
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/STIXTwoText-VariableFont_wght.woff2') format('woff2-variations');
+}
+@font-face {
+  font-family: 'STIX Two Text';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/STIXTwoText-Italic-VariableFont_wght.woff2') format('woff2-variations');
+}
+
+/* ── Inter — UI font ── */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/Inter-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('/fonts/Inter-SemiBold.woff2') format('woff2'); }
+
+:root {
+  --font-reading:  'STIX Two Text', Georgia, 'Times New Roman', serif;
+  --font-display:  'STIX Two Text', Georgia, 'Times New Roman', serif;
+  --font-ui:       'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-masthead: 'STIX Two Text', Georgia, 'Times New Roman', serif;
+}
+</style>
+
+{{ $allPages := where .Site.RegularPages "Section" "in" (slice "news" "opinion" "lifestyle" "politics" "business" "sports" "climate" "global-affairs") }}
+{{ $allArticles := sort $allPages "Date" "desc" }}
+
+{{ $pinned := slice }}
+{{ range where $allArticles "Params.pin" true }}
+  {{ $expired := false }}
+  {{ with .Params.pin_expiry }}{{ if lt (time .) now }}{{ $expired = true }}{{ end }}{{ end }}
+  {{ if not $expired }}{{ $pinned = $pinned | append . }}{{ end }}
+{{ end }}
+
+{{ $pinnedPermalinks := slice }}
+{{ range $pinned }}{{ $pinnedPermalinks = $pinnedPermalinks | append .Permalink }}{{ end }}
+
+{{ $unpinned := slice }}
+{{ range $allArticles }}{{ if not (in $pinnedPermalinks .Permalink) }}{{ $unpinned = $unpinned | append . }}{{ end }}{{ end }}
+
+{{ $paginator := .Paginate $unpinned }}
+
+{{ if eq $paginator.PageNumber 1 }}
+  {{ $pool := $paginator.Pages }}
+  {{ if $pinned }}{{ $pool = $pinned | append $paginator.Pages }}{{ end }}
+
+  <div class="np-home">
+
+    <section class="np-front">
+      <div class="np-grid">
+
+        <article class="np-lead">
+          {{ with index $pool 0 }}
+            {{ $cat := index .Params.categories 0 | default "" }}
+            {{ $catL := $cat | lower }}
+            {{ with .Resources.GetMatch (.Params.feature_image | default "cover*") }}
+              {{ $img := .Resize "1200x" }}
+              <a href="{{ $.Permalink }}" class="np-lead-img">
+                <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" loading="eager" width="{{ $img.Width }}" height="{{ $img.Height }}">
+              </a>
+            {{ end }}
+            {{ with $cat }}<span class="np-kicker" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+            <h2 class="np-lead-hed clamp-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+            {{ with .Summary }}<p class="np-lead-deck clamp-3">{{ . | plainify | truncate 180 }}</p>{{ end }}
+            <div class="np-byline">
+              {{ with .Params.author }}<span>By {{ . }}</span><span>·</span>{{ end }}
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+              <span>·</span><span>{{ .ReadingTime }} min read</span>
+            </div>
+          {{ end }}
+        </article>
+
+        <div class="np-secondary">
+          {{ range first 3 (after 1 $pool) }}
+            {{ $cat := index .Params.categories 0 | default "" }}
+            {{ $catL := $cat | lower }}
+            <article class="np-secondary-item">
+              {{ with $cat }}<span class="np-kicker" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+              <h3 class="np-secondary-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+              {{ with .Summary }}<p class="np-secondary-deck clamp-2">{{ . | plainify | truncate 100 }}</p>{{ end }}
+              <div class="np-byline">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                <span>·</span><span>{{ .ReadingTime }} min</span>
+              </div>
+            </article>
+          {{ end }}
+        </div>
+
+        <aside class="np-sidebar">
+          <h3 class="np-label">Most Read</h3>
+          <ol class="np-sidebar-list">
+            {{ range first 7 (after 4 $pool) }}
+              {{ $cat := index .Params.categories 0 | default "" }}
+              {{ $catL := $cat | lower }}
+              <li>
+                <a href="{{ .Permalink }}">
+                  {{ with $cat }}<span class="np-kicker np-kicker--xs" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+                  <span class="np-sidebar-title clamp-2">{{ .Title }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ol>
+        </aside>
+
+      </div>
+    </section>
+
+    <hr class="np-rule">
+
+    {{ $moreNews := after 11 (first 17 $pool) }}
+    {{ if $moreNews }}
+    <section class="np-block">
+      <h2 class="np-label">More News</h2>
+      <div class="np-block-grid np-block-grid--3">
+        {{ range $moreNews }}
+          {{ $cat := index .Params.categories 0 | default "" }}
+          {{ $catL := $cat | lower }}
+          <article class="np-item">
+            {{ with $cat }}<span class="np-kicker" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+            <h3 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary }}<p class="np-item-deck clamp-2">{{ . | plainify | truncate 100 }}</p>{{ end }}
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              <span>·</span><span>{{ .ReadingTime }} min</span>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <hr class="np-rule">
+
+    {{ $opinionPages := where .Site.RegularPages "Params.categories" "intersect" (slice "opinion") | first 4 }}
+    {{ if $opinionPages }}
+    <section class="np-block">
+      <h2 class="np-label np-label--opinion">Opinion</h2>
+      <div class="np-block-grid np-block-grid--4">
+        {{ range $opinionPages }}
+          <article class="np-item np-item--opinion" data-cat="opinion">
+            <span class="np-kicker" data-cat="opinion">By {{ .Params.author | default "Veridus Editorial" }}</span>
+            <h3 class="np-item-hed clamp-3"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{ with .Summary }}<p class="np-item-deck clamp-2">{{ . | plainify | truncate 90 }}</p>{{ end }}
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <hr class="np-rule">
+
+    {{ $briefs := after 17 (first 23 $pool) }}
+    {{ if $briefs }}
+    <section class="np-block">
+      <h2 class="np-label">In Brief</h2>
+      <div class="np-block-grid np-block-grid--3">
+        {{ range $briefs }}
+          {{ $cat := index .Params.categories 0 | default "" }}
+          {{ $catL := $cat | lower }}
+          <article class="np-item">
+            {{ with $cat }}<span class="np-kicker np-kicker--xs" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+            <h4 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+              <span>·</span><span>{{ .ReadingTime }} min</span>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+    <hr class="np-rule">
+
+    <section class="np-block">
+      <div class="np-support">
+        <p class="np-support-hed">Independent journalism, rooted in truth.</p>
+        <a href="/donate/" class="np-support-btn">Support Veridus</a>
+      </div>
+    </section>
+
+    <hr class="np-rule">
+
+    {{ $moreStories := after 23 $pool }}
+    {{ if $moreStories }}
+    <section class="np-block">
+      <h2 class="np-label">More Stories</h2>
+      <div class="np-block-grid np-block-grid--4">
+        {{ range first 12 $moreStories }}
+          {{ $cat := index .Params.categories 0 | default "" }}
+          {{ $catL := $cat | lower }}
+          <article class="np-item">
+            {{ with $cat }}<span class="np-kicker np-kicker--xs" data-cat="{{ $catL }}">{{ . }}</span>{{ end }}
+            <h3 class="np-item-hed clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            <div class="np-byline">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+
+  </div>
+
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="paginated-nav" aria-label="Page navigation">
+    <div class="paginated-nav-inner">
+      {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+      {{ else }}<span class="paginated-prev disabled">← Newer</span>{{ end }}
+      <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+      {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+      {{ else }}<span class="paginated-next disabled">Older →</span>{{ end }}
+    </div>
+  </nav>
+  {{ end }}
+
+{{ else }}
+
+  <div class="archive-grid-page">
+    <header class="archive-grid-header">
+      <h1 class="archive-grid-title">More from {{ .Site.Title }}</h1>
+    </header>
+    <div class="archive-articles-grid">
+      {{ range $paginator.Pages }}
+        {{ $cat := index .Params.categories 0 | default "" }}
+        {{ $catL := $cat | lower }}
+        <article class="archive-item-simple" data-cat="{{ $catL }}">
+          {{ with $cat }}<span class="archive-item-cat">{{ . }}</span>{{ end }}
+          <h2 class="archive-item-title clamp-2"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+          <div class="archive-item-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+            <span>·</span>
+            <span>{{ .ReadingTime }} min read</span>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+    {{ if gt $paginator.TotalPages 1 }}
+    <nav class="paginated-nav" aria-label="Page navigation">
+      <div class="paginated-nav-inner">
+        {{ if $paginator.HasPrev }}<a href="{{ $paginator.Prev.URL }}" class="paginated-prev">← Newer</a>
+        {{ else }}<span class="paginated-prev disabled">← Newer</span>{{ end }}
+        <span class="paginated-page-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+        {{ if $paginator.HasNext }}<a href="{{ $paginator.Next.URL }}" class="paginated-next">Older →</a>
+        {{ else }}<span class="paginated-next disabled">Older →</span>{{ end }}
+      </div>
+    </nav>
+    {{ end }}
+  </div>
+{{ end }}
+
+<style>
+.np-home { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.np-rule { border: 0; border-top: 1px solid var(--border); margin: 2rem 0; }
+.clamp-2, .clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+.clamp-2 { -webkit-line-clamp: 2; line-clamp: 2; }
+.clamp-3 { -webkit-line-clamp: 3; line-clamp: 3; }
+
+.np-front { padding: 2rem 0 0; }
+.np-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 768px) { .np-grid { grid-template-columns: 2fr 1.1fr; gap: 0; } }
+@media (min-width: 1024px) { .np-grid { grid-template-columns: 2fr 1.1fr 1fr; } }
+
+.np-lead { padding-bottom: 1.5rem; }
+@media (min-width: 768px) { .np-lead { padding-right: 1.5rem; border-right: 1px solid var(--border); } }
+.np-lead-img { display: block; margin: 0 0 1rem; aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-alt); }
+.np-lead-img img { width: 100%; height: 100%; object-fit: cover; }
+.np-lead-hed { margin: 0.25rem 0 0.5rem; }
+.np-lead-deck { margin: 0 0 0.5rem; }
+
+@media (min-width: 768px) { .np-secondary { padding: 0 1.5rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; } }
+@media (max-width: 1023px) and (min-width: 768px) { .np-secondary { border-right: none; } }
+.np-secondary-item { display: flex; flex-direction: column; padding: 1rem 0; border-bottom: 1px solid var(--border-light); min-height: 0; }
+.np-secondary-item:first-child { padding-top: 0; }
+.np-secondary-item:last-child { border-bottom: none; padding-bottom: 0; }
+.np-secondary-item .np-byline { margin-top: auto; padding-top: 0.5rem; }
+.np-secondary-hed { margin: 0.25rem 0 0.4rem; }
+.np-secondary-deck { margin: 0 0 0.25rem; }
+
+@media (min-width: 768px) { .np-sidebar { padding-left: 1.5rem; } }
+.np-sidebar-list { list-style: none; padding: 0; margin: 1rem 0 0; }
+.np-sidebar-list li { padding: 0.65rem 0; border-bottom: 1px solid var(--border-light); }
+.np-sidebar-list li:last-child { border-bottom: none; }
+.np-sidebar-list a { text-decoration: none; color: inherit; display: block; }
+
+.np-block { padding: 2rem 0; }
+.np-block-grid { display: grid; gap: 1.75rem; grid-auto-rows: 1fr; }
+.np-block-grid--3 { grid-template-columns: 1fr; }
+.np-block-grid--4 { grid-template-columns: 1fr; }
+@media (min-width: 640px) { .np-block-grid--3 { grid-template-columns: repeat(2, 1fr); } .np-block-grid--4 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .np-block-grid--3 { grid-template-columns: repeat(3, 1fr); } .np-block-grid--4 { grid-template-columns: repeat(4, 1fr); } }
+
+.np-item { display: flex; flex-direction: column; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-light); min-height: 0; }
+.np-item .np-byline { margin-top: auto; padding-top: 0.5rem; }
+.np-item-hed { margin: 0.25rem 0 0.4rem; }
+.np-item-deck { margin: 0 0 0.25rem; }
+.np-item--opinion .np-item-hed { font-style: italic; }
+
+.np-support { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; padding: 1.25rem 1.5rem; background: var(--bg-alt); border: 1px solid var(--border); }
+
+.np-label { font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding-bottom: 0.45rem; border-bottom: 2px solid var(--text-primary); margin: 0 0 1rem; color: var(--text-primary); }
+.np-label--opinion { border-color: var(--accent); color: var(--accent); }
+
+.np-kicker { display: inline-block; width: fit-content; font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; padding: 0.2rem 0.55rem; border-radius: 3px; background: var(--cat-color, var(--accent)); color: var(--on-accent); }
+.np-kicker--xs { font-size: 0.56rem; margin-bottom: 0.15rem; padding: 0.15rem 0.45rem; }
+
+.np-lead-hed, .np-secondary-hed, .np-item-hed { line-height: 1.2; }
+.np-lead-hed a, .np-secondary-hed a, .np-item-hed a, .np-sidebar-title a { color: inherit; text-decoration: none; }
+.np-lead-hed { font-family: var(--font-display); font-size: clamp(1.6rem, 2.8vw, 2.2rem); font-weight: 800; }
+.np-secondary-hed { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; }
+.np-item-hed { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+
+.np-sidebar-title { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; -webkit-line-clamp: 2; line-clamp: 2; font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; line-height: 1.3; color: var(--text-primary); }
+
+.np-lead-deck, .np-secondary-deck, .np-item-deck { font-family: var(--font-reading); font-size: 0.88rem; line-height: 1.45; color: var(--text-secondary); }
+.np-support-hed { margin: 0; font-family: var(--font-display); font-weight: 700; color: var(--text-primary); }
+
+.np-support-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.8rem 1.75rem; border-radius: 999px; font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; white-space: nowrap; background: var(--accent); color: var(--on-accent); border: none; cursor: pointer; box-shadow: var(--shadow-sm), 0 6px 18px rgba(var(--accent-rgb), 0.28); transition: transform var(--transition), background var(--transition), box-shadow var(--transition); }
+.np-support-btn:hover { background: var(--accent-hover); color: var(--on-accent); transform: translateY(-1px); box-shadow: var(--shadow-md), 0 10px 26px rgba(var(--accent-rgb), 0.36); }
+.np-support-btn:active { transform: translateY(0) scale(0.97); box-shadow: var(--shadow-sm), 0 2px 8px rgba(var(--accent-rgb), 0.2); }
+
+.archive-grid-page { max-width: 1280px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+.archive-grid-header { text-align: center; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 3px double var(--text-primary); }
+.archive-grid-title { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; margin: 0; color: var(--text-primary); }
+.archive-articles-grid { display: grid; grid-template-columns: 1fr; gap: 2rem 1.75rem; margin-bottom: 3rem; }
+@media (min-width: 600px) { .archive-articles-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .archive-articles-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .archive-articles-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.archive-item-simple { display: flex; flex-direction: column; padding: 0.9rem 0 1.1rem; border-bottom: 1px solid var(--border-light); border-top: 4px solid var(--cat-color, var(--accent)); }
+.archive-item-cat { font-family: var(--font-ui); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-accent); background: var(--cat-color, var(--accent)); display: inline-block; padding: 0.15rem 0.5rem; border-radius: 3px; margin-bottom: 0.5rem; width: fit-content; }
+.archive-item-title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; line-height: 1.3; margin: 0 0 0.4rem; }
+.archive-item-title a { color: var(--text-primary); text-decoration: none; }
+.archive-item-title a:hover { color: var(--cat-color, var(--accent)); text-decoration: underline; text-underline-offset: 2px; }
+.archive-item-meta { font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; }
+</style>
+{{ end }}

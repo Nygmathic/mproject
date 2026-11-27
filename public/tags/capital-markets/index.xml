@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Capital Markets on Veridus Post</title>
+		<link>//localhost:1313/tags/capital-markets/</link>
+		<description>Recent content in Capital Markets on Veridus Post</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 23 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="//localhost:1313/tags/capital-markets/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>North Sea Offshore Wind Hubs Draw $14 Billion in Private HVDC Transmission Capital</title>
+				<link>//localhost:1313/business/north-sea-hvdc-capital/</link>
+				<pubDate>Mon, 23 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>//localhost:1313/business/north-sea-hvdc-capital/</guid>
+				<description>&lt;p&gt;ROTTERDAM — A consortium of Nordic pension funds and infrastructure lenders committed $14.2 billion this week to finance high-voltage direct current (HVDC) converter stations linking offshore wind arrays directly to coastal chemical and steel complexes.&lt;/p&gt;&#xA;&lt;p&gt;For more than a decade, subsea grid links lagged behind turbine construction because regulated utilities lacked balance-sheet headroom to absorb multi-year permitting delays. The new merchant-regulated hybrid concessions guarantee minimum availability payments while splitting congestion rents between port authorities and institutional bondholders.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>
